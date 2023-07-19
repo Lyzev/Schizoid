@@ -12,7 +12,7 @@ object Schizoid : ModInitializer {
 
     const val MOD_ID = "schizoid"
     const val VERSION = "1.0.0"
-    val AUTHORS = listOf("Lyzev")
+    val AUTHORS = listOf("Lyzev", "Redstonecrafter0", "Sumandora")
 
     val logger = LogManager.getLogger(MOD_ID)
 
