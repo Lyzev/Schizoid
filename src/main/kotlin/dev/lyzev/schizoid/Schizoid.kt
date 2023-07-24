@@ -6,6 +6,7 @@
 package dev.lyzev.schizoid
 
 import dev.lyzev.api.events.ShutdownEvent
+import dev.lyzev.api.events.StartupEvent
 import net.fabricmc.api.ModInitializer
 import org.apache.logging.log4j.LogManager
 
@@ -22,6 +23,7 @@ object Schizoid : ModInitializer {
         runCatching {
             logger.info("Initializing Schizoid v$VERSION by ${AUTHORS.joinToString(" & ")}...")
             Runtime.getRuntime().addShutdownHook(Thread { ShutdownEvent.fire() })
+            StartupEvent.fire()
             TODO("Finish client base before initializing!")
         }.onSuccess {
             logger.info("Initialized Schizoid v$VERSION by ${AUTHORS.joinToString(" & ")} in ${System.currentTimeMillis() - init}ms!")

@@ -5,4 +5,5 @@
 
 package dev.lyzev.api.events
 
+object StartupEvent : Event
 object ShutdownEvent : Event
