@@ -8,7 +8,9 @@ package dev.lyzev.schizoid
 import dev.lyzev.api.events.ShutdownEvent
 import dev.lyzev.api.events.StartupEvent
 import net.fabricmc.api.ModInitializer
+import net.minecraft.client.MinecraftClient
 import org.apache.logging.log4j.LogManager
+import java.io.File
 
 object Schizoid : ModInitializer {
 
@@ -16,6 +18,7 @@ object Schizoid : ModInitializer {
     const val VERSION = "1.0.0"
     val AUTHORS = listOf("Lyzev", "Redstonecrafter0", "Sumandora")
 
+    val root = File(MinecraftClient.getInstance().runDirectory, MOD_ID).also { if (!it.exists()) it.mkdir() }
     val logger = LogManager.getLogger(MOD_ID)
 
     override fun onInitialize() {
