@@ -7,6 +7,7 @@ package dev.lyzev.schizoid
 
 import dev.lyzev.api.events.ShutdownEvent
 import dev.lyzev.api.events.StartupEvent
+import dev.lyzev.api.settings.SettingInitializer
 import net.fabricmc.api.ModInitializer
 import net.minecraft.client.MinecraftClient
 import org.apache.logging.log4j.LogManager
@@ -25,6 +26,7 @@ object Schizoid : ModInitializer {
         val init = System.currentTimeMillis()
         runCatching {
             logger.info("Initializing Schizoid v$VERSION by ${AUTHORS.joinToString(" & ")}...")
+            SettingInitializer
             Runtime.getRuntime().addShutdownHook(Thread { ShutdownEvent.fire() })
             StartupEvent.fire()
             TODO("Finish client base before initializing!")
