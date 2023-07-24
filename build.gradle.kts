@@ -24,6 +24,7 @@ dependencies {
 
     // Lyzev's libraries
     implementation("com.github.Lyzev", "Events", project.extra["events_version"] as String)
+    implementation("com.github.Lyzev", "Settings", project.extra["settings_version"] as String)
 }
 
 loom {
