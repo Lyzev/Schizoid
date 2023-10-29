@@ -3,10 +3,12 @@
  * All rights reserved.
  */
 
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
-    id("fabric-loom")
-    kotlin("jvm") version System.getProperty("kotlin_version")
-    kotlin("plugin.serialization") version System.getProperty("kotlin_version")
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.fabric.loom)
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -21,15 +23,20 @@ repositories {
 }
 
 dependencies {
-    minecraft("com.mojang", "minecraft", project.extra["minecraft_version"] as String)
-    mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
-    modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
-    modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
-    modImplementation("net.fabricmc", "fabric-language-kotlin", project.extra["fabric_kotlin_version"] as String)
+    minecraft(libs.minecraft)
+    mappings(
+        variantOf(libs.fabric.mappings) {
+            classifier("v2")
+        }
+    )
+
+    modImplementation(libs.fabric.loader)
+    modImplementation(libs.fabric.api)
+    modImplementation(libs.fabric.kl)
 
     // Lyzev's libraries
-    implementation("com.github.Lyzev", "Events", project.extra["events_version"] as String)
-    implementation("com.github.Lyzev", "Settings", project.extra["settings_version"] as String)
+    implementation(libs.lyzev.events)
+    implementation(libs.lyzev.settings)
 }
 
 loom {
@@ -37,6 +44,7 @@ loom {
 }
 
 tasks {
+
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
 
     withType<JavaCompile> {
@@ -46,7 +54,7 @@ tasks {
         options.release.set(javaVersion.toString().toInt())
     }
 
-    withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> { kotlinOptions { jvmTarget = javaVersion.toString() } }
+    withType<KotlinCompile> { kotlinOptions { jvmTarget = javaVersion.toString() } }
 
     jar { from("LICENSE") { rename { "${it}_${base.archivesName.get()}" } } }
 
@@ -54,16 +62,16 @@ tasks {
         filesMatching("fabric.mod.json") {
             expand(
                 mutableMapOf(
+                    "java" to project.extra["java_version"] as String,
                     "version" to project.extra["mod_version"] as String,
-                    "fabricloader" to project.extra["loader_version"] as String,
-                    "fabric_api" to project.extra["fabric_version"] as String,
-                    "fabric_language_kotlin" to project.extra["fabric_language_kotlin_version"] as String,
-                    "minecraft" to project.extra["minecraft_version"] as String,
-                    "java" to project.extra["java_version"] as String
+                    "minecraft" to libs.versions.minecraft.get(),
+                    "fabricloader" to libs.versions.fabric.loader.get(),
+                    "fabric_api" to libs.versions.fabric.api.get(),
+                    "fabric_language_kotlin" to libs.versions.fabric.kl.get(),
                 )
             )
         }
-        filesMatching("*.mixins.json") { expand(mutableMapOf("java" to project.extra["java_version"] as String)) }
+        filesMatching("*.mixins.json") { expand(mutableMapOf("java" to javaVersion.toString())) }
     }
 
     java {

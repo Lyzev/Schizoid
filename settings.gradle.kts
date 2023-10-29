@@ -9,8 +9,6 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    plugins {
-        id("fabric-loom").version(settings.extra["loom_version"] as String)
-        kotlin("jvm").version(System.getProperty("kotlin_version"))
-    }
 }
+
+rootProject.name = "Schizoid"
