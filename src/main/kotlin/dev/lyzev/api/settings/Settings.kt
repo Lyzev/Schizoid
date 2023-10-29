@@ -13,7 +13,9 @@ import dev.lyzev.api.events.ShutdownEvent
 import dev.lyzev.api.events.StartupEvent
 import dev.lyzev.api.events.on
 import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.Feature
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmName
 
 /**
@@ -80,8 +82,13 @@ object SettingInitializer : EventListener {
  * @property onChange A lambda function to be called when the setting value changes.
  */
 abstract class ClientSetting<T>(
-    container: KClass<*>, name: String, value: T, hidden: () -> Boolean = { false }, onChange: (T) -> Unit = {}
-) : Setting<T>(container, name, value, hidden, onChange) {
+    container: KClass<*>, name: String, value1: T, hidden: () -> Boolean = { false }, onChange: (T) -> Unit = {}
+) : Setting<T>(container, name, value1, hidden, onChange) {
+
+    /**
+     * Render the setting for the user interface.
+     */
+    abstract fun render()
 
     /**
      * Load the setting value from a JSON object.
@@ -94,10 +101,19 @@ abstract class ClientSetting<T>(
      * @param value The JSON object to store the setting value.
      */
     abstract fun save(value: JsonObject)
+}
 
-    /**
-     * Render the setting for the user interface.
-     */
-    abstract fun render()
+class KeySetting(
+    container: KClass<*>, name: String, value: Int, hide: () -> Boolean = { false }, change: (Int) -> Unit = {}
+) : ClientSetting<Int>(container, name, value, hide, change) {
+
+    override fun render() {
+    }
+
+    override fun load(value: JsonObject) {
+        this.value = value["value"].asInt
+    }
+
+    override fun save(value: JsonObject) = value.addProperty("value", this.value)
 }
 

@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) 2023. Schizoid
+ * All rights reserved.
+ */
+
 plugins {
     id("fabric-loom")
     kotlin("jvm") version System.getProperty("kotlin_version")
@@ -20,7 +25,7 @@ dependencies {
     mappings("net.fabricmc", "yarn", project.extra["yarn_mappings"] as String, null, "v2")
     modImplementation("net.fabricmc", "fabric-loader", project.extra["loader_version"] as String)
     modImplementation("net.fabricmc.fabric-api", "fabric-api", project.extra["fabric_version"] as String)
-    modImplementation("net.fabricmc", "fabric-language-kotlin", project.extra["fabric_language_kotlin_version"] as String)
+    modImplementation("net.fabricmc", "fabric-language-kotlin", project.extra["fabric_kotlin_version"] as String)
 
     // Lyzev's libraries
     implementation("com.github.Lyzev", "Events", project.extra["events_version"] as String)
