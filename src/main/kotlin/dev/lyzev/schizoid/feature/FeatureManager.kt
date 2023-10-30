@@ -33,6 +33,7 @@ object FeatureManager : EventListener {
      */
     operator fun get(category: Category): List<Feature> = features.filter { it.category == category }
 
+    // Indicates whether the feature manager should handle events.
     override val shouldHandleEvents = true
 
     init {

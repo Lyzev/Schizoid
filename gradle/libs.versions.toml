@@ -15,6 +15,7 @@ lyzev_events = "v1.0.2"
 lyzev_settings = "1.0.0"
 
 reflections = "0.10.2"
+imgui = "1.86.11"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -27,8 +28,15 @@ lyzev_events = { module = "com.github.Lyzev:Events", version.ref = "lyzev_events
 lyzev_settings = { module = "com.github.Lyzev:Settings", version.ref = "lyzev_settings" }
 
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
+imgui_binding = { module = "io.github.spair:imgui-java-binding", version.ref = "imgui" }
+imgui_lwjgl3 = { module = "io.github.spair:imgui-java-lwjgl3", version.ref = "imgui" }
+imgui_natives_windows = { module = "io.github.spair:imgui-java-natives-windows", version.ref = "imgui" }
+imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", version.ref = "imgui" }
+imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
 
 [bundles]
+fabric = ["fabric_api", "fabric_kl", "fabric_loader"]
+imgui = ["imgui_binding", "imgui_lwjgl3", "imgui_natives_windows", "imgui_natives_linux", "imgui_natives_macos"]
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -30,9 +30,7 @@ dependencies {
         }
     )
 
-    modImplementation(libs.fabric.loader)
-    modImplementation(libs.fabric.api)
-    modImplementation(libs.fabric.kl)
+    modImplementation(libs.bundles.fabric)
 
     // https://github.com/Lyzev
     implementation(libs.lyzev.events)
@@ -40,6 +38,9 @@ dependencies {
 
     // https://github.com/ronmamo/reflections
     implementation(libs.reflections)
+
+    // https://github.com/SpaiR/imgui-java
+    implementation(libs.bundles.imgui)
 }
 
 loom {
