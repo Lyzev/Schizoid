@@ -14,6 +14,8 @@
     <br>
     <img src="https://img.shields.io/github/languages/code-size/Lyzev/Schizoid" alt="GitHub code size in bytes"/>
     <img src="https://img.shields.io/github/contributors/Lyzev/Schizoid" alt="GitHub contributors"/>
+    <br>
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/pipeline.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/pipeline.yml/badge.svg" alt="Pipeline"/></a>
 </div>
 
 ## Installation
