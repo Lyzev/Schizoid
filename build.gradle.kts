@@ -8,7 +8,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dokka)
     alias(libs.plugins.fabric.loom)
+}
+
+idea {
+	module {
+		isDownloadSources = true
+	}
 }
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
@@ -78,10 +85,27 @@ tasks {
         filesMatching("*.mixins.json") { expand(mutableMapOf("java" to javaVersion.toString())) }
     }
 
+    // Run `./gradlew wrapper --gradle-version <newVersion>` or `gradle wrapper --gradle-version <newVersion>` to update gradle scripts
+	// BIN distribution should be sufficient for the majority of mods
+	wrapper {
+		distributionType = Wrapper.DistributionType.BIN
+	}
+
     java {
         toolchain { languageVersion.set(JavaLanguageVersion.of(javaVersion.toString())) }
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         withSourcesJar()
     }
+
+    dokkaHtml.configure {
+		moduleName.set("Schizoid")
+		dokkaSourceSets {
+			configureEach {
+				includes.from("dokka-docs.md")
+				jdkVersion.set(javaVersion.toString().toInt())
+			}
+		}
+	}
 }
+

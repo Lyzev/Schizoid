@@ -4,6 +4,8 @@
 [versions]
 kotlin = "1.9.10"
 
+dokka = "1.9.10"
+
 minecraft = "1.20.2"
 fabric_api = "0.90.4+1.20.2"
 fabric_kl = "1.10.10+kotlin.1.9.10"
@@ -41,6 +43,7 @@ imgui = ["imgui_binding", "imgui_lwjgl3", "imgui_natives_windows", "imgui_native
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }
 
 
