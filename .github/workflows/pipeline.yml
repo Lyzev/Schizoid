@@ -11,21 +11,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: gradle
       - name: Setup
         run: 'chmod +x ./gradlew'
+      - name: Download Assets
+        run: './gradlew downloadAssets'
+      - name: Generate Sources
+        run: './gradlew genSources'
       - name: Dokka Build
         run: './gradlew dokkaHtml'
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.ACTION_TOKEN }}
-          publish_dir: ./build/dokkaHtmlOutput
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/dokka/html
           publish_branch: gh-pages
           destination_dir: ./dokka
   qodana:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          cache: gradle
+      - name: Setup
+        run: 'chmod +x ./gradlew'
+      - name: Download Assets
+        run: './gradlew downloadAssets'
+      - name: Generate Sources
+        run: './gradlew genSources'
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@main
         with:
@@ -33,7 +55,7 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.ACTION_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ${{ runner.temp }}/qodana/results/report
           publish_branch: gh-pages
           destination_dir: ./qodana
