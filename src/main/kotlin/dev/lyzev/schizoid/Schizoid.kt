@@ -12,6 +12,7 @@ import dev.lyzev.schizoid.feature.FeatureManager
 import net.fabricmc.api.ModInitializer
 import net.minecraft.client.MinecraftClient
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import java.io.File
 
 /**
@@ -21,18 +22,23 @@ import java.io.File
  */
 object Schizoid : ModInitializer {
 
-    // General information about the mod.
-    const val MOD_ID = "schizoid" // The unique identifier for the mod.
-    const val VERSION = "1.0.0" // The version of the mod.
+    // The unique identifier for the mod.
+    const val MOD_ID = "schizoid"
 
+    // The version of the mod.
+    const val VERSION = "1.0.0"
+
+    // The list of authors contributing to the mod.
     @Suppress("SpellCheckingInspection")
-    val AUTHORS = listOf("Lyzev", "Redstonecrafter0", "Sumandora") // The list of authors contributing to the mod.
+    val AUTHORS = listOf("Lyzev", "Redstonecrafter0", "Sumandora")
 
-    // Directories and Logging.
+    // The root directory of the Schizoid mod, used for storing mod-specific data.
     val root = File(
         MinecraftClient.getInstance().runDirectory, MOD_ID
-    ).also { if (!it.exists()) it.mkdir() } // The root directory of the Schizoid mod, used for storing mod-specific data.
-    val logger = LogManager.getLogger(MOD_ID) // The logger for the Schizoid mod.
+    ).also { if (!it.exists()) it.mkdir() }
+
+    // The logger for the Schizoid mod.
+    val logger: Logger = LogManager.getLogger(MOD_ID)
 
     /**
      * Initialize the Schizoid mod.
