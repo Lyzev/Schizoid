@@ -13,9 +13,7 @@ import dev.lyzev.api.events.ShutdownEvent
 import dev.lyzev.api.events.StartupEvent
 import dev.lyzev.api.events.on
 import dev.lyzev.schizoid.Schizoid
-import dev.lyzev.schizoid.feature.Feature
 import kotlin.reflect.KClass
-import kotlin.reflect.KProperty
 import kotlin.reflect.jvm.jvmName
 
 /**
@@ -82,7 +80,7 @@ object SettingInitializer : EventListener {
  * @property onChange A lambda function to be called when the setting value changes.
  */
 abstract class ClientSetting<T>(
-    container: KClass<*>, name: String, value1: T, hidden: () -> Boolean = { false }, onChange: (T) -> Unit = {}
+    container: KClass<*>, name: String, value1: T, hidden: () -> Boolean, onChange: (T) -> Unit
 ) : Setting<T>(container, name, value1, hidden, onChange) {
 
     /**
@@ -103,6 +101,38 @@ abstract class ClientSetting<T>(
     abstract fun save(value: JsonObject)
 }
 
+/**
+ * A specific implementation of the [Setting] class for boolean settings.
+ *
+ * @param container The class of the settings container where this setting belongs.
+ * @param name The name of the setting.
+ * @param value The initial value of the boolean setting.
+ * @param hide A lambda function that determines whether this setting is hidden or not.
+ * @param change A lambda function that will be called when the value of the setting changes.
+ */
+class BooleanSetting(
+    container: KClass<*>, name: String, value: Boolean, hide: () -> Boolean = { false }, change: (Boolean) -> Unit = {}
+) : ClientSetting<Boolean>(container, name, value, hide, change) {
+
+    override fun render() {
+    }
+
+    override fun load(value: JsonObject) {
+        this.value = value["value"].asBoolean
+    }
+
+    override fun save(value: JsonObject) = value.addProperty("value", this.value)
+}
+
+/**
+ * A specific implementation of the [Setting] class for integer settings.
+ *
+ * @param container The class of the settings container where this setting belongs.
+ * @param name The name of the setting.
+ * @param value The initial value of the integer setting.
+ * @param hide A lambda function that determines whether this setting is hidden or not.
+ * @param change A lambda function that will be called when the value of the setting changes.
+ */
 class KeySetting(
     container: KClass<*>, name: String, value: Int, hide: () -> Boolean = { false }, change: (Int) -> Unit = {}
 ) : ClientSetting<Int>(container, name, value, hide, change) {

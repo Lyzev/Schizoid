@@ -14,6 +14,8 @@ fabric_loom = "1.4-SNAPSHOT"
 lyzev_events = "v1.0.2"
 lyzev_settings = "1.0.0"
 
+reflections = "0.10.2"
+
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 fabric_mappings = { module = "net.fabricmc:yarn", version.ref = "fabric_mappings" }
@@ -23,6 +25,8 @@ fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_l
 
 lyzev_events = { module = "com.github.Lyzev:Events", version.ref = "lyzev_events" }
 lyzev_settings = { module = "com.github.Lyzev:Settings", version.ref = "lyzev_settings" }
+
+reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
 
 [bundles]
 

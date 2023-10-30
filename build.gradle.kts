@@ -34,9 +34,12 @@ dependencies {
     modImplementation(libs.fabric.api)
     modImplementation(libs.fabric.kl)
 
-    // Lyzev's libraries
+    // https://github.com/Lyzev
     implementation(libs.lyzev.events)
     implementation(libs.lyzev.settings)
+
+    // https://github.com/ronmamo/reflections
+    implementation(libs.reflections)
 }
 
 loom {

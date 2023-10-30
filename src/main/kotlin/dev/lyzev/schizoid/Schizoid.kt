@@ -8,6 +8,7 @@ package dev.lyzev.schizoid
 import dev.lyzev.api.events.ShutdownEvent
 import dev.lyzev.api.events.StartupEvent
 import dev.lyzev.api.settings.SettingInitializer
+import dev.lyzev.schizoid.feature.FeatureManager
 import net.fabricmc.api.ModInitializer
 import net.minecraft.client.MinecraftClient
 import org.apache.logging.log4j.LogManager
@@ -42,6 +43,7 @@ object Schizoid : ModInitializer {
             // Initialize the Schizoid mod, log mod initialization information, initialize settings, register a shutdown hook for cleanup, and fire the startup event.
             logger.info("Initializing Schizoid v$VERSION by ${AUTHORS.joinToString(" & ")}...")
             SettingInitializer
+            FeatureManager
             Runtime.getRuntime().addShutdownHook(Thread { ShutdownEvent.fire() })
             StartupEvent.fire()
             TODO("Finish client base before initializing!")
