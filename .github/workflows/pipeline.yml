@@ -1,0 +1,39 @@
+name: Pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'master'
+
+jobs:
+  dokka:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup
+        run: 'chmod +x ./gradlew'
+      - name: Dokka Build
+        run: './gradlew dokkaHtml'
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ACTION_TOKEN }}
+          publish_dir: ./build/dokkaHtmlOutput
+          publish_branch: gh-pages
+          destination_dir: ./dokka
+  qodana:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Qodana Scan'
+        uses: JetBrains/qodana-action@main
+        with:
+          linter: jetbrains/qodana-jvm
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.ACTION_TOKEN }}
+          publish_dir: ${{ runner.temp }}/qodana/results/report
+          publish_branch: gh-pages
+          destination_dir: ./qodana
