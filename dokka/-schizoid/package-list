@@ -1,0 +1,105 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:dev.lyzev.api.events////PointingToDeclaration/-schizoid/dev.lyzev.api.events/index.html
+$dokka.location:dev.lyzev.api.events/GlfwInitEvent///PointingToDeclaration/-schizoid/dev.lyzev.api.events/-glfw-init-event/index.html
+$dokka.location:dev.lyzev.api.events/GlfwInitEvent/GlfwInitEvent/#kotlin.Long/PointingToDeclaration/-schizoid/dev.lyzev.api.events/-glfw-init-event/-glfw-init-event.html
+$dokka.location:dev.lyzev.api.events/GlfwInitEvent/handle/#/PointingToDeclaration/-schizoid/dev.lyzev.api.events/-glfw-init-event/handle.html
+$dokka.location:dev.lyzev.api.events/RenderImGuiPostEvent///PointingToDeclaration/-schizoid/dev.lyzev.api.events/-render-im-gui-post-event/index.html
+$dokka.location:dev.lyzev.api.events/RenderImGuiPreEvent///PointingToDeclaration/-schizoid/dev.lyzev.api.events/-render-im-gui-pre-event/index.html
+$dokka.location:dev.lyzev.api.events/RenderImGuiScreenEvent///PointingToDeclaration/-schizoid/dev.lyzev.api.events/-render-im-gui-screen-event/index.html
+$dokka.location:dev.lyzev.api.events/RenderImGuiScreenEvent/RenderImGuiScreenEvent/#dev.lyzev.api.imgui.ImGuiScreen/PointingToDeclaration/-schizoid/dev.lyzev.api.events/-render-im-gui-screen-event/-render-im-gui-screen-event.html
+$dokka.location:dev.lyzev.api.events/RenderImGuiScreenEvent/screen/#/PointingToDeclaration/-schizoid/dev.lyzev.api.events/-render-im-gui-screen-event/screen.html
+$dokka.location:dev.lyzev.api.events/ShutdownEvent///PointingToDeclaration/-schizoid/dev.lyzev.api.events/-shutdown-event/index.html
+$dokka.location:dev.lyzev.api.events/StartupEvent///PointingToDeclaration/-schizoid/dev.lyzev.api.events/-startup-event/index.html
+$dokka.location:dev.lyzev.api.imgui////PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/index.html
+$dokka.location:dev.lyzev.api.imgui/ImGuiLoader///PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/-im-gui-loader/index.html
+$dokka.location:dev.lyzev.api.imgui/ImGuiLoader/shouldHandleEvents/#/PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/-im-gui-loader/should-handle-events.html
+$dokka.location:dev.lyzev.api.imgui/ImGuiLoader/targetScrollX/#/PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/-im-gui-loader/target-scroll-x.html
+$dokka.location:dev.lyzev.api.imgui/ImGuiLoader/targetScrollY/#/PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/-im-gui-loader/target-scroll-y.html
+$dokka.location:dev.lyzev.api.imgui/ImGuiScreen///PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/-im-gui-screen/index.html
+$dokka.location:dev.lyzev.api.imgui/ImGuiScreen/ImGuiScreen/#kotlin.String/PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/-im-gui-screen/-im-gui-screen.html
+$dokka.location:dev.lyzev.api.imgui/ImGuiScreen/render/#net.minecraft.client.gui.DrawContext?#kotlin.Int#kotlin.Int#kotlin.Float/PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/-im-gui-screen/render.html
+$dokka.location:dev.lyzev.api.imgui/ImGuiScreen/renderImGui/#/PointingToDeclaration/-schizoid/dev.lyzev.api.imgui/-im-gui-screen/render-im-gui.html
+$dokka.location:dev.lyzev.api.settings////PointingToDeclaration/-schizoid/dev.lyzev.api.settings/index.html
+$dokka.location:dev.lyzev.api.settings/BooleanSetting///PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-boolean-setting/index.html
+$dokka.location:dev.lyzev.api.settings/BooleanSetting/BooleanSetting/#kotlin.reflect.KClass[*]#kotlin.String#kotlin.Boolean#kotlin.Function0[kotlin.Boolean]#kotlin.Function1[kotlin.Boolean,kotlin.Unit]/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-boolean-setting/-boolean-setting.html
+$dokka.location:dev.lyzev.api.settings/BooleanSetting/load/#com.google.gson.JsonObject/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-boolean-setting/load.html
+$dokka.location:dev.lyzev.api.settings/BooleanSetting/render/#/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-boolean-setting/render.html
+$dokka.location:dev.lyzev.api.settings/BooleanSetting/save/#com.google.gson.JsonObject/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-boolean-setting/save.html
+$dokka.location:dev.lyzev.api.settings/ClientSetting///PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-client-setting/index.html
+$dokka.location:dev.lyzev.api.settings/ClientSetting/ClientSetting/#kotlin.reflect.KClass[*]#kotlin.String#TypeParam(bounds=[kotlin.Any?])#kotlin.Function0[kotlin.Boolean]#kotlin.Function1[TypeParam(bounds=[kotlin.Any?]),kotlin.Unit]/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-client-setting/-client-setting.html
+$dokka.location:dev.lyzev.api.settings/ClientSetting/load/#com.google.gson.JsonObject/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-client-setting/load.html
+$dokka.location:dev.lyzev.api.settings/ClientSetting/render/#/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-client-setting/render.html
+$dokka.location:dev.lyzev.api.settings/ClientSetting/save/#com.google.gson.JsonObject/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-client-setting/save.html
+$dokka.location:dev.lyzev.api.settings/KeySetting///PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-key-setting/index.html
+$dokka.location:dev.lyzev.api.settings/KeySetting/KeySetting/#kotlin.reflect.KClass[*]#kotlin.String#kotlin.Int#kotlin.Function0[kotlin.Boolean]#kotlin.Function1[kotlin.Int,kotlin.Unit]/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-key-setting/-key-setting.html
+$dokka.location:dev.lyzev.api.settings/KeySetting/load/#com.google.gson.JsonObject/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-key-setting/load.html
+$dokka.location:dev.lyzev.api.settings/KeySetting/render/#/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-key-setting/render.html
+$dokka.location:dev.lyzev.api.settings/KeySetting/save/#com.google.gson.JsonObject/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-key-setting/save.html
+$dokka.location:dev.lyzev.api.settings/SettingInitializer///PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-setting-initializer/index.html
+$dokka.location:dev.lyzev.api.settings/SettingInitializer/shouldHandleEvents/#/PointingToDeclaration/-schizoid/dev.lyzev.api.settings/-setting-initializer/should-handle-events.html
+$dokka.location:dev.lyzev.schizoid.feature.features.command////PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.command/index.html
+$dokka.location:dev.lyzev.schizoid.feature.features.command/Command///PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.command/-command/index.html
+$dokka.location:dev.lyzev.schizoid.feature.features.command/Command/Command/#kotlin.String#kotlin.String#kotlin.Array[kotlin.String]#kotlin.Boolean/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.command/-command/-command.html
+$dokka.location:dev.lyzev.schizoid.feature.features.command/Command/alias/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.command/-command/alias.html
+$dokka.location:dev.lyzev.schizoid.feature.features.command/Command/async/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.command/-command/async.html
+$dokka.location:dev.lyzev.schizoid.feature.features.command/Command/desc/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.command/-command/desc.html
+$dokka.location:dev.lyzev.schizoid.feature.features.command/Command/invoke/#kotlin.collections.List[kotlin.String]/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.command/-command/invoke.html
+$dokka.location:dev.lyzev.schizoid.feature.features.command/Command/name/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.command/-command/name.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module////PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.module/index.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module/Module///PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.module/-module/index.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module/Module/Module/#kotlin.String#kotlin.String#kotlin.Int#dev.lyzev.schizoid.feature.Category/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.module/-module/-module.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module/Module/isEnabled/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.module/-module/is-enabled.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module/Module/showInArrayList/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.module/-module/show-in-array-list.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module/Module/toggle/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature.features.module/-module/toggle.html
+$dokka.location:dev.lyzev.schizoid.feature////PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category.COMBAT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-schizoid/dev.lyzev.schizoid.feature/-category/-c-o-m-b-a-t/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category.EXPLOIT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-schizoid/dev.lyzev.schizoid.feature/-category/-e-x-p-l-o-i-t/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category.GHOST///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-schizoid/dev.lyzev.schizoid.feature/-category/-g-h-o-s-t/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category.MISC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-schizoid/dev.lyzev.schizoid.feature/-category/-m-i-s-c/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category.MOVEMENT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-schizoid/dev.lyzev.schizoid.feature/-category/-m-o-v-e-m-e-n-t/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category.PLAYER///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-schizoid/dev.lyzev.schizoid.feature/-category/-p-l-a-y-e-r/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category.RENDER///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-schizoid/dev.lyzev.schizoid.feature/-category/-r-e-n-d-e-r/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category.UTIL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}-schizoid/dev.lyzev.schizoid.feature/-category/-u-t-i-l/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category///PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-category/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Category/entries/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-category/entries.html
+$dokka.location:dev.lyzev.schizoid.feature/Category/valueOf/#kotlin.String/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-category/value-of.html
+$dokka.location:dev.lyzev.schizoid.feature/Category/values/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-category/values.html
+$dokka.location:dev.lyzev.schizoid.feature/Feature///PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature/index.html
+$dokka.location:dev.lyzev.schizoid.feature/Feature/Feature/#kotlin.String#kotlin.String#kotlin.Int#dev.lyzev.schizoid.feature.Category/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature/-feature.html
+$dokka.location:dev.lyzev.schizoid.feature/Feature/category/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature/category.html
+$dokka.location:dev.lyzev.schizoid.feature/Feature/desc/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature/desc.html
+$dokka.location:dev.lyzev.schizoid.feature/Feature/keybind/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature/keybind.html
+$dokka.location:dev.lyzev.schizoid.feature/Feature/name/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature/name.html
+$dokka.location:dev.lyzev.schizoid.feature/FeatureManager///PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature-manager/index.html
+$dokka.location:dev.lyzev.schizoid.feature/FeatureManager/PREFIX/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature-manager/-p-r-e-f-i-x.html
+$dokka.location:dev.lyzev.schizoid.feature/FeatureManager/features/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature-manager/features.html
+$dokka.location:dev.lyzev.schizoid.feature/FeatureManager/get/#dev.lyzev.schizoid.feature.Category/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature-manager/get.html
+$dokka.location:dev.lyzev.schizoid.feature/FeatureManager/get/#kotlin.String/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature-manager/get.html
+$dokka.location:dev.lyzev.schizoid.feature/FeatureManager/shouldHandleEvents/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.feature/-feature-manager/should-handle-events.html
+$dokka.location:dev.lyzev.schizoid.mixins.imgui////PointingToDeclaration/-schizoid/dev.lyzev.schizoid.mixins.imgui/index.html
+$dokka.location:dev.lyzev.schizoid.mixins.imgui/MixinImGuiImplGlfw///PointingToDeclaration/-schizoid/dev.lyzev.schizoid.mixins.imgui/-mixin-im-gui-impl-glfw/index.html
+$dokka.location:dev.lyzev.schizoid.mixins.imgui/MixinImGuiImplGlfw/MixinImGuiImplGlfw/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.mixins.imgui/-mixin-im-gui-impl-glfw/-mixin-im-gui-impl-glfw.html
+$dokka.location:dev.lyzev.schizoid.mixins.imgui/MixinImGuiImplGlfw/injectScrollCallback/#long#double#double#org.spongepowered.asm.mixin.injection.callback.CallbackInfo/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.mixins.imgui/-mixin-im-gui-impl-glfw/inject-scroll-callback.html
+$dokka.location:dev.lyzev.schizoid.mixins.minecraft.client////PointingToDeclaration/-schizoid/dev.lyzev.schizoid.mixins.minecraft.client/index.html
+$dokka.location:dev.lyzev.schizoid.mixins.minecraft.client/MixinWindow///PointingToDeclaration/-schizoid/dev.lyzev.schizoid.mixins.minecraft.client/-mixin-window/index.html
+$dokka.location:dev.lyzev.schizoid.mixins.minecraft.client/MixinWindow/MixinWindow/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.mixins.minecraft.client/-mixin-window/-mixin-window.html
+$dokka.location:dev.lyzev.schizoid.mixins.minecraft.client/MixinWindow/downgradeGL/#int#int/PointingToDeclaration/-schizoid/dev.lyzev.schizoid.mixins.minecraft.client/-mixin-window/downgrade-g-l.html
+$dokka.location:dev.lyzev.schizoid////PointingToDeclaration/-schizoid/dev.lyzev.schizoid/index.html
+$dokka.location:dev.lyzev.schizoid/Schizoid///PointingToDeclaration/-schizoid/dev.lyzev.schizoid/-schizoid/index.html
+$dokka.location:dev.lyzev.schizoid/Schizoid/AUTHORS/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid/-schizoid/-a-u-t-h-o-r-s.html
+$dokka.location:dev.lyzev.schizoid/Schizoid/MOD_ID/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid/-schizoid/-m-o-d_-i-d.html
+$dokka.location:dev.lyzev.schizoid/Schizoid/VERSION/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid/-schizoid/-v-e-r-s-i-o-n.html
+$dokka.location:dev.lyzev.schizoid/Schizoid/logger/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid/-schizoid/logger.html
+$dokka.location:dev.lyzev.schizoid/Schizoid/onInitialize/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid/-schizoid/on-initialize.html
+$dokka.location:dev.lyzev.schizoid/Schizoid/root/#/PointingToDeclaration/-schizoid/dev.lyzev.schizoid/-schizoid/root.html
+dev.lyzev.api.events
+dev.lyzev.api.imgui
+dev.lyzev.api.settings
+dev.lyzev.schizoid
+dev.lyzev.schizoid.feature
+dev.lyzev.schizoid.feature.features.command
+dev.lyzev.schizoid.feature.features.module
+dev.lyzev.schizoid.mixins.imgui
+dev.lyzev.schizoid.mixins.minecraft.client
+
