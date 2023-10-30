@@ -1,0 +1,19 @@
+{
+  "total": 0,
+  "tools inspection": {
+    "Code Inspection": 0
+  },
+  "linter": "QDJVM",
+  "attributes": {
+    "vcs": {
+      "sarifIdea": {
+        "repositoryUri": "https://github.com/Lyzev/Schizoid.git",
+        "revisionId": "13d466f346bc404cac5b0292d924ca23e1a83c5d",
+        "branch": "refs/heads/master"
+      }
+    },
+    "deviceId": "200820300000000-4c2c-882f-0a88-cb9ca9ae6279",
+    "jobUrl": "https://github.com/Lyzev/Schizoid/actions/runs/6699224356",
+    "repoUrl": "https://github.com/Lyzev/Schizoid.git"
+  }
+}

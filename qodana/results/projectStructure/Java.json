@@ -1,0 +1,16 @@
+{
+  "modules": [
+    {
+      "name": "Schizoid",
+      "languageLevel": 17
+    },
+    {
+      "name": "Schizoid.main",
+      "languageLevel": 17
+    },
+    {
+      "name": "Schizoid.test",
+      "languageLevel": 17
+    }
+  ]
+}

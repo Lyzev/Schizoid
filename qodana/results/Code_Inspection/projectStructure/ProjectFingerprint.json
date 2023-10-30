@@ -1,0 +1,14 @@
+{
+  "languages": [
+    "Java",
+    "Kotlin",
+    "JSON",
+    "Plain text",
+    "Properties",
+    "YAML",
+    "Shell Script",
+    "textmate",
+    ".gitignore (GitIgnore)",
+    "EditorConfig"
+  ]
+}

@@ -1,0 +1,29 @@
+{"version":"3","listProblem":[{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Property \"PREFIX\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/FeatureManager.kt",
+      "language": "kotlin",
+      "line": 21,
+      "offset": 15,
+      "length": 6,
+      "code": {
+        "startLine": 19,
+        "length": 6,
+        "offset": 52,
+        "surroundingCode": "\n    // The prefix used for commands.\n    const val PREFIX = \".\"\n\n    // A list of all features."
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "4152434817534e8b827829ae6584ad3922e36a1c723a86d236c8484fe7a1ec9e"
+}]}
