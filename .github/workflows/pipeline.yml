@@ -50,10 +50,10 @@ jobs:
         run: './gradlew genSources'
       - name: 'Qodana Scan'
         uses: JetBrains/qodana-action@main
-        env:
-          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
         with:
           linter: jetbrains/qodana-jvm
+        env:
+          QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
