@@ -1,5 +1,5 @@
 <p align="center">
-    <img height="128" src=".idea/icon.png" alt="Icon of Schizoid">
+    <img height="128" src="https://github.com/Lyzev/Schizoid/blob/master/.idea/icon.png?raw=true" alt="Icon of Schizoid">
 </p>
 
 <h1 align="center">Schizoid</h1>
