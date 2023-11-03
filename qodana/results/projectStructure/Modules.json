@@ -78,15 +78,15 @@
           "type": "Own sources"
         },
         {
+          "name": "Gradle: com.github.Lyzev:Events:1.0.3",
+          "type": "Library"
+        },
+        {
           "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
           "type": "Library"
         },
         {
           "name": "Gradle: org.jetbrains:annotations:24.0.1",
-          "type": "Library"
-        },
-        {
-          "name": "Gradle: com.github.Lyzev:Events:v1.0.2",
           "type": "Library"
         },
         {
@@ -707,11 +707,11 @@
           "type": "Module"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
+          "name": "Gradle: com.github.Lyzev:Events:1.0.3",
           "type": "Library"
         },
         {
-          "name": "Gradle: com.github.Lyzev:Events:v1.0.2",
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
           "type": "Library"
         },
         {
