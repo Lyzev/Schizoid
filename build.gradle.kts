@@ -3,6 +3,11 @@
  * All rights reserved.
  */
 
+import com.google.gson.JsonParser
+import groovy.util.Node
+import groovy.xml.XmlParser
+import me.lyzev.network.http.HttpClient
+import me.lyzev.network.http.HttpMethod
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -32,7 +37,7 @@ repositories {
 dependencies {
     minecraft(libs.minecraft)
     mappings(
-        variantOf(libs.fabric.mappings) {
+        variantOf(libs.yarn.mappings) {
             classifier("v2")
         }
     )
@@ -52,6 +57,105 @@ dependencies {
 
 loom {
     accessWidenerPath.set(File("src/main/resources/schizoid.accesswidener"))
+}
+
+tasks.register("updateFabric") {
+    group = "schizoid"
+    description = "Update Fabric Library Versions"
+    doLast {
+        val gameVersion = HttpClient.request(HttpMethod.GET, "https://meta.fabricmc.net/v2/versions/game").let { data ->
+            JsonParser.parseString(data.toString()).asJsonArray.first { version -> version.asJsonObject["stable"].asBoolean }!!.asJsonObject["version"].asString
+        }
+
+        val mappingsVersion =
+            HttpClient.request(HttpMethod.GET, "https://meta.fabricmc.net/v2/versions/yarn").let { data ->
+                JsonParser.parseString(data.toString()).asJsonArray.first { version -> version.asJsonObject["gameVersion"].asString == gameVersion }!!.asJsonObject["version"].asString
+            }
+
+        val loaderVersion =
+            HttpClient.request(HttpMethod.GET, "https://meta.fabricmc.net/v2/versions/loader").let { data ->
+                JsonParser.parseString(data.toString()).asJsonArray.first { version -> version.asJsonObject["stable"].asBoolean }!!.asJsonObject["version"].asString
+            }
+
+        val apiVersion = HttpClient.request(
+            HttpMethod.GET, "https://maven.fabricmc.net/net/fabricmc/fabric-api/fabric-api/maven-metadata.xml"
+        ).let { data ->
+            ((XmlParser().parseText(data.toString()).children()
+                .first { node -> (node as Node).name() == "versioning" } as Node).children()
+                .first { node -> (node as Node).name() == "versions" } as Node).children()
+                .map { node -> (node as Node).text() }.last { version -> version.endsWith(gameVersion) }
+        }
+
+        val klVersion = HttpClient.request(
+            HttpMethod.GET, "https://maven.fabricmc.net/net/fabricmc/fabric-language-kotlin/maven-metadata.xml"
+        ).let { data ->
+            ((XmlParser().parseText(data.toString()).children()
+                .first { node -> (node as Node).name() == "versioning" } as Node).children()
+                .first { node -> (node as Node).name() == "latest" } as Node).text()
+        }
+
+        val loomVersion = HttpClient.request(
+            HttpMethod.GET, "https://maven.fabricmc.net/fabric-loom/fabric-loom.gradle.plugin/maven-metadata.xml"
+        ).let { data ->
+            ((XmlParser().parseText(data.toString()).children()
+                .first { node -> (node as Node).name() == "versioning" } as Node).children()
+                .first { node -> (node as Node).name() == "latest" } as Node).text()
+        }
+
+        val versions = mapOf(
+            "minecraft" to gameVersion,
+            "yarn_mappings" to mappingsVersion,
+            "fabric_loader" to loaderVersion,
+            "fabric_api" to apiVersion,
+            "fabric_kl" to klVersion,
+            "fabric_loom" to loomVersion,
+        ).also { println("-------LATEST-VERSIONS-------\n$it") }
+
+        val tomlFile = file("gradle/libs.versions.toml")
+        val tomlContent = tomlFile.readText()
+        val updatedTomlContent =
+            updateTomlVersions(tomlContent, versions).also { println("-------UPDATED-LIBS-------\n$it") }
+        tomlFile.writeText(updatedTomlContent)
+    }
+}
+
+tasks.register("updateKotlin") {
+    group = "schizoid"
+    description = "Update Kotlin and Dokka Versions"
+    doLast {
+        val kotlinVersion = HttpClient.request(
+            HttpMethod.GET, "https://api.github.com/repos/JetBrains/kotlin/releases/latest"
+        ).let { data ->
+            JsonParser.parseString(data.toString()).asJsonObject["target_commitish"].asString
+        }
+
+        val dokkaVersion = HttpClient.request(
+            HttpMethod.GET, "https://api.github.com/repos/Kotlin/dokka/releases/latest"
+        ).let { data ->
+            JsonParser.parseString(data.toString()).asJsonObject["target_commitish"].asString
+        }
+
+        val versions = mapOf(
+            "kotlin" to kotlinVersion,
+            "dokka" to dokkaVersion,
+        ).also { println("-------LATEST-VERSIONS-------\n$it") }
+
+        val tomlFile = file("gradle/libs.versions.toml")
+        val tomlContent = tomlFile.readText()
+        val updatedTomlContent =
+            updateTomlVersions(tomlContent, versions).also { println("-------UPDATED-LIBS-------\n$it") }
+        tomlFile.writeText(updatedTomlContent)
+    }
+}
+
+fun updateTomlVersions(tomlContent: String, versions: Map<String, String>): String {
+    val lines = tomlContent.lines()
+    val updatedLines = lines.map { line ->
+        versions.entries.fold(line) { acc, (key, value) ->
+            acc.replace("$key = \"[^\"]+\"".toRegex(), "$key = \"$value\"")
+        }
+    }
+    return updatedLines.joinToString("\n")
 }
 
 tasks {

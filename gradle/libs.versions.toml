@@ -2,15 +2,18 @@
 # All rights reserved.
 
 [versions]
-kotlin = "1.9.10"
+kotlin = "1.9.20"
 
 dokka = "1.9.10"
 
+# https://fabricmc.net/develop/
 minecraft = "1.20.2"
-fabric_api = "0.90.4+1.20.2"
-fabric_kl = "1.10.10+kotlin.1.9.10"
+yarn_mappings = "1.20.2+build.4"
 fabric_loader = "0.14.24"
-fabric_mappings = "1.20.2+build.4"
+fabric_api = "0.90.7+1.20.2"
+# https://github.com/FabricMC/fabric-language-kotlin/releases
+fabric_kl = "1.10.13+kotlin.1.9.20"
+# https://github.com/FabricMC/fabric-loom/releases
 fabric_loom = "1.4-SNAPSHOT"
 
 lyzev_events = "v1.0.2"
@@ -21,10 +24,10 @@ imgui = "1.86.11"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
-fabric_mappings = { module = "net.fabricmc:yarn", version.ref = "fabric_mappings" }
+yarn_mappings = { module = "net.fabricmc:yarn", version.ref = "yarn_mappings" }
+fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 fabric_api = { module = "net.fabricmc.fabric-api:fabric-api", version.ref = "fabric_api" }
 fabric_kl = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric_kl" }
-fabric_loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric_loader" }
 
 lyzev_events = { module = "com.github.Lyzev:Events", version.ref = "lyzev_events" }
 lyzev_settings = { module = "com.github.Lyzev:Settings", version.ref = "lyzev_settings" }
@@ -37,7 +40,7 @@ imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", ver
 imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
 
 [bundles]
-fabric = ["fabric_api", "fabric_kl", "fabric_loader"]
+fabric = ["fabric_api", "fabric_loader", "fabric_kl"]
 imgui = ["imgui_binding", "imgui_lwjgl3", "imgui_natives_windows", "imgui_natives_linux", "imgui_natives_macos"]
 
 [plugins]
@@ -45,5 +48,3 @@ kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }
-
-
