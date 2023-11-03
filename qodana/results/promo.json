@@ -1,1 +1,253 @@
-{"version":"3","listProblem":[]}
+{"version":"3","listProblem":[{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"MOVEMENT\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Category.kt",
+      "language": "kotlin",
+      "line": 14,
+      "offset": 5,
+      "length": 8,
+      "code": {
+        "startLine": 12,
+        "length": 8,
+        "offset": 27,
+        "surroundingCode": "    COMBAT,\n    GHOST,\n    MOVEMENT,\n    PLAYER,\n    RENDER,"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "0d2f6d225e0d1ff5cc167adffd82f3c704138cd7dac50405962c0e7dfa1b8047"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"MISC\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Category.kt",
+      "language": "kotlin",
+      "line": 19,
+      "offset": 5,
+      "length": 4,
+      "code": {
+        "startLine": 17,
+        "length": 4,
+        "offset": 27,
+        "surroundingCode": "    EXPLOIT,\n    UTIL,\n    MISC\n}"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "0f98b3e82ef20215c5bf79e5c6388ae7a33e053dad5c3f7dfc8225802200e798"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"PLAYER\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Category.kt",
+      "language": "kotlin",
+      "line": 15,
+      "offset": 5,
+      "length": 6,
+      "code": {
+        "startLine": 13,
+        "length": 6,
+        "offset": 29,
+        "surroundingCode": "    GHOST,\n    MOVEMENT,\n    PLAYER,\n    RENDER,\n    EXPLOIT,"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "1761e19cdfc363b801bf13affe5566091fc0172001df6056b731fdb0e4eec5a6"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"COMBAT\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Category.kt",
+      "language": "kotlin",
+      "line": 12,
+      "offset": 5,
+      "length": 6,
+      "code": {
+        "startLine": 10,
+        "length": 6,
+        "offset": 30,
+        "surroundingCode": " */\nenum class Category {\n    COMBAT,\n    GHOST,\n    MOVEMENT,"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "18764081a53dabe780fa05f1d7906987e6bc2a83f22e9d7e4c209f76d58d85de"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"RENDER\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Category.kt",
+      "language": "kotlin",
+      "line": 16,
+      "offset": 5,
+      "length": 6,
+      "code": {
+        "startLine": 14,
+        "length": 6,
+        "offset": 30,
+        "surroundingCode": "    MOVEMENT,\n    PLAYER,\n    RENDER,\n    EXPLOIT,\n    UTIL,"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "33d3f00d41cd99ba35da1f9e617084c1e441cce7659898830d74013600915fb5"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"EXPLOIT\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Category.kt",
+      "language": "kotlin",
+      "line": 17,
+      "offset": 5,
+      "length": 7,
+      "code": {
+        "startLine": 15,
+        "length": 7,
+        "offset": 28,
+        "surroundingCode": "    PLAYER,\n    RENDER,\n    EXPLOIT,\n    UTIL,\n    MISC"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "83f4b50110bda5dbccbe3157fd8dba4d9161c449d1ac52c7785af8fdb7c18481"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"GHOST\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Category.kt",
+      "language": "kotlin",
+      "line": 13,
+      "offset": 5,
+      "length": 5,
+      "code": {
+        "startLine": 11,
+        "length": 5,
+        "offset": 38,
+        "surroundingCode": "enum class Category {\n    COMBAT,\n    GHOST,\n    MOVEMENT,\n    PLAYER,"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "86bc00bb61d73e9c53920c4920ac9a11bca7be544318483519c68fd059aaafbf"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"Command\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/features/command/Command.kt",
+      "language": "kotlin",
+      "line": 16,
+      "offset": 16,
+      "length": 7,
+      "code": {
+        "startLine": 14,
+        "length": 7,
+        "offset": 103,
+        "surroundingCode": " * @property async Indicates whether the command should be executed asynchronously.\n */\nabstract class Command(val name: String, val desc: String, vararg val alias: String, val async: Boolean = true) {\n\n    /**"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "d98a8dd57b5a2e990955d1047e9ae53378039c46895919c5d261019f346baca8"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"UTIL\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Category.kt",
+      "language": "kotlin",
+      "line": 18,
+      "offset": 5,
+      "length": 4,
+      "code": {
+        "startLine": 16,
+        "length": 4,
+        "offset": 29,
+        "surroundingCode": "    RENDER,\n    EXPLOIT,\n    UTIL,\n    MISC\n}"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "e7a06b9dd7ae1141298df8fb2b091f411cfe92ea14fcc06fe4cb517f5f67ffdf"
+}]}
