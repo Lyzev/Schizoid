@@ -16,6 +16,8 @@
     <img src="https://img.shields.io/github/contributors/Lyzev/Schizoid" alt="GitHub contributors"/>
     <br>
     <a href="https://github.com/Lyzev/Schizoid/actions/workflows/pipeline.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/pipeline.yml/badge.svg" alt="Pipeline"/></a>
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/release.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/gradle-wrapper-validation.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/gradle-wrapper-validation.yml/badge.svg" alt="Release"/></a>
 </div>
 
 ## Installation
