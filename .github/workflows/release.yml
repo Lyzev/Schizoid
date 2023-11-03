@@ -37,11 +37,10 @@ jobs:
           
           ls -l release
       - uses: marvinpinto/action-automatic-releases@latest
-        name: "Create release"
+        name: Create Release
         with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "dev-${{ steps.timestamp.outputs.timestamp }}"
-          prerelease: false
-          title: "Development Build"
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          automatic_release_tag: 'dev-${{ steps.timestamp.outputs.timestamp }}'
+          title: 'Development Build'
           files: |
             release/*
