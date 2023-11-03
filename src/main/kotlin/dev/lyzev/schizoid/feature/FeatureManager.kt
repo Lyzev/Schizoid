@@ -5,6 +5,7 @@
 
 package dev.lyzev.schizoid.feature
 
+import dev.lyzev.api.events.Event
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.StartupEvent
 import dev.lyzev.api.events.on
@@ -42,7 +43,7 @@ object FeatureManager : EventListener {
          * Initializes the features during the startup event. It scans the "features" package for all features and
          * adds them to the [features] list.
          */
-        on<StartupEvent>(1) {
+        on<StartupEvent>(Event.Priority.HIGH) {
             Reflections("${javaClass.packageName}.features").getSubTypesOf(Feature::class.java)
                 .filter { !Modifier.isAbstract(it.modifiers) }
                 .forEach { features += Reflection.getOrCreateKotlinClass(it).objectInstance as Feature }
