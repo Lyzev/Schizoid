@@ -19,7 +19,10 @@ jobs:
           cache: gradle
       - name: Build the project
         run: ./gradlew build
-      - name: Run Release Script
+      - name: Set Timestamp
+        id: timestamp
+        run: echo "::set-output name=timestamp::$(date +'%Y%m%d%H%M%S')"
+      - name: Create Release Assets
         run: |
           echo "Running shell script with version: ${{ github.event.inputs.version }}"
           mkdir release
@@ -37,7 +40,8 @@ jobs:
         name: "Create release"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "dev"
+          automatic_release_tag: "dev-${{ steps.timestamp.outputs.timestamp }}"
+          prerelease: false
           title: "Development Build"
           files: |
             release/*
