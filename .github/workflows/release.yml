@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'dev'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: gradle
+      - name: Build the project
+        run: ./gradlew build
+      - name: Run Release Script
+        run: |
+          echo "Running shell script with version: ${{ github.event.inputs.version }}"
+          mkdir release
+          
+          cp build/libs/*.jar release
+          for asset in release/*; do
+            md5sum $asset >> $asset.md5
+            sha1sum $asset >> $asset.sha1
+            sha256sum $asset >> $asset.sha256
+            sha512sum $asset >> $asset.sha512
+          done
+          
+          ls -l release
+      - uses: marvinpinto/action-automatic-releases@latest
+        name: "Create release"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "dev"
+          title: "Development Build"
+          files: |
+            release/*
