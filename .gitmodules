@@ -1,0 +1,6 @@
+[submodule "Events"]
+	path = Events
+	url = https://github.com/Lyzev/Events
+[submodule "Settings"]
+	path = Settings
+	url = https://github.com/Lyzev/Settings

@@ -56,11 +56,11 @@ dependencies {
 }
 
 loom {
-    accessWidenerPath.set(File("src/main/resources/schizoid.accesswidener"))
+    accessWidenerPath.set(File("src/main/resources/${project.extra["archives_base_name"] as String}.accesswidener"))
 }
 
 tasks.register("updateFabric") {
-    group = "schizoid"
+    group = project.extra["archives_base_name"] as String
     description = "Update Fabric Library Versions"
     doLast {
         val gameVersion = HttpClient.request(HttpMethod.GET, "https://meta.fabricmc.net/v2/versions/game").let { data ->
@@ -120,7 +120,7 @@ tasks.register("updateFabric") {
 }
 
 tasks.register("updateKotlin") {
-    group = "schizoid"
+    group = project.extra["archives_base_name"] as String
     description = "Update Kotlin and Dokka Versions"
     doLast {
         val kotlinVersion = HttpClient.request(
@@ -203,7 +203,7 @@ tasks {
     }
 
     dokkaHtml.configure {
-		moduleName.set("Schizoid")
+		moduleName.set(project.extra["archives_base_name"] as String)
 		dokkaSourceSets {
 			configureEach {
 				includes.from("dokka-docs.md")
