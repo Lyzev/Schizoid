@@ -14,10 +14,13 @@
     <br>
     <img src="https://img.shields.io/github/languages/code-size/Lyzev/Schizoid" alt="GitHub code size in bytes"/>
     <img src="https://img.shields.io/github/contributors/Lyzev/Schizoid" alt="GitHub contributors"/>
+    <br><br>
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/code-quality.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/code-quality.yml/badge.svg" alt="Code Quality"/></a>
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/documentation.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/documentation.yml/badge.svg" alt="Documentation"/></a>
     <br>
-    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/pipeline.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/pipeline.yml/badge.svg" alt="Pipeline"/></a>
     <a href="https://github.com/Lyzev/Schizoid/actions/workflows/release.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
-    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/gradle-wrapper-validation.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/gradle-wrapper-validation.yml/badge.svg" alt="Release"/></a>
+    <br>    
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/gradle-wrapper-validation.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/gradle-wrapper-validation.yml/badge.svg" alt="Validate Gradle Wrapper"/></a>
 </div>
 
 ## Installation
