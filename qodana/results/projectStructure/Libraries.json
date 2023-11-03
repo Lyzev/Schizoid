@@ -1,6 +1,20 @@
 {
   "libraries": [
     {
+      "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
+      "roots": [
+        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.9.20/e58b4816ac517e9cc5df1db051120c63d4cde669/kotlin-stdlib-1.9.20.jar!/"
+      ],
+      "properties": {}
+    },
+    {
+      "name": "Gradle: org.jetbrains:annotations:24.0.1",
+      "roots": [
+        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/24.0.1/13c5c75c4206580aa4d683bffee658caae6c9f43/annotations-24.0.1.jar!/"
+      ],
+      "properties": {}
+    },
+    {
       "name": "Gradle: com.github.Lyzev:Events:v1.0.2",
       "roots": [
         "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/com.github.Lyzev/Events/v1.0.2/5be2be374d88bed2e7625d3e79958fb7966d34cc/Events-v1.0.2.jar!/"
@@ -11,20 +25,6 @@
       "name": "Gradle: com.github.Lyzev:Settings:1.0.0",
       "roots": [
         "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/com.github.Lyzev/Settings/1.0.0/6ae14808eb175c72ccc4a6b60e96fd2854c074f6/Settings-1.0.0.jar!/"
-      ],
-      "properties": {}
-    },
-    {
-      "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10",
-      "roots": [
-        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.9.10/c7510d64a83411a649c76f2778304ddf71d7437b/kotlin-stdlib-jdk8-1.9.10.jar!/"
-      ],
-      "properties": {}
-    },
-    {
-      "name": "Gradle: org.jetbrains:annotations:24.0.1",
-      "roots": [
-        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/24.0.1/13c5c75c4206580aa4d683bffee658caae6c9f43/annotations-24.0.1.jar!/"
       ],
       "properties": {}
     },
@@ -484,16 +484,23 @@
       "properties": {}
     },
     {
-      "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10",
+      "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20",
       "roots": [
-        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.9.10/bc5bfc2690338defd5195b05c57562f2194eeb10/kotlin-stdlib-jdk7-1.9.10.jar!/"
+        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk8/1.9.20/e2b4d1f475ae0606d063a84fce4dccdb45c7e12a/kotlin-stdlib-jdk8-1.9.20.jar!/"
       ],
       "properties": {}
     },
     {
-      "name": "Gradle: org.jetbrains.kotlin:kotlin-reflect:1.9.10",
+      "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20",
       "roots": [
-        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.9.10/dd37cb80926cb4ed427b606502e6f6f063d38fb5/kotlin-reflect-1.9.10.jar!/"
+        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-jdk7/1.9.20/8b4b73f4e08efaae93fc01d8c6eaab58a72d2ab3/kotlin-stdlib-jdk7-1.9.20.jar!/"
+      ],
+      "properties": {}
+    },
+    {
+      "name": "Gradle: org.jetbrains.kotlin:kotlin-reflect:1.9.20",
+      "roots": [
+        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-reflect/1.9.20/34eeb4eed5f493cdbb760ef50a5653ec414006bf/kotlin-reflect-1.9.20.jar!/"
       ],
       "properties": {}
     },
@@ -519,16 +526,9 @@
       "properties": {}
     },
     {
-      "name": "Gradle: org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.0",
+      "name": "Gradle: org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.1",
       "roots": [
-        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-datetime-jvm/0.4.0/2224732fcb9b6116fbeb0926dd108604e578356b/kotlinx-datetime-jvm-0.4.0.jar!/"
-      ],
-      "properties": {}
-    },
-    {
-      "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.10",
-      "roots": [
-        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.9.10/72812e8a368917ab5c0a5081b56915ffdfec93b7/kotlin-stdlib-1.9.10.jar!/"
+        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-datetime-jvm/0.4.1/684eec210b21e2da7382a4aa85e56fb7b71f39b3/kotlinx-datetime-jvm-0.4.1.jar!/"
       ],
       "properties": {}
     },
@@ -540,30 +540,23 @@
       "properties": {}
     },
     {
-      "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.9.10",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.7+1.20.2",
       "roots": [
-        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib-common/1.9.10/dafaf2c27f27c09220cee312df10917d9a5d97ce/kotlin-stdlib-common-1.9.10.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-api/0.90.7+1.20.2/fabric-api-0.90.7+1.20.2.jar!/"
       ],
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.4+1.20.2",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.13+kotlin.1.9.20",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-api/0.90.4+1.20.2/fabric-api-0.90.4+1.20.2.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-language-kotlin/1.10.13+kotlin.1.9.20/fabric-language-kotlin-1.10.13+kotlin.1.9.20.jar!/"
       ],
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.10+bb1ee60ea0",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-language-kotlin/1.10.10+kotlin.1.9.10/fabric-language-kotlin-1.10.10+kotlin.1.9.10.jar!/"
-      ],
-      "properties": {}
-    },
-    {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.9+b1792f7da0",
-      "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-transfer-api-v1/3.3.9+b1792f7da0/fabric-transfer-api-v1-3.3.9+b1792f7da0.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-transfer-api-v1/3.3.10+bb1ee60ea0/fabric-transfer-api-v1-3.3.10+bb1ee60ea0.jar!/"
       ],
       "properties": {}
     },
@@ -624,9 +617,9 @@
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.4+b1792f7da0",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.5+b1792f7da0",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-data-generation-api-v1/13.1.4+b1792f7da0/fabric-data-generation-api-v1-13.1.4+b1792f7da0.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-data-generation-api-v1/13.1.5+b1792f7da0/fabric-data-generation-api-v1-13.1.5+b1792f7da0.jar!/"
       ],
       "properties": {}
     },
@@ -722,37 +715,37 @@
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.7+b1792f7da0",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.8+52b3ebe5a0",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-recipe-api-v1/2.0.7+b1792f7da0/fabric-recipe-api-v1-2.0.7+b1792f7da0.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-recipe-api-v1/2.0.8+52b3ebe5a0/fabric-recipe-api-v1-2.0.8+52b3ebe5a0.jar!/"
       ],
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.5+b1792f7da0",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.6+b1792f7da0",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-registry-sync-v0/4.0.5+b1792f7da0/fabric-registry-sync-v0-4.0.5+b1792f7da0.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-registry-sync-v0/4.0.6+b1792f7da0/fabric-registry-sync-v0-4.0.6+b1792f7da0.jar!/"
       ],
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.40+b1792f7da0",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.41+b1792f7da0",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-screen-handler-api-v1/1.3.40+b1792f7da0/fabric-screen-handler-api-v1-1.3.40+b1792f7da0.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-screen-handler-api-v1/1.3.41+b1792f7da0/fabric-screen-handler-api-v1-1.3.41+b1792f7da0.jar!/"
       ],
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.74+df3654b3a0",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.75+df3654b3a0",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-containers-v0/0.1.74+df3654b3a0/fabric-containers-v0-0.1.74+df3654b3a0.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-containers-v0/0.1.75+df3654b3a0/fabric-containers-v0-0.1.75+df3654b3a0.jar!/"
       ],
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.10+b1792f7da0",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.11+bff13c85a0",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-networking-api-v1/3.0.10+b1792f7da0/fabric-networking-api-v1-3.0.10+b1792f7da0.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-networking-api-v1/3.0.11+bff13c85a0/fabric-networking-api-v1-3.0.11+bff13c85a0.jar!/"
       ],
       "properties": {}
     },
@@ -862,9 +855,9 @@
       "properties": {}
     },
     {
-      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.41+b1792f7da0",
+      "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.42+a44e16a6a0",
       "roots": [
-        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-game-rule-api-v1/1.0.41+b1792f7da0/fabric-game-rule-api-v1-1.0.41+b1792f7da0.jar!/"
+        "jar://$PROJECT_DIR$/.gradle/loom-cache/remapped_mods/net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2/net/fabricmc/fabric-api/fabric-game-rule-api-v1/1.0.42+a44e16a6a0/fabric-game-rule-api-v1-1.0.42+a44e16a6a0.jar!/"
       ],
       "properties": {}
     },

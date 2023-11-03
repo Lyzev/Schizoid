@@ -2,6 +2,22 @@
   "gradleJvm": "#USE_PROJECT_JDK",
   "libraries": [
     {
+      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
+      "gradleName": "org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
+      "unresolved": false,
+      "groupId": "org.jetbrains.kotlin",
+      "artifactId": "kotlin-stdlib",
+      "version": "1.9.20"
+    },
+    {
+      "ideaName": "Gradle: org.jetbrains:annotations:24.0.1",
+      "gradleName": "org.jetbrains:annotations:24.0.1",
+      "unresolved": false,
+      "groupId": "org.jetbrains",
+      "artifactId": "annotations",
+      "version": "24.0.1"
+    },
+    {
       "ideaName": "Gradle: com.github.Lyzev:Events:v1.0.2",
       "gradleName": "com.github.Lyzev:Events:v1.0.2",
       "unresolved": false,
@@ -16,22 +32,6 @@
       "groupId": "com.github.Lyzev",
       "artifactId": "Settings",
       "version": "1.0.0"
-    },
-    {
-      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10",
-      "gradleName": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10",
-      "unresolved": false,
-      "groupId": "org.jetbrains.kotlin",
-      "artifactId": "kotlin-stdlib-jdk8",
-      "version": "1.9.10"
-    },
-    {
-      "ideaName": "Gradle: org.jetbrains:annotations:24.0.1",
-      "gradleName": "org.jetbrains:annotations:24.0.1",
-      "unresolved": false,
-      "groupId": "org.jetbrains",
-      "artifactId": "annotations",
-      "version": "24.0.1"
     },
     {
       "ideaName": "Gradle: org.reflections:reflections:0.10.2",
@@ -554,20 +554,28 @@
       "version": "1.7.3"
     },
     {
-      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10",
-      "gradleName": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10",
+      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20",
+      "gradleName": "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20",
+      "unresolved": false,
+      "groupId": "org.jetbrains.kotlin",
+      "artifactId": "kotlin-stdlib-jdk8",
+      "version": "1.9.20"
+    },
+    {
+      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20",
+      "gradleName": "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20",
       "unresolved": false,
       "groupId": "org.jetbrains.kotlin",
       "artifactId": "kotlin-stdlib-jdk7",
-      "version": "1.9.10"
+      "version": "1.9.20"
     },
     {
-      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-reflect:1.9.10",
-      "gradleName": "org.jetbrains.kotlin:kotlin-reflect:1.9.10",
+      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-reflect:1.9.20",
+      "gradleName": "org.jetbrains.kotlin:kotlin-reflect:1.9.20",
       "unresolved": false,
       "groupId": "org.jetbrains.kotlin",
       "artifactId": "kotlin-reflect",
-      "version": "1.9.10"
+      "version": "1.9.20"
     },
     {
       "ideaName": "Gradle: org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.0",
@@ -594,20 +602,12 @@
       "version": "1.6.0"
     },
     {
-      "ideaName": "Gradle: org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.0",
-      "gradleName": "org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.0",
+      "ideaName": "Gradle: org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.1",
+      "gradleName": "org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.1",
       "unresolved": false,
       "groupId": "org.jetbrains.kotlinx",
       "artifactId": "kotlinx-datetime-jvm",
-      "version": "0.4.0"
-    },
-    {
-      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.10",
-      "gradleName": "org.jetbrains.kotlin:kotlin-stdlib:1.9.10",
-      "unresolved": false,
-      "groupId": "org.jetbrains.kotlin",
-      "artifactId": "kotlin-stdlib",
-      "version": "1.9.10"
+      "version": "0.4.1"
     },
     {
       "ideaName": "Gradle: org.jetbrains.kotlinx:atomicfu-jvm:0.22.0",
@@ -618,36 +618,28 @@
       "version": "0.22.0"
     },
     {
-      "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.9.10",
-      "gradleName": "org.jetbrains.kotlin:kotlin-stdlib-common:1.9.10",
-      "unresolved": false,
-      "groupId": "org.jetbrains.kotlin",
-      "artifactId": "kotlin-stdlib-common",
-      "version": "1.9.10"
-    },
-    {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.4+1.20.2",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.4+1.20.2",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.7+1.20.2",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.7+1.20.2",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-api",
-      "version": "0.90.4+1.20.2"
+      "version": "0.90.7+1.20.2"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.13+kotlin.1.9.20",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.13+kotlin.1.9.20",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc",
       "artifactId": "fabric-language-kotlin",
-      "version": "1.10.10+kotlin.1.9.10"
+      "version": "1.10.13+kotlin.1.9.20"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.9+b1792f7da0",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.9+b1792f7da0",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.10+bb1ee60ea0",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.10+bb1ee60ea0",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-transfer-api-v1",
-      "version": "3.3.9+b1792f7da0"
+      "version": "3.3.10+bb1ee60ea0"
     },
     {
       "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api-lookup-api-v1:1.6.42+b1792f7da0",
@@ -714,12 +706,12 @@
       "version": "1.5.8+b1792f7da0"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.4+b1792f7da0",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.4+b1792f7da0",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.5+b1792f7da0",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.5+b1792f7da0",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-data-generation-api-v1",
-      "version": "13.1.4+b1792f7da0"
+      "version": "13.1.5+b1792f7da0"
     },
     {
       "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-dimensions-v1:2.1.57+b1792f7da0",
@@ -826,44 +818,44 @@
       "version": "1.0.6+b1792f7da0"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.7+b1792f7da0",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.7+b1792f7da0",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.8+52b3ebe5a0",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.8+52b3ebe5a0",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-recipe-api-v1",
-      "version": "2.0.7+b1792f7da0"
+      "version": "2.0.8+52b3ebe5a0"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.5+b1792f7da0",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.5+b1792f7da0",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.6+b1792f7da0",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.6+b1792f7da0",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-registry-sync-v0",
-      "version": "4.0.5+b1792f7da0"
+      "version": "4.0.6+b1792f7da0"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.40+b1792f7da0",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.40+b1792f7da0",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.41+b1792f7da0",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.41+b1792f7da0",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-screen-handler-api-v1",
-      "version": "1.3.40+b1792f7da0"
+      "version": "1.3.41+b1792f7da0"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.74+df3654b3a0",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.74+df3654b3a0",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.75+df3654b3a0",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.75+df3654b3a0",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-containers-v0",
-      "version": "0.1.74+df3654b3a0"
+      "version": "0.1.75+df3654b3a0"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.10+b1792f7da0",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.10+b1792f7da0",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.11+bff13c85a0",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.11+bff13c85a0",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-networking-api-v1",
-      "version": "3.0.10+b1792f7da0"
+      "version": "3.0.11+bff13c85a0"
     },
     {
       "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-object-builder-api-v1:12.1.2+2ff98d3ba0",
@@ -986,12 +978,12 @@
       "version": "0.2.20+f4b7e424a0"
     },
     {
-      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.41+b1792f7da0",
-      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.41+b1792f7da0",
+      "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.42+a44e16a6a0",
+      "gradleName": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.42+a44e16a6a0",
       "unresolved": false,
       "groupId": "net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api",
       "artifactId": "fabric-game-rule-api-v1",
-      "version": "1.0.41+b1792f7da0"
+      "version": "1.0.42+a44e16a6a0"
     },
     {
       "ideaName": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-keybindings-v0:0.2.36+df3654b3a0",

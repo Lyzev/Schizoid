@@ -78,19 +78,19 @@
           "type": "Own sources"
         },
         {
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
+          "type": "Library"
+        },
+        {
+          "name": "Gradle: org.jetbrains:annotations:24.0.1",
+          "type": "Library"
+        },
+        {
           "name": "Gradle: com.github.Lyzev:Events:v1.0.2",
           "type": "Library"
         },
         {
           "name": "Gradle: com.github.Lyzev:Settings:1.0.0",
-          "type": "Library"
-        },
-        {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10",
-          "type": "Library"
-        },
-        {
-          "name": "Gradle: org.jetbrains:annotations:24.0.1",
           "type": "Library"
         },
         {
@@ -354,11 +354,15 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10",
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20",
           "type": "Library"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-reflect:1.9.10",
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20",
+          "type": "Library"
+        },
+        {
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-reflect:1.9.20",
           "type": "Library"
         },
         {
@@ -374,11 +378,7 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.0",
-          "type": "Library"
-        },
-        {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.10",
+          "name": "Gradle: org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.1",
           "type": "Library"
         },
         {
@@ -386,19 +386,15 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.9.10",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.7+1.20.2",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.4+1.20.2",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.13+kotlin.1.9.20",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10",
-          "type": "Library"
-        },
-        {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.9+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.10+bb1ee60ea0",
           "type": "Library"
         },
         {
@@ -434,7 +430,7 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.4+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.5+b1792f7da0",
           "type": "Library"
         },
         {
@@ -490,23 +486,23 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.7+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.8+52b3ebe5a0",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.5+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.6+b1792f7da0",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.40+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.41+b1792f7da0",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.74+df3654b3a0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.75+df3654b3a0",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.10+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.11+bff13c85a0",
           "type": "Library"
         },
         {
@@ -570,7 +566,7 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.41+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.42+a44e16a6a0",
           "type": "Library"
         },
         {
@@ -711,15 +707,15 @@
           "type": "Module"
         },
         {
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
+          "type": "Library"
+        },
+        {
           "name": "Gradle: com.github.Lyzev:Events:v1.0.2",
           "type": "Library"
         },
         {
           "name": "Gradle: com.github.Lyzev:Settings:1.0.0",
-          "type": "Library"
-        },
-        {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10",
           "type": "Library"
         },
         {
@@ -979,11 +975,15 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.10",
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20",
           "type": "Library"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-reflect:1.9.10",
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20",
+          "type": "Library"
+        },
+        {
+          "name": "Gradle: org.jetbrains.kotlin:kotlin-reflect:1.9.20",
           "type": "Library"
         },
         {
@@ -999,11 +999,7 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.0",
-          "type": "Library"
-        },
-        {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.10",
+          "name": "Gradle: org.jetbrains.kotlinx:kotlinx-datetime-jvm:0.4.1",
           "type": "Library"
         },
         {
@@ -1011,23 +1007,19 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib-common:1.9.10",
-          "type": "Library"
-        },
-        {
           "name": "Gradle: org.jetbrains:annotations:24.0.1",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.4+1.20.2",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-api:0.90.7+1.20.2",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.10+kotlin.1.9.10",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc:fabric-language-kotlin:1.10.13+kotlin.1.9.20",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.9+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-transfer-api-v1:3.3.10+bb1ee60ea0",
           "type": "Library"
         },
         {
@@ -1063,7 +1055,7 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.4+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-data-generation-api-v1:13.1.5+b1792f7da0",
           "type": "Library"
         },
         {
@@ -1119,23 +1111,23 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.7+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-recipe-api-v1:2.0.8+52b3ebe5a0",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.5+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-registry-sync-v0:4.0.6+b1792f7da0",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.40+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-screen-handler-api-v1:1.3.41+b1792f7da0",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.74+df3654b3a0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-containers-v0:0.1.75+df3654b3a0",
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.10+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-networking-api-v1:3.0.11+bff13c85a0",
           "type": "Library"
         },
         {
@@ -1199,7 +1191,7 @@
           "type": "Library"
         },
         {
-          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.41+b1792f7da0",
+          "name": "Gradle: net_fabricmc_yarn_1_20_2_1_20_2_build_4_v2.net.fabricmc.fabric-api:fabric-game-rule-api-v1:1.0.42+a44e16a6a0",
           "type": "Library"
         },
         {
