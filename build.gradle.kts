@@ -25,7 +25,7 @@ idea {
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
 
-version = project.extra["mod_version"] as String
+version = if (System.getenv("CI") != null) "nightly-build" else project.extra["mod_version"] as String
 group = project.extra["maven_group"] as String
 
 repositories {
@@ -178,7 +178,7 @@ tasks {
             expand(
                 mutableMapOf(
                     "java" to project.extra["java_version"] as String,
-                    "version" to project.extra["mod_version"] as String,
+                    "version" to if (System.getenv("CI") != null) "nightly-build" else project.extra["mod_version"] as String,
                     "minecraft" to libs.versions.minecraft.get(),
                     "fabricloader" to libs.versions.fabric.loader.get(),
                     "fabric_api" to libs.versions.fabric.api.get(),

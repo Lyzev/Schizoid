@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CI: nightly-build
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -25,6 +27,7 @@ jobs:
           mkdir release
           
           cp build/libs/*.jar release
+          
           for asset in release/*; do
             md5sum $asset >> $asset.md5
             sha1sum $asset >> $asset.sha1
@@ -37,7 +40,7 @@ jobs:
         name: Create Release
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: 'dev-build'
-          title: 'Development Build'
+          automatic_release_tag: 'nightly-build'
+          title: 'Nightly Build'
           files: |
             release/*
