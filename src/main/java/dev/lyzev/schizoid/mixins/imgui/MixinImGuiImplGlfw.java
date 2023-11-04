@@ -30,7 +30,7 @@ public class MixinImGuiImplGlfw {
      * This method is used to implement smooth scrolling in ImGui.
      */
     @Inject(method = "scrollCallback", at = @At("HEAD"), cancellable = true, remap = false)
-    public void injectScrollCallback(long windowId, double xOffset, double yOffset, CallbackInfo ci) {
+    public void smoothScroll(long windowId, double xOffset, double yOffset, CallbackInfo ci) {
         if (prevUserCallbackScroll != null && windowId == windowPtr) {
             prevUserCallbackScroll.invoke(windowId, xOffset, yOffset);
         }
