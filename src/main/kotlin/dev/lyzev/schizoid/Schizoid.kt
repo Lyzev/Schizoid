@@ -27,12 +27,15 @@ object Schizoid : ClientModInitializer {
     // The metadata of the mod.
     val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata
 
+    // The name of the mod.
+    val MOD_NAME = METADATA.name
+
     // The version of the mod.
-    val VERSION = METADATA.version.friendlyString
+    val MOD_VERSION = METADATA.version.friendlyString
 
     // The list of authors contributing to the mod.
     @Suppress("SpellCheckingInspection")
-    val AUTHORS = METADATA.authors
+    val MOD_AUTHORS = METADATA.authors
 
     // Whether the mod is running in a continuous integration environment.
     val CI = System.getProperty("CI").toBooleanStrict()
@@ -45,6 +48,9 @@ object Schizoid : ClientModInitializer {
     // The logger for the Schizoid mod.
     val logger: Logger = LogManager.getLogger(MOD_ID)
 
+    // The Minecraft client instance.
+    val mc = MinecraftClient.getInstance()
+
     /**
      * Initialize the Schizoid mod.
      */
@@ -52,14 +58,14 @@ object Schizoid : ClientModInitializer {
         val init = System.currentTimeMillis()
         runCatching {
             // Initialize the Schizoid mod, log mod initialization information, initialize settings, register a shutdown hook for cleanup, and fire the startup event.
-            logger.info("Initializing Schizoid v$VERSION by ${AUTHORS.joinToString(" & ") { it.name }}...")
+            logger.info("Initializing Schizoid v$MOD_VERSION by ${MOD_AUTHORS.joinToString(" & ") { it.name }}...")
             if (CI)
                 logger.warn("Running in a continuous integration environment!")
             SettingInitializer
             FeatureManager
             Runtime.getRuntime().addShutdownHook(Thread { EventShutdown.fire() })
             EventStartup.fire()
-            TODO("Finish client base before initializing!")
+            logger.info("Initialized ${FeatureManager.features.size} features!")
         }.onSuccess { // Log successful initialization.
             logger.info("Initialized Schizoid in ${System.currentTimeMillis() - init}ms!")
         }.onFailure { exception -> // Log initialization failure and the associated exception.

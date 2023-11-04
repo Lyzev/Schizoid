@@ -6,8 +6,10 @@
 package dev.lyzev.schizoid.feature
 
 import dev.lyzev.api.events.*
+import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.command.Command
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket
+import net.minecraft.text.Text
 import org.reflections.Reflections
 import java.lang.reflect.Modifier
 import kotlin.jvm.internal.Reflection
@@ -18,7 +20,7 @@ import kotlin.jvm.internal.Reflection
 object FeatureManager : EventListener {
 
     // The prefix used for commands.
-    const val PREFIX = "."
+    private const val PREFIX = "."
 
     // A list of all features.
     val features = mutableListOf<Feature>()
@@ -44,7 +46,15 @@ object FeatureManager : EventListener {
     /**
      * Gets a list of features by their category.
      */
-    operator fun get(category: Category): List<Feature> = features.filter { it.category == category }
+    operator fun get(category: Feature.Category): List<Feature> = features.filter { it.category == category }
+
+    /**
+     * Sends a chat message to the player.
+     *
+     * @param message The message to send.
+     */
+    fun sendChatMessage(message: String) =
+        Schizoid.mc.player?.sendMessage(Text.of("§7[§6${Schizoid.MOD_NAME}§7] §f$message"))
 
     // Indicates whether the feature manager should handle events.
     override val shouldHandleEvents = true
@@ -71,6 +81,8 @@ object FeatureManager : EventListener {
                     val feature = find<Command>(args[0])
                     if (feature != null) {
                         feature(args.drop(1))
+                    } else {
+                        sendChatMessage("Unknown command.")
                     }
                 }
             }

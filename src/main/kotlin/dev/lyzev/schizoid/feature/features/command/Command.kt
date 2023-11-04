@@ -5,7 +5,6 @@
 
 package dev.lyzev.schizoid.feature.features.command
 
-import dev.lyzev.schizoid.feature.Category
 import dev.lyzev.schizoid.feature.Feature
 
 /**

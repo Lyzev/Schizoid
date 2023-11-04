@@ -188,6 +188,7 @@ tasks {
             expand(
                 mutableMapOf(
                     "java" to project.extra["java_version"] as String,
+                    "id" to project.extra["archives_base_name"] as String,
                     "version" to project.version.toString(),
                     "minecraft" to libs.versions.minecraft.get(),
                     "fabricloader" to libs.versions.fabric.loader.get(),

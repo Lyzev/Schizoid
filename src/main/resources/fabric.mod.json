@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "schizoid",
+  "id": "${id}",
   "version": "${version}",
   "name": "Schizoid",
   "description": "Elevate your Minecraft gameplay with this free and feature-rich client built with Fabric API and utilizing mixin-based injection techniques.",

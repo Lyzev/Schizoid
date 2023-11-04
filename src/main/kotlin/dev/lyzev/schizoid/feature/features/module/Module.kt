@@ -6,7 +6,6 @@
 package dev.lyzev.schizoid.feature.features.module
 
 import dev.lyzev.api.setting.settings.switch
-import dev.lyzev.schizoid.feature.Category
 import dev.lyzev.schizoid.feature.Feature
 
 /**
