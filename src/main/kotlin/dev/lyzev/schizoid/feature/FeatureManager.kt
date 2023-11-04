@@ -25,9 +25,14 @@ object FeatureManager : EventListener {
     val features = mutableListOf<Feature>()
 
     /**
+     * Gets a list of features by their type.
+     */
+    inline fun <reified T : Feature> get(): List<T> = features.filterIsInstance<T>()
+
+    /**
      * Gets a feature by its name.
      */
-    operator fun get(name: String): Feature? = features.firstOrNull { it.name.equals(name, true) }
+    operator fun get(alias: String): Feature? = features.firstOrNull { it.aliases.contains(alias) }
 
     /**
      * Gets a list of features by their category.
