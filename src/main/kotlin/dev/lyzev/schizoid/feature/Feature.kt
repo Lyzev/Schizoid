@@ -5,7 +5,8 @@
 
 package dev.lyzev.schizoid.feature
 
-import dev.lyzev.api.settings.KeySetting
+import dev.lyzev.api.setting.settings.KeybindSetting
+import dev.lyzev.api.setting.settings.keybind
 
 /**
  * Represents a feature.
@@ -20,5 +21,5 @@ abstract class Feature(
 ) {
 
     // The keybind of the feature.
-    val keybind by KeySetting(this::class, "Key", key)
+    val keybind by keybind("Key", value = key)
 }
