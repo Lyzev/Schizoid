@@ -8,12 +8,12 @@
     "vcs": {
       "sarifIdea": {
         "repositoryUri": "https://github.com/Lyzev/Schizoid.git",
-        "revisionId": "bf1028fdcbcc2dba0ee88b64d62690f44714419c",
+        "revisionId": "e9fb83c467b592124fce4c89d49fcbd82f1cc915",
         "branch": "refs/heads/dev"
       }
     },
     "deviceId": "200820300000000-4c2c-882f-0a88-cb9ca9ae6279",
-    "jobUrl": "https://github.com/Lyzev/Schizoid/actions/runs/6752358383",
+    "jobUrl": "https://github.com/Lyzev/Schizoid/actions/runs/6752454164",
     "repoUrl": "https://github.com/Lyzev/Schizoid.git"
   }
 }

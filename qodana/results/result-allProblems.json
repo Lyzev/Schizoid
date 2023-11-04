@@ -13,11 +13,42 @@
       "type": "file",
       "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
       "language": "kotlin",
-      "line": 34,
+      "line": 28,
+      "offset": 9,
+      "length": 8,
+      "code": {
+        "startLine": 26,
+        "length": 8,
+        "offset": 41,
+        "surroundingCode": "\n    // The metadata of the mod.\n    val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata\n\n    // The version of the mod."
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "HasPlatformType"
+  },
+  "hash": "afc5e4f2f8b8076397c383855afc60f7e3818b0ca4f8347bb49c2ecb883e4fd2"
+},{
+  "tool": "Code Inspection",
+  "category": "Java interop issues",
+  "type": "Function or property has platform type",
+  "tags": [
+    "kotlin"
+  ],
+  "severity": "Moderate",
+  "comment": "Declaration has type inferred from a platform call, which can lead to unchecked nullability issues. Specify type explicitly as nullable or non-nullable.",
+  "detailsInfo": "Reports functions and properties that have a platform type.\n\nTo prevent unexpected errors, the type should be declared explicitly.\n\n**Example:**\n\n\n      fun foo() = java.lang.String.valueOf(1)\n\nThe quick fix allows you to specify the return type:\n\n\n      fun foo(): String = java.lang.String.valueOf(1)\n",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
+      "language": "kotlin",
+      "line": 35,
       "offset": 9,
       "length": 7,
       "code": {
-        "startLine": 32,
+        "startLine": 33,
         "length": 7,
         "offset": 101,
         "surroundingCode": "    // The list of authors contributing to the mod.\n    @Suppress(\"SpellCheckingInspection\")\n    val AUTHORS = METADATA.authors\n\n    // The root directory of the Schizoid mod, used for storing mod-specific data."
@@ -28,7 +59,7 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "0ffecaaace152a8658060036f88c48835dd39f80db39a0b51dd197bf00be7b15"
+  "hash": "e1fee649d9f229ee62e26704fe93d893e8411a575158ad59d53c1a04a5ddfd68"
 },{
   "tool": "Code Inspection",
   "category": "Java interop issues",
@@ -44,11 +75,11 @@
       "type": "file",
       "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
       "language": "kotlin",
-      "line": 30,
+      "line": 31,
       "offset": 9,
       "length": 7,
       "code": {
-        "startLine": 28,
+        "startLine": 29,
         "length": 7,
         "offset": 40,
         "surroundingCode": "\n    // The version of the mod.\n    val VERSION = METADATA.version.friendlyString\n\n    // The list of authors contributing to the mod."
@@ -59,36 +90,5 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "48a203c4f7feeb366612886c3daacc26110d0fa3e84c6649c24267d00c1371b1"
-},{
-  "tool": "Code Inspection",
-  "category": "Java interop issues",
-  "type": "Function or property has platform type",
-  "tags": [
-    "kotlin"
-  ],
-  "severity": "Moderate",
-  "comment": "Declaration has type inferred from a platform call, which can lead to unchecked nullability issues. Specify type explicitly as nullable or non-nullable.",
-  "detailsInfo": "Reports functions and properties that have a platform type.\n\nTo prevent unexpected errors, the type should be declared explicitly.\n\n**Example:**\n\n\n      fun foo() = java.lang.String.valueOf(1)\n\nThe quick fix allows you to specify the return type:\n\n\n      fun foo(): String = java.lang.String.valueOf(1)\n",
-  "sources": [
-    {
-      "type": "file",
-      "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
-      "language": "kotlin",
-      "line": 27,
-      "offset": 9,
-      "length": 8,
-      "code": {
-        "startLine": 25,
-        "length": 8,
-        "offset": 43,
-        "surroundingCode": "    const val MOD_ID = \"schizoid\"\n\n    val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata\n\n    // The version of the mod."
-      }
-    }
-  ],
-  "attributes": {
-    "module": "Schizoid.main",
-    "inspectionName": "HasPlatformType"
-  },
-  "hash": "854877adef6ec23a5494127b3a34831c0a9de71f74cf24245ef1750a31579dcb"
+  "hash": "fb206d143019bc1d2a21650fdc26db03817d56d006592de3e53d235af359af39"
 }]}
