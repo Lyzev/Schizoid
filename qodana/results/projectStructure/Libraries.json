@@ -8,6 +8,13 @@
       "properties": {}
     },
     {
+      "name": "Gradle: com.github.Lyzev:Settings:1.0.1",
+      "roots": [
+        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/com.github.Lyzev/Settings/1.0.1/b308363e03d16ded2209460afda7f2cda6f2df7d/Settings-1.0.1.jar!/"
+      ],
+      "properties": {}
+    },
+    {
       "name": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
       "roots": [
         "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.9.20/e58b4816ac517e9cc5df1db051120c63d4cde669/kotlin-stdlib-1.9.20.jar!/"
@@ -18,13 +25,6 @@
       "name": "Gradle: org.jetbrains:annotations:24.0.1",
       "roots": [
         "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/org.jetbrains/annotations/24.0.1/13c5c75c4206580aa4d683bffee658caae6c9f43/annotations-24.0.1.jar!/"
-      ],
-      "properties": {}
-    },
-    {
-      "name": "Gradle: com.github.Lyzev:Settings:1.0.0",
-      "roots": [
-        "jar://$PROJECT_DIR$/../cache/gradle/caches/modules-2/files-2.1/com.github.Lyzev/Settings/1.0.0/6ae14808eb175c72ccc4a6b60e96fd2854c074f6/Settings-1.0.0.jar!/"
       ],
       "properties": {}
     },

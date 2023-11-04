@@ -1,29 +1,113 @@
 {"version":"3","listProblem":[{
   "tool": "Code Inspection",
-  "category": "Style issues",
-  "type": "Class member can have 'private' visibility",
-  "severity": "Moderate",
-  "comment": "Property 'isEnabled' could be private",
-  "detailsInfo": "Reports declarations that can be made `private` to follow the encapsulation principle.\n\n**Example:**\n\n\n    class Service(val url: String) {\n        fun connect(): URLConnection = URL(url).openConnection()\n    }\n\nAfter the quick-fix is applied (considering there are no usages of `url` outside of `Service` class):\n\n\n    class Service(private val url: String) {\n        fun connect(): URLConnection = URL(url).openConnection()\n    }\n",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Property \"showInArrayList\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
   "sources": [
     {
       "type": "file",
       "path": "src/main/kotlin/dev/lyzev/schizoid/feature/features/module/Module.kt",
       "language": "kotlin",
-      "line": 23,
+      "line": 54,
       "offset": 9,
-      "length": 9,
+      "length": 15,
       "code": {
-        "startLine": 21,
-        "length": 9,
-        "offset": 57,
-        "surroundingCode": "\n    // Indicates whether the module is enabled.\n    var isEnabled by BooleanSetting(this::class, \"Enabled\", false) {\n        if (it) onEnable()\n        else onDisable()"
+        "startLine": 52,
+        "length": 15,
+        "offset": 80,
+        "surroundingCode": "\n    // Indicates whether the module should be shown in the array list.\n    var showInArrayList by switch(\"Show In ArrayList\", value = true)\n\n    /**"
       }
     }
   ],
   "attributes": {
     "module": "Schizoid.main",
-    "inspectionName": "MemberVisibilityCanBePrivate"
+    "inspectionName": "UnusedSymbol"
   },
-  "hash": "f87d0abd4fb20a33d5721988cbe7948c9d030209bafb41edb47fe4d3288d1864"
+  "hash": "b0620022de2f929b1fd6e9468ddf1b6706724663893af6b13a72e4b280bb822e"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"ModuleRunnable\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/features/module/Module.kt",
+      "language": "kotlin",
+      "line": 32,
+      "offset": 16,
+      "length": 14,
+      "code": {
+        "startLine": 30,
+        "length": 14,
+        "offset": 69,
+        "surroundingCode": " * @property category The category of the module.\n */\nabstract class ModuleRunnable(name: String, desc: String, vararg aliases: String, key: Int = -1, category: Category) :\n    Module(name, desc, aliases = aliases, key, category), () -> Unit\n"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "c44a762149ffd25998df7c512e372877f3ee6013f0b24186a1e7f040032afa16"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Class \"ModuleToggleable\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/features/module/Module.kt",
+      "language": "kotlin",
+      "line": 44,
+      "offset": 16,
+      "length": 16,
+      "code": {
+        "startLine": 42,
+        "length": 16,
+        "offset": 69,
+        "surroundingCode": " * @property category The category of the module.\n */\nabstract class ModuleToggleable(name: String, desc: String, vararg aliases: String, key: Int = -1, category: Category) :\n    Module(name, desc, aliases = aliases, key, category) {\n"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "e70e789eb594d818f18126ac38c99ff47f40a0f3f5370f99dc09a2a38661e18f"
+},{
+  "tool": "Code Inspection",
+  "category": "Redundant constructs",
+  "type": "Unused symbol",
+  "severity": "High",
+  "comment": "Function \"toggle\" is never used",
+  "detailsInfo": "Reports symbols that are not used or not reachable from entry points.",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/features/module/Module.kt",
+      "language": "kotlin",
+      "line": 61,
+      "offset": 9,
+      "length": 6,
+      "code": {
+        "startLine": 59,
+        "length": 6,
+        "offset": 38,
+        "surroundingCode": "     * @see isEnabled\n     */\n    fun toggle() {\n        isEnabled = !isEnabled\n    }"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "UnusedSymbol"
+  },
+  "hash": "f8900f4eeb6905f398492689961d7882bdf1370392f8f379651c049c668bda87"
 }]}

@@ -10,6 +10,14 @@
       "version": "1.0.3"
     },
     {
+      "ideaName": "Gradle: com.github.Lyzev:Settings:1.0.1",
+      "gradleName": "com.github.Lyzev:Settings:1.0.1",
+      "unresolved": false,
+      "groupId": "com.github.Lyzev",
+      "artifactId": "Settings",
+      "version": "1.0.1"
+    },
+    {
       "ideaName": "Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
       "gradleName": "org.jetbrains.kotlin:kotlin-stdlib:1.9.20",
       "unresolved": false,
@@ -24,14 +32,6 @@
       "groupId": "org.jetbrains",
       "artifactId": "annotations",
       "version": "24.0.1"
-    },
-    {
-      "ideaName": "Gradle: com.github.Lyzev:Settings:1.0.0",
-      "gradleName": "com.github.Lyzev:Settings:1.0.0",
-      "unresolved": false,
-      "groupId": "com.github.Lyzev",
-      "artifactId": "Settings",
-      "version": "1.0.0"
     },
     {
       "ideaName": "Gradle: org.reflections:reflections:0.10.2",
