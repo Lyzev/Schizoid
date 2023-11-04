@@ -13,14 +13,14 @@
       "type": "file",
       "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
       "language": "kotlin",
-      "line": 28,
+      "line": 52,
       "offset": 9,
-      "length": 8,
+      "length": 2,
       "code": {
-        "startLine": 26,
-        "length": 8,
-        "offset": 41,
-        "surroundingCode": "\n    // The metadata of the mod.\n    val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata\n\n    // The version of the mod."
+        "startLine": 50,
+        "length": 2,
+        "offset": 47,
+        "surroundingCode": "\n    // The Minecraft client instance.\n    val mc = MinecraftClient.getInstance()\n\n    /**"
       }
     }
   ],
@@ -28,7 +28,7 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "afc5e4f2f8b8076397c383855afc60f7e3818b0ca4f8347bb49c2ecb883e4fd2"
+  "hash": "0d38b1c45534c01c32af9b3b7bb3ee167720c4fef4472cfb16c15e892932228b"
 },{
   "tool": "Code Inspection",
   "category": "Java interop issues",
@@ -42,16 +42,16 @@
   "sources": [
     {
       "type": "file",
-      "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/Feature.kt",
       "language": "kotlin",
-      "line": 35,
+      "line": 24,
       "offset": 9,
-      "length": 7,
+      "length": 2,
       "code": {
-        "startLine": 33,
-        "length": 7,
-        "offset": 101,
-        "surroundingCode": "    // The list of authors contributing to the mod.\n    @Suppress(\"SpellCheckingInspection\")\n    val AUTHORS = METADATA.authors\n\n    // The root directory of the Schizoid mod, used for storing mod-specific data."
+        "startLine": 22,
+        "length": 2,
+        "offset": 47,
+        "surroundingCode": "\n    // The Minecraft client instance.\n    val mc = Schizoid.mc\n\n    // The keybind of the feature."
       }
     }
   ],
@@ -59,7 +59,7 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "e1fee649d9f229ee62e26704fe93d893e8411a575158ad59d53c1a04a5ddfd68"
+  "hash": "606c2b9101d3c3c3b2bacf68df1b640ba29b4294d64b1d3b9a44474bb9ff7908"
 },{
   "tool": "Code Inspection",
   "category": "Java interop issues",
@@ -77,12 +77,12 @@
       "language": "kotlin",
       "line": 31,
       "offset": 9,
-      "length": 7,
+      "length": 8,
       "code": {
         "startLine": 29,
-        "length": 7,
-        "offset": 40,
-        "surroundingCode": "\n    // The version of the mod.\n    val VERSION = METADATA.version.friendlyString\n\n    // The list of authors contributing to the mod."
+        "length": 8,
+        "offset": 37,
+        "surroundingCode": "\n    // The name of the mod.\n    val MOD_NAME = METADATA.name\n\n    // The version of the mod."
       }
     }
   ],
@@ -90,5 +90,98 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "fb206d143019bc1d2a21650fdc26db03817d56d006592de3e53d235af359af39"
+  "hash": "8873595af96ba1d48211c15172fd7d7df9ad50ff3f05b665f5d44123df93a94e"
+},{
+  "tool": "Code Inspection",
+  "category": "Java interop issues",
+  "type": "Function or property has platform type",
+  "tags": [
+    "kotlin"
+  ],
+  "severity": "Moderate",
+  "comment": "Declaration has type inferred from a platform call, which can lead to unchecked nullability issues. Specify type explicitly as nullable or non-nullable.",
+  "detailsInfo": "Reports functions and properties that have a platform type.\n\nTo prevent unexpected errors, the type should be declared explicitly.\n\n**Example:**\n\n\n      fun foo() = java.lang.String.valueOf(1)\n\nThe quick fix allows you to specify the return type:\n\n\n      fun foo(): String = java.lang.String.valueOf(1)\n",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
+      "language": "kotlin",
+      "line": 38,
+      "offset": 9,
+      "length": 11,
+      "code": {
+        "startLine": 36,
+        "length": 11,
+        "offset": 101,
+        "surroundingCode": "    // The list of authors contributing to the mod.\n    @Suppress(\"SpellCheckingInspection\")\n    val MOD_AUTHORS = METADATA.authors\n\n    // Whether the mod is running in a continuous integration environment."
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "HasPlatformType"
+  },
+  "hash": "b43598252c4a1d5ef45a0f1b818f34b28db90d9e62ab8de5f8ceb3f54667192b"
+},{
+  "tool": "Code Inspection",
+  "category": "Java interop issues",
+  "type": "Function or property has platform type",
+  "tags": [
+    "kotlin"
+  ],
+  "severity": "Moderate",
+  "comment": "Declaration has type inferred from a platform call, which can lead to unchecked nullability issues. Specify type explicitly as nullable or non-nullable.",
+  "detailsInfo": "Reports functions and properties that have a platform type.\n\nTo prevent unexpected errors, the type should be declared explicitly.\n\n**Example:**\n\n\n      fun foo() = java.lang.String.valueOf(1)\n\nThe quick fix allows you to specify the return type:\n\n\n      fun foo(): String = java.lang.String.valueOf(1)\n",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
+      "language": "kotlin",
+      "line": 28,
+      "offset": 9,
+      "length": 8,
+      "code": {
+        "startLine": 26,
+        "length": 8,
+        "offset": 41,
+        "surroundingCode": "\n    // The metadata of the mod.\n    val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata\n\n    // The name of the mod."
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "HasPlatformType"
+  },
+  "hash": "f747d0a72139e324b14f7f1ea30e1c86ad13a77811270ff1f9efa25773345939"
+},{
+  "tool": "Code Inspection",
+  "category": "Java interop issues",
+  "type": "Function or property has platform type",
+  "tags": [
+    "kotlin"
+  ],
+  "severity": "Moderate",
+  "comment": "Declaration has type inferred from a platform call, which can lead to unchecked nullability issues. Specify type explicitly as nullable or non-nullable.",
+  "detailsInfo": "Reports functions and properties that have a platform type.\n\nTo prevent unexpected errors, the type should be declared explicitly.\n\n**Example:**\n\n\n      fun foo() = java.lang.String.valueOf(1)\n\nThe quick fix allows you to specify the return type:\n\n\n      fun foo(): String = java.lang.String.valueOf(1)\n",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
+      "language": "kotlin",
+      "line": 34,
+      "offset": 9,
+      "length": 11,
+      "code": {
+        "startLine": 32,
+        "length": 11,
+        "offset": 40,
+        "surroundingCode": "\n    // The version of the mod.\n    val MOD_VERSION = METADATA.version.friendlyString\n\n    // The list of authors contributing to the mod."
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "HasPlatformType"
+  },
+  "hash": "fcc76061144fd5639b78eaece625dcfad4b7c1b33b23de10d40a942d074bd89f"
 }]}

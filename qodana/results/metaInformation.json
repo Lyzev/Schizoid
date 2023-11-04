@@ -1,19 +1,19 @@
 {
-  "total": 3,
+  "total": 6,
   "tools inspection": {
-    "Code Inspection": 3
+    "Code Inspection": 6
   },
   "linter": "QDJVM",
   "attributes": {
     "vcs": {
       "sarifIdea": {
         "repositoryUri": "https://github.com/Lyzev/Schizoid.git",
-        "revisionId": "e9fb83c467b592124fce4c89d49fcbd82f1cc915",
+        "revisionId": "6645e5a518379d1292a2c6628ebb1ff23cf4afe2",
         "branch": "refs/heads/dev"
       }
     },
     "deviceId": "200820300000000-4c2c-882f-0a88-cb9ca9ae6279",
-    "jobUrl": "https://github.com/Lyzev/Schizoid/actions/runs/6752454164",
+    "jobUrl": "https://github.com/Lyzev/Schizoid/actions/runs/6757829547",
     "repoUrl": "https://github.com/Lyzev/Schizoid.git"
   }
 }
