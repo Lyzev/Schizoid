@@ -1,16 +1,14 @@
-name: Release
+name: "Release"
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'dev'
+      - 'master'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      CI: nightly-build
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -19,11 +17,18 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: gradle
+      - name: Read version from gradle.properties
+        id: get_version
+        run: echo "::set-output name=mod_version::$(grep -oP 'mod_version=\K.+' gradle.properties)"
+      - name: Read archives_base_name from gradle.properties
+        id: get_archives_base_name
+        run: echo "::set-output name=archives_base_name::$(grep -oP 'archives_base_name=\K.+' gradle.properties)"
       - name: Build the project
         run: ./gradlew build
       - name: Create Release Assets
         run: |
-          echo "Running shell script with version: ${{ github.event.inputs.version }}"
+          echo "Running shell script with version: ${{ steps.get_version.outputs.mod_version }}"
+          echo "Using archives_base_name: ${{ steps.get_archives_base_name.outputs.archives_base_name }}"
           mkdir release
           
           cp build/libs/*.jar release
@@ -40,7 +45,8 @@ jobs:
         name: Create Release
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: 'nightly-build'
-          title: 'Nightly Build'
+          automatic_release_tag: 'v${{ steps.get_version.outputs.mod_version }}'
+          prerelease: false
+          title: '${{ steps.get_archives_base_name.outputs.archives_base_name }} ${{ steps.get_version.outputs.mod_version }}'
           files: |
             release/*
