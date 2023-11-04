@@ -5,7 +5,6 @@
 
 package dev.lyzev.schizoid.feature
 
-import dev.lyzev.api.setting.settings.KeybindSetting
 import dev.lyzev.api.setting.settings.keybind
 
 /**

@@ -5,8 +5,8 @@
 
 package dev.lyzev.schizoid
 
-import dev.lyzev.api.events.ShutdownEvent
-import dev.lyzev.api.events.StartupEvent
+import dev.lyzev.api.events.EventShutdown
+import dev.lyzev.api.events.EventStartup
 import dev.lyzev.api.setting.SettingInitializer
 import dev.lyzev.schizoid.feature.FeatureManager
 import net.fabricmc.api.ClientModInitializer
@@ -57,8 +57,8 @@ object Schizoid : ClientModInitializer {
                 logger.warn("Running in a continuous integration environment!")
             SettingInitializer
             FeatureManager
-            Runtime.getRuntime().addShutdownHook(Thread { ShutdownEvent.fire() })
-            StartupEvent.fire()
+            Runtime.getRuntime().addShutdownHook(Thread { EventShutdown.fire() })
+            EventStartup.fire()
             TODO("Finish client base before initializing!")
         }.onSuccess { // Log successful initialization.
             logger.info("Initialized Schizoid in ${System.currentTimeMillis() - init}ms!")

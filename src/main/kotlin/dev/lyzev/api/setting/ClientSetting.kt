@@ -5,18 +5,9 @@
 
 package dev.lyzev.api.setting
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import com.google.gson.JsonParser
-import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.ShutdownEvent
-import dev.lyzev.api.events.StartupEvent
-import dev.lyzev.api.events.on
 import dev.lyzev.api.settings.Setting
-import dev.lyzev.api.settings.SettingManager
-import dev.lyzev.schizoid.Schizoid
 import kotlin.reflect.KClass
-import kotlin.reflect.jvm.jvmName
 
 /**
  * Abstract class representing a client setting.

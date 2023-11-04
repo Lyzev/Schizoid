@@ -182,7 +182,7 @@ object ImGuiLoader : EventListener {
          * @see setup
          * @param E The [GlfwInitEvent] triggered during application startup.
          */
-        on<GlfwInitEvent> {
+        on<EventGlfwInit> {
             setup()
             imGuiGlfw.init(it.handle, true)
             imGuiGl3.init()
@@ -193,16 +193,16 @@ object ImGuiLoader : EventListener {
          *
          * @param E The [RenderImGuiScreenEvent] triggered during application render.
          */
-        on<RenderImGuiScreenEvent> {
+        on<EventRenderImGuiScreen> {
             smoothScroll()
 
             imGuiGlfw.newFrame()
             newFrame()
             it.screen.renderImGui()
             render()
-            RenderImGuiPreEvent.fire()
+            EventPreRenderImGui.fire()
             renderImGui()
-            RenderImGuiPostEvent.fire()
+            EventPostRenderImGui.fire()
         }
     }
 }

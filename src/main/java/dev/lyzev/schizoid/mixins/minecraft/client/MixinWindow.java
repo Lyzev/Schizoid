@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.mixins.minecraft.client;
 
-import dev.lyzev.api.events.GlfwInitEvent;
+import dev.lyzev.api.events.EventGlfwInit;
 import net.minecraft.client.util.Window;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -49,6 +49,6 @@ public class MixinWindow {
     @Inject(method = "setPhase", at = @At("HEAD"))
     private void onSetPhase(String phase, CallbackInfo ci) {
         if (phase.equals("Post startup"))
-            new GlfwInitEvent(handle).fire();
+            new EventGlfwInit(handle).fire();
     }
 }

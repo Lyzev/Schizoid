@@ -9,8 +9,8 @@ import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.ShutdownEvent
-import dev.lyzev.api.events.StartupEvent
+import dev.lyzev.api.events.EventShutdown
+import dev.lyzev.api.events.EventStartup
 import dev.lyzev.api.events.on
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
@@ -32,7 +32,7 @@ object SettingInitializer : EventListener {
          *3
          * @param E The [StartupEvent] triggered during application startup.
          */
-        on<StartupEvent> {
+        on<EventStartup> {
             val config = Schizoid.root.resolve("settings.json")
             if (!config.exists()) return@on
             val root = JsonParser.parseString(config.readText()).asJsonArray
@@ -51,7 +51,7 @@ object SettingInitializer : EventListener {
          *
          * @param E The [ShutdownEvent] triggered during application shutdown.
          */
-        on<ShutdownEvent> {
+        on<EventShutdown> {
             val root = JsonArray()
             SettingManager.settings.forEach {
                 if (it !is ClientSetting<*>) return@forEach
