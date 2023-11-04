@@ -18,12 +18,4 @@ import dev.lyzev.schizoid.feature.Feature
  * @property category The category of the command.
  */
 abstract class Command(name: String, desc: String, vararg aliases: String, key: Int, category: Category) :
-    Feature(name, desc, aliases = aliases, key, category) {
-
-    /**
-     * Executes the command.
-     *
-     * @param args The arguments of the command.
-     */
-    abstract operator fun invoke(args: List<String>)
-}
+    Feature(name, desc, aliases = aliases, key, category), (List<String>) -> Unit
