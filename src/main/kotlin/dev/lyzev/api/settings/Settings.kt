@@ -80,8 +80,8 @@ object SettingInitializer : EventListener {
  * @property onChange A lambda function to be called when the setting value changes.
  */
 abstract class ClientSetting<T>(
-    container: KClass<*>, name: String, value1: T, hidden: () -> Boolean, onChange: (T) -> Unit
-) : Setting<T>(container, name, value1, hidden, onChange) {
+    container: KClass<*>, name: String, desc: String?, value: T, hidden: () -> Boolean, onChange: (T) -> Unit
+) : Setting<T>(container, name, desc, value, hidden, onChange) {
 
     /**
      * Render the setting for the user interface.
@@ -111,8 +111,8 @@ abstract class ClientSetting<T>(
  * @param change A lambda function that will be called when the value of the setting changes.
  */
 class BooleanSetting(
-    container: KClass<*>, name: String, value: Boolean, hide: () -> Boolean = { false }, change: (Boolean) -> Unit = {}
-) : ClientSetting<Boolean>(container, name, value, hide, change) {
+    container: KClass<*>, name: String, desc: String? = null, value: Boolean, hide: () -> Boolean = { false }, change: (Boolean) -> Unit = {}
+) : ClientSetting<Boolean>(container, name, desc, value, hide, change) {
 
     override fun render() {
     }
@@ -134,8 +134,8 @@ class BooleanSetting(
  * @param change A lambda function that will be called when the value of the setting changes.
  */
 class KeySetting(
-    container: KClass<*>, name: String, value: Int, hide: () -> Boolean = { false }, change: (Int) -> Unit = {}
-) : ClientSetting<Int>(container, name, value, hide, change) {
+    container: KClass<*>, name: String, desc: String? = null, value: Int, hide: () -> Boolean = { false }, change: (Int) -> Unit = {}
+) : ClientSetting<Int>(container, name, desc, value, hide, change) {
 
     override fun render() {
     }

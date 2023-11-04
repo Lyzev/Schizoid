@@ -17,7 +17,7 @@ fabric_kl = "1.10.13+kotlin.1.9.20"
 fabric_loom = "1.4-SNAPSHOT"
 
 lyzev_events = "1.0.3"
-lyzev_settings = "1.0.0"
+lyzev_settings = "1.0.1"
 
 reflections = "0.10.2"
 imgui = "1.86.11"
