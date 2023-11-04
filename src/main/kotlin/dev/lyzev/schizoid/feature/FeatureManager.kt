@@ -33,7 +33,7 @@ object FeatureManager : EventListener {
      *
      * @param alias The name of the feature.
      */
-    inline fun <reified T : Feature> get(alias: String): T? =
+    inline fun <reified T : Feature> find(alias: String): T? =
         features.filterIsInstance<T>().firstOrNull { feature -> feature.aliases.any { it.equals(alias, true) } }
 
     /**
@@ -68,7 +68,7 @@ object FeatureManager : EventListener {
                 if (message.startsWith(PREFIX)) {
                     event.isCancelled = true
                     val args = message.substring(PREFIX.length).split(" ")
-                    val feature = get<Command>(args[0])
+                    val feature = find<Command>(args[0])
                     if (feature != null) {
                         feature(args.drop(1))
                     }

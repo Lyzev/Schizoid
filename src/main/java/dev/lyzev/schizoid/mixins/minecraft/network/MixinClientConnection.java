@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinClientConnection {
 
     @Inject(method = "sendImmediately", at = @At("HEAD"), cancellable = true)
-    private void sendImmediately(Packet<?> packet, @Nullable PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
+    private void injectSendImmediately(Packet<?> packet, @Nullable PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
         EventSendPacket event = new EventSendPacket(packet);
         event.fire();
         if (event.isCancelled())
