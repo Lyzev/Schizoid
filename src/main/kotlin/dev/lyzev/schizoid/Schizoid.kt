@@ -21,9 +21,10 @@ import java.io.File
  */
 object Schizoid : ClientModInitializer {
 
-    // The unique identifier for the mod.
+    // The unique identifier of the mod.
     const val MOD_ID = "schizoid"
 
+    // The metadata of the mod.
     val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata
 
     // The version of the mod.
