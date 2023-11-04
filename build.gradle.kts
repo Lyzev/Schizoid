@@ -8,6 +8,7 @@ import groovy.util.Node
 import groovy.xml.XmlParser
 import me.lyzev.network.http.HttpClient
 import me.lyzev.network.http.HttpMethod
+import org.gradle.internal.classpath.Instrumented
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {

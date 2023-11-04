@@ -16,7 +16,7 @@
   "icon": "assets/schizoid/icon.png",
   "environment": "client",
   "entrypoints": {
-    "main": [
+    "client": [
       {
         "adapter": "kotlin",
         "value": "dev.lyzev.schizoid.Schizoid"
