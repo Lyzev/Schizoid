@@ -8,8 +8,8 @@ import groovy.util.Node
 import groovy.xml.XmlParser
 import me.lyzev.network.http.HttpClient
 import me.lyzev.network.http.HttpMethod
-import org.gradle.internal.classpath.Instrumented
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.ByteArrayOutputStream
 
 plugins {
     alias(libs.plugins.kotlin)
@@ -26,7 +26,14 @@ idea {
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
 
-version = if (System.getenv("CI") != null) "nightly-build" else project.extra["mod_version"] as String
+val stdout = ByteArrayOutputStream()
+exec {
+    commandLine("git", "rev-parse", "--short", "HEAD")
+    standardOutput = stdout
+}
+val lastCommitHash = stdout.toByteArray().decodeToString().trim()
+
+version = if (System.getenv("CI") != null) "nightly+$lastCommitHash" else project.extra["mod_version"] as String
 group = project.extra["maven_group"] as String
 
 repositories {
