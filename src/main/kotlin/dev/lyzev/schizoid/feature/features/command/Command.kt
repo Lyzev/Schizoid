@@ -5,6 +5,9 @@
 
 package dev.lyzev.schizoid.feature.features.command
 
+import dev.lyzev.schizoid.feature.Category
+import dev.lyzev.schizoid.feature.Feature
+
 /**
  * Represents a command.
  *
@@ -13,7 +16,8 @@ package dev.lyzev.schizoid.feature.features.command
  * @property alias The aliases of the command.
  * @property async Indicates whether the command should be executed asynchronously.
  */
-abstract class Command(val name: String, val desc: String, vararg val alias: String, val async: Boolean = true) {
+abstract class Command(name: String, desc: String, vararg aliases: String, key: Int, category: Category) :
+    Feature(name, desc, aliases = aliases, key, category) {
 
     /**
      * Executes the command.
