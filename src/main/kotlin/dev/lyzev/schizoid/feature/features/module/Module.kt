@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module
 
-import dev.lyzev.api.settings.BooleanSetting
+import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.schizoid.feature.Category
 import dev.lyzev.schizoid.feature.Feature
 
@@ -45,13 +45,13 @@ abstract class ModuleToggleable(name: String, desc: String, vararg aliases: Stri
     Module(name, desc, aliases = aliases, key, category) {
 
     // Indicates whether the module is enabled.
-    var isEnabled by BooleanSetting(this::class, "Enabled", false) {
+    var isEnabled by switch("Enabled", value = false) {
         if (it) onEnable()
         else onDisable()
     }
 
     // Indicates whether the module should be shown in the array list.
-    var showInArrayList by BooleanSetting(this::class, "Show In ArrayList", true)
+    var showInArrayList by switch("Show In ArrayList", value = true)
 
     /**
      * Toggles the module.
