@@ -19,9 +19,12 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           cache: gradle
-      - name: Set Timestamp
-        id: timestamp
-        run: echo "::set-output name=timestamp::$(date +'%Y%m%d%H%M%S')"
+      - name: Set Commit Hash
+        id: commit_hash
+        run: echo "::set-output name=commit_hash::$(git log --pretty=format:'%h' -n 1)"
+      - name: Set Current Date and Time
+        id: current_datetime
+        run: echo "::set-output name=current_datetime::$(date +'%Y.%m.%d %H:%M')"
       - name: Build the project
         run: ./gradlew build
       - name: Create Release Assets
@@ -43,7 +46,7 @@ jobs:
         name: Create Release
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: 'nightly-build-${{ steps.timestamp.outputs.timestamp }}'
-          title: 'Nightly Build'
+          automatic_release_tag: 'nightly+${{ steps.commit_hash.outputs.commit_hash }}'
+          title: 'Nightly Build ${{ steps.current_datetime.outputs.current_datetime }}'
           files: |
             release/*
