@@ -17,9 +17,11 @@ import dev.lyzev.schizoid.feature.Feature
  * @param key The keybind of the module.
  * @property category The category of the module.
  */
-abstract class Module(name: String, desc: String, vararg aliases: String, key: Int = -1, category: Category) :
-    Feature(name, desc, aliases = aliases, key, category) {
+abstract class ModuleRunnable(name: String, desc: String, vararg aliases: String, key: Int = -1, category: Category) :
+    Module(name, desc, aliases = aliases, key, category) {
 
-    // Indicates whether the module should be shown in the array list.
-    var showInArrayList by BooleanSetting(this::class, "Show In ArrayList", true)
+    /**
+     * Executes the module.
+     */
+    abstract fun run()
 }
