@@ -13,8 +13,9 @@ import dev.lyzev.schizoid.feature.Feature
  *
  * @property name The name of the command.
  * @property desc The description of the command.
- * @property alias The aliases of the command.
- * @property async Indicates whether the command should be executed asynchronously.
+ * @property aliases The aliases of the command.
+ * @param key The keybind of the command.
+ * @property category The category of the command.
  */
 abstract class Command(name: String, desc: String, vararg aliases: String, key: Int, category: Category) :
     Feature(name, desc, aliases = aliases, key, category) {
