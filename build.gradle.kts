@@ -33,7 +33,9 @@ exec {
 }
 val lastCommitHash = stdout.toByteArray().decodeToString().trim()
 
-version = if (System.getenv("CI") != null) "nightly+$lastCommitHash" else project.extra["mod_version"] as String
+val CI = System.getenv("CI")?.toBooleanStrictOrNull() ?: false
+
+version = if (CI) "nightly+$lastCommitHash" else project.extra["mod_version"] as String
 group = project.extra["maven_group"] as String
 
 repositories {
@@ -195,6 +197,10 @@ tasks {
             )
         }
         filesMatching("*.mixins.json") { expand(mutableMapOf("java" to javaVersion.toString())) }
+    }
+
+    runClient {
+        this.systemProperty("CI", CI.toString())
     }
 
     // Run `./gradlew wrapper --gradle-version <newVersion>` or `gradle wrapper --gradle-version <newVersion>` to update gradle scripts

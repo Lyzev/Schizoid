@@ -34,6 +34,9 @@ object Schizoid : ClientModInitializer {
     @Suppress("SpellCheckingInspection")
     val AUTHORS = METADATA.authors
 
+    // Whether the mod is running in a continuous integration environment.
+    val CI = System.getProperty("CI").toBooleanStrict()
+
     // The root directory of the Schizoid mod, used for storing mod-specific data.
     val root = File(
         MinecraftClient.getInstance().runDirectory, MOD_ID
@@ -50,6 +53,8 @@ object Schizoid : ClientModInitializer {
         runCatching {
             // Initialize the Schizoid mod, log mod initialization information, initialize settings, register a shutdown hook for cleanup, and fire the startup event.
             logger.info("Initializing Schizoid v$VERSION by ${AUTHORS.joinToString(" & ") { it.name }}...")
+            if (CI)
+                logger.warn("Running in a continuous integration environment!")
             SettingInitializer
             FeatureManager
             Runtime.getRuntime().addShutdownHook(Thread { ShutdownEvent.fire() })
