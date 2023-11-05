@@ -5,21 +5,26 @@
 kotlin = "1.9.20"
 dokka = "1.9.10"
 
-# https://fabricmc.net/develop/
+# https://fabricmc.net/develop
 minecraft = "1.20.2"
 yarn_mappings = "1.20.2+build.4"
 fabric_loader = "0.14.24"
 fabric_api = "0.90.7+1.20.2"
-# https://github.com/FabricMC/fabric-language-kotlin/releases
+# https://github.com/FabricMC/fabric-language-kotlin
 fabric_kl = "1.10.13+kotlin.1.9.20"
-# https://github.com/FabricMC/fabric-loom/releases
+# https://github.com/FabricMC/fabric-loom
 fabric_loom = "1.4-SNAPSHOT"
 
+# https://github.com/Lyzev
 lyzev_events = "1.0.3"
 lyzev_settings = "1.0.1"
 
+# https://github.com/ronmamo/reflections
 reflections = "0.10.2"
+# https://github.com/SpaiR/imgui-java
 imgui = "1.86.11"
+# https://github.com/intuit/fuzzy-matcher
+fuzzywuzzy = "1.4.0"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -37,6 +42,7 @@ imgui_lwjgl3 = { module = "io.github.spair:imgui-java-lwjgl3", version.ref = "im
 imgui_natives_windows = { module = "io.github.spair:imgui-java-natives-windows", version.ref = "imgui" }
 imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", version.ref = "imgui" }
 imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
+fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -8,6 +8,7 @@ package dev.lyzev.schizoid.feature
 import dev.lyzev.api.events.*
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.command.Command
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket
 import net.minecraft.text.Text
 import org.reflections.Reflections
@@ -79,10 +80,13 @@ object FeatureManager : EventListener {
                     event.isCancelled = true
                     val args = message.substring(PREFIX.length).split(" ")
                     val feature = find<Command>(args[0])
-                    if (feature != null) {
+                    if (feature != null)
                         feature(args.drop(1))
-                    } else {
-                        sendChatMessage("Unknown command.")
+                    else FuzzySearch.extractOne(args[0], features.flatMap { it.aliases.toList() }).let { result ->
+                        val response = StringBuilder("Unknown command.")
+                        if (result.score > 80 && args[0].isNotBlank()) response.append(" Did you mean ${PREFIX + result.string}?")
+                        else response.append(" Try using ${PREFIX}help for a list of commands.")
+                        sendChatMessage(response.toString())
                     }
                 }
             }

@@ -54,15 +54,12 @@ dependencies {
 
     modImplementation(libs.bundles.fabric)
 
-    // https://github.com/Lyzev
     implementation(libs.lyzev.events)
     implementation(libs.lyzev.settings)
 
-    // https://github.com/ronmamo/reflections
     implementation(libs.reflections)
-
-    // https://github.com/SpaiR/imgui-java
     implementation(libs.bundles.imgui)
+    implementation(libs.fuzzywuzzy)
 }
 
 loom {
