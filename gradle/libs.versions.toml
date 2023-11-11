@@ -25,6 +25,8 @@ reflections = "0.10.2"
 imgui = "1.86.11"
 # https://github.com/intuit/fuzzy-matcher
 fuzzywuzzy = "1.4.0"
+# https://github.com/KyoriPowered/adventure
+adventure = "4.14.0"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -43,6 +45,7 @@ imgui_natives_windows = { module = "io.github.spair:imgui-java-natives-windows",
 imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", version.ref = "imgui" }
 imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
 fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
+adventure = { module = "net.kyori:adventure-api", version.ref = "adventure" }
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

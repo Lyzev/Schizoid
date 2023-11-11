@@ -15,8 +15,12 @@ import org.reflections.Reflections
 import java.lang.reflect.Modifier
 import kotlin.jvm.internal.Reflection
 
+
 /**
  * Singleton object responsible for initializing and managing features.
+ *
+ * @property PREFIX The prefix used for commands.
+ * @property features The list of features.
  */
 object FeatureManager : EventListener {
 
@@ -79,10 +83,17 @@ object FeatureManager : EventListener {
                 if (message.startsWith(PREFIX)) {
                     event.isCancelled = true
                     val args = message.substring(PREFIX.length).split(" ")
-                    val feature = find<Command>(args[0])
-                    if (feature != null)
-                        feature(args.drop(1))
-                    else FuzzySearch.extractOne(args[0], features.flatMap { it.aliases.toList() }).let { result ->
+                    val cmd = find<Command>(args[0])
+                    if (cmd != null) {
+                        cmd.args.reset()
+                        val (success, error) = cmd.args.parse(*args.drop(1).toTypedArray())
+                        if (success)
+                            cmd()
+                        else {
+                            sendChatMessage("§c$error")
+                            sendChatMessage("§cUsage: ${cmd.usage}")
+                        }
+                    } else FuzzySearch.extractOne(args[0], features.flatMap { it.aliases.toList() }).let { result ->
                         val response = StringBuilder("Unknown command.")
                         if (result.score > 80 && args[0].isNotBlank()) response.append(" Did you mean ${PREFIX + result.string}?")
                         else response.append(" Try using ${PREFIX}help for a list of commands.")
