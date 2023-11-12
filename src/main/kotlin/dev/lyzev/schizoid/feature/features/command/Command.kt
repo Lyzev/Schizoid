@@ -7,15 +7,7 @@ package dev.lyzev.schizoid.feature.features.command
 
 import dev.lyzev.schizoid.feature.Feature
 import dev.lyzev.schizoid.feature.features.command.argument.Arguments
-import net.kyori.adventure.platform.fabric.FabricClientAudiences
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.JoinConfiguration
-import net.kyori.adventure.text.event.HoverEvent
-import net.kyori.adventure.text.event.HoverEventSource
-import net.kyori.adventure.text.format.NamedTextColor
-import net.kyori.adventure.text.format.TextDecoration
-import net.minecraft.client.MinecraftClient
-import net.minecraft.text.Text
 
 /**
  * Represents a command.
