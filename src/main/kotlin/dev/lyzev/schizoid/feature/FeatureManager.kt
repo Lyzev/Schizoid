@@ -108,8 +108,8 @@ object FeatureManager : EventListener {
                                 Component.text(PREFIX + result.string).clickEvent(
                                     ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, PREFIX + result.string)
                                 ).hoverEvent(HoverEventSource {
-                                    HoverEvent.hoverEvent(
-                                        HoverEvent.Action.SHOW_TEXT, Component.text("Usage: $PREFIX").append(
+                                    HoverEvent.showText(
+                                        Component.text("Usage: $PREFIX").append(
                                             (features[result.index] as Command).usage
                                         )
                                     )
@@ -119,8 +119,7 @@ object FeatureManager : EventListener {
                             Component.text(PREFIX + "help")
                                 .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, PREFIX + "help"))
                                 .hoverEvent(HoverEventSource {
-                                    HoverEvent.hoverEvent(
-                                        HoverEvent.Action.SHOW_TEXT,
+                                    HoverEvent.showText(
                                         Component.text("Use the help command to get more information about commands.")
                                     )
                                 })

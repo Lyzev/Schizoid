@@ -6,18 +6,22 @@
 package dev.lyzev.schizoid.feature.features.command.commands.misc
 
 import dev.lyzev.schizoid.feature.features.command.Command
+import dev.lyzev.schizoid.feature.features.command.argument.Arguments
+import dev.lyzev.schizoid.feature.features.command.argument.arguments.ArgumentAutoCompleteBoolean
+import dev.lyzev.schizoid.feature.features.command.argument.arguments.ArgumentDouble
+import dev.lyzev.schizoid.feature.features.command.argument.arguments.ArgumentString
 import net.kyori.adventure.text.Component
 
 /**
  * A test command.
  */
-object TestCommand : Command(
+object CommandTest : Command(
     "Test",
     "This is a test command.",
     Arguments(
-        StringArgument("Test1", "This is a test argument"),
-        DoubleArgument("Test2", isRequired = false),
-        BooleanArgument("Test3")
+        ArgumentString("Test1", "This is a test argument"),
+        ArgumentDouble("Test2", isRequired = false),
+        ArgumentAutoCompleteBoolean("Test3")
     ),
     "test",
     key = -1,
