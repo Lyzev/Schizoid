@@ -6,6 +6,7 @@
 package dev.lyzev.schizoid.feature.features.command.commands.misc
 
 import dev.lyzev.schizoid.feature.features.command.Command
+import net.kyori.adventure.text.Component
 
 /**
  * A test command.
@@ -24,7 +25,7 @@ object TestCommand : Command(
 ) {
 
     override fun invoke() {
-        sendChatMessage("This is a test command.")
-        args.args.forEach { sendChatMessage(if (it.value != null) it.value!!.toString() else it.name + " wasn't provided") }
+        sendChatMessage(Component.text("This is a test command."))
+        args.args.forEach { sendChatMessage(Component.text(if (it.value != null) it.value!!.toString() else it.name + " wasn't provided")) }
     }
 }

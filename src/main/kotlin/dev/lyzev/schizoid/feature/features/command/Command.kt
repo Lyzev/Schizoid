@@ -6,6 +6,15 @@
 package dev.lyzev.schizoid.feature.features.command
 
 import dev.lyzev.schizoid.feature.Feature
+import net.kyori.adventure.platform.fabric.FabricClientAudiences
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.JoinConfiguration
+import net.kyori.adventure.text.event.HoverEvent
+import net.kyori.adventure.text.event.HoverEventSource
+import net.kyori.adventure.text.format.NamedTextColor
+import net.kyori.adventure.text.format.TextDecoration
+import net.minecraft.client.MinecraftClient
+import net.minecraft.text.Text
 
 /**
  * Represents a command.
@@ -20,7 +29,7 @@ abstract class Command(
     name: String, desc: String, val args: Arguments, vararg aliases: String, key: Int, category: Category
 ) : Feature(name, desc, aliases = aliases, key, category), () -> Unit {
 
-    val usage = aliases.first() + " " + args.usage
+    val usage = Component.text(aliases.first()).append(Component.text(" ")).append(args.usage)
 
     /**
      * The arguments of a command.
@@ -31,7 +40,7 @@ abstract class Command(
      */
     class Arguments(vararg val args: Argument<*>) {
 
-        val usage = args.joinToString(" ") { if (it.isRequired) "<$it>" else "[$it]" }
+        val usage = Component.join(JoinConfiguration.separator { Component.text(" ") }, args.map { it.toComponent() })
         val size = args.filter { it.isRequired }.size..args.size
 
         fun parse(vararg inputs: String): Pair<Boolean, String> {
@@ -46,7 +55,7 @@ abstract class Command(
 
                 val (success, error) = arg.parse(input)
                 if (!success) {
-                    if (arg.isRequired || inputs.size == args.size) return false to error
+                    if (arg.isRequired || inputs.size == args.size) return false to "${arg.name} | $error"
                     else {
                         required++
                         continue
@@ -81,7 +90,7 @@ abstract class Command(
          */
         abstract fun parse(input: String): Pair<Boolean, String>
 
-        override fun toString(): String = "$name${desc?.let { " : $it" } ?: ""}"
+        fun toComponent(): Component = Component.text(if (isRequired) "<$name>" else "[$name]").hoverEvent(HoverEventSource { HoverEvent.hoverEvent(HoverEvent.Action.SHOW_TEXT, Component.text(desc ?: "")) })
     }
 
     /**

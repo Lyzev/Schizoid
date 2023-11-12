@@ -7,6 +7,7 @@ package dev.lyzev.schizoid.feature
 
 import dev.lyzev.api.setting.settings.keybind
 import dev.lyzev.schizoid.Schizoid
+import net.kyori.adventure.text.Component
 
 /**
  * Represents a feature.
@@ -31,7 +32,7 @@ abstract class Feature(
      *
      * @param message The message to send.
      */
-    fun sendChatMessage(message: String) = FeatureManager.sendChatMessage(message)
+    fun sendChatMessage(message: Component) = FeatureManager.sendChatMessage(message)
 
     /**
      * Represents a category of features.

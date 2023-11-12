@@ -7,10 +7,17 @@ package dev.lyzev.schizoid.feature
 
 import dev.lyzev.api.events.*
 import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.FeatureManager.PREFIX
+import dev.lyzev.schizoid.feature.FeatureManager.features
 import dev.lyzev.schizoid.feature.features.command.Command
 import me.xdrop.fuzzywuzzy.FuzzySearch
+import net.kyori.adventure.platform.fabric.FabricClientAudiences
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.event.ClickEvent
+import net.kyori.adventure.text.event.HoverEvent
+import net.kyori.adventure.text.event.HoverEventSource
+import net.kyori.adventure.text.format.NamedTextColor
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket
-import net.minecraft.text.Text
 import org.reflections.Reflections
 import java.lang.reflect.Modifier
 import kotlin.jvm.internal.Reflection
@@ -24,10 +31,8 @@ import kotlin.jvm.internal.Reflection
  */
 object FeatureManager : EventListener {
 
-    // The prefix used for commands.
     private const val PREFIX = "."
 
-    // A list of all features.
     val features = mutableListOf<Feature>()
 
     /**
@@ -58,8 +63,11 @@ object FeatureManager : EventListener {
      *
      * @param message The message to send.
      */
-    fun sendChatMessage(message: String) =
-        Schizoid.mc.player?.sendMessage(Text.of("§7[§6${Schizoid.MOD_NAME}§7] §f$message"))
+    fun sendChatMessage(message: Component) = FabricClientAudiences.of().audience().sendMessage(
+        Component.text("[", NamedTextColor.GRAY).append(Component.text(Schizoid.MOD_NAME, NamedTextColor.GOLD))
+            .append(Component.text("] ", NamedTextColor.GRAY)).append(message)
+    )
+
 
     // Indicates whether the feature manager should handle events.
     override val shouldHandleEvents = true
@@ -90,14 +98,34 @@ object FeatureManager : EventListener {
                         if (success)
                             cmd()
                         else {
-                            sendChatMessage("§c$error")
-                            sendChatMessage("§cUsage: ${cmd.usage}")
+                            sendChatMessage(Component.text(error, NamedTextColor.RED))
+                            sendChatMessage(Component.text("Usage: $PREFIX", NamedTextColor.RED).append(cmd.usage))
                         }
                     } else FuzzySearch.extractOne(args[0], features.flatMap { it.aliases.toList() }).let { result ->
-                        val response = StringBuilder("Unknown command.")
-                        if (result.score > 80 && args[0].isNotBlank()) response.append(" Did you mean ${PREFIX + result.string}?")
-                        else response.append(" Try using ${PREFIX}help for a list of commands.")
-                        sendChatMessage(response.toString())
+                        val response = Component.text().content("Unknown command.").color(NamedTextColor.RED)
+                        if (result.score > 80 && args[0].isNotBlank()) response.append(Component.text(" Did you mean "))
+                            .append(
+                                Component.text(PREFIX + result.string).clickEvent(
+                                    ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, PREFIX + result.string)
+                                ).hoverEvent(HoverEventSource {
+                                    HoverEvent.hoverEvent(
+                                        HoverEvent.Action.SHOW_TEXT, Component.text("Usage: $PREFIX").append(
+                                            (features[result.index] as Command).usage
+                                        )
+                                    )
+                                })
+                            ).append(Component.text("?"))
+                        else response.append(Component.text(" Try using ")).append(
+                            Component.text(PREFIX + "help")
+                                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, PREFIX + "help"))
+                                .hoverEvent(HoverEventSource {
+                                    HoverEvent.hoverEvent(
+                                        HoverEvent.Action.SHOW_TEXT,
+                                        Component.text("Use the help command to get more information about commands.")
+                                    )
+                                })
+                        ).append(Component.text(" for a list of commands."))
+                        sendChatMessage(response.build())
                     }
                 }
             }
