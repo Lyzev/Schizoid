@@ -13,14 +13,14 @@
       "type": "file",
       "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
       "language": "kotlin",
-      "line": 52,
+      "line": 45,
       "offset": 9,
-      "length": 2,
+      "length": 8,
       "code": {
-        "startLine": 50,
-        "length": 2,
-        "offset": 47,
-        "surroundingCode": "\n    // The Minecraft client instance.\n    val mc = MinecraftClient.getInstance()\n\n    /**"
+        "startLine": 43,
+        "length": 8,
+        "offset": 127,
+        "surroundingCode": "    const val MOD_ID = \"schizoid\"\n    val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata\n    val MOD_NAME = METADATA.name\n    val MOD_VERSION = METADATA.version.friendlyString\n    @Suppress(\"SpellCheckingInspection\")"
       }
     }
   ],
@@ -28,7 +28,38 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "0d38b1c45534c01c32af9b3b7bb3ee167720c4fef4472cfb16c15e892932228b"
+  "hash": "0c9106e3daa1f3affff13e4f8272cae7ddc591790dedb048e22361ae958df32d"
+},{
+  "tool": "Code Inspection",
+  "category": "Java interop issues",
+  "type": "Function or property has platform type",
+  "tags": [
+    "kotlin"
+  ],
+  "severity": "Moderate",
+  "comment": "Declaration has type inferred from a platform call, which can lead to unchecked nullability issues. Specify type explicitly as nullable or non-nullable.",
+  "detailsInfo": "Reports functions and properties that have a platform type.\n\nTo prevent unexpected errors, the type should be declared explicitly.\n\n**Example:**\n\n\n      fun foo() = java.lang.String.valueOf(1)\n\nThe quick fix allows you to specify the return type:\n\n\n      fun foo(): String = java.lang.String.valueOf(1)\n",
+  "sources": [
+    {
+      "type": "file",
+      "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
+      "language": "kotlin",
+      "line": 44,
+      "offset": 9,
+      "length": 8,
+      "code": {
+        "startLine": 42,
+        "length": 8,
+        "offset": 43,
+        "surroundingCode": "\n    const val MOD_ID = \"schizoid\"\n    val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata\n    val MOD_NAME = METADATA.name\n    val MOD_VERSION = METADATA.version.friendlyString"
+      }
+    }
+  ],
+  "attributes": {
+    "module": "Schizoid.main",
+    "inspectionName": "HasPlatformType"
+  },
+  "hash": "175728adf46a2761c17c28023c966ce023c902eaa8f2f725ef1a07e45543d8e8"
 },{
   "tool": "Code Inspection",
   "category": "Java interop issues",
@@ -75,45 +106,14 @@
       "type": "file",
       "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
       "language": "kotlin",
-      "line": 31,
-      "offset": 9,
-      "length": 8,
-      "code": {
-        "startLine": 29,
-        "length": 8,
-        "offset": 37,
-        "surroundingCode": "\n    // The name of the mod.\n    val MOD_NAME = METADATA.name\n\n    // The version of the mod."
-      }
-    }
-  ],
-  "attributes": {
-    "module": "Schizoid.main",
-    "inspectionName": "HasPlatformType"
-  },
-  "hash": "8873595af96ba1d48211c15172fd7d7df9ad50ff3f05b665f5d44123df93a94e"
-},{
-  "tool": "Code Inspection",
-  "category": "Java interop issues",
-  "type": "Function or property has platform type",
-  "tags": [
-    "kotlin"
-  ],
-  "severity": "Moderate",
-  "comment": "Declaration has type inferred from a platform call, which can lead to unchecked nullability issues. Specify type explicitly as nullable or non-nullable.",
-  "detailsInfo": "Reports functions and properties that have a platform type.\n\nTo prevent unexpected errors, the type should be declared explicitly.\n\n**Example:**\n\n\n      fun foo() = java.lang.String.valueOf(1)\n\nThe quick fix allows you to specify the return type:\n\n\n      fun foo(): String = java.lang.String.valueOf(1)\n",
-  "sources": [
-    {
-      "type": "file",
-      "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
-      "language": "kotlin",
-      "line": 38,
+      "line": 48,
       "offset": 9,
       "length": 11,
       "code": {
-        "startLine": 36,
+        "startLine": 46,
         "length": 11,
-        "offset": 101,
-        "surroundingCode": "    // The list of authors contributing to the mod.\n    @Suppress(\"SpellCheckingInspection\")\n    val MOD_AUTHORS = METADATA.authors\n\n    // Whether the mod is running in a continuous integration environment."
+        "offset": 103,
+        "surroundingCode": "    val MOD_VERSION = METADATA.version.friendlyString\n    @Suppress(\"SpellCheckingInspection\")\n    val MOD_AUTHORS = METADATA.authors\n\n    val CI = System.getProperty(\"CI\").toBooleanStrict()"
       }
     }
   ],
@@ -121,7 +121,7 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "b43598252c4a1d5ef45a0f1b818f34b28db90d9e62ab8de5f8ceb3f54667192b"
+  "hash": "654781203591df71dcd723b261cec7210ccbb3b171380b14c48ae5b2370b8f4b"
 },{
   "tool": "Code Inspection",
   "category": "Java interop issues",
@@ -137,14 +137,14 @@
       "type": "file",
       "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
       "language": "kotlin",
-      "line": 28,
+      "line": 57,
       "offset": 9,
-      "length": 8,
+      "length": 2,
       "code": {
-        "startLine": 26,
-        "length": 8,
-        "offset": 41,
-        "surroundingCode": "\n    // The metadata of the mod.\n    val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata\n\n    // The name of the mod."
+        "startLine": 55,
+        "length": 2,
+        "offset": 63,
+        "surroundingCode": "    val logger: Logger = LogManager.getLogger(MOD_ID)\n\n    val mc = MinecraftClient.getInstance()\n\n    /**"
       }
     }
   ],
@@ -152,7 +152,7 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "f747d0a72139e324b14f7f1ea30e1c86ad13a77811270ff1f9efa25773345939"
+  "hash": "8787668961b89b3f46782652d232dcbfc94ab7712663ba2cff6ba0cacf2312df"
 },{
   "tool": "Code Inspection",
   "category": "Java interop issues",
@@ -168,14 +168,14 @@
       "type": "file",
       "path": "src/main/kotlin/dev/lyzev/schizoid/Schizoid.kt",
       "language": "kotlin",
-      "line": 34,
+      "line": 46,
       "offset": 9,
       "length": 11,
       "code": {
-        "startLine": 32,
+        "startLine": 44,
         "length": 11,
-        "offset": 40,
-        "surroundingCode": "\n    // The version of the mod.\n    val MOD_VERSION = METADATA.version.friendlyString\n\n    // The list of authors contributing to the mod."
+        "offset": 126,
+        "surroundingCode": "    val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata\n    val MOD_NAME = METADATA.name\n    val MOD_VERSION = METADATA.version.friendlyString\n    @Suppress(\"SpellCheckingInspection\")\n    val MOD_AUTHORS = METADATA.authors"
       }
     }
   ],
@@ -183,5 +183,5 @@
     "module": "Schizoid.main",
     "inspectionName": "HasPlatformType"
   },
-  "hash": "fcc76061144fd5639b78eaece625dcfad4b7c1b33b23de10d40a942d074bd89f"
+  "hash": "c8018109adea4de287a20a7e9f2fe2b93c529cd855f347548cbd031bda727ebf"
 }]}

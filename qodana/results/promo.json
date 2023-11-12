@@ -1,29 +1,29 @@
 {"version":"3","listProblem":[{
   "tool": "Code Inspection",
-  "category": "Style issues",
-  "type": "Class member can have 'private' visibility",
+  "category": "Naming conventions",
+  "type": "Property naming convention",
   "severity": "Moderate",
-  "comment": "Function 'find' could be private",
-  "detailsInfo": "Reports declarations that can be made `private` to follow the encapsulation principle.\n\n**Example:**\n\n\n    class Service(val url: String) {\n        fun connect(): URLConnection = URL(url).openConnection()\n    }\n\nAfter the quick-fix is applied (considering there are no usages of `url` outside of `Service` class):\n\n\n    class Service(private val url: String) {\n        fun connect(): URLConnection = URL(url).openConnection()\n    }\n",
+  "comment": "Property name 'CI' should start with a lowercase letter",
+  "detailsInfo": "Reports property names that do not follow the recommended naming conventions.\n\n\nConsistent naming allows for easier code reading and understanding.\nAccording to the [Kotlin official style guide](https://kotlinlang.org/docs/coding-conventions.html#naming-rules),\nproperty names should start with a lowercase letter and use camel case.\n\nIt is possible to introduce other naming rules by changing the \"Pattern\" regular expression.\n\n**Example:**\n\n\n      val My_Cool_Property = \"\"\n\nThe quick-fix renames the class according to the Kotlin naming conventions:\n\n\n      val myCoolProperty = \"\"\n",
   "sources": [
     {
       "type": "file",
-      "path": "src/main/kotlin/dev/lyzev/schizoid/feature/FeatureManager.kt",
+      "path": "build.gradle.kts",
       "language": "kotlin",
-      "line": 38,
-      "offset": 38,
-      "length": 4,
+      "line": 36,
+      "offset": 5,
+      "length": 2,
       "code": {
-        "startLine": 36,
-        "length": 4,
-        "offset": 90,
-        "surroundingCode": "     * @param alias The name of the feature.\n     */\n    inline fun <reified T : Feature> find(alias: String): T? =\n        features.filterIsInstance<T>().firstOrNull { feature -> feature.aliases.any { it.equals(alias, true) } }\n"
+        "startLine": 34,
+        "length": 2,
+        "offset": 71,
+        "surroundingCode": "val lastCommitHash = stdout.toByteArray().decodeToString().trim()\n\nval CI = System.getenv(\"CI\")?.toBooleanStrictOrNull() ?: false\n\nversion = if (CI) \"nightly+$lastCommitHash\" else project.extra[\"mod_version\"] as String"
       }
     }
   ],
   "attributes": {
-    "module": "Schizoid.main",
-    "inspectionName": "MemberVisibilityCanBePrivate"
+    "module": "Schizoid",
+    "inspectionName": "PropertyName"
   },
-  "hash": "68389489ace352b468088e357167ad4dc99add63b80a710abff17b8e26dab2d8"
+  "hash": "9646144e940fb70de697955d1ee49fb1b84adf5c0c1a43cac5b4e1f225a9e443"
 }]}
