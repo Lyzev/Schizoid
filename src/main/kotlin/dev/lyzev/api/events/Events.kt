@@ -5,7 +5,8 @@
 
 package dev.lyzev.api.events
 
-import dev.lyzev.api.imgui.ImGuiScreen
+import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
 import net.minecraft.network.packet.Packet
 
 /**
@@ -16,7 +17,13 @@ object EventStartup : Event
 /**
  * This event is triggered during the shutdown phase of the application.
  */
-object EventShutdown : Event
+object EventShutdown : Event {
+
+    override fun fire() {
+        Schizoid.logger.info("Shutting down the client...")
+        super.fire()
+    }
+}
 
 /**
  * This event is triggered when GLFW is initialized.
@@ -39,3 +46,12 @@ object EventPreRenderImGui : Event
 object EventPostRenderImGui : Event
 
 class EventSendPacket(val packet: Packet<*>) : CancellableEvent()
+
+class EventKeystroke(val window: Long, val key: Int, val scancode: Int, val action: Int, val modifiers: Int) : Event
+
+class EventMouseClick(val window: Long, val button: Int, val action: Int, val mods: Int) : Event
+
+object EventKeybindsRequest : Event
+class EventKeybindsResponse(val key: Int) : Event
+
+object EventWindowResize : Event

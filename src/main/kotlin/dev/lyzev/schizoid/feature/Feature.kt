@@ -5,8 +5,14 @@
 
 package dev.lyzev.schizoid.feature
 
-import dev.lyzev.api.setting.settings.keybind
+import dev.lyzev.api.glfw.GLFWKey
+import dev.lyzev.api.imgui.render.ImGuiRenderable
+import dev.lyzev.api.imgui.font.ImGuiFonts.*
+import dev.lyzev.api.setting.SettingClient
+import dev.lyzev.api.setting.settings.keybinds
+import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
+import imgui.ImGui.*
 import net.kyori.adventure.text.Component
 
 /**
@@ -18,26 +24,87 @@ import net.kyori.adventure.text.Component
  * @property category The category of the feature.
  */
 abstract class Feature(
-    val name: String, val desc: String, vararg val aliases: String, key: Int, val category: Category
-) {
+    override val name: String,
+    override val desc: String,
+    override vararg val aliases: String,
+    keys: MutableSet<GLFWKey>,
+    override val category: Category
+) : IFeature {
 
     // The Minecraft client instance.
     val mc = Schizoid.mc
 
     // The keybind of the feature.
-    val keybind by keybind("Key", value = key)
+    override var keybinds by keybinds("Keybinds", "All keys used to control the feature.", keys)
+
+    override fun sendChatMessage(message: Component) = FeatureManager.sendChatMessage(message)
+
+    /**
+     * Represents a category of features.
+     */
+    enum class Category : ImGuiRenderable {
+        COMBAT,
+        MOVEMENT,
+        GHOST,
+        PLAYER,
+        RENDER,
+        WORLD,
+        UTIL,
+        EXPLOIT,
+        MISC;
+
+        override fun render() {
+            HELVETICA_NEUE_BOLD.begin()
+            if (begin("\"$name\"")) {
+                HELVETICA_NEUE.begin()
+                FeatureManager[this].forEach { feature ->
+                    feature.render()
+                }
+                HELVETICA_NEUE.end()
+            }
+            HELVETICA_NEUE_BOLD.end()
+            end()
+        }
+    }
+}
+
+/**
+ * Interface for a feature.
+ * It extends [ImGuiRenderable] to allow rendering the feature using ImGui.
+ */
+interface IFeature : ImGuiRenderable {
+    val name: String
+    val desc: String
+    val aliases: Array<out String>
+    var keybinds: MutableSet<GLFWKey>
+    val category: Feature.Category
+
+    /**
+     * Renders the feature and its settings using ImGui.
+     */
+    override fun render() {
+        val treeNode = treeNode(name)
+        if (isItemHovered()) setTooltip(desc)
+        if (treeNode) {
+            @Suppress("UNCHECKED_CAST")
+            for (setting in SettingManager[this::class] as List<SettingClient<*>>) {
+                pushID("$name/${setting.name}")
+                if (!setting.isHidden) setting.render()
+                popID()
+            }
+            treePop()
+        }
+    }
 
     /**
      * Sends a chat message to the player.
      *
      * @param message The message to send.
      */
-    fun sendChatMessage(message: Component) = FeatureManager.sendChatMessage(message)
+    fun sendChatMessage(message: Component)
 
     /**
-     * Represents a category of features.
+     * Called when the keybind is pressed.
      */
-    enum class Category {
-        COMBAT, GHOST, MOVEMENT, PLAYER, RENDER, EXPLOIT, UTIL, MISC
-    }
+    fun keybindReleased()
 }

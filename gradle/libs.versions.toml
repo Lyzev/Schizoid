@@ -2,18 +2,18 @@
 # All rights reserved.
 
 [versions]
-kotlin = "1.9.20"
+kotlin = "1.9.22"
 dokka = "1.9.10"
 
 # https://fabricmc.net/develop
-minecraft = "1.20.2"
-yarn_mappings = "1.20.2+build.4"
-fabric_loader = "0.14.24"
-fabric_api = "0.90.7+1.20.2"
+minecraft = "1.20.4"
+yarn_mappings = "1.20.4+build.3"
+fabric_loader = "0.15.7"
+fabric_api = "0.96.3+1.20.4"
 # https://github.com/FabricMC/fabric-language-kotlin
-fabric_kl = "1.10.13+kotlin.1.9.20"
+fabric_kl = "1.10.18+kotlin.1.9.22"
 # https://github.com/FabricMC/fabric-loom
-fabric_loom = "1.4-SNAPSHOT"
+fabric_loom = "1.5-SNAPSHOT"
 
 # https://github.com/Lyzev
 lyzev_events = "1.0.3"
@@ -26,7 +26,7 @@ imgui = "1.86.11"
 # https://github.com/intuit/fuzzy-matcher
 fuzzywuzzy = "1.4.0"
 # https://github.com/KyoriPowered/adventure-platform-fabric
-adventure = "5.10.0"
+adventure = "5.12.0"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }

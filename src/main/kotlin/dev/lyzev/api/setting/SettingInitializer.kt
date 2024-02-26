@@ -5,6 +5,7 @@
 
 package dev.lyzev.api.setting
 
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -40,7 +41,7 @@ object SettingInitializer : EventListener {
                 if (it.isJsonObject) {
                     val obj = it.asJsonObject
                     val setting = SettingManager.get(obj["class"].asString, obj["type"].asString, obj["name"].asString)
-                    if (setting !is ClientSetting<*>) return@forEach
+                    if (setting !is SettingClient<*>) return@forEach
                     setting.load(obj["value"].asJsonObject)
                 }
             }
@@ -54,7 +55,7 @@ object SettingInitializer : EventListener {
         on<EventShutdown> {
             val root = JsonArray()
             SettingManager.settings.forEach {
-                if (it !is ClientSetting<*>) return@forEach
+                if (it !is SettingClient<*>) return@forEach
                 val setting = JsonObject()
                 setting.addProperty("class", it.container.jvmName)
                 setting.addProperty("type", it::class.jvmName)
@@ -64,7 +65,8 @@ object SettingInitializer : EventListener {
                 })
                 root.add(setting)
             }
-            Schizoid.root.resolve("settings.json").writeText(root.toString())
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            Schizoid.root.resolve("settings.json").writeText(gson.toJson(root))
         }
     }
 }

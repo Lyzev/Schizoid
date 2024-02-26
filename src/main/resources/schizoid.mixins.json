@@ -4,10 +4,15 @@
   "compatibilityLevel": "JAVA_${java}",
   "client": [
     "imgui.MixinImGuiImplGlfw",
+    "minecraft.client.MixinKeyboard",
+    "minecraft.client.MixinMouse",
     "minecraft.client.MixinWindow",
     "minecraft.network.MixinClientConnection"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+    "minecraft.client.MixinMinecraftClient"
+  ]
 }

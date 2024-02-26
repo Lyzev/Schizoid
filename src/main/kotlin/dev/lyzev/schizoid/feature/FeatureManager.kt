@@ -6,10 +6,11 @@
 package dev.lyzev.schizoid.feature
 
 import dev.lyzev.api.events.*
+import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.Schizoid.mc
 import dev.lyzev.schizoid.feature.FeatureManager.PREFIX
 import dev.lyzev.schizoid.feature.FeatureManager.features
-import dev.lyzev.schizoid.feature.features.command.Command
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import net.kyori.adventure.platform.fabric.FabricClientAudiences
 import net.kyori.adventure.text.Component
@@ -33,30 +34,30 @@ object FeatureManager : EventListener {
 
     private const val PREFIX = "."
 
-    val features = mutableListOf<Feature>()
+    val features = mutableListOf<IFeature>()
 
     /**
      * Gets a list of features by their type.
      */
-    inline fun <reified T : Feature> get(): List<T> = features.filterIsInstance<T>()
+    inline fun <reified T : IFeature> get(): List<T> = features.filterIsInstance<T>()
 
     /**
      * Gets a feature by its name and type.
      *
      * @param alias The name of the feature.
      */
-    inline fun <reified T : Feature> find(alias: String): T? =
+    inline fun <reified T : IFeature> find(alias: String): T? =
         features.filterIsInstance<T>().firstOrNull { feature -> feature.aliases.any { it.equals(alias, true) } }
 
     /**
      * Gets a feature by its name.
      */
-    operator fun get(alias: String): Feature? = features.firstOrNull { it.aliases.contains(alias) }
+    operator fun get(alias: String): IFeature? = features.firstOrNull { it.aliases.contains(alias) }
 
     /**
      * Gets a list of features by their category.
      */
-    operator fun get(category: Feature.Category): List<Feature> = features.filter { it.category == category }
+    operator fun get(category: Feature.Category): List<IFeature> = features.filter { it.category == category }
 
     /**
      * Sends a chat message to the player.
@@ -79,10 +80,24 @@ object FeatureManager : EventListener {
          * adds them to the [features] list.
          */
         on<EventStartup>(Event.Priority.HIGH) {
-            Reflections("${javaClass.packageName}.features").getSubTypesOf(Feature::class.java)
-                .filter { !Modifier.isAbstract(it.modifiers) }
-                .forEach { features += Reflection.getOrCreateKotlinClass(it).objectInstance as Feature }
+            Reflections("${javaClass.packageName}.features").getSubTypesOf(IFeature::class.java)
+                .filter { !Modifier.isInterface(it.modifiers) && !Modifier.isAbstract(it.modifiers) }
+                .forEach {
+                    val feature = Reflection.getOrCreateKotlinClass(it).objectInstance as IFeature
+                    features += feature
+                    Schizoid.logger.info("Initialized feature: ${feature.name}.")
+                }
             features.sortBy { it.name }
+        }
+
+        on<EventKeystroke> { event ->
+            if (mc.currentScreen == null && event.action == 1)
+                features.filter { it.keybinds.contains(GLFWKey[event.key]) }.forEach { it.keybindReleased() }
+        }
+
+        on<EventMouseClick> { event ->
+            if (mc.currentScreen == null && event.action == 1)
+                features.filter { it.keybinds.contains(GLFWKey[event.button]) }.forEach { it.keybindReleased() }
         }
 
         on<EventSendPacket> { event ->
@@ -91,39 +106,31 @@ object FeatureManager : EventListener {
                 if (message.startsWith(PREFIX)) {
                     event.isCancelled = true
                     val args = message.substring(PREFIX.length).split(" ")
-                    val cmd = find<Command>(args[0])
-                    if (cmd != null) {
-                        cmd.args.reset()
-                        val (success, error) = cmd.args.parse(*args.drop(1).toTypedArray())
-                        if (success)
-                            cmd()
-                        else {
-                            sendChatMessage(Component.text(error, NamedTextColor.RED))
-                            sendChatMessage(Component.text("Usage: $PREFIX", NamedTextColor.RED).append(cmd.usage))
-                        }
+                    val feature = find<IFeature>(args[0])
+                    if (feature != null) {
+                        feature.keybindReleased()
+                        sendChatMessage(Component.text("Called ${feature.name}."))
                     } else FuzzySearch.extractOne(args[0], features.flatMap { it.aliases.toList() }).let { result ->
-                        val response = Component.text().content("Unknown command.").color(NamedTextColor.RED)
+                        val response = Component.text().content("Unknown feature.").color(NamedTextColor.RED)
                         if (result.score > 80 && args[0].isNotBlank()) response.append(Component.text(" Did you mean "))
                             .append(
                                 Component.text(PREFIX + result.string).clickEvent(
                                     ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, PREFIX + result.string)
                                 ).hoverEvent(HoverEventSource {
                                     HoverEvent.showText(
-                                        Component.text("Usage: $PREFIX").append(
-                                            (features[result.index] as Command).usage
-                                        )
+                                        Component.text("Usage: $PREFIX${result.string}")
                                     )
                                 })
                             ).append(Component.text("?"))
                         else response.append(Component.text(" Try using ")).append(
-                            Component.text(PREFIX + "help")
-                                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, PREFIX + "help"))
+                            Component.text("${PREFIX}features")
+                                .clickEvent(ClickEvent.clickEvent(ClickEvent.Action.SUGGEST_COMMAND, "${PREFIX}features"))
                                 .hoverEvent(HoverEventSource {
                                     HoverEvent.showText(
-                                        Component.text("Use the help command to get more information about commands.")
+                                        Component.text("Opens the feature screen.")
                                     )
                                 })
-                        ).append(Component.text(" for a list of commands."))
+                        ).append(Component.text(" to see all features."))
                         sendChatMessage(response.build())
                     }
                 }

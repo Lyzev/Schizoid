@@ -7,6 +7,7 @@ package dev.lyzev.schizoid
 
 import dev.lyzev.api.events.EventShutdown
 import dev.lyzev.api.events.EventStartup
+import dev.lyzev.api.imgui.ImGuiLoader
 import dev.lyzev.api.setting.SettingInitializer
 import dev.lyzev.schizoid.Schizoid.CI
 import dev.lyzev.schizoid.Schizoid.METADATA
@@ -68,6 +69,7 @@ object Schizoid : ClientModInitializer {
                 logger.warn("Running in a continuous integration environment!")
             SettingInitializer
             FeatureManager
+            ImGuiLoader
             Runtime.getRuntime().addShutdownHook(Thread { EventShutdown.fire() })
             EventStartup.fire()
             logger.info("Initialized ${FeatureManager.features.size} features!")

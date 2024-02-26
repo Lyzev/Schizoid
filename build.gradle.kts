@@ -33,9 +33,9 @@ exec {
 }
 val lastCommitHash = stdout.toByteArray().decodeToString().trim()
 
-val CI = System.getenv("CI")?.toBooleanStrictOrNull() ?: false
+val ci = System.getenv("CI")?.toBooleanStrictOrNull() ?: false
 
-version = if (CI) "nightly+$lastCommitHash" else project.extra["mod_version"] as String
+version = if (ci) "nightly+$lastCommitHash" else project.extra["mod_version"] as String
 group = project.extra["maven_group"] as String
 
 repositories {
@@ -64,7 +64,7 @@ dependencies {
 }
 
 loom {
-    accessWidenerPath.set(File("src/main/resources/${project.extra["archives_base_name"] as String}.accesswidener"))
+//    accessWidenerPath.set(File("src/main/resources/${project.extra["archives_base_name"] as String}.accesswidener"))
 }
 
 tasks.register("updateFabric") {
@@ -134,13 +134,13 @@ tasks.register("updateKotlin") {
         val kotlinVersion = HttpClient.request(
             HttpMethod.GET, "https://api.github.com/repos/JetBrains/kotlin/releases/latest"
         ).let { data ->
-            JsonParser.parseString(data.toString()).asJsonObject["target_commitish"].asString
+            JsonParser.parseString(data.toString()).asJsonObject["tag_name"].asString.removePrefix("v")
         }
 
         val dokkaVersion = HttpClient.request(
             HttpMethod.GET, "https://api.github.com/repos/Kotlin/dokka/releases/latest"
         ).let { data ->
-            JsonParser.parseString(data.toString()).asJsonObject["target_commitish"].asString
+            JsonParser.parseString(data.toString()).asJsonObject["tag_name"].asString.removePrefix("v")
         }
 
         val versions = mapOf(
@@ -199,7 +199,7 @@ tasks {
     }
 
     runClient {
-        this.systemProperty("CI", CI.toString())
+        this.systemProperty("CI", ci.toString())
     }
 
     // Run `./gradlew wrapper --gradle-version <newVersion>` or `gradle wrapper --gradle-version <newVersion>` to update gradle scripts
