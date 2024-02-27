@@ -24,13 +24,13 @@ object ModuleToggleableBlur :
     val strength by slider("Strength", "The strength of the blur effect.", 9, 1, 20)
 
     val acrylic by switch("Acrylic", "Adds an acrylic effect to the blur.", true)
-    val luminosity by slider("Luminosity", "The luminosity of the acrylic effect.", 180, 0, 200, unit = "%", allowOutOfBounds = true, hide = ::acrylic neq true)
-    val noiseStrength by slider("Noise Strength", "The strength of the noise effect.", 50, 0, 100, unit = "%", hide = ::acrylic neq true)
-    val noiseSale by slider("Noise Scale", "The scale of the noise effect.", 100, 0, 100, unit = "%", allowOutOfBounds = true, hide = {
+    val luminosity by slider("Luminosity", "The luminosity of the acrylic effect.", 180, 0, 200, unit = "%%", allowOutOfBounds = true, hide = ::acrylic neq true)
+    val noiseStrength by slider("Noise Strength", "The strength of the noise effect.", 50, 0, 100, unit = "%%", hide = ::acrylic neq true)
+    val noiseSale by slider("Noise Scale", "The scale of the noise effect.", 100, 0, 100, unit = "%%", allowOutOfBounds = true, hide = {
         !acrylic || noiseStrength == 0
     })
     val RGPuke by switch("RGB Puke", "Adds an RGB puke effect to the blur.", false)
-    val RGBPukeOpacity by slider("RGB Puke Opacity", "The opacity of the RGB puke effect.", 10, 0, 100, unit = "%", hide = {
+    val RGBPukeOpacity by slider("RGB Puke Opacity", "The opacity of the RGB puke effect.", 10, 0, 100, unit = "%%", hide = {
         !RGPuke || !acrylic
     })
 
