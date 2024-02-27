@@ -16,7 +16,6 @@ import dev.lyzev.schizoid.feature.FeatureManager
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
 import dev.lyzev.schizoid.util.render.WrappedFramebuffer
-import net.kyori.adventure.text.Component
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -37,7 +36,7 @@ abstract class ImGuiScreen(title: String) : Screen(Text.of(title)), IFeature, Ev
         EventRenderImGuiScreen(this).fire()
     }
 
-    override fun sendChatMessage(message: Component) = FeatureManager.sendChatMessage(message)
+    override fun sendChatMessage(message: Text) = FeatureManager.sendChatMessage(message)
 
     override fun keybindReleased() {
         if (MinecraftClient.getInstance().currentScreen == this) close()

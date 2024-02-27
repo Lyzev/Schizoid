@@ -23,10 +23,6 @@ lyzev_settings = "1.0.1"
 reflections = "0.10.2"
 # https://github.com/SpaiR/imgui-java
 imgui = "1.86.11"
-# https://github.com/intuit/fuzzy-matcher
-fuzzywuzzy = "1.4.0"
-# https://github.com/KyoriPowered/adventure-platform-fabric
-adventure = "5.12.0"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -44,8 +40,6 @@ imgui_lwjgl3 = { module = "io.github.spair:imgui-java-lwjgl3", version.ref = "im
 imgui_natives_windows = { module = "io.github.spair:imgui-java-natives-windows", version.ref = "imgui" }
 imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", version.ref = "imgui" }
 imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
-fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
-adventure = { module = "net.kyori:adventure-platform-fabric", version.ref = "adventure" }
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -59,8 +59,6 @@ dependencies {
 
     implementation(libs.reflections)
     implementation(libs.bundles.imgui)
-    implementation(libs.fuzzywuzzy)
-    modImplementation(libs.adventure)
 }
 
 loom {

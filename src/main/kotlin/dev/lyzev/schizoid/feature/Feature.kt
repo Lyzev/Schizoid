@@ -13,7 +13,7 @@ import dev.lyzev.api.setting.settings.keybinds
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
 import imgui.ImGui.*
-import net.kyori.adventure.text.Component
+import net.minecraft.text.Text
 
 /**
  * Represents a feature.
@@ -37,7 +37,7 @@ abstract class Feature(
     // The keybind of the feature.
     override var keybinds by keybinds("Keybinds", "All keys used to control the feature.", keys)
 
-    override fun sendChatMessage(message: Component) = FeatureManager.sendChatMessage(message)
+    override fun sendChatMessage(message: Text) = FeatureManager.sendChatMessage(message)
 
     /**
      * Represents a category of features.
@@ -101,7 +101,7 @@ interface IFeature : ImGuiRenderable {
      *
      * @param message The message to send.
      */
-    fun sendChatMessage(message: Component)
+    fun sendChatMessage(message: Text)
 
     /**
      * Called when the keybind is pressed.
