@@ -23,6 +23,10 @@ lyzev_settings = "1.0.1"
 reflections = "0.10.2"
 # https://github.com/SpaiR/imgui-java
 imgui = "1.86.11"
+# https://github.com/CaffeineMC/sodium-fabric
+sodium = "mc1.20.4-0.5.8"
+# https://github.com/IrisShaders/Iris
+iris = "1.6.17+1.20.4"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -41,6 +45,9 @@ imgui_natives_windows = { module = "io.github.spair:imgui-java-natives-windows",
 imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", version.ref = "imgui" }
 imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
 
+sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
+iris = { module = "maven.modrinth:iris", version.ref = "iris" }
+
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
@@ -50,3 +57,4 @@ fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }
 [bundles]
 fabric = ["fabric_api", "fabric_loader", "fabric_kl"]
 imgui = ["imgui_binding", "imgui_lwjgl3", "imgui_natives_windows", "imgui_natives_linux", "imgui_natives_macos"]
+modrinth = ["sodium", "iris"]

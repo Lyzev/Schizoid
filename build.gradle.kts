@@ -54,11 +54,15 @@ dependencies {
 
     modImplementation(libs.bundles.fabric)
 
+    // Libraries (required)
     implementation(libs.lyzev.events)
     implementation(libs.lyzev.settings)
 
     implementation(libs.reflections)
     implementation(libs.bundles.imgui)
+
+    // Mods (optional)
+    modImplementation(libs.bundles.modrinth)
 }
 
 loom {
