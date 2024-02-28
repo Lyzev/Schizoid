@@ -66,7 +66,7 @@ dependencies {
 }
 
 loom {
-//    accessWidenerPath.set(File("src/main/resources/${project.extra["archives_base_name"] as String}.accesswidener"))
+    accessWidenerPath.set(File("src/main/resources/${project.extra["archives_base_name"] as String}.accesswidener"))
 }
 
 tasks.register("updateFabric") {

@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2024. Schizoid
- * All rights reserved.
- */
-
 /**
  * Credit to https://github.com/Sumandora/tarasande/blob/7d0a467c4f3abe151ab23ab2dce1b4107ffa3e1f/src/main/kotlin/su/mandora/tarasande/util/render/animation/EasingFunction.kt
  * Licensed under the GNU General Public License v3.0

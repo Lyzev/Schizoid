@@ -68,3 +68,5 @@ object ShaderTint : Shader("Tint")
 object ShaderMask : Shader("Mask")
 object ShaderAdd : Shader("Add")
 object ShaderPassThrough : Shader("PassThrough")
+
+object ShaderDepth : Shader("Depth")

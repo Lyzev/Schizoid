@@ -182,4 +182,54 @@ object BlurHelper {
         RenderSystem.bindTexture(texture)
         mask.clear()
     }
+
+    fun fog() {
+        if (!ModuleToggleableBlur.isEnabled || !ModuleToggleableBlur.fog) return
+
+        RenderSystem.disableCull()
+//        RenderSystem.enableTexture()
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.enableBlend()
+        RenderSystem.depthMask(false)
+
+        if (ModuleToggleableBlur.fogRGBPuke) {
+            fbo.clear()
+            fbo.beginWrite(true)
+            ShaderAcrylic.bind()
+            RenderSystem.activeTexture(GL_TEXTURE0)
+            MinecraftClient.getInstance().framebuffer.beginRead()
+            ShaderAcrylic["uTexture"] = 0
+            ShaderAcrylic["uLuminosity"] = 1f
+            ShaderAcrylic["uNoiseStrength"] = 0f
+            ShaderAcrylic["uNoiseScale"] = 0f
+            ShaderAcrylic["uOpacity"] = 1f
+            ShaderAcrylic["uRGPuke"] = true
+            ShaderAcrylic["uRGPukeOpacity"] = 0.2f
+            ShaderAcrylic["uTime"] = System.nanoTime() / 2000000000f
+            drawFullScreen()
+            ShaderAcrylic.unbind()
+        }
+
+        blurMode.switchStrength(ModuleToggleableBlur.fogStrength)
+        blurMode.render(if (ModuleToggleableBlur.fogRGBPuke) fbo else MinecraftClient.getInstance().framebuffer)
+
+        MinecraftClient.getInstance().framebuffer.beginWrite(true)
+        ShaderDepth.bind()
+        RenderSystem.activeTexture(GL_TEXTURE0)
+        blurMode.getOutput().beginRead()
+        ShaderDepth["uScene"] = 0
+        RenderSystem.activeTexture(GL_TEXTURE1)
+        GlStateManager._bindTexture(MinecraftClient.getInstance().framebuffer.depthAttachment)
+        ShaderDepth["uDepth"] = 1
+        ShaderDepth["uNear"] = .05f
+        ShaderDepth["uFar"] = 1000f
+        ShaderDepth["uMinThreshold"] = .001f
+        ShaderDepth["uMaxThreshold"] = 0.07f
+        ShaderDepth["uTime"] = System.nanoTime() / 1000000000f
+        drawFullScreen()
+        ShaderDepth.unbind()
+
+        RenderSystem.depthMask(true)
+        RenderSystem.enableCull()
+    }
 }

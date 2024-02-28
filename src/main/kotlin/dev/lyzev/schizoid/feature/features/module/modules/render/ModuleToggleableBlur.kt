@@ -38,6 +38,10 @@ object ModuleToggleableBlur :
     val dropShadowStrength by slider("Drop Shadow Strength", "The strength of the drop shadow effect.", 9, 1, 20, hide = ::dropShadow neq true)
     val dropShadowRGBPuke by switch("Drop Shadow RGB Puke", "Adds an RGB puke effect to the drop shadow.", false, hide = ::dropShadow neq true)
 
+    val fog by switch("Fog", "Adds a fog effect to the blur.", true)
+    val fogStrength by slider("Fog Strength", "The strength of the fog effect.", 9, 1, 20, hide = ::fog neq true)
+    val fogRGBPuke by switch("Fog RGB Puke", "Adds an RGB puke effect to the fog.", false, hide = ::fog neq true)
+
     init {
         toggle()
     }
