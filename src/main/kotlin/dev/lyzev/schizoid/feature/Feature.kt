@@ -26,7 +26,6 @@ import net.minecraft.text.Text
 abstract class Feature(
     override val name: String,
     override val desc: String,
-    override vararg val aliases: String,
     keys: MutableSet<GLFWKey>,
     override val category: Category
 ) : IFeature {
@@ -75,7 +74,6 @@ abstract class Feature(
 interface IFeature : ImGuiRenderable {
     val name: String
     val desc: String
-    val aliases: Array<out String>
     var keybinds: MutableSet<GLFWKey>
     val category: Feature.Category
 

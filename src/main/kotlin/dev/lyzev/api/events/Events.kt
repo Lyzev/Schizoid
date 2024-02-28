@@ -7,6 +7,7 @@ package dev.lyzev.api.events
 
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
+import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.network.packet.Packet
 
 /**
@@ -55,3 +56,5 @@ object EventKeybindsRequest : Event
 class EventKeybindsResponse(val key: Int) : Event
 
 object EventWindowResize : Event
+
+class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event

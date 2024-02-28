@@ -13,7 +13,7 @@ import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import dev.lyzev.api.settings.Setting.Companion.neq
 
 object ModuleToggleableBlur :
-    ModuleToggleable("Blur", "All settings related to blur effects.", "blur", category = Category.RENDER) {
+    ModuleToggleable("Blur", "All settings related to blur effects.", category = Category.RENDER) {
 
     val method by lazy {
         option(

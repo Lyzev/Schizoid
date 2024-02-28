@@ -20,20 +20,19 @@ import imgui.ImGui.*
  * @param key The keybind of the module.
  * @property category The category of the module.
  */
-abstract class Module(name: String, desc: String, vararg aliases: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: Category) :
-    Feature(name, desc, aliases = aliases, keys, category)
+abstract class Module(name: String, desc: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: Category) :
+    Feature(name, desc, keys, category)
 
 /**
  * Represents a module that can be run.
  *
  * @property name The name of the module.
  * @property desc The description of the module.
- * @property aliases The aliases of the module.
  * @param key The keybind of the module.
  * @property category The category of the module.
  */
-abstract class ModuleRunnable(name: String, desc: String, vararg aliases: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: Category) :
-    Module(name, desc, aliases = aliases, keys, category), () -> Unit {
+abstract class ModuleRunnable(name: String, desc: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: Category) :
+    Module(name, desc, keys, category), () -> Unit {
 
     override fun render() {
         val treeNode = treeNode(name)
@@ -61,12 +60,11 @@ abstract class ModuleRunnable(name: String, desc: String, vararg aliases: String
  *
  * @property name The name of the module.
  * @property desc The description of the module.
- * @property aliases The aliases of the module.
  * @param key The keybind of the module.
  * @property category The category of the module.
  */
-abstract class ModuleToggleable(name: String, desc: String, vararg aliases: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: Category) :
-    Module(name, desc, aliases = aliases, keys, category) {
+abstract class ModuleToggleable(name: String, desc: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: Category) :
+    Module(name, desc, keys, category) {
 
     // Indicates whether the module is enabled.
     var isEnabled by switch("Enabled", "Whether the module is enabled.", value = false) {

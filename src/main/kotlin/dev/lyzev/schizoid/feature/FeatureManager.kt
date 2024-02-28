@@ -39,13 +39,13 @@ object FeatureManager : EventListener {
      *
      * @param alias The name of the feature.
      */
-    inline fun <reified T : IFeature> find(alias: String): T? =
-        features.filterIsInstance<T>().firstOrNull { feature -> feature.aliases.any { it.equals(alias, true) } }
+    inline fun <reified T : IFeature> find(name: String): T? =
+        features.filterIsInstance<T>().firstOrNull { feature -> feature.name.equals(name, true) }
 
     /**
      * Gets a feature by its name.
      */
-    operator fun get(alias: String): IFeature? = features.firstOrNull { it.aliases.contains(alias) }
+    operator fun get(name: String): IFeature? = features.firstOrNull { feature -> feature.name.equals(name, true) }
 
     /**
      * Gets a list of features by their category.

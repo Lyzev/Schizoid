@@ -132,8 +132,6 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen") {
         get() = "Feature Screen"
     override val desc: String
         get() = "Displays all features and their respective settings."
-    override val aliases: Array<out String>
-        get() = arrayOf("feature", "features", "module", "modules", "mods", "clickgui")
     override var keybinds by keybinds(
         "Keybinds",
         "All keys used to control the feature.",
