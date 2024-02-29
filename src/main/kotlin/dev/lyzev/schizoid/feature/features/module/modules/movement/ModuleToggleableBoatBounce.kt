@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dev.lyzev.schizoid.feature.features.module.modules.render
+package dev.lyzev.schizoid.feature.features.module.modules.movement
 
 import dev.lyzev.api.events.EventClientPlayerEntityTick
 import dev.lyzev.api.events.EventListener
