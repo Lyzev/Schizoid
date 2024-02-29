@@ -29,9 +29,9 @@ object ModuleToggleableBlur :
     val noiseSale by slider("Noise Scale", "The scale of the noise effect.", 100, 0, 100, unit = "%%", allowOutOfBounds = true, hide = {
         !acrylic || noiseStrength == 0
     })
-    val RGPuke by switch("RGB Puke", "Adds an RGB puke effect to the blur.", false)
-    val RGBPukeOpacity by slider("RGB Puke Opacity", "The opacity of the RGB puke effect.", 10, 0, 100, unit = "%%", hide = {
-        !RGPuke || !acrylic
+    val RGBPuke by switch("RGB Puke", "Adds an RGB puke effect to the blur.", false)
+    val RGBPukeOpacity by slider("RGB Puke Opacity", "The opacity of the RGB puke effect.", 20, 1, 100, unit = "%%", hide = {
+        !RGBPuke || !acrylic
     })
 
     val dropShadow by switch("Drop Shadow", "Adds a drop shadow to the blur.", true)
@@ -41,6 +41,9 @@ object ModuleToggleableBlur :
     val fog by switch("Fog", "Adds a fog effect to the blur.", true)
     val fogStrength by slider("Fog Strength", "The strength of the fog effect.", 9, 1, 20, hide = ::fog neq true)
     val fogRGBPuke by switch("Fog RGB Puke", "Adds an RGB puke effect to the fog.", false, hide = ::fog neq true)
+    val fogRGBPukeOpacity by slider("Fog RGB Puke Opacity", "The opacity of the RGB puke effect.", 20, 1, 100, unit = "%%", hide = {
+        !fogRGBPuke || !acrylic
+    })
 
     init {
         toggle()

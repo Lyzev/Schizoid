@@ -123,7 +123,7 @@ object BlurHelper {
                 ShaderAcrylic["uNoiseStrength"] = 0.03f * ModuleToggleableBlur.noiseStrength / 100f
                 ShaderAcrylic["uNoiseScale"] = 4000f * ModuleToggleableBlur.noiseSale / 100f
                 ShaderAcrylic["uOpacity"] = -1f
-                ShaderAcrylic["uRGPuke"] = ModuleToggleableBlur.RGPuke
+                ShaderAcrylic["uRGPuke"] = ModuleToggleableBlur.RGBPuke
                 ShaderAcrylic["uRGPukeOpacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
                 ShaderAcrylic["uTime"] = System.nanoTime() / 1000000000f
                 drawFullScreen()
@@ -204,7 +204,7 @@ object BlurHelper {
             ShaderAcrylic["uNoiseScale"] = 0f
             ShaderAcrylic["uOpacity"] = 1f
             ShaderAcrylic["uRGPuke"] = true
-            ShaderAcrylic["uRGPukeOpacity"] = 0.2f
+            ShaderAcrylic["uRGPukeOpacity"] = ModuleToggleableBlur.fogRGBPukeOpacity / 100f
             ShaderAcrylic["uTime"] = System.nanoTime() / 2000000000f
             drawFullScreen()
             ShaderAcrylic.unbind()
