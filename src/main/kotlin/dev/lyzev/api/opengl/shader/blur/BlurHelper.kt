@@ -19,24 +19,18 @@ import org.lwjgl.opengl.GL13.*
 object BlurHelper {
 
     val blurMode: Blurs
-        get() = ModuleToggleableBlur.method.value
+        get() = ModuleToggleableBlur.method
 
     private var shouldBlur = false
-    private val mask = WrappedFramebuffer()
-    private val tmp = WrappedFramebuffer()
-
-    private val fbo = WrappedFramebuffer()
-
-    private val acrylicBlur = WrappedFramebuffer()
-    private val dropShadow = WrappedFramebuffer()
+    val fbos = WrappedFramebuffer[1f, 3]
 
     @JvmStatic
     fun begin() {
         if (!ModuleToggleableBlur.isEnabled) return
 
         shouldBlur = true
-        tmp.clear()
-        tmp.beginWrite(true)
+        fbos[2].clear()
+        fbos[2].beginWrite(true)
     }
 
     @JvmStatic
@@ -48,12 +42,12 @@ object BlurHelper {
         RenderSystem.defaultBlendFunc()
         RenderSystem.enableBlend()
 
-        mask.beginWrite(true)
+        fbos[1].beginWrite(true)
         ShaderAdd.bind()
         RenderSystem.activeTexture(GL_TEXTURE1)
-        tmp.beginRead()
+        fbos[2].beginRead()
         RenderSystem.activeTexture(GL_TEXTURE0)
-        mask.beginRead()
+        fbos[1].beginRead()
         ShaderAdd["u_s2Scene"] = 0
         ShaderAdd["u_s2Texture"] = 1
         ShaderAdd["u_bAlpha"] = false
@@ -66,14 +60,13 @@ object BlurHelper {
         if (!ModuleToggleableBlur.isEnabled) return
 
         RenderSystem.disableCull()
-//        RenderSystem.enableTexture()
         RenderSystem.defaultBlendFunc()
         RenderSystem.enableBlend()
 
         MinecraftClient.getInstance().framebuffer.beginWrite(true)
         ShaderAdd.bind()
         RenderSystem.activeTexture(GL_TEXTURE1)
-        tmp.beginRead()
+        fbos[2].beginRead()
         RenderSystem.activeTexture(GL_TEXTURE0)
         MinecraftClient.getInstance().framebuffer.beginRead()
         ShaderAdd["u_s2Scene"] = 0
@@ -92,7 +85,7 @@ object BlurHelper {
     }
 
     fun draw(
-        mask: WrappedFramebuffer = BlurHelper.mask,
+        mask: WrappedFramebuffer = fbos[1],
         opacity: Float = 1f,
         dropShadowColor: Vector4f = Vector4f(0f, 0f, 0f, 1f),
         blurStrength: Int = ModuleToggleableBlur.strength,
@@ -105,50 +98,47 @@ object BlurHelper {
         RenderSystem.activeTexture(GL_TEXTURE1)
         val texture1 = GlStateManager._getInteger(GL_TEXTURE_BINDING_2D)
         RenderSystem.disableCull()
-//        RenderSystem.enableTexture()
         RenderSystem.defaultBlendFunc()
-        RenderSystem.enableBlend()
 
-//        if (BlurModule.isEnabled) {
-            blurMode.switchStrength(blurStrength)
-            blurMode.render()
-            // Acrylic (Luminosity, Noise and Tint)
-            if (ModuleToggleableBlur.acrylic) {
-                acrylicBlur.beginWrite(true)
-                ShaderAcrylic.bind()
-                RenderSystem.activeTexture(GL_TEXTURE0)
-                blurMode.getOutput().beginRead()
-                ShaderAcrylic["uTexture"] = 0
-                ShaderAcrylic["uLuminosity"] = ModuleToggleableBlur.luminosity / 100f
-                ShaderAcrylic["uNoiseStrength"] = 0.03f * ModuleToggleableBlur.noiseStrength / 100f
-                ShaderAcrylic["uNoiseScale"] = 4000f * ModuleToggleableBlur.noiseSale / 100f
-                ShaderAcrylic["uOpacity"] = -1f
-                ShaderAcrylic["uRGPuke"] = ModuleToggleableBlur.RGBPuke
-                ShaderAcrylic["uRGPukeOpacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
-                ShaderAcrylic["uTime"] = System.nanoTime() / 1000000000f
-                drawFullScreen()
-                ShaderAcrylic.unbind()
-            }
-
-            Schizoid.mc.framebuffer.beginWrite(true)
-            ShaderMask.bind()
-            RenderSystem.activeTexture(GL_TEXTURE1)
-            mask.beginRead()
+        blurMode.switchStrength(blurStrength)
+        blurMode.render()
+        // Acrylic (Luminosity, Noise and Tint)
+        if (ModuleToggleableBlur.acrylic) {
+            fbos[0].beginWrite(true)
+            ShaderAcrylic.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
-            if (ModuleToggleableBlur.acrylic) acrylicBlur.beginRead()
-            else blurMode.getOutput().beginRead()
-            ShaderMask["u_s2Texture"] = 0
-            ShaderMask["u_s2Mask"] = 1
-            ShaderMask["u_bInvert"] = false
+            blurMode.getOutput().beginRead()
+            ShaderAcrylic["uTexture"] = 0
+            ShaderAcrylic["uLuminosity"] = ModuleToggleableBlur.luminosity / 100f
+            ShaderAcrylic["uNoiseStrength"] = 0.03f * ModuleToggleableBlur.noiseStrength / 100f
+            ShaderAcrylic["uNoiseScale"] = 4000f * ModuleToggleableBlur.noiseSale / 100f
+            ShaderAcrylic["uOpacity"] = -1f
+            ShaderAcrylic["uRGPuke"] = ModuleToggleableBlur.RGBPuke
+            ShaderAcrylic["uRGPukeOpacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
+            ShaderAcrylic["uTime"] = System.nanoTime() / 1000000000f
             drawFullScreen()
-            ShaderMask.unbind()
-//        }
+            ShaderAcrylic.unbind()
+        }
+
+        Schizoid.mc.framebuffer.beginWrite(true)
+        ShaderMask.bind()
+        RenderSystem.activeTexture(GL_TEXTURE1)
+        mask.beginRead()
+        RenderSystem.activeTexture(GL_TEXTURE0)
+        if (ModuleToggleableBlur.acrylic) fbos[0].beginRead()
+        else blurMode.getOutput().beginRead()
+        ShaderMask["u_s2Texture"] = 0
+        ShaderMask["u_s2Mask"] = 1
+        ShaderMask["u_bInvert"] = false
+        drawFullScreen()
+        ShaderMask.unbind()
 
         if (ModuleToggleableBlur.dropShadow) {
             blurMode.switchStrength(dropShadowStrength)
             blurMode.render(mask, true)
 
-            dropShadow.beginWrite(true)
+            fbos[0].clear()
+            fbos[0].beginWrite(true)
             ShaderTint.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
             blurMode.getOutput().beginRead()
@@ -165,7 +155,7 @@ object BlurHelper {
             RenderSystem.activeTexture(GL_TEXTURE1)
             mask.beginRead()
             RenderSystem.activeTexture(GL_TEXTURE0)
-            dropShadow.beginRead()
+            fbos[0].beginRead()
             ShaderMask["u_s2Texture"] = 0
             ShaderMask["u_s2Mask"] = 1
             ShaderMask["u_bInvert"] = true
@@ -193,8 +183,8 @@ object BlurHelper {
         RenderSystem.depthMask(false)
 
         if (ModuleToggleableBlur.fogRGBPuke) {
-            fbo.clear()
-            fbo.beginWrite(true)
+            fbos[0].clear()
+            fbos[0].beginWrite(true)
             ShaderAcrylic.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
             MinecraftClient.getInstance().framebuffer.beginRead()
@@ -211,7 +201,7 @@ object BlurHelper {
         }
 
         blurMode.switchStrength(ModuleToggleableBlur.fogStrength)
-        blurMode.render(if (ModuleToggleableBlur.fogRGBPuke) fbo else MinecraftClient.getInstance().framebuffer)
+        blurMode.render(if (ModuleToggleableBlur.fogRGBPuke) fbos[0] else MinecraftClient.getInstance().framebuffer)
 
         MinecraftClient.getInstance().framebuffer.beginWrite(true)
         ShaderDepth.bind()

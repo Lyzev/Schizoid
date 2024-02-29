@@ -5,6 +5,7 @@
 
 package dev.lyzev.schizoid.mixins.minecraft.client.render;
 
+import dev.lyzev.api.events.EventRenderWorld;
 import dev.lyzev.api.opengl.shader.blur.BlurHelper;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -18,6 +19,6 @@ public class MixinGameRenderer {
 
     @Inject(method = "renderWorld", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/WorldRenderer;render(Lnet/minecraft/client/util/math/MatrixStack;FJZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lnet/minecraft/client/render/LightmapTextureManager;Lorg/joml/Matrix4f;)V", shift = At.Shift.AFTER))
     private void onRenderWorld(float tickDelta, long limitTime, MatrixStack matrices, CallbackInfo ci) {
-        BlurHelper.INSTANCE.fog();
+        new EventRenderWorld(tickDelta, limitTime, matrices).fire();
     }
 }

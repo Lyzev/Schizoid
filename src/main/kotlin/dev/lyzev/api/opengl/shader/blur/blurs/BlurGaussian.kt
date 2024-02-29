@@ -23,10 +23,6 @@ object BlurGaussian : Blur {
 
     private var size by Delegates.notNull<Float>()
 
-    private val FBOs = Array(2) {
-        WrappedFramebuffer(.25f)
-    }
-
     private val direction = Vector2f()
     private val texelSize = Vector2f()
     private val gaussian = Vector3f()
@@ -51,12 +47,13 @@ object BlurGaussian : Blur {
 
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        texelSize.set(1f / FBOs[0].textureWidth, 1f / FBOs[0].textureHeight)
+        val fbos = WrappedFramebuffer[.25f, 2]
+        texelSize.set(1f / fbos[0].textureWidth, 1f / fbos[0].textureHeight)
         direction.set(1f, 0f)
-        renderToFBO(FBOs[0], sourceFBO, alpha)
+        renderToFBO(fbos[0], sourceFBO, alpha)
         direction.set(0f, 1f)
-        renderToFBO(FBOs[1], FBOs[0], alpha)
+        renderToFBO(fbos[1], fbos[0], alpha)
     }
 
-    override fun getOutput(): WrappedFramebuffer = FBOs[1]
+    override fun getOutput(): WrappedFramebuffer = WrappedFramebuffer[.25f, 2][1]
 }

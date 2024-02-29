@@ -21,10 +21,6 @@ object BlurBox : Blur {
 
     private var strength by Delegates.notNull<Int>()
 
-    private val FBOs = Array(2) {
-        WrappedFramebuffer(.25f)
-    }
-
     private val direction = Vector2f()
     private val texelSize = Vector2f()
 
@@ -43,16 +39,17 @@ object BlurBox : Blur {
     }
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
+        val fbos = WrappedFramebuffer[.25f, 2]
         texelSize.set(1f / sourceFBO.textureWidth, 1f / sourceFBO.textureHeight)
         // Initial iteration
         direction.set(1f, 0f)
-        renderToFBO(FBOs[0], sourceFBO, alpha)
+        renderToFBO(fbos[0], sourceFBO, alpha)
         // Rest of the iterations
         for (i in 1 until 4) {
             direction.set((i - 1) % 2f, i % 2f)
-            renderToFBO(FBOs[i % 2], FBOs[(i - 1) % 2], alpha)
+            renderToFBO(fbos[i % 2], fbos[(i - 1) % 2], alpha)
         }
     }
 
-    override fun getOutput(): WrappedFramebuffer = FBOs[1]
+    override fun getOutput(): WrappedFramebuffer = WrappedFramebuffer[.25f, 2][1]
 }

@@ -106,6 +106,24 @@ class WrappedFramebuffer(val multi: Float = 1f, useDepth: Boolean = false) : Sim
             )
         }
     }
+
+    companion object {
+
+        val fbos = HashMap<Float, MutableList<WrappedFramebuffer>>()
+
+        operator fun get(multi: Float = 1f): WrappedFramebuffer = fbos.getOrPut(multi) { mutableListOf(WrappedFramebuffer(multi)) }.first()
+
+        operator fun get(multi: Float = 1f, min: Int): MutableList<WrappedFramebuffer> {
+            val fbos = fbos.getOrPut(multi) { mutableListOf(WrappedFramebuffer(multi)) }
+            for (i in fbos.size until min) fbos.add(WrappedFramebuffer(multi))
+            return fbos
+        }
+
+        fun clear() {
+            fbos.values.flatten().forEach(Framebuffer::delete)
+            fbos.clear()
+        }
+    }
 }
 
 fun Framebuffer.draw() {

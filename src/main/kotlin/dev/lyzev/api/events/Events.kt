@@ -8,6 +8,7 @@ package dev.lyzev.api.events
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
 import net.minecraft.client.network.ClientPlayerEntity
+import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.network.packet.Packet
 
 /**
@@ -58,3 +59,5 @@ class EventKeybindsResponse(val key: Int) : Event
 object EventWindowResize : Event
 
 class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event
+
+class EventRenderWorld(val tickDelta: Float, val limitTime: Long, val matrices: MatrixStack) : Event
