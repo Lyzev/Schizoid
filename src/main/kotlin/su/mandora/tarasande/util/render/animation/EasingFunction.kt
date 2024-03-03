@@ -12,7 +12,7 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 // https://easings.net/
-enum class EasingFunction(override val key: String, val ease: (Double) -> Double) : OptionEnum {
+enum class EasingFunction(override val key: String, override val ease: (Double) -> Double) : OptionEnum, IEasingFunction {
     LINEAR("Linear", { x -> x }),
     IN_SINE("In sine", { x -> (1.0 - cos(x * Math.PI / 2.0)) }),
     OUT_SINE("Out sine", { x -> sin(x * Math.PI / 2.0) }),
@@ -66,7 +66,7 @@ enum class EasingFunction(override val key: String, val ease: (Double) -> Double
             else -> 2.0.pow(-10.0 * x) * sin((x * 10.0 - 0.75) * c4) + 1.0
         }
     }),
-    INT_OUT_ELASTIC("In out elastic", { x ->
+    IN_OUT_ELASTIC("In out elastic", { x ->
         val c5 = 2.0 * Math.PI / 4.5
         if (x == 0.0) 0.0
         else if (x == 1.0) 1.0
@@ -90,4 +90,11 @@ enum class EasingFunction(override val key: String, val ease: (Double) -> Double
     }),
     IN_BOUNCE("In bounce", { x -> 1.0 - OUT_BOUNCE.ease(1.0 - x) }),
     IN_OUT_BOUNCE("In out bounce", { x -> if (x < 0.5) (1.0 - OUT_BOUNCE.ease(1.0 - 2.0 * x)) / 2.0 else (1.0 + OUT_BOUNCE.ease(2.0 * x - 1.0)) / 2.0 });
+}
+
+interface IEasingFunction {
+
+    val ease: (Double) -> Double
+
+    operator fun invoke(x: Double): Double = ease(x)
 }

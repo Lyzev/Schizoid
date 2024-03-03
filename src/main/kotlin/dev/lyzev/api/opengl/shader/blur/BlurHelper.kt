@@ -51,9 +51,9 @@ object BlurHelper {
         tmp.beginRead()
         RenderSystem.activeTexture(GL_TEXTURE0)
         mask.beginRead()
-        ShaderAdd["u_s2Scene"] = 0
-        ShaderAdd["u_s2Texture"] = 1
-        ShaderAdd["u_bAlpha"] = false
+        ShaderAdd["uScene"] = 0
+        ShaderAdd["uTexture"] = 1
+        ShaderAdd["uAlpha"] = false
         drawFullScreen()
         ShaderAdd.unbind()
     }
@@ -72,9 +72,9 @@ object BlurHelper {
         tmp.beginRead()
         RenderSystem.activeTexture(GL_TEXTURE0)
         MinecraftClient.getInstance().framebuffer.beginRead()
-        ShaderAdd["u_s2Scene"] = 0
-        ShaderAdd["u_s2Texture"] = 1
-        ShaderAdd["u_bAlpha"] = true
+        ShaderAdd["uScene"] = 0
+        ShaderAdd["uTexture"] = 1
+        ShaderAdd["uAlpha"] = true
         drawFullScreen()
         ShaderAdd.unbind()
     }
@@ -89,6 +89,7 @@ object BlurHelper {
 
     fun draw(
         mask: WrappedFramebuffer = BlurHelper.mask,
+        clearMask: Boolean = true,
         opacity: Float = 1f,
         dropShadowColor: Vector4f = Vector4f(0f, 0f, 0f, 1f),
         blurStrength: Int = ModuleToggleableBlur.strength,
@@ -117,8 +118,8 @@ object BlurHelper {
             ShaderAcrylic["uNoiseStrength"] = 0.03f * ModuleToggleableBlur.noiseStrength / 100f
             ShaderAcrylic["uNoiseScale"] = 4000f * ModuleToggleableBlur.noiseSale / 100f
             ShaderAcrylic["uOpacity"] = -1f
-            ShaderAcrylic["uRGPuke"] = ModuleToggleableBlur.RGBPuke
-            ShaderAcrylic["uRGPukeOpacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
+            ShaderAcrylic["uRGBPuke"] = ModuleToggleableBlur.RGBPuke
+            ShaderAcrylic["uRGBPukeOpacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
             ShaderAcrylic["uTime"] = System.nanoTime() / 1000000000f
             drawFullScreen()
             ShaderAcrylic.unbind()
@@ -148,7 +149,7 @@ object BlurHelper {
             ShaderTint["uTexture"] = 0
             ShaderTint["uColor"] = dropShadowColor
             ShaderTint["uOpacity"] = 1f
-            ShaderTint["uRGPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
+            ShaderTint["uRGBPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
             ShaderTint["uTime"] = System.nanoTime() / 1000000000f
             drawFullScreen()
             ShaderTint.unbind()
@@ -173,6 +174,6 @@ object BlurHelper {
         RenderSystem.bindTexture(texture0)
         RenderSystem.activeTexture(active)
         RenderSystem.bindTexture(texture)
-        mask.clear()
+        if (clearMask) mask.clear()
     }
 }

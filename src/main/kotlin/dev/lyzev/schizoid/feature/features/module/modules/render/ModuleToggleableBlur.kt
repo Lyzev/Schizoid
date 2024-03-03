@@ -76,8 +76,8 @@ object ModuleToggleableBlur :
                 ShaderAcrylic["uNoiseStrength"] = 0f
                 ShaderAcrylic["uNoiseScale"] = 0f
                 ShaderAcrylic["uOpacity"] = 1f
-                ShaderAcrylic["uRGPuke"] = true
-                ShaderAcrylic["uRGPukeOpacity"] = fogRGBPukeOpacity / 100f
+                ShaderAcrylic["uRGBPuke"] = true
+                ShaderAcrylic["uRGBPukeOpacity"] = fogRGBPukeOpacity / 100f
                 ShaderAcrylic["uTime"] = System.nanoTime() / 2000000000f
                 Shader.drawFullScreen()
                 ShaderAcrylic.unbind()

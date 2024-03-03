@@ -36,7 +36,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen") {
     private val animationMario by option(
         "Mario Animation",
         "Enables the Mario animation.",
-        EasingFunction.INT_OUT_ELASTIC,
+        EasingFunction.IN_OUT_ELASTIC,
         EasingFunction.entries
     )
     private val speedMario by slider(
