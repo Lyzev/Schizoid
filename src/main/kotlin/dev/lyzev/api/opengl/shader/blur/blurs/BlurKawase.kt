@@ -19,6 +19,10 @@ object BlurKawase : Blur {
 
     private var strength by Delegates.notNull<Int>()
 
+    private val fbos = Array(2) {
+        WrappedFramebuffer(.25f)
+    }
+
     private val texelSize = Vector2f()
 
     override fun switchStrength(strength: Int) {
@@ -36,7 +40,6 @@ object BlurKawase : Blur {
     }
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        val fbos = WrappedFramebuffer[.25f, 2]
         texelSize.set(1f / sourceFBO.textureWidth, 1f / sourceFBO.textureHeight)
         // Initial iteration
         renderToFBO(fbos[0], sourceFBO, if (strength > 1) .5f else .25f, alpha)
@@ -44,5 +47,5 @@ object BlurKawase : Blur {
         for (i in 2..strength) renderToFBO(fbos[(i - 1) % 2], fbos[i % 2], i * .5f, alpha)
     }
 
-    override fun getOutput(): WrappedFramebuffer = WrappedFramebuffer[.25f, 2][(strength - 1) % 2]
+    override fun getOutput(): WrappedFramebuffer = fbos[(strength - 1) % 2]
 }

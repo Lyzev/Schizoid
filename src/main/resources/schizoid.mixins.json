@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "dev.lyzev.schizoid.mixins",
+  "package": "dev.lyzev.schizoid.injection.mixins",
   "compatibilityLevel": "JAVA_${java}",
   "client": [
     "imgui.MixinImGuiImplGlfw",
@@ -9,12 +9,13 @@
     "minecraft.client.MixinWindow",
     "minecraft.client.network.MixinClientPlayerEntity",
     "minecraft.client.render.MixinGameRenderer",
-    "minecraft.network.MixinClientConnection"
+    "minecraft.network.MixinClientConnection",
+    "minecraft.client.MixinMinecraftClient",
+    "minecraft.entity.MixinLivingEntity"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "minecraft.client.MixinMinecraftClient"
   ]
 }

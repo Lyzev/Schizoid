@@ -19,9 +19,13 @@ import kotlin.properties.Delegates
 
 object BlurGaussian : Blur {
 
-    private val sqrt2PI = 2.50662f
+    private const val sqrt2PI = 2.50662f
 
     private var size by Delegates.notNull<Float>()
+
+    private val fbos = Array(2) {
+        WrappedFramebuffer(.25f)
+    }
 
     private val direction = Vector2f()
     private val texelSize = Vector2f()
@@ -47,7 +51,6 @@ object BlurGaussian : Blur {
 
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        val fbos = WrappedFramebuffer[.25f, 2]
         texelSize.set(1f / fbos[0].textureWidth, 1f / fbos[0].textureHeight)
         direction.set(1f, 0f)
         renderToFBO(fbos[0], sourceFBO, alpha)
@@ -55,5 +58,5 @@ object BlurGaussian : Blur {
         renderToFBO(fbos[1], fbos[0], alpha)
     }
 
-    override fun getOutput(): WrappedFramebuffer = WrappedFramebuffer[.25f, 2][1]
+    override fun getOutput(): WrappedFramebuffer = fbos[1]
 }

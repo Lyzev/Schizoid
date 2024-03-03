@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dev.lyzev.schizoid.mixins.minecraft.client;
+package dev.lyzev.schizoid.injection.mixins.minecraft.client;
 
 import dev.lyzev.api.events.EventKeystroke;
 import dev.lyzev.api.events.EventMouseClick;

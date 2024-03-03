@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dev.lyzev.schizoid.mixins.minecraft.client.render;
+package dev.lyzev.schizoid.injection.mixins.minecraft.client.render;
 
 import dev.lyzev.api.events.EventRenderWorld;
 import dev.lyzev.api.opengl.shader.blur.BlurHelper;

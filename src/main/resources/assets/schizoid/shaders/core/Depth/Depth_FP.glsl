@@ -16,7 +16,6 @@ uniform float uNear;
 uniform float uFar;
 uniform float uMinThreshold;
 uniform float uMaxThreshold;
-uniform float uTime;
 
 void main() {
     // Read in depth value from depth texture

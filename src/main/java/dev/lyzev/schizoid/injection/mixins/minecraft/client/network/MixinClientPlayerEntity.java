@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dev.lyzev.schizoid.mixins.minecraft.client.network;
+package dev.lyzev.schizoid.injection.mixins.minecraft.client.network;
 
 import dev.lyzev.api.events.EventClientPlayerEntityTick;
 import net.minecraft.client.network.ClientPlayerEntity;

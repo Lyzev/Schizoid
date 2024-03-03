@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2023. Schizoid
+ * Copyright (c) 2023-2024. Schizoid
  * All rights reserved.
  */
 
-package dev.lyzev.schizoid.mixins.imgui;
+package dev.lyzev.schizoid.injection.mixins.imgui;
 
 import dev.lyzev.api.imgui.ImGuiLoader;
 import imgui.glfw.ImGuiImplGlfw;

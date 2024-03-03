@@ -43,6 +43,8 @@ object BlurDualKawase : Blur {
         5 to 8.5f,   // LVL  20
     )
 
+    private val fbos = Array(6) { WrappedFramebuffer(1f / 2f.pow(it)) }
+
     private lateinit var strength: Pair<Int, Float>
 
     private val halfTexelSize = Vector2f()
@@ -66,7 +68,6 @@ object BlurDualKawase : Blur {
     }
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        val fbos = Array(6) { WrappedFramebuffer[1f / 2f.pow(it)] }
         // Initial downsample
         renderToFBO(fbos[1], sourceFBO, ShaderDualKawaseDown, alpha)
         // Downsample
@@ -75,5 +76,5 @@ object BlurDualKawase : Blur {
         for (i in strength.first downTo 1) renderToFBO(fbos[i - 1], fbos[i], ShaderDualKawaseUp, alpha)
     }
 
-    override fun getOutput(): WrappedFramebuffer = WrappedFramebuffer.get()
+    override fun getOutput(): WrappedFramebuffer = fbos[0]
 }

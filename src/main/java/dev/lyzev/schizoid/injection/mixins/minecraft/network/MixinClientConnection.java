@@ -1,9 +1,9 @@
 /*
- * Copyright (c) 2023. Schizoid
+ * Copyright (c) 2023-2024. Schizoid
  * All rights reserved.
  */
 
-package dev.lyzev.schizoid.mixins.minecraft.network;
+package dev.lyzev.schizoid.injection.mixins.minecraft.network;
 
 import dev.lyzev.api.events.EventSendPacket;
 import net.minecraft.network.ClientConnection;

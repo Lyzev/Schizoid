@@ -26,7 +26,7 @@ import org.lwjgl.opengl.GL13
 object ModuleToggleableBlur :
     ModuleToggleable("Blur", "All settings related to blur effects.", category = Category.RENDER), EventListener {
 
-    val method by option("Method", "The method used to blur the screen.", Blurs.DUAL_KAWASE, Blurs.entries)
+    val method by lazy { option("Method", "The method used to blur the screen.", Blurs.DUAL_KAWASE, Blurs.entries) }
 
     val strength by slider("Strength", "The strength of the blur effect.", 9, 1, 20)
 
@@ -53,6 +53,8 @@ object ModuleToggleableBlur :
         !fogRGBPuke || !acrylic
     })
 
+    val fbo by lazy { WrappedFramebuffer() }
+
     override val shouldHandleEvents: Boolean
         get() = isEnabled && fog
 
@@ -62,8 +64,6 @@ object ModuleToggleableBlur :
             RenderSystem.defaultBlendFunc()
             RenderSystem.enableBlend()
             RenderSystem.depthMask(false)
-
-            val fbo = WrappedFramebuffer.get()
 
             if (fogRGBPuke) {
                 fbo.clear()
@@ -83,13 +83,13 @@ object ModuleToggleableBlur :
                 ShaderAcrylic.unbind()
             }
 
-            method.switchStrength(fogStrength)
-            method.render(if (fogRGBPuke) fbo else mc.framebuffer)
+            method.value.switchStrength(fogStrength)
+            method.value.render(if (fogRGBPuke) fbo else mc.framebuffer)
 
             mc.framebuffer.beginWrite(true)
             ShaderDepth.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
-            method.getOutput().beginRead()
+            method.value.getOutput().beginRead()
             ShaderDepth["uScene"] = 0
             RenderSystem.activeTexture(GL13.GL_TEXTURE1)
             GlStateManager._bindTexture(mc.framebuffer.depthAttachment)
@@ -98,7 +98,6 @@ object ModuleToggleableBlur :
             ShaderDepth["uFar"] = mc.gameRenderer.farPlaneDistance
             ShaderDepth["uMinThreshold"] = .004f * fogDistance / 100f
             ShaderDepth["uMaxThreshold"] = .28f * fogDistance / 100f
-            ShaderDepth["uTime"] = System.nanoTime() / 1000000000f
             Shader.drawFullScreen()
             ShaderDepth.unbind()
 
