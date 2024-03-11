@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3d
 
 object ModuleToggleableBoatBounce : ModuleToggleable("Boat Bounce", "Makes boats bounce.", category = Category.MOVEMENT), EventListener {
 
-    var bounce by slider("Bounce", "Sets the bounce of the boat.", 10, 5, 15)
+    val bounce by slider("Bounce", "Sets the bounce of the boat.", 10, 5, 15)
 
     init {
         on<EventClientPlayerEntityTick> { event ->

@@ -50,7 +50,7 @@ object ModuleToggleableBlur :
     val fogDistance by slider("Fog Distance", "The distance of the fog effect.", 25, 0, 100, unit = "%%", hide = ::fog neq true)
     val fogRGBPuke by switch("Fog RGB Puke", "Adds an RGB puke effect to the fog.", false, hide = ::fog neq true)
     val fogRGBPukeOpacity by slider("Fog RGB Puke Opacity", "The opacity of the RGB puke effect.", 30, 1, 100, unit = "%%", hide = {
-        !fogRGBPuke || !acrylic
+        !fogRGBPuke || !fog
     })
 
     val fbo by lazy { WrappedFramebuffer() }
@@ -78,7 +78,7 @@ object ModuleToggleableBlur :
                 ShaderAcrylic["uOpacity"] = 1f
                 ShaderAcrylic["uRGBPuke"] = true
                 ShaderAcrylic["uRGBPukeOpacity"] = fogRGBPukeOpacity / 100f
-                ShaderAcrylic["uTime"] = System.nanoTime() / 2000000000f
+                ShaderAcrylic["uTime"] = System.nanoTime() / 1000000000f
                 Shader.drawFullScreen()
                 ShaderAcrylic.unbind()
             }

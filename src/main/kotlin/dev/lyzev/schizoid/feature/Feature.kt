@@ -56,9 +56,7 @@ abstract class Feature(
             HELVETICA_NEUE_BOLD.begin()
             if (begin("\"$name\"")) {
                 HELVETICA_NEUE.begin()
-                FeatureManager[this].forEach { feature ->
-                    feature.render()
-                }
+                FeatureManager[this].forEach(IFeature::render)
                 HELVETICA_NEUE.end()
             }
             HELVETICA_NEUE_BOLD.end()

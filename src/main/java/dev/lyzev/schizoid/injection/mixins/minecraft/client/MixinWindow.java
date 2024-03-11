@@ -32,15 +32,15 @@ public class MixinWindow {
      */
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFW;glfwWindowHint(II)V", remap = false))
     public void downgradeGL(int hint, int value) {
-        if (hint == 139267 && value == 2) {
-            glfwWindowHint(hint, 1);
-            return;
-        }
-        if (hint == 139272 && value == 204801)
-            return;
-        if (hint == 139270 && value == 1)
-            return;
-        glfwWindowHint(hint, value);
+//        if (hint == 139267 && value == 2) {
+//            glfwWindowHint(hint, 1);
+//            return;
+//        }
+//        if (hint == 139272 && value == 204801)
+//            return;
+//        if (hint == 139270 && value == 1)
+//            return;
+//        glfwWindowHint(hint, value);
     }
 
     /**

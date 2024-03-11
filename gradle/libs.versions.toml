@@ -4,6 +4,7 @@
 [versions]
 kotlin = "1.9.22"
 dokka = "1.9.10"
+shadow = "8.1.1"
 
 # https://fabricmc.net/develop
 minecraft = "1.20.4"
@@ -23,10 +24,10 @@ lyzev_settings = "1.0.1"
 reflections = "0.10.2"
 # https://github.com/SpaiR/imgui-java
 imgui = "1.86.11"
+# https://github.com/TerraformersMC/ModMenu
+modmenu = "9.0.0"
 # https://github.com/CaffeineMC/sodium-fabric
 sodium = "mc1.20.4-0.5.8"
-# https://github.com/IrisShaders/Iris
-iris = "1.6.17+1.20.4"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -45,16 +46,17 @@ imgui_natives_windows = { module = "io.github.spair:imgui-java-natives-windows",
 imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", version.ref = "imgui" }
 imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
 
+modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
-iris = { module = "maven.modrinth:iris", version.ref = "iris" }
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
 fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }
 
 [bundles]
 fabric = ["fabric_api", "fabric_loader", "fabric_kl"]
 imgui = ["imgui_binding", "imgui_lwjgl3", "imgui_natives_windows", "imgui_natives_linux", "imgui_natives_macos"]
-modrinth = ["sodium", "iris"]
+modrinth = ["modmenu", "sodium"]

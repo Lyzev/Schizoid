@@ -20,7 +20,7 @@ uniform bool uRGBPuke;
 uniform float uRGBPukeOpacity;
 uniform float uTime;
 
-#include "../include/acrylic.glsl"
+#include "Acrylic.glsl"
 
 void main() {
     color = texture(uTexture, uv);
@@ -34,8 +34,8 @@ void main() {
     }
 
     if (uRGBPuke && uRGBPukeOpacity > 0) {
-        float d = sqrt(pow(uv.x + .2, 2) + pow(uv.y - .2, 2));
-        color.rgb = mix(color.rgb, hsb2rgb(vec3(d * .5 - uTime / 4, 0.7, 1)), uRGBPukeOpacity);
+        float d = length(uv);
+        color.rgb = mix(color.rgb, hsv2rgb(vec3(mod(d * .5 - uTime / 8, 1), .7, 1)), uRGBPukeOpacity);
     }
 
     if (uOpacity != -1) {

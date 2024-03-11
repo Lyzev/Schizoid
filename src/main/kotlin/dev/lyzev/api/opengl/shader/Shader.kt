@@ -44,18 +44,21 @@ abstract class Shader(shader: String) {
     private operator fun get(name: String): Int = uniforms.getOrPut(name) { glGetUniformLocation(program, name) }
 
     private fun processIncludes(source: String): String {
+        var modifiedSource = source
         val includeRegex = Regex("#include \"(.*?)\"")
-        includeRegex.findAll(source).forEach { matchResult ->
+        var matchResult = includeRegex.find(modifiedSource)
+        while (matchResult != null) {
             val includePath = matchResult.groupValues[1]
             val includeFile = javaClass.classLoader.getResource("$PATH/include/$includePath")
             if (includeFile == null) {
                 Schizoid.logger.error(FileNotFoundException("Could not find include file: $includePath"))
-                return source
+                return modifiedSource
             }
             val includeContent = includeFile.readBytes().decodeToString()
-            return source.replace(matchResult.value, includeContent)
+            modifiedSource = modifiedSource.replace(matchResult.value, includeContent)
+            matchResult = includeRegex.find(modifiedSource)
         }
-        return source
+        return modifiedSource
     }
 
     private fun compile(type: Int, source: String): Int {
@@ -64,8 +67,13 @@ abstract class Shader(shader: String) {
         glShaderSource(shader, sourceWithIncludes)
         glCompileShader(shader)
         val isCompiled = glGetShaderi(shader, GL_COMPILE_STATUS)
-        if (isCompiled == 0)
-            Schizoid.logger.error(glGetShaderInfoLog(shader, glGetShaderi(shader, GL_INFO_LOG_LENGTH)), IllegalStateException("Failed to compile shader"))
+        if (isCompiled == 0) {
+            Schizoid.logger.error(sourceWithIncludes)
+            Schizoid.logger.error(
+                glGetShaderInfoLog(shader, glGetShaderi(shader, GL_INFO_LOG_LENGTH)),
+                IllegalStateException("Failed to compile shader")
+            )
+        }
         return shader
     }
 

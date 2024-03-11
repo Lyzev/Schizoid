@@ -25,11 +25,11 @@ public abstract class MixinLivingEntity {
     @Shadow
     protected abstract void jump();
 
-    @Inject(method = "tickMovement", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;jumping:Z"))
+    @Inject(method = "tickMovement", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/LivingEntity;jumping:Z", ordinal = 1, shift = At.Shift.BEFORE))
     private void injectTickMovement(CallbackInfo ci) {
-        if (ModuleToggleableAirJump.INSTANCE.isEnabled() && jumping && ModuleToggleableAirJump.INSTANCE.getJumpCooldown() - jumpingCooldown <= 0) {
+        if (ModuleToggleableAirJump.INSTANCE.isEnabled() && jumping && 10 - ModuleToggleableAirJump.INSTANCE.getJumpCooldown() >= jumpingCooldown) {
             jump();
-            jumpingCooldown = 10;
+            jumpingCooldown = 0;
         }
     }
 }

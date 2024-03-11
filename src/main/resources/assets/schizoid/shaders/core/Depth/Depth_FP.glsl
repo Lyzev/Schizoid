@@ -5,7 +5,7 @@
 
 #version 330
 
-#define linearizeDepth(depthValue, near, far) (2.0 * near * far) / (far + near - depthValue * (far - near))
+#include "Depth.glsl"
 
 in vec2 uv;
 out vec4 color;

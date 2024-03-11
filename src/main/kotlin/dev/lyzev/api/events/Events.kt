@@ -48,6 +48,7 @@ object EventPreRenderImGui : Event
 object EventPostRenderImGui : Event
 
 class EventSendPacket(val packet: Packet<*>) : CancellableEvent()
+class EventReceivePacket(val packet: Packet<*>) : CancellableEvent()
 
 class EventKeystroke(val window: Long, val key: Int, val scancode: Int, val action: Int, val modifiers: Int) : Event
 

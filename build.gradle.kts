@@ -9,12 +9,14 @@ import groovy.xml.XmlParser
 import me.lyzev.network.http.HttpClient
 import me.lyzev.network.http.HttpMethod
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.utils.extendsFrom
 import java.io.ByteArrayOutputStream
 
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.shadow)
     alias(libs.plugins.fabric.loom)
 }
 
@@ -62,7 +64,7 @@ dependencies {
     implementation(libs.bundles.imgui)
 
     // Mods (optional)
-    modImplementation(libs.bundles.modrinth)
+    modRuntimeOnly(libs.bundles.modrinth)
 }
 
 loom {
@@ -169,7 +171,6 @@ fun updateTomlVersions(tomlContent: String, versions: Map<String, String>): Stri
 }
 
 tasks {
-
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
 
     withType<JavaCompile> {
@@ -215,6 +216,24 @@ tasks {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
         withSourcesJar()
+    }
+
+    shadowJar {
+        archiveClassifier.set("shadow")
+
+        // META-INF/versions/20
+        exclude("META-INF/versions/20/**")
+
+        dependencies {
+            include(dependency(libs.lyzev.events.get()))
+            include(dependency(libs.lyzev.settings.get()))
+            include(dependency(libs.reflections.get()))
+            libs.bundles.imgui.get().forEach { include(dependency(it)) }
+        }
+    }
+
+    remapJar {
+        inputFile = shadowJar.get().archiveFile
     }
 
     dokkaHtml.configure {

@@ -20,9 +20,11 @@ import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.Schizoid.mc
 import dev.lyzev.schizoid.feature.Feature
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
+import imgui.ImGui
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
+import kotlin.math.round
 
 
 object ImGuiScreenFeature : ImGuiScreen("Feature Screen") {
@@ -32,6 +34,8 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen") {
     }
     private var isMarioRunning = false
     private val timeAnimatorMario = TimeAnimator(8000)
+
+    private val showFPS by switch("Show FPS", "Enables the FPS counter.", true)
 
     private val animationMario by option(
         "Mario Animation",
@@ -111,8 +115,10 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen") {
         return super.mouseClicked(mouseX, mouseY, button)
     }
 
-    override fun renderImGui() = Feature.Category.entries.forEach { category ->
-        category.render()
+    override fun renderImGui() {
+        if (showFPS)
+            ImGui.getBackgroundDrawList().addText(10f, 10f, -1, "${round(1000f / (mc.lastFrameDuration * mc.renderTickCounter.tickTime))} fps")
+        Feature.Category.entries.forEach(Feature.Category::render)
     }
 
 
