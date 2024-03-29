@@ -5,8 +5,7 @@
 
 package dev.lyzev.schizoid
 
-import dev.lyzev.api.events.EventShutdown
-import dev.lyzev.api.events.EventStartup
+import dev.lyzev.api.events.*
 import dev.lyzev.api.imgui.ImGuiLoader
 import dev.lyzev.api.setting.SettingInitializer
 import dev.lyzev.schizoid.Schizoid.CI
@@ -39,44 +38,81 @@ import java.io.File
  * @property logger The logger for the Schizoid mod.
  * @property mc The Minecraft client instance.
  */
-object Schizoid : ClientModInitializer {
+object Schizoid : ClientModInitializer, EventListener {
 
+    /**
+     * The unique identifier of the mod.
+     */
     const val MOD_ID = "schizoid"
+
+    /**
+     * The metadata of the mod.
+     */
     val METADATA = FabricLoader.getInstance().getModContainer(MOD_ID).get().metadata
+
+    /**
+     * The name of the mod.
+     */
     val MOD_NAME = METADATA.name
+
+    /**
+     * The version of the mod.
+     */
     val MOD_VERSION = METADATA.version.friendlyString
+
+    /**
+     * The list of authors contributing to the mod.
+     */
     @Suppress("SpellCheckingInspection")
     val MOD_AUTHORS = METADATA.authors
 
+    /**
+     * Whether the mod is running in a continuous integration environment.
+     */
     val CI = System.getProperty("CI").toBooleanStrict()
 
+    /**
+     * The Minecraft client instance.
+     */
+    val mc = MinecraftClient.getInstance()
+
+    /**
+     * The root directory of the Schizoid mod, used for storing mod-specific data.
+     */
     val root = File(
-        MinecraftClient.getInstance().runDirectory, MOD_ID
-    ).also { if (!it.exists()) it.mkdir() }
+        mc.runDirectory, MOD_ID
+    ).apply { if (!exists()) mkdir() }
+
+    /**
+     * The logger for the Schizoid mod.
+     */
     val logger: Logger = LogManager.getLogger(MOD_ID)
 
-    val mc = MinecraftClient.getInstance()
 
     /**
      * Initialize the Schizoid mod.
      */
     override fun onInitializeClient() {
-        val init = System.currentTimeMillis()
-        runCatching {
-            // Initialize the Schizoid mod, log mod initialization information, initialize settings, register a shutdown hook for cleanup, and fire the startup event.
-            logger.info("Initializing Schizoid v$MOD_VERSION by ${MOD_AUTHORS.joinToString(" & ") { it.name }}...")
-            if (CI)
-                logger.warn("Running in a continuous integration environment!")
-            SettingInitializer
-            FeatureManager
-            ImGuiLoader
-            Runtime.getRuntime().addShutdownHook(Thread { EventShutdown.fire() })
-            EventStartup.fire()
-            logger.info("Initialized ${FeatureManager.features.size} features!")
-        }.onSuccess { // Log successful initialization.
-            logger.info("Initialized Schizoid in ${System.currentTimeMillis() - init}ms!")
-        }.onFailure { exception -> // Log initialization failure and the associated exception.
-            logger.error("Failed to initialize Schizoid!", exception)
+        ImGuiLoader // Load ImGui, because of [dev.lyzev.api.events.EventGlfwInit] event.
+        on<EventStartup> {
+            val init = System.currentTimeMillis()
+            runCatching {
+                // Initialize the Schizoid mod, log mod initialization information, initialize settings, register a shutdown hook for cleanup, and fire the startup event.
+                logger.info("Initializing Schizoid v$MOD_VERSION by ${MOD_AUTHORS.joinToString(" & ") { it.name }}...")
+                if (CI)
+                    logger.warn("Running in a continuous integration environment!")
+                FeatureManager
+                SettingInitializer
+                Runtime.getRuntime().addShutdownHook(Thread { EventShutdown.fire() })
+                logger.info("Initialized ${FeatureManager.features.size} features!")
+            }.onSuccess { // Log successful initialization.
+                logger.info("Initialized Schizoid in ${System.currentTimeMillis() - init}ms!")
+            }.onFailure { exception -> // Log initialization failure and the associated exception.
+                logger.error("Failed to initialize Schizoid!", exception)
+            }
         }
     }
+
+    override val shouldHandleEvents: Boolean
+        get() = true
 }

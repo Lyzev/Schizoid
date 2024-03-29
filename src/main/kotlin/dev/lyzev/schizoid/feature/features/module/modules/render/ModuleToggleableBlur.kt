@@ -19,15 +19,15 @@ import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
-import dev.lyzev.schizoid.util.render.WrappedFramebuffer
+import dev.lyzev.api.opengl.WrappedFramebuffer
 import net.minecraft.client.MinecraftClient
 import org.lwjgl.opengl.GL13
 
 object ModuleToggleableBlur :
     ModuleToggleable("Blur", "All settings related to blur effects.", category = Category.RENDER), EventListener {
 
-    val method by lazy { option("Method", "The method used to blur the screen.", Blurs.DUAL_KAWASE, Blurs.entries) }
-
+    val method = option("Method", "The method used to blur the screen.", Blurs.DUAL_KAWASE, Blurs.entries)
+    val useLinearSampling by switch("Linear Sampling", "Enables linear sampling for the Gaussian blur.", true, method::value neq Blurs.GAUSSIAN)
     val strength by slider("Strength", "The strength of the blur effect.", 9, 1, 20)
 
     val acrylic by switch("Acrylic", "Adds an acrylic effect to the blur.", true)
@@ -53,10 +53,10 @@ object ModuleToggleableBlur :
         !fogRGBPuke || !fog
     })
 
-    val fbo by lazy { WrappedFramebuffer() }
+    val fbo = WrappedFramebuffer()
 
     override val shouldHandleEvents: Boolean
-        get() = isEnabled && fog
+        get() = isEnabled && fog && !mc.gameRenderer.isRenderingPanorama
 
     init {
         on<EventRenderWorld> {
@@ -89,7 +89,7 @@ object ModuleToggleableBlur :
             mc.framebuffer.beginWrite(true)
             ShaderDepth.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
-            method.value.getOutput().beginRead()
+            method.value.output.beginRead()
             ShaderDepth["uScene"] = 0
             RenderSystem.activeTexture(GL13.GL_TEXTURE1)
             GlStateManager._bindTexture(mc.framebuffer.depthAttachment)
@@ -104,6 +104,5 @@ object ModuleToggleableBlur :
             RenderSystem.depthMask(true)
             RenderSystem.enableCull()
         }
-        toggle()
     }
 }

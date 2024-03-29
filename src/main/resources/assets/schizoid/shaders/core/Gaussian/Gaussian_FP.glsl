@@ -10,28 +10,42 @@ precision lowp float;
 in vec2 uv;
 out vec4 color;
 
-uniform sampler2D uTexture;
-uniform vec2 uDirection;
-uniform vec2 uTexelSize;
-uniform bool uAlpha;
+uniform sampler2D scene;
+uniform vec2 direction;
+uniform vec2 texelSize;
+uniform bool alpha;
 
-uniform vec3 uGaussian; // vec3(1.0 / (sqrt(2.0 * PI) * sigma), exp(-0.5 * delta * delta / (sigma * sigma)), u_f3Gaussian.y * u_f3Gaussian.y)
-uniform float uSize; // sigma * 3
-uniform float uPixelSkip;
+uniform vec3 gaussian; // "Incremental Computation of the Gaussian" by Ken Turkowski
+uniform int support; // ceil(sigma * 3)
+uniform bool linearSampling;
 
 void main() {
-    vec3 gaussian = uGaussian;
-    color += texture(uTexture, uv) * gaussian.x;
-    float sum = gaussian.x;
-    for (float i = 1; i <= uSize; i += uPixelSkip) {
-        gaussian.xy *= gaussian.yz;
-        vec2 offset = uTexelSize * i * uDirection;
-        color += texture(uTexture, uv + offset) * gaussian.x;
-        color += texture(uTexture, uv - offset) * gaussian.x;
-        sum += gaussian.x * 2;
+    vec3 gauss = gaussian;
+    color = texture(scene, uv) * gauss.x;
+    float sum = gauss.x;
+    if (linearSampling) {
+        for (float i = 1; i <= support; i += 2) {
+            gauss.xy *= gauss.yz;
+            float w1 = gauss.x;
+            gauss.xy *= gauss.yz;
+            float w2 = gauss.x;
+            float w = w1 + w2;
+            vec2 offset = texelSize * direction * ((i * w1 + (i + 1) * w2) / w);
+            color += texture(scene, uv + offset) * w;
+            color += texture(scene, uv - offset) * w;
+            sum += w * 2;
+        }
+    } else {
+        for (float i = 1; i <= support; i++) {
+            gauss.xy *= gauss.yz;
+            vec2 offset = texelSize * direction * i;
+            color += texture(scene, uv + offset) * gauss.x;
+            color += texture(scene, uv - offset) * gauss.x;
+            sum += gauss.x * 2;
+        }
     }
     color /= sum;
-    if (!uAlpha) {
+    if (!alpha) {
         color.a = 1;
     }
 }

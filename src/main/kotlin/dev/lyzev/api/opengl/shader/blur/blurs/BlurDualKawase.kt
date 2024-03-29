@@ -7,19 +7,28 @@ package dev.lyzev.api.opengl.shader.blur.blurs
 
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.systems.RenderSystem
-import dev.lyzev.api.opengl.shader.ShaderDualKawaseDown
-import dev.lyzev.api.opengl.shader.ShaderDualKawase
-import dev.lyzev.api.opengl.shader.ShaderDualKawaseUp
 import dev.lyzev.api.opengl.shader.Shader
+import dev.lyzev.api.opengl.shader.ShaderDualKawase
+import dev.lyzev.api.opengl.shader.ShaderDualKawaseDown
+import dev.lyzev.api.opengl.shader.ShaderDualKawaseUp
 import dev.lyzev.api.opengl.shader.blur.Blur
-import dev.lyzev.schizoid.util.render.WrappedFramebuffer
+import dev.lyzev.api.opengl.WrappedFramebuffer
 import net.minecraft.client.gl.Framebuffer
 import org.joml.Vector2f
 import kotlin.math.pow
 
+/**
+ * Object that represents a dual Kawase blur.
+ * This blur uses a two-pass approach, first downsampling the image and then upsampling it.
+ */
 object BlurDualKawase : Blur {
 
-    // Strength-Levels from https://github.com/jonaburg/picom/blob/a8445684fe18946604848efb73ace9457b29bf80/src/backend/backend_common.c#L372
+    /**
+     * Array of pairs representing the strength levels of the blur.
+     * Each pair consists of an integer (samples) and a float value (offset).
+     *
+     * Strength-Levels from https://github.com/jonaburg/picom/blob/a8445684fe18946604848efb73ace9457b29bf80/src/backend/backend_common.c#L372
+     */
     private val strengths = arrayOf(
         1 to 1.25f,  // LVL  1
         1 to 2.25f,  // LVL  2
@@ -43,16 +52,34 @@ object BlurDualKawase : Blur {
         5 to 8.5f,   // LVL  20
     )
 
+    /**
+     * Array of framebuffers used for the blur process.
+     * Each framebuffer is wrapped in a WrappedFramebuffer object.
+     */
     private val fbos = Array(6) { WrappedFramebuffer(1f / 2f.pow(it)) }
 
+    /**
+     * Pair representing the current strength of the blur.
+     * The first element is an integer representing the amount of samples, and the second is a float representing the offset.
+     */
     private lateinit var strength: Pair<Int, Float>
 
+    /**
+     * Vector representing the half size of a texel.
+     */
     private val halfTexelSize = Vector2f()
 
     override fun switchStrength(strength: Int) {
         this.strength = strengths[strength - 1]
     }
 
+    /**
+     * Method to render to a framebuffer object.
+     * @param targetFBO The framebuffer to render to.
+     * @param sourceFBO The framebuffer to render from.
+     * @param shader The shader to use for rendering.
+     * @param alpha Whether to use alpha blending.
+     */
     private fun renderToFBO(
         targetFBO: Framebuffer, sourceFBO: Framebuffer, shader: ShaderDualKawase, alpha: Boolean
     ) {
@@ -68,6 +95,7 @@ object BlurDualKawase : Blur {
     }
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
+        fbos.forEach { it.clear() }
         // Initial downsample
         renderToFBO(fbos[1], sourceFBO, ShaderDualKawaseDown, alpha)
         // Downsample
@@ -76,5 +104,6 @@ object BlurDualKawase : Blur {
         for (i in strength.first downTo 1) renderToFBO(fbos[i - 1], fbos[i], ShaderDualKawaseUp, alpha)
     }
 
-    override fun getOutput(): WrappedFramebuffer = fbos[0]
+    override val output: WrappedFramebuffer
+        get() = fbos[0]
 }

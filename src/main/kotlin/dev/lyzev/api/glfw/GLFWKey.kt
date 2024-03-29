@@ -5,6 +5,15 @@
 
 package dev.lyzev.api.glfw
 
+import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
+import net.minecraft.client.util.InputUtil
+
+/**
+ * Enum class representing GLFW keys.
+ * Each enum value represents a different key and contains a key code.
+ * It also provides a method to retrieve a GLFWKey instance by key code.
+ */
 enum class GLFWKey(val code: Int) {
     NONE(-1), MOUSE_BUTTON_LEFT(0), MOUSE_BUTTON_RIGHT(1), MOUSE_BUTTON_MIDDLE(2), SPACE(32), APOSTROPHE(39), COMMA(44), MINUS(
         45
@@ -68,7 +77,11 @@ enum class GLFWKey(val code: Int) {
     ),
     RIGHT_ALT(346), RIGHT_SUPER(347), MENU(348);
 
+    fun isPressed() = isPressed(code)
+
     companion object {
         operator fun get(keyCode: Int): GLFWKey = entries.firstOrNull { it.code == keyCode } ?: NONE
+
+        fun isPressed(code: Int) = InputUtil.isKeyPressed(Schizoid.mc.window.handle, code)
     }
 }

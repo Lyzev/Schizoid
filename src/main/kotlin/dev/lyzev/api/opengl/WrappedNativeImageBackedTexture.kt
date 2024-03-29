@@ -19,6 +19,9 @@ class WrappedNativeImageBackedTexture(image: NativeImage) : NativeImageBackedTex
 
     private val logger = LogUtils.getLogger()
 
+    /**
+     * Override upload method to upload the texture with blur = true to get [GlConst.GL_LINEAR] as the texture filter.
+     */
     override fun upload() {
         if (image != null) {
             bindTexture()

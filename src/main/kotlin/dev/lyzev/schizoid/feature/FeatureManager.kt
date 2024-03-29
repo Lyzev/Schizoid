@@ -9,8 +9,6 @@ import dev.lyzev.api.events.*
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.Schizoid.mc
-import dev.lyzev.schizoid.feature.FeatureManager.PREFIX
-import dev.lyzev.schizoid.feature.FeatureManager.features
 import net.minecraft.text.Text
 import org.reflections.Reflections
 import java.lang.reflect.Modifier
@@ -19,14 +17,12 @@ import kotlin.jvm.internal.Reflection
 
 /**
  * Singleton object responsible for initializing and managing features.
- *
- * @property PREFIX The prefix used for commands.
- * @property features The list of features.
  */
 object FeatureManager : EventListener {
 
-    private const val PREFIX = "."
-
+    /**
+     * The list of features.
+     */
     val features = mutableListOf<IFeature>()
 
     /**
@@ -53,34 +49,29 @@ object FeatureManager : EventListener {
     operator fun get(category: Feature.Category): List<IFeature> = features.filter { it.category == category }
 
     /**
+     * Gets a list of features by their categories.
+     */
+    operator fun get(vararg category: Feature.Category): List<IFeature> = features.filter { category.contains(it.category) }
+
+    /**
      * Sends a chat message to the player.
      *
      * @param message The message to send.
      */
-    fun sendChatMessage(text: Text) {
-        mc.player?.sendMessage(text)
-    }
+    fun sendChatMessage(text: Text) = mc.player?.sendMessage(text)
 
-
-    // Indicates whether the feature manager should handle events.
     override val shouldHandleEvents = true
 
     init {
-
-        /**
-         * Initializes the features during the startup event. It scans the "features" package for all features and
-         * adds them to the [features] list.
-         */
-        on<EventStartup>(Event.Priority.HIGH) {
-            Reflections("${javaClass.packageName}.features").getSubTypesOf(IFeature::class.java)
-                .filter { !Modifier.isInterface(it.modifiers) && !Modifier.isAbstract(it.modifiers) }
-                .forEach {
-                    val feature = Reflection.getOrCreateKotlinClass(it).objectInstance as IFeature
-                    features += feature
-                    Schizoid.logger.info("Initialized feature: ${feature.name}.")
-                }
-            features.sortBy { it.name }
-        }
+        // Initialize features.
+        Reflections("${javaClass.packageName}.features").getSubTypesOf(IFeature::class.java)
+            .filter { !Modifier.isInterface(it.modifiers) && !Modifier.isAbstract(it.modifiers) }
+            .forEach {
+                val feature = Reflection.getOrCreateKotlinClass(it).objectInstance as IFeature
+                features += feature
+                Schizoid.logger.info("Initialized feature: ${feature.name}.")
+            }
+        features.sortBy { it.name }
 
         on<EventKeystroke> { event ->
             if (mc.currentScreen == null && event.action == 1)

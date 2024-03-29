@@ -12,6 +12,8 @@ import dev.lyzev.api.events.EventKeybindsResponse
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
+import dev.lyzev.api.imgui.font.ImGuiFonts
+import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.opengl.WrappedNativeImageBackedTexture
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.Schizoid
@@ -19,10 +21,11 @@ import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
 import net.minecraft.client.texture.NativeImage
 import org.lwjgl.glfw.GLFW
+import kotlin.math.max
 import kotlin.reflect.KClass
 
 /**
- * A specific implementation of the [Setting] class for keybind settings.
+ * A specific implementation of the [SettingClient] class for keybind settings.
  *
  * @param container The class of the settings container where this setting belongs.
  * @param name The name of the setting.
@@ -39,16 +42,19 @@ class SettingClientKeybinds(
     val change: (MutableSet<GLFWKey>) -> Unit
 ) : SettingClient<MutableSet<GLFWKey>>(container, name, desc, value, hide, change), EventListener {
 
+    // A flag to check if the keybind is listening for input
     private var isListening = false
 
     override fun render() {
         val treeNode = treeNode(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
-        sameLine(getWindowContentRegionMaxX() - 10.5f - getStyle().windowPaddingX)
-        if (imageButton(if (!isListening) add!!.glId else hourglass!!.glId, 8.75f, 8.75f)) {
+        sameLine(max(getWindowContentRegionMaxX() - 10.5f - getStyle().windowPaddingX, 130f))
+        ImGuiFonts.FONT_AWESOME_SOLID.begin()
+        if (button(if (!isListening) FontAwesomeIcons.Plus else FontAwesomeIcons.Hourglass, 17.5f, 17.5f)) {
             isListening = true
             EventKeybindsRequest.fire()
         }
+        ImGuiFonts.FONT_AWESOME_SOLID.end()
         if (isItemHovered()) setTooltip(
             """
                 Press to bind.
@@ -63,7 +69,9 @@ class SettingClientKeybinds(
                     if (selectable(key.name)) itemsToRemove.add(key)
                     sameLine(getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX)
                     pushID(key.name)
-                    if (imageButton(x!!.glId, 8.75f, 8.75f)) itemsToRemove.add(key)
+                    ImGuiFonts.FONT_AWESOME_SOLID.begin()
+                    if (button(FontAwesomeIcons.Trash, 17.5f, 17.5f)) itemsToRemove.add(key)
+                    ImGuiFonts.FONT_AWESOME_SOLID.end()
                     if (isItemHovered()) setTooltip("Click to remove.")
                     popID()
                 }
@@ -91,6 +99,9 @@ class SettingClientKeybinds(
         get() = isListening
 
     init {
+        /**
+         * Listens for keybind events and adds the key to the value set.
+         */
         on<EventKeybindsResponse> {
             if (isListening) {
                 isListening = false
@@ -103,17 +114,29 @@ class SettingClientKeybinds(
     }
 
     companion object {
+        /**
+         * The maximum height of the list box.
+         */
         private const val MAX_HEIGHT = 5f * 26f + 2f
+
+        /**
+         * A set of items to remove from the list.
+         */
         private val itemsToRemove = mutableSetOf<GLFWKey>()
-        private val x by lazy { javaClass.classLoader.getResourceAsStream("assets/${Schizoid.MOD_ID}/textures/x.png")
-            ?.use { WrappedNativeImageBackedTexture(NativeImage.read(it)) } }
-        private val hourglass by lazy { javaClass.classLoader.getResourceAsStream("assets/${Schizoid.MOD_ID}/textures/hourglass.png")
-            ?.use { WrappedNativeImageBackedTexture(NativeImage.read(it)) } }
-        private val add by lazy { javaClass.classLoader.getResourceAsStream("assets/${Schizoid.MOD_ID}/textures/add.png")
-            ?.use { WrappedNativeImageBackedTexture(NativeImage.read(it)) } }
     }
 }
 
+/**
+ * Creates a new keybind setting.
+ *
+ * @param name The name of the setting.
+ * @param desc The description of the setting.
+ * @param value The initial value of the keybind setting.
+ * @param hide A lambda function that determines whether this setting is hidden or not.
+ * @param change A lambda function that will be called when the value of the setting changes.
+ *
+ * @return The created keybind setting.
+ */
 fun IFeature.keybinds(
     name: String,
     desc: String? = null,

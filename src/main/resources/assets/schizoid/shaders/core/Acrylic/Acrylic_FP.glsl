@@ -21,6 +21,7 @@ uniform float uRGBPukeOpacity;
 uniform float uTime;
 
 #include "Acrylic.glsl"
+#include "Luminance.glsl"
 
 void main() {
     color = texture(uTexture, uv);

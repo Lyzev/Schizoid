@@ -49,16 +49,16 @@ object ShaderGaussian : Shader("Gaussian") {
         pixelSize: Vector2f,
         alpha: Boolean,
         gaussian: Vector3f,
-        size: Float,
-        pixelSkip: Float
+        support: Int,
+        linearSampling: Boolean
     ) {
-        this["uTexture"] = 0
-        this["uDirection"] = direction
-        this["uTexelSize"] = pixelSize
-        this["uAlpha"] = alpha
-        this["uGaussian"] = gaussian
-        this["uSize"] = size
-        this["uPixelSkip"] = pixelSkip
+        this["texture"] = 0
+        this["direction"] = direction
+        this["texelSize"] = pixelSize
+        this["alpha"] = alpha
+        this["gaussian"] = gaussian
+        this["support"] = support
+        this["linearSampling"] = linearSampling
     }
 }
 
@@ -70,3 +70,7 @@ object ShaderAdd : Shader("Add")
 object ShaderPassThrough : Shader("PassThrough")
 
 object ShaderDepth : Shader("Depth")
+
+object ShaderThreshold : Shader("Threshold")
+object ShaderBlend : Shader("Blend")
+object ShaderFlip : Shader("Flip")

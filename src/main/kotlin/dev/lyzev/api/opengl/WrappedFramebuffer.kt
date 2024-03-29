@@ -3,7 +3,7 @@
  * All rights reserved.
  */
 
-package dev.lyzev.schizoid.util.render
+package dev.lyzev.api.opengl
 
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
@@ -37,6 +37,9 @@ class WrappedFramebuffer(val multi: Float = 1f, useDepth: Boolean = false) : Sim
     MinecraftClient.IS_SYSTEM_MAC
 ), EventListener {
 
+    /**
+     * Override initFbo method to initialize the framebuffer with [GlConst.GL_LINEAR].
+     */
     override fun initFbo(width: Int, height: Int, getError: Boolean) {
         RenderSystem.assertOnRenderThreadOrInit()
         val i = RenderSystem.maxSupportedTextureSize()
@@ -95,9 +98,15 @@ class WrappedFramebuffer(val multi: Float = 1f, useDepth: Boolean = false) : Sim
 
     override val shouldHandleEvents = true
 
+    /**
+     * Initializes the framebuffer.
+     */
     init {
         setClearColor(0f, 0f, 0f, 0f)
         clear()
+        /**
+         * Listens for window resize events and resizes the framebuffer accordingly.
+         */
         on<EventWindowResize> {
             resize(
                 (MinecraftClient.getInstance().window.framebufferWidth * multi).toInt(),

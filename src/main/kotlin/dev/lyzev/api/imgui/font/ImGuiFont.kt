@@ -5,6 +5,8 @@
 
 package dev.lyzev.api.imgui.font
 
+import imgui.ImGui
+
 /**
  * Represents a font that can be used in ImGui.
  */
@@ -19,6 +21,7 @@ interface ImGuiFont {
      * The glyph ranges for the font.
      */
     val glyphRanges: ShortArray
+        get() = ImGui.getIO().fonts.glyphRangesDefault
 
     /**
      * The type of the font.

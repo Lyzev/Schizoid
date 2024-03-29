@@ -5,13 +5,20 @@
   "client": [
     "imgui.MixinImGuiImplGlfw",
     "minecraft.client.MixinKeyboard",
-    "minecraft.client.MixinMouse",
-    "minecraft.client.MixinWindow",
-    "minecraft.client.network.MixinClientPlayerEntity",
-    "minecraft.client.render.MixinGameRenderer",
-    "minecraft.network.MixinClientConnection",
     "minecraft.client.MixinMinecraftClient",
-    "minecraft.entity.MixinLivingEntity"
+    "minecraft.client.MixinMouse",
+    "minecraft.client.input.MixinKeyboardInput",
+    "minecraft.client.network.MixinClientPlayerEntity",
+    "minecraft.client.network.MixinClientPlayerInteractionManager",
+    "minecraft.client.render.MixinCamera",
+    "minecraft.client.render.MixinGameRenderer",
+    "minecraft.client.render.MixinLightmapTextureManager",
+    "minecraft.client.render.entity.MixinLivingEntityRenderer",
+    "minecraft.client.util.MixinWindow",
+    "minecraft.client.world.MixinClientWorld",
+    "minecraft.entity.MixinEntity",
+    "minecraft.entity.MixinLivingEntity",
+    "minecraft.network.MixinClientConnection"
   ],
   "injectors": {
     "defaultRequire": 1

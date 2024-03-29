@@ -24,6 +24,9 @@ lyzev_settings = "1.0.1"
 reflections = "0.10.2"
 # https://github.com/SpaiR/imgui-java
 imgui = "1.86.11"
+# fuzzywuzzy
+fuzzywuzzy = "1.4.0"
+
 # https://github.com/TerraformersMC/ModMenu
 modmenu = "9.0.0"
 # https://github.com/CaffeineMC/sodium-fabric
@@ -40,11 +43,14 @@ lyzev_events = { module = "com.github.Lyzev:Events", version.ref = "lyzev_events
 lyzev_settings = { module = "com.github.Lyzev:Settings", version.ref = "lyzev_settings" }
 
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
+
 imgui_binding = { module = "io.github.spair:imgui-java-binding", version.ref = "imgui" }
 imgui_lwjgl3 = { module = "io.github.spair:imgui-java-lwjgl3", version.ref = "imgui" }
 imgui_natives_windows = { module = "io.github.spair:imgui-java-natives-windows", version.ref = "imgui" }
 imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", version.ref = "imgui" }
 imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
+
+fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
 
 modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }

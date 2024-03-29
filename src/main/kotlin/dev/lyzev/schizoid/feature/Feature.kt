@@ -6,13 +6,15 @@
 package dev.lyzev.schizoid.feature
 
 import dev.lyzev.api.glfw.GLFWKey
-import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.imgui.font.ImGuiFonts.*
+import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.api.setting.settings.keybinds
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import imgui.ImGui.*
+import net.minecraft.client.MinecraftClient
 import net.minecraft.text.Text
 
 /**
@@ -30,13 +32,8 @@ abstract class Feature(
     override val category: Category
 ) : IFeature {
 
-    // The Minecraft client instance.
-    val mc = Schizoid.mc
-
     // The keybind of the feature.
     override var keybinds by keybinds("Keybinds", "All keys used to control the feature.", keys)
-
-    override fun sendChatMessage(message: Text) = FeatureManager.sendChatMessage(message)
 
     /**
      * Represents a category of features.
@@ -53,13 +50,15 @@ abstract class Feature(
         MISC;
 
         override fun render() {
-            HELVETICA_NEUE_BOLD.begin()
+            OPEN_SANS_BOLD.begin()
+            if (ImGuiScreenFeature.searchResult != null && ImGuiScreenFeature.searchResult!!.category == this)
+                setNextWindowFocus()
             if (begin("\"$name\"")) {
-                HELVETICA_NEUE.begin()
+                OPEN_SANS_REGULAR.begin()
                 FeatureManager[this].forEach(IFeature::render)
-                HELVETICA_NEUE.end()
+                OPEN_SANS_REGULAR.end()
             }
-            HELVETICA_NEUE_BOLD.end()
+            OPEN_SANS_BOLD.end()
             end()
         }
     }
@@ -79,6 +78,11 @@ interface IFeature : ImGuiRenderable {
      * Renders the feature and its settings using ImGui.
      */
     override fun render() {
+        if (ImGuiScreenFeature.searchResult == this) {
+            setScrollHereY()
+            setNextItemOpen(true)
+            ImGuiScreenFeature.searchResult = null
+        }
         val treeNode = treeNode(name)
         if (isItemHovered()) setTooltip(desc)
         if (treeNode) {
@@ -97,10 +101,38 @@ interface IFeature : ImGuiRenderable {
      *
      * @param message The message to send.
      */
-    fun sendChatMessage(message: Text)
+    fun sendChatMessage(message: Text) = FeatureManager.sendChatMessage(message)
 
     /**
      * Called when the keybind is pressed.
      */
     fun keybindReleased()
+
+    fun copy(text: String) {
+        mc.keyboard.clipboard = text
+    }
+
+    /**
+     * The Minecraft client instance.
+     */
+    val mc: MinecraftClient
+        get() = Schizoid.mc
+
+    /**
+     * Whether the player is in a game.
+     */
+    val isIngame: Boolean
+        get() = mc.world != null
+
+    /**
+     * Whether the player is in a multiplayer game.
+     */
+    val isMultiplayer: Boolean
+        get() = isIngame && !mc.isInSingleplayer && !mc.currentServerEntry!!.isRealm
+
+    /**
+     * Whether the player is in a singleplayer game.
+     */
+    val isSingleplayer: Boolean
+        get() = isIngame && mc.isInSingleplayer
 }

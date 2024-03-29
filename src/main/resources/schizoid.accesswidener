@@ -4,3 +4,12 @@ mutable field net/minecraft/network/packet/s2c/play/WorldTimeUpdateS2CPacket tim
 accessible field net/minecraft/network/packet/s2c/play/WorldTimeUpdateS2CPacket timeOfDay J
 accessible field net/minecraft/client/render/RenderTickCounter tickTime F
 accessible field net/minecraft/client/MinecraftClient renderTickCounter Lnet/minecraft/client/render/RenderTickCounter;
+accessible field net/minecraft/client/MinecraftClient paused Z
+accessible field net/minecraft/client/MinecraftClient pausedTickDelta F
+accessible field net/minecraft/client/MinecraftClient itemUseCooldown I
+accessible field net/minecraft/client/gui/screen/ingame/CreativeInventoryScreen selectedTab Lnet/minecraft/item/ItemGroup;
+accessible field net/minecraft/client/option/KeyBinding boundKey Lnet/minecraft/client/util/InputUtil$Key;
+mutable field net/minecraft/entity/TntEntity DEFAULT_FUSE I
+accessible field net/minecraft/entity/TntEntity DEFAULT_FUSE I
+accessible field net/minecraft/client/Mouse cursorDeltaX D
+accessible field net/minecraft/client/Mouse cursorDeltaY D

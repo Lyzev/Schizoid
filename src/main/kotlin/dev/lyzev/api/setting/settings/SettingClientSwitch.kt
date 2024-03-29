@@ -6,18 +6,19 @@
 package dev.lyzev.api.setting.settings
 
 import com.google.gson.JsonObject
-import su.mandora.tarasande.util.render.animation.EasingFunction
-import su.mandora.tarasande.util.render.animation.TimeAnimator
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImColor
 import imgui.ImGui.*
+import imgui.flag.ImGuiCol.Button
 import net.minecraft.util.math.MathHelper
+import su.mandora.tarasande.util.render.animation.EasingFunction
+import su.mandora.tarasande.util.render.animation.TimeAnimator
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 /**
- * A specific implementation of the [Setting] class for switch settings.
+ * A specific implementation of the [SettingClient] class for switch settings.
  *
  * @param container The class of the settings container where this setting belongs.
  * @param name The name of the setting.
@@ -34,48 +35,21 @@ class SettingClientSwitch(
     change: (Boolean) -> Unit
 ) : SettingClient<Boolean>(container, name, desc, value, hide, change) {
 
-    private val timeAnimator = TimeAnimator(300)
-
-    var track = floatArrayOf(0f, 0f, 0.8f)
-    var trackActive = floatArrayOf(0.06027397f, 1f, 0.5f)
-    var thumb = ImColor.rgb(255, 255, 255)
+    private val switch = Switch()
 
     private var shadowValue
         get() = value
         set(value) {
             this.value = value
-            timeAnimator.setReversed(!value)
+            switch.timeAnimator.setReversed(!value)
         }
-
-    fun switch(strId: String, v: BooleanArray) {
-        val p = getCursorScreenPos()
-        val drawList = getWindowDrawList()
-
-        val height = 17.5f
-        val width = height * 1.8f
-        val radius = height * 0.5f
-
-        if (invisibleButton(strId, width, height))
-            v[0] = !v[0]
-
-        val delta = EasingFunction.LINEAR.ease(timeAnimator.getProgress()).toFloat()
-        val trackColor = ImColor.hsl(MathHelper.lerp(delta, track[0], trackActive[0]), MathHelper.lerp(delta, track[1], trackActive[1]), MathHelper.lerp(delta, track[2], trackActive[2]))
-        drawList.addRectFilled(p.x, p.y + height * 0.15f, p.x + width, p.y + height * 0.85f, trackColor, height * 0.35f)
-
-        drawList.addCircleFilled(
-            (p.x + radius + (width - height) * EasingFunction.IN_OUT_BACK.ease(timeAnimator.getProgress())).toFloat(),
-            p.y + height * 0.5f,
-            radius,
-            thumb
-        )
-    }
 
     override fun render() {
         text(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
         sameLine()
         v[0] = shadowValue
-        switch(name, v)
+        switch.render(name, v)
         if (v[0] != shadowValue)
             shadowValue = v[0]
     }
@@ -87,16 +61,84 @@ class SettingClientSwitch(
     override fun save(value: JsonObject) = value.addProperty("enabled", this.shadowValue)
 
     override fun setValue(ref: Any, prop: KProperty<*>, value: Boolean) {
-        timeAnimator.setReversed(!value)
+        switch.timeAnimator.setReversed(!value)
         super.setValue(ref, prop, value)
     }
 
     init {
-        timeAnimator.setReversed(!value)
+        switch.timeAnimator.setReversed(!value)
     }
 
     companion object {
         private val v = booleanArrayOf(false)
+    }
+}
+
+class Switch {
+
+    val timeAnimator = TimeAnimator(300)
+
+    fun render(strId: String, v: BooleanArray) {
+        val p = getCursorScreenPos()
+        val drawList = getWindowDrawList()
+
+        val height = 17.5f
+        val width = height * 1.8f
+        val radius = height * 0.5f
+
+        if (invisibleButton(strId, width, height))
+            v[0] = !v[0]
+
+        val delta = EasingFunction.LINEAR.ease(timeAnimator.getProgress()).toFloat()
+
+        val primary = getStyle().getColor(Button)
+        if (primary.x != rgbPrimary[0] || primary.y != rgbPrimary[1] || primary.z != rgbPrimary[2]) {
+            rgbPrimary[0] = primary.x
+            rgbPrimary[1] = primary.y
+            rgbPrimary[2] = primary.z
+            colorConvertRGBtoHSL(rgbPrimary, hslPrimary)
+        }
+
+        val hsvTrackColor = ImColor.hsl(MathHelper.lerp(delta, track[0], hslPrimary[0]), MathHelper.lerp(delta, track[1], hslPrimary[1]), MathHelper.lerp(delta, track[2], hslPrimary[2]))
+        drawList.addRectFilled(p.x, p.y + height * 0.15f, p.x + width, p.y + height * 0.85f, hsvTrackColor, height * 0.35f)
+
+        drawList.addCircleFilled(
+            (p.x + radius + (width - height) * EasingFunction.IN_OUT_BACK.ease(timeAnimator.getProgress())).toFloat(),
+            p.y + height * 0.5f,
+            radius,
+            thumb
+        )
+    }
+
+    companion object {
+        private val rgbPrimary = FloatArray(3)
+        private val hslPrimary = FloatArray(3)
+        private val track = floatArrayOf(0f, 0f, .8f)
+        private var thumb = ImColor.rgb(255, 255, 255)
+
+        private fun colorConvertRGBtoHSL(rgb: FloatArray, hsl: FloatArray) {
+            val r = rgb[0]
+            val g = rgb[1]
+            val b = rgb[2]
+            val max = r.coerceAtLeast(g.coerceAtLeast(b))
+            val min = r.coerceAtMost(g.coerceAtMost(b))
+            val l = (max + min) / 2.0f
+            if (max == min) {
+                hsl[0] = 0f
+                hsl[1] = 0f
+            } else {
+                val d = max - min
+                hsl[1] = if (l > 0.5f) d / (2.0f - max - min) else d / (max + min)
+                hsl[0] = when (max) {
+                    r -> (g - b) / d + (if (g < b) 6 else 0)
+                    g -> (b - r) / d + 2
+                    b -> (r - g) / d + 4
+                    else -> 0f
+                }
+                hsl[0] /= 6.0f
+            }
+            hsl[2] = l
+        }
     }
 }
 
