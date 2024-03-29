@@ -7,10 +7,10 @@ package dev.lyzev.api.opengl.shader.blur.blurs
 
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.systems.RenderSystem
+import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderBox
 import dev.lyzev.api.opengl.shader.blur.Blur
-import dev.lyzev.api.opengl.WrappedFramebuffer
 import net.minecraft.client.gl.Framebuffer
 import org.joml.Vector2f
 import kotlin.math.ceil

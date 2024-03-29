@@ -6,7 +6,10 @@
 package dev.lyzev.api.imgui.render
 
 import com.mojang.blaze3d.systems.RenderSystem
-import dev.lyzev.api.events.*
+import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.EventRenderImGui
+import dev.lyzev.api.events.EventRenderImGuiContent
+import dev.lyzev.api.events.on
 import dev.lyzev.api.imgui.ImGuiLoader.gl3
 import dev.lyzev.api.imgui.ImGuiLoader.glfw
 import dev.lyzev.api.opengl.WrappedFramebuffer

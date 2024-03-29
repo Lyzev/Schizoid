@@ -6,7 +6,6 @@
 package dev.lyzev.api.glfw
 
 import dev.lyzev.schizoid.Schizoid
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import net.minecraft.client.util.InputUtil
 
 /**

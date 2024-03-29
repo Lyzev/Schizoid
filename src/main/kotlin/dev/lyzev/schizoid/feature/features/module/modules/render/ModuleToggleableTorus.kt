@@ -6,21 +6,16 @@
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
 import com.mojang.blaze3d.systems.RenderSystem
-import dev.lyzev.api.events.*
-import dev.lyzev.api.opengl.shader.blur.BlurHelper
-import dev.lyzev.api.setting.settings.OptionEnum
-import dev.lyzev.api.setting.settings.option
+import dev.lyzev.api.events.EventAttackEntity
+import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.EventRenderWorld
+import dev.lyzev.api.events.on
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.render.*
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.TntEntity
-import net.minecraft.text.Text
-import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
-import org.joml.Quaternionf
-import org.joml.Vector3f
 import org.lwjgl.opengl.GL11
 import kotlin.math.cos
 import kotlin.math.sin

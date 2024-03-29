@@ -26,13 +26,11 @@ import imgui.ImGui.*
 import imgui.flag.ImGuiComboFlags
 import imgui.flag.ImGuiCond
 import imgui.flag.ImGuiFocusedFlags
-import imgui.flag.ImGuiInputTextFlags
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.ImBoolean
 import imgui.type.ImString
 import me.xdrop.fuzzywuzzy.FuzzySearch
 import net.minecraft.client.gui.DrawContext
-import net.minecraft.client.util.InputUtil
 import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
 import su.mandora.tarasande.util.render.animation.EasingFunction

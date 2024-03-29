@@ -7,6 +7,7 @@ package dev.lyzev.api.opengl.shader.blur
 
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.ShaderAcrylic
 import dev.lyzev.api.opengl.shader.ShaderAdd
@@ -14,7 +15,6 @@ import dev.lyzev.api.opengl.shader.ShaderMask
 import dev.lyzev.api.opengl.shader.ShaderTint
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
-import dev.lyzev.api.opengl.WrappedFramebuffer
 import net.minecraft.client.MinecraftClient
 import org.joml.Vector4f
 import org.lwjgl.opengl.GL13.*

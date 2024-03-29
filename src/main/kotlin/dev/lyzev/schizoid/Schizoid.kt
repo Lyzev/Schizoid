@@ -5,7 +5,10 @@
 
 package dev.lyzev.schizoid
 
-import dev.lyzev.api.events.*
+import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.EventShutdown
+import dev.lyzev.api.events.EventStartup
+import dev.lyzev.api.events.on
 import dev.lyzev.api.imgui.ImGuiLoader
 import dev.lyzev.api.setting.SettingInitializer
 import dev.lyzev.schizoid.Schizoid.CI

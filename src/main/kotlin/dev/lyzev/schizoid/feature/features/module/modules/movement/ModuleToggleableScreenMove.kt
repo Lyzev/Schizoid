@@ -9,12 +9,12 @@ import dev.lyzev.api.events.*
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.item.ItemGroups
-import dev.lyzev.api.settings.Setting.Companion.neq
 
 object ModuleToggleableScreenMove : ModuleToggleable("Screen Move", "Allows you to move while in GUI screens.", category = Category.MOVEMENT), EventListener {
 

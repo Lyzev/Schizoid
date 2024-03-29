@@ -5,12 +5,12 @@
 
 package dev.lyzev.api.opengl.shader.blur
 
+import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.shader.blur.blurs.BlurBox
 import dev.lyzev.api.opengl.shader.blur.blurs.BlurDualKawase
 import dev.lyzev.api.opengl.shader.blur.blurs.BlurGaussian
 import dev.lyzev.api.opengl.shader.blur.blurs.BlurKawase
 import dev.lyzev.api.setting.settings.OptionEnum
-import dev.lyzev.api.opengl.WrappedFramebuffer
 import net.minecraft.client.gl.Framebuffer
 
 /**

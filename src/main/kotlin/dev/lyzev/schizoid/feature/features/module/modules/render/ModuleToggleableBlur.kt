@@ -10,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventRenderWorld
 import dev.lyzev.api.events.on
+import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderAcrylic
 import dev.lyzev.api.opengl.shader.ShaderDepth
@@ -19,7 +20,6 @@ import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
-import dev.lyzev.api.opengl.WrappedFramebuffer
 import net.minecraft.client.MinecraftClient
 import org.lwjgl.opengl.GL13
 

@@ -5,8 +5,8 @@
 
 package dev.lyzev.api.opengl.shader.blur
 
-import dev.lyzev.schizoid.Schizoid.mc
 import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.schizoid.Schizoid.mc
 import net.minecraft.client.gl.Framebuffer
 
 interface Blur {

@@ -14,12 +14,9 @@ import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
-import dev.lyzev.api.opengl.WrappedNativeImageBackedTexture
 import dev.lyzev.api.setting.SettingClient
-import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
-import net.minecraft.client.texture.NativeImage
 import org.lwjgl.glfw.GLFW
 import kotlin.math.max
 import kotlin.reflect.KClass
