@@ -74,3 +74,7 @@ object ShaderDepth : Shader("Depth")
 object ShaderThreshold : Shader("Threshold")
 object ShaderBlend : Shader("Blend")
 object ShaderFlip : Shader("Flip")
+
+object ShaderGlass : Shader("Glass")
+object ShaderGlitch : Shader("Glitch")
+object ShaderDistortion : Shader("Distortion")

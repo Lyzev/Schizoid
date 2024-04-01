@@ -24,6 +24,7 @@ void main() {
     // Convert depth value to distance
     float distance = linearizeDepth(depthValue, uNear, uFar) / uFar;
 
+    color = vec4(0);
     if (distance > uMinThreshold) {
         color = vec4(texture(uScene, uv).rgb, min((distance - uMinThreshold) / (uMaxThreshold - uMinThreshold), 1.0));
     }

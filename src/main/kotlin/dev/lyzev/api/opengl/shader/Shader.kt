@@ -11,6 +11,7 @@ import net.minecraft.client.gl.GlProgramManager
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
+import org.joml.Matrix4f
 import org.joml.Vector2f
 import org.joml.Vector3f
 import org.joml.Vector4f
@@ -91,6 +92,19 @@ abstract class Shader(shader: String) {
      * @param value The float array value to set.
      */
     operator fun set(name: String, value: FloatArray) = glUniform1fv(this[name], value)
+
+    /**
+     * A buffer for matrix values.
+     */
+    private val buffer = FloatArray(16)
+
+    /**
+     * Sets a uniform [Matrix4f] value.
+     * @param name The name of the uniform.
+     * @param transpose Whether to transpose the matrix.
+     * @param value The [Matrix4f] value to set.
+     */
+    operator fun set(name: String, transpose: Boolean, value: Matrix4f) = glUniformMatrix4fv(this[name], transpose, value.get(buffer))
 
     /**
      * Retrieves the location of a uniform variable.
