@@ -15,9 +15,6 @@ import dev.lyzev.api.events.on
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.Framebuffer
 import net.minecraft.client.gl.SimpleFramebuffer
-import net.minecraft.client.render.BufferRenderer
-import net.minecraft.client.render.VertexFormat
-import net.minecraft.client.render.VertexFormats
 import net.minecraft.client.util.ScreenshotRecorder
 import kotlin.math.ceil
 
@@ -94,8 +91,6 @@ class WrappedFramebuffer(val multi: Float = 1f, useDepth: Boolean = false) : Sim
         endRead()
     }
 
-    fun clear() = clear(MinecraftClient.IS_SYSTEM_MAC)
-
     override val shouldHandleEvents = true
 
     /**
@@ -117,18 +112,6 @@ class WrappedFramebuffer(val multi: Float = 1f, useDepth: Boolean = false) : Sim
     }
 }
 
-fun Framebuffer.draw() {
-    beginRead()
-    val tessellator = RenderSystem.renderThreadTesselator()
-    val bufferBuilder = tessellator.buffer
-    bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE)
-    bufferBuilder.vertex(1.0, 1.0, 0.0).texture(1f, 1f).next()
-    bufferBuilder.vertex(1.0, -1.0, 0.0).texture(1f, 0f).next()
-    bufferBuilder.vertex(-1.0, -1.0, 0.0).texture(0f, 0f).next()
-    bufferBuilder.vertex(-1.0, 1.0, 0.0).texture(0f, 1f).next()
-    BufferRenderer.draw(bufferBuilder.end())
-}
+fun Framebuffer.clear() = clear(MinecraftClient.IS_SYSTEM_MAC)
 
-fun Framebuffer.save() {
-    ScreenshotRecorder.saveScreenshot(MinecraftClient.getInstance().runDirectory, this) {}
-}
+fun Framebuffer.save() = ScreenshotRecorder.saveScreenshot(MinecraftClient.getInstance().runDirectory, this) {}

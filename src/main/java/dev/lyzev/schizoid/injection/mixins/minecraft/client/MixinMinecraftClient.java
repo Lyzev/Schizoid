@@ -9,6 +9,7 @@ import dev.lyzev.api.events.EventItemUse;
 import dev.lyzev.api.events.EventRenderImGui;
 import dev.lyzev.api.events.EventStartup;
 import dev.lyzev.api.events.EventWindowResize;
+import dev.lyzev.schizoid.Schizoid;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -17,10 +18,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
  * This class provides mixins for the MinecraftClient class in the Minecraft client package.
- * It modifies the behavior of the run, onResolutionChanged, render, and doItemUse methods of the MinecraftClient class.
+ * It modifies the behavior of the constructor, run, onResolutionChanged, and render methods of the MinecraftClient class.
  */
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
+
+    /**
+     * This method is a mixin for the constructor of the MinecraftClient class.
+     * It calls the onInitializeClient method of the Schizoid instance.
+     * @param ci The callback information.
+     */
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;runDirectory:Ljava/io/File;", shift = At.Shift.AFTER, ordinal = 0))
+    private void onInitializeClient(CallbackInfo ci) {
+        Schizoid.INSTANCE.onInitializeClient();
+    }
 
     /**
      * This method is a mixin for the run method of the MinecraftClient class.
@@ -64,8 +75,8 @@ public class MixinMinecraftClient {
      */
     @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isRiding()Z", shift = At.Shift.BEFORE))
     private void onItemUse(CallbackInfo ci) {
-        EventItemUse fire = new EventItemUse(((MinecraftClient) (Object) this).itemUseCooldown);
-        fire.fire();
-        ((MinecraftClient) (Object) this).itemUseCooldown = fire.getItemUseCooldown();
+        EventItemUse event = new EventItemUse(((MinecraftClient) (Object) this).itemUseCooldown);
+        event.fire();
+        ((MinecraftClient) (Object) this).itemUseCooldown = event.getItemUseCooldown();
     }
 }

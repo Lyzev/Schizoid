@@ -15,14 +15,6 @@
   "license": "AGPL-3.0",
   "icon": "assets/schizoid/icon.png",
   "environment": "client",
-  "entrypoints": {
-    "client": [
-      {
-        "adapter": "kotlin",
-        "value": "dev.lyzev.schizoid.Schizoid"
-      }
-    ]
-  },
   "mixins": [
     "schizoid.mixins.json"
   ],

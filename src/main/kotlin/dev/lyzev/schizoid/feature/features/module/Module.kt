@@ -49,11 +49,11 @@ abstract class ModuleRunnable(
     var response: String? = null
 
     override fun render() {
-        if (ImGuiScreenFeature.searchResult == this) {
+        if (ImGuiScreenFeature.search.result == this) {
             setWindowFocus()
             setScrollHereY()
             setNextItemOpen(true)
-            ImGuiScreenFeature.searchResult = null
+            ImGuiScreenFeature.search.result = null
         }
         val treeNode = treeNode(name)
         if (isItemHovered()) setTooltip(desc)

@@ -3,7 +3,7 @@
  * Licensed under the GNU General Public License v3.0
  */
 
-package su.mandora.tarasande.util.render.animation
+package dev.lyzev.api.animation
 
 class TimeAnimator(var animationLength: Long) {
 

@@ -16,6 +16,7 @@ import org.joml.Vector2f
 import org.joml.Vector3f
 import org.joml.Vector4f
 import org.lwjgl.opengl.GL20.*
+import java.awt.Color
 import java.io.FileNotFoundException
 
 /**
@@ -78,6 +79,8 @@ abstract class Shader(shader: String) {
      * @param value The [Vector3f] value to set.
      */
     operator fun set(name: String, value: Vector3f) = glUniform3f(this[name], value.x, value.y, value.z)
+
+    operator fun set(name: String, value: Color) = glUniform3f(this[name], value.red / 255f, value.green / 255f, value.blue / 255f)
 
     /**
      * Sets a uniform [Vector4f] value.

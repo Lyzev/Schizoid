@@ -8,6 +8,7 @@ package dev.lyzev.api.opengl.shader.blur.blurs
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderKawase
 import dev.lyzev.api.opengl.shader.blur.Blur
@@ -33,6 +34,7 @@ object BlurKawase : Blur {
     private val fbos = Array(2) {
         WrappedFramebuffer(.25f)
     }
+    private val out = WrappedFramebuffer(.25f)
 
     /**
      * Vector representing the size of a texel.
@@ -51,6 +53,7 @@ object BlurKawase : Blur {
      * @param alpha Whether to use alpha blending.
      */
     private fun renderToFBO(targetFBO: Framebuffer, sourceFBO: Framebuffer, size: Float, alpha: Boolean) {
+        targetFBO.clear()
         targetFBO.beginWrite(true)
         ShaderKawase.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
@@ -61,14 +64,13 @@ object BlurKawase : Blur {
     }
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        fbos.forEach { it.clear() }
         texelSize.set(1f / sourceFBO.textureWidth, 1f / sourceFBO.textureHeight)
         // Initial iteration
-        renderToFBO(fbos[0], sourceFBO, if (strength > 1) .5f else .25f, alpha)
+        renderToFBO(if (strength == 1) out else fbos[0], sourceFBO, if (strength > 1) .5f else .25f, alpha)
         // Rest of the iterations
-        for (i in 2..strength) renderToFBO(fbos[(i - 1) % 2], fbos[i % 2], i * .5f, alpha)
+        for (i in 2..strength) renderToFBO(if (i == strength) out else fbos[(i - 1) % 2], fbos[i % 2], i * .5f, alpha)
     }
 
     override val output: WrappedFramebuffer
-        get() = fbos[(strength - 1) % 2]
+        get() = out
 }

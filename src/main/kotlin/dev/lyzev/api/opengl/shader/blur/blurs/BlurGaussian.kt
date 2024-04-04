@@ -8,6 +8,7 @@ package dev.lyzev.api.opengl.shader.blur.blurs
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderGaussian
 import dev.lyzev.api.opengl.shader.blur.Blur
@@ -82,6 +83,7 @@ object BlurGaussian : Blur {
      * @param alpha Whether to use alpha blending.
      */
     private fun renderToFBO(targetFBO: Framebuffer, sourceFBO: Framebuffer, alpha: Boolean) {
+        targetFBO.clear()
         targetFBO.beginWrite(true)
         ShaderGaussian.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
@@ -93,7 +95,6 @@ object BlurGaussian : Blur {
 
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        fbos.forEach { it.clear() }
         texelSize.set(1f / fbos[0].textureWidth, 1f / fbos[0].textureHeight)
         direction.set(1f, 0f)
         renderToFBO(fbos[0], sourceFBO, alpha)

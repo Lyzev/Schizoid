@@ -11,7 +11,6 @@ import dev.lyzev.api.events.EventUpdateMouse;
 import net.minecraft.client.Mouse;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -23,12 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(Mouse.class)
 public class MixinMouse {
-
-    @Shadow
-    private double cursorDeltaX;
-
-    @Shadow
-    private double cursorDeltaY;
 
     /**
      * This method is a mixin for the onMouseButton method of the Mouse class.

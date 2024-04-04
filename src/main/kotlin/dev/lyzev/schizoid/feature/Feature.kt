@@ -51,7 +51,7 @@ abstract class Feature(
 
         override fun render() {
             OPEN_SANS_BOLD.begin()
-            if (ImGuiScreenFeature.searchResult != null && ImGuiScreenFeature.searchResult!!.category == this)
+            if (ImGuiScreenFeature.search.result != null && ImGuiScreenFeature.search.result!!.category == this)
                 setNextWindowFocus()
             if (begin("\"$name\"")) {
                 OPEN_SANS_REGULAR.begin()
@@ -78,10 +78,10 @@ interface IFeature : ImGuiRenderable {
      * Renders the feature and its settings using ImGui.
      */
     override fun render() {
-        if (ImGuiScreenFeature.searchResult == this) {
+        if (ImGuiScreenFeature.search.result == this) {
             setScrollHereY()
             setNextItemOpen(true)
-            ImGuiScreenFeature.searchResult = null
+            ImGuiScreenFeature.search.result = null
         }
         val treeNode = treeNode(name)
         if (isItemHovered()) setTooltip(desc)

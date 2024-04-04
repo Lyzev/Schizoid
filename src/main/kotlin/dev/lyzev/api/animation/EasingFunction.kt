@@ -1,9 +1,14 @@
+/*
+ * Copyright (c) 2024. Schizoid
+ * All rights reserved.
+ */
+
 /**
  * Credit to https://github.com/Sumandora/tarasande/blob/7d0a467c4f3abe151ab23ab2dce1b4107ffa3e1f/src/main/kotlin/su/mandora/tarasande/util/render/animation/EasingFunction.kt
  * Licensed under the GNU General Public License v3.0
  */
 
-package su.mandora.tarasande.util.render.animation
+package dev.lyzev.api.animation
 
 import dev.lyzev.api.setting.settings.OptionEnum
 import kotlin.math.cos
@@ -12,7 +17,8 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 // https://easings.net/
-enum class EasingFunction(override val key: String, override val ease: (Double) -> Double) : OptionEnum, IEasingFunction {
+enum class EasingFunction(override val key: String, override val ease: (Double) -> Double) : OptionEnum,
+    IEasingFunction {
     LINEAR("Linear", { x -> x }),
     IN_SINE("In sine", { x -> (1.0 - cos(x * Math.PI / 2.0)) }),
     OUT_SINE("Out sine", { x -> sin(x * Math.PI / 2.0) }),

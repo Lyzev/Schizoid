@@ -9,12 +9,10 @@ import groovy.xml.XmlParser
 import me.lyzev.network.http.HttpClient
 import me.lyzev.network.http.HttpMethod
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jetbrains.kotlin.gradle.utils.extendsFrom
 import java.io.ByteArrayOutputStream
 
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.dokka)
     alias(libs.plugins.shadow)
     alias(libs.plugins.fabric.loom)
@@ -69,7 +67,12 @@ dependencies {
 }
 
 loom {
-    accessWidenerPath.set(File("src/main/resources/${project.extra["archives_base_name"] as String}.accesswidener"))
+    accessWidenerPath = file("src/main/resources/${project.extra["archives_base_name"] as String}.accesswidener")
+    mods {
+        create(base.archivesName.get()) {
+            sourceSet(sourceSets.main.get())
+        }
+    }
 }
 
 tasks.register("updateFabric") {
@@ -229,6 +232,8 @@ tasks {
             include(dependency(libs.lyzev.events.get()))
             include(dependency(libs.lyzev.settings.get()))
             include(dependency(libs.reflections.get()))
+            include(dependency(libs.fuzzywuzzy.get()))
+            include(dependency("org.javassist:javassist")) // dependency of reflections
             libs.bundles.imgui.get().forEach { include(dependency(it)) }
         }
     }

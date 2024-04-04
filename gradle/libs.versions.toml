@@ -57,7 +57,6 @@ sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
 fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }

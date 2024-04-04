@@ -21,7 +21,6 @@ import dev.lyzev.schizoid.Schizoid.logger
 import dev.lyzev.schizoid.Schizoid.mc
 import dev.lyzev.schizoid.Schizoid.root
 import dev.lyzev.schizoid.feature.FeatureManager
-import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.MinecraftClient
 import org.apache.logging.log4j.LogManager
@@ -41,7 +40,7 @@ import java.io.File
  * @property logger The logger for the Schizoid mod.
  * @property mc The Minecraft client instance.
  */
-object Schizoid : ClientModInitializer, EventListener {
+object Schizoid : EventListener {
 
     /**
      * The unique identifier of the mod.
@@ -72,12 +71,13 @@ object Schizoid : ClientModInitializer, EventListener {
     /**
      * Whether the mod is running in a continuous integration environment.
      */
-    val CI = System.getProperty("CI").toBooleanStrict()
+    val CI = System.getProperty("CI").toBooleanStrictOrNull() ?: false
 
     /**
      * The Minecraft client instance.
      */
-    val mc = MinecraftClient.getInstance()
+    val mc: MinecraftClient
+        get() = MinecraftClient.getInstance()
 
     /**
      * The root directory of the Schizoid mod, used for storing mod-specific data.
@@ -95,7 +95,7 @@ object Schizoid : ClientModInitializer, EventListener {
     /**
      * Initialize the Schizoid mod.
      */
-    override fun onInitializeClient() {
+    fun onInitializeClient() {
         ImGuiLoader // Load ImGui, because of [dev.lyzev.api.events.EventGlfwInit] event.
         on<EventStartup> {
             val init = System.currentTimeMillis()

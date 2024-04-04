@@ -6,14 +6,14 @@
 package dev.lyzev.api.setting.settings
 
 import com.google.gson.JsonObject
+import dev.lyzev.api.animation.EasingFunction
+import dev.lyzev.api.animation.TimeAnimator
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImColor
 import imgui.ImGui.*
 import imgui.flag.ImGuiCol.Button
 import net.minecraft.util.math.MathHelper
-import su.mandora.tarasande.util.render.animation.EasingFunction
-import su.mandora.tarasande.util.render.animation.TimeAnimator
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 

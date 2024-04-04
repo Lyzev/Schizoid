@@ -8,6 +8,7 @@ package dev.lyzev.api.opengl.shader.blur.blurs
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderDualKawase
 import dev.lyzev.api.opengl.shader.ShaderDualKawaseDown
@@ -81,8 +82,9 @@ object BlurDualKawase : Blur {
      * @param alpha Whether to use alpha blending.
      */
     private fun renderToFBO(
-        targetFBO: Framebuffer, sourceFBO: Framebuffer, shader: ShaderDualKawase, alpha: Boolean
+        targetFBO: WrappedFramebuffer, sourceFBO: Framebuffer, shader: ShaderDualKawase, alpha: Boolean
     ) {
+        targetFBO.clear()
         targetFBO.beginWrite(true)
         shader.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
@@ -95,7 +97,6 @@ object BlurDualKawase : Blur {
     }
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        fbos.forEach { it.clear() }
         // Initial downsample
         renderToFBO(fbos[1], sourceFBO, ShaderDualKawaseDown, alpha)
         // Downsample

@@ -7,6 +7,7 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderFlip
 import dev.lyzev.api.setting.settings.slider

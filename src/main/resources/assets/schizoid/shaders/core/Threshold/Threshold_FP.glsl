@@ -9,18 +9,19 @@ in vec2 uv;
 out vec4 color;
 
 uniform sampler2D scene;
-uniform float threshold;
-
-#include "Luminance.glsl"
+uniform vec3 primary;
+uniform vec3 secondary;
+uniform vec3 accent;
 
 void main() {
     color = texture(scene, uv);
-
-    // check whether fragment output is higher than threshold, if so output as brightness color
-    float brightness = luminance(color.rgb);
-    if (brightness > threshold) {
+    if (distance(color.rgb, primary) < .2) {
+        color = vec4(color.rgb, 1);
+    } else if (distance(color.rgb, secondary) < .2) {
+        color = vec4(color.rgb, 1);
+    } else if (distance(color.rgb, accent) < .2) {
         color = vec4(color.rgb, 1);
     } else {
-        color = vec4(0, 0, 0, 0);
+        color = vec4(0);
     }
 }

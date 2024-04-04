@@ -8,6 +8,7 @@ package dev.lyzev.api.opengl.shader.blur
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.ShaderAcrylic
 import dev.lyzev.api.opengl.shader.ShaderAdd
