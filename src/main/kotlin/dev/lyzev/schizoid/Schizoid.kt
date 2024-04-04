@@ -71,7 +71,7 @@ object Schizoid : EventListener {
     /**
      * Whether the mod is running in a continuous integration environment.
      */
-    val CI = System.getProperty("CI").toBooleanStrictOrNull() ?: false
+    val CI = System.getProperty("CI")?.toBooleanStrict() ?: false
 
     /**
      * The Minecraft client instance.
