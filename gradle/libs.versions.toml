@@ -17,7 +17,7 @@ fabric_kl = "1.10.18+kotlin.1.9.22"
 fabric_loom = "1.5-SNAPSHOT"
 
 # https://github.com/Lyzev
-lyzev_events = "1.0.3"
+lyzev_events = "1.0.4"
 lyzev_settings = "1.0.1"
 
 # https://github.com/ronmamo/reflections

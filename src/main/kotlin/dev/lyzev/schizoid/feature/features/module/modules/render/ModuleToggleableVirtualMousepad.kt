@@ -69,9 +69,9 @@ object ModuleToggleableVirtualMousepad :
 
     init {
         on<EventClientPlayerEntityTick> { event ->
-            val rotation = lastRotation ?: (event.player.yaw to event.player.pitch)
-            rotations += (event.player.yaw - rotation.first) to (event.player.pitch - rotation.second)
-            lastRotation = event.player.yaw to event.player.pitch
+            val rotation = lastRotation ?: (event.player.lastYaw to event.player.lastPitch)
+            rotations += (event.player.lastYaw - rotation.first) to (event.player.lastPitch - rotation.second)
+            lastRotation = event.player.lastYaw to event.player.lastPitch
             if (rotations.size > length) rotations.removeFirst()
         }
     }
