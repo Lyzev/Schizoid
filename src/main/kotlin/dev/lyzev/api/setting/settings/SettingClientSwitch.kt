@@ -81,27 +81,15 @@ class Switch {
     fun render(strId: String, v: BooleanArray) {
         val p = getCursorScreenPos()
         val drawList = getWindowDrawList()
-
         val height = 17.5f
         val width = height * 1.8f
         val radius = height * 0.5f
-
         if (invisibleButton(strId, width, height))
             v[0] = !v[0]
-
         val delta = EasingFunction.LINEAR.ease(timeAnimator.getProgress()).toFloat()
-
         val primary = getStyle().getColor(Button)
-        if (primary.x != rgbPrimary[0] || primary.y != rgbPrimary[1] || primary.z != rgbPrimary[2]) {
-            rgbPrimary[0] = primary.x
-            rgbPrimary[1] = primary.y
-            rgbPrimary[2] = primary.z
-            colorConvertRGBtoHSL(rgbPrimary, hslPrimary)
-        }
-
-        val hsvTrackColor = ImColor.hsl(MathHelper.lerp(delta, track[0], hslPrimary[0]), MathHelper.lerp(delta, track[1], hslPrimary[1]), MathHelper.lerp(delta, track[2], hslPrimary[2]))
+        val hsvTrackColor = ImColor.rgb(MathHelper.lerp(delta, track[0], primary.x), MathHelper.lerp(delta, track[1], primary.y), MathHelper.lerp(delta, track[2], primary.z))
         drawList.addRectFilled(p.x, p.y + height * 0.15f, p.x + width, p.y + height * 0.85f, hsvTrackColor, height * 0.35f)
-
         drawList.addCircleFilled(
             (p.x + radius + (width - height) * EasingFunction.IN_OUT_BACK.ease(timeAnimator.getProgress())).toFloat(),
             p.y + height * 0.5f,
@@ -111,34 +99,8 @@ class Switch {
     }
 
     companion object {
-        private val rgbPrimary = FloatArray(3)
-        private val hslPrimary = FloatArray(3)
-        private val track = floatArrayOf(0f, 0f, .8f)
+        private val track = floatArrayOf(.8f, .8f, .8f)
         private var thumb = ImColor.rgb(255, 255, 255)
-
-        private fun colorConvertRGBtoHSL(rgb: FloatArray, hsl: FloatArray) {
-            val r = rgb[0]
-            val g = rgb[1]
-            val b = rgb[2]
-            val max = r.coerceAtLeast(g.coerceAtLeast(b))
-            val min = r.coerceAtMost(g.coerceAtMost(b))
-            val l = (max + min) / 2.0f
-            if (max == min) {
-                hsl[0] = 0f
-                hsl[1] = 0f
-            } else {
-                val d = max - min
-                hsl[1] = if (l > 0.5f) d / (2.0f - max - min) else d / (max + min)
-                hsl[0] = when (max) {
-                    r -> (g - b) / d + (if (g < b) 6 else 0)
-                    g -> (b - r) / d + 2
-                    b -> (r - g) / d + 4
-                    else -> 0f
-                }
-                hsl[0] /= 6.0f
-            }
-            hsl[2] = l
-        }
     }
 }
 

@@ -12,6 +12,7 @@ import dev.lyzev.api.events.EventWindowResize;
 import dev.lyzev.schizoid.Schizoid;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -22,6 +23,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(MinecraftClient.class)
 public class MixinMinecraftClient {
+
+    @Shadow
+    public int itemUseCooldown;
 
     /**
      * This method is a mixin for the constructor of the MinecraftClient class.
@@ -66,6 +70,8 @@ public class MixinMinecraftClient {
         EventRenderImGui.INSTANCE.fire();
     }
 
+
+
     /**
      * This method is a mixin for the doItemUse method of the MinecraftClient class.
      * It creates and fires an EventItemUse event before the isRiding method of the ClientPlayerEntity class is invoked.
@@ -75,8 +81,8 @@ public class MixinMinecraftClient {
      */
     @Inject(method = "doItemUse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/ClientPlayerEntity;isRiding()Z", shift = At.Shift.BEFORE))
     private void onItemUse(CallbackInfo ci) {
-        EventItemUse event = new EventItemUse(((MinecraftClient) (Object) this).itemUseCooldown);
+        EventItemUse event = new EventItemUse(this.itemUseCooldown);
         event.fire();
-        ((MinecraftClient) (Object) this).itemUseCooldown = event.getItemUseCooldown();
+        this.itemUseCooldown = event.getItemUseCooldown();
     }
 }

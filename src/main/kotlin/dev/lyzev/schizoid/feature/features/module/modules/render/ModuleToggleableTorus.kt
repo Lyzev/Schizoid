@@ -63,14 +63,15 @@ object ModuleToggleableTorus :
 
         on<EventRenderWorld>(Event.Priority.LOW) { event ->
             toruses.removeIf { System.currentTimeMillis() - it.spawn > lifetime }
+            val texture = GL13.glGetInteger(GL13.GL_TEXTURE0)
             if (depth)
                 RenderSystem.enableDepthTest()
             else
                 RenderSystem.disableDepthTest()
             RenderSystem.disableCull()
             for (torus in toruses) torus.render(event.matrices)
-            RenderSystem.enableCull()
             RenderSystem.disableDepthTest()
+            RenderSystem.bindTexture(texture)
         }
     }
 
@@ -144,6 +145,7 @@ object ModuleToggleableTorus :
             BufferRenderer.draw(bufferBuilder.end())
             matrices.pop()
             ShaderReflection.unbind()
+            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
         }
     }
 }
