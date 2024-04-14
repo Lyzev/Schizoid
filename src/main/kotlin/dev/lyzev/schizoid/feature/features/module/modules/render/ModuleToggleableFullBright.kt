@@ -39,7 +39,7 @@ object ModuleToggleableFullBright : ModuleToggleable("Full Bright", "Makes every
 
         on<EventGamma> {
             if (mode == Mode.GAMMA) {
-                it.gamma = 100.0
+                it.gamma = 100f
             }
         }
     }

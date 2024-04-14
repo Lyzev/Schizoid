@@ -11,11 +11,15 @@ import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.imgui.font.ImGuiFonts.*
 import dev.lyzev.api.setting.SettingClient
+import dev.lyzev.api.setting.settings.OptionEnum
+import dev.lyzev.api.setting.settings.multiOption
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.feature.Feature
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import imgui.ImGui.*
+import imgui.extension.implot.flag.ImPlotAxisFlags
+import imgui.extension.implot.flag.ImPlotFlags
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.ImBoolean
 
@@ -58,7 +62,16 @@ abstract class ModuleRunnable(
         val treeNode = treeNode(name)
         if (isItemHovered()) setTooltip(desc)
         if (treeNode) {
-            if (button("Invoke")) response = invoke()
+            @Suppress("UNCHECKED_CAST")
+            if (button("Reset", getColumnWidth(), OPEN_SANS_REGULAR.size + getStyle().framePaddingY * 2)) {
+                (SettingManager[this::class] as List<SettingClient<*>>).forEach { setting ->
+                    setting.reset()
+                }
+            }
+            if (isItemHovered()) setTooltip("Reset all settings to their default values.")
+            if (button("Invoke", getColumnWidth(), OPEN_SANS_REGULAR.size + getStyle().framePaddingY * 2)) response =
+                invoke()
+            if (isItemHovered()) setTooltip("Invoke the module.")
             if (response != null) {
                 sameLine()
                 textColored(255, 69, 58, 255, response!!)
@@ -146,6 +159,8 @@ abstract class ModuleToggleableRenderImGuiContent(
     category: Category
 ) : ModuleToggleable(name, desc, keys, category), EventListener {
 
+    var windowFlags = WindowFlags.DEFAULT
+
     /**
      * Renders the ImGui content of the module.
      */
@@ -162,14 +177,14 @@ abstract class ModuleToggleableRenderImGuiContent(
         on<EventRenderImGuiContent> {
             OPEN_SANS_BOLD.begin()
             if (mc.currentScreen == null) {
-                if (begin("\"${name.uppercase()}\"", FLAGS or ImGuiWindowFlags.NoMove)) {
+                if (begin("\"${name.uppercase()}\"", windowFlags or ImGuiWindowFlags.NoMove)) {
                     OPEN_SANS_REGULAR.begin()
                     renderImGuiContent()
                     OPEN_SANS_REGULAR.end()
                 }
             } else {
                 val open = ImBoolean(true)
-                if (begin("\"${name.uppercase()}\"", open, FLAGS)) {
+                if (begin("\"${name.uppercase()}\"", open, windowFlags)) {
                     OPEN_SANS_REGULAR.begin()
                     renderImGuiContent()
                     OPEN_SANS_REGULAR.end()
@@ -180,9 +195,56 @@ abstract class ModuleToggleableRenderImGuiContent(
             end()
             OPEN_SANS_BOLD.end()
         }
+
+        multiOption("Window Flags", "The ImGui window flags of the module.", WindowFlags.entries) {
+            windowFlags = it.calc(WindowFlags.DEFAULT)
+        }
     }
 
     companion object {
-        private const val FLAGS = ImGuiWindowFlags.AlwaysAutoResize or ImGuiWindowFlags.NoCollapse
+        fun Set<Pair<Flag, Boolean>>.calc(default: Int): Int {
+            var flags = default
+            for (flag in this) {
+                if (flag.second)
+                    flags = flags or flag.first.flag
+            }
+            return flags
+        }
+    }
+
+    interface Flag {
+        val flag: Int
+    }
+
+    enum class WindowFlags(override val key: String, override val flag: Int) : OptionEnum, Flag {
+        NO_TITLE_BAR("No Title Bar", ImGuiWindowFlags.NoTitleBar),
+        NO_BACKGROUND("No Background", ImGuiWindowFlags.NoBackground),
+        NO_DOCKING("No Docking", ImGuiWindowFlags.NoDocking);
+
+        companion object {
+            val DEFAULT = ImGuiWindowFlags.AlwaysAutoResize or ImGuiWindowFlags.NoCollapse
+        }
+    }
+
+    enum class PlotFlags(override val key: String, override val flag: Int) : OptionEnum, Flag {
+        NO_TITLE("No Title", ImPlotFlags.NoTitle),
+        NO_LEGEND("No Legend", ImPlotFlags.NoLegend),
+        NO_MOUSE_POS("No Mouse Pos", ImPlotFlags.NoMousePos),
+        NO_HIGHLIGHT("No Highlight", ImPlotFlags.NoHighlight);
+
+        companion object {
+            val DEFAULT = ImPlotFlags.NoMenus
+        }
+    }
+
+    enum class AxisFlags(override val key: String, override val flag: Int) : OptionEnum, Flag {
+        NO_LABEL("No Label", ImPlotAxisFlags.NoLabel),
+        NO_GRID_LINES("No Grid Lines", ImPlotAxisFlags.NoGridLines),
+        NO_TICK_MARKS("No Tick Marks", ImPlotAxisFlags.NoTickMarks),
+        NO_TICK_LABELS("No Tick Labels", ImPlotAxisFlags.NoTickLabels);
+
+        companion object {
+            const val DEFAULT = ImPlotAxisFlags.AutoFit
+        }
     }
 }

@@ -6,7 +6,9 @@
 package dev.lyzev.schizoid.feature
 
 import dev.lyzev.api.glfw.GLFWKey
+import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.ImGuiFonts.*
+import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.api.setting.settings.keybinds
@@ -28,7 +30,7 @@ import net.minecraft.text.Text
 abstract class Feature(
     override val name: String,
     override val desc: String,
-    keys: MutableSet<GLFWKey>,
+    keys: Set<GLFWKey>,
     override val category: Category
 ) : IFeature {
 
@@ -44,7 +46,6 @@ abstract class Feature(
         GHOST,
         PLAYER,
         RENDER,
-        WORLD,
         UTIL,
         EXPLOIT,
         MISC;
@@ -71,12 +72,13 @@ abstract class Feature(
 interface IFeature : ImGuiRenderable {
     val name: String
     val desc: String
-    var keybinds: MutableSet<GLFWKey>
+    var keybinds: Set<GLFWKey>
     val category: Feature.Category
 
     /**
      * Renders the feature and its settings using ImGui.
      */
+    @Suppress("UNCHECKED_CAST")
     override fun render() {
         if (ImGuiScreenFeature.search.result == this) {
             setScrollHereY()
@@ -86,7 +88,12 @@ interface IFeature : ImGuiRenderable {
         val treeNode = treeNode(name)
         if (isItemHovered()) setTooltip(desc)
         if (treeNode) {
-            @Suppress("UNCHECKED_CAST")
+            if (button("Reset", getColumnWidth(), OPEN_SANS_REGULAR.size + getStyle().framePaddingY * 2)) {
+                (SettingManager[this::class] as List<SettingClient<*>>).forEach { setting ->
+                    setting.reset()
+                }
+            }
+            if (isItemHovered()) setTooltip("Reset all settings to their default values.")
             for (setting in SettingManager[this::class] as List<SettingClient<*>>) {
                 pushID("$name/${setting.name}")
                 if (!setting.isHidden) setting.render()

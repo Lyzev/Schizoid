@@ -8,35 +8,31 @@ package dev.lyzev.schizoid.feature.features.module.modules.player
 import dev.lyzev.api.events.EventHasStatusEffect
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
-import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.api.setting.settings.multiOption
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
-import net.minecraft.entity.effect.StatusEffect
-import net.minecraft.entity.effect.StatusEffects
 import net.minecraft.registry.Registries
-import kotlin.reflect.KVisibility
-import kotlin.reflect.full.staticProperties
+import net.minecraft.registry.Registry
 
 object ModuleToggleableAntiEffect : ModuleToggleable("Anti Effect", "Makes everything brighter.", category = Category.PLAYER), EventListener {
 
-    private val effects = mutableSetOf<StatusEffect>()
+    val effects = multiOption("Effects", "Effects to disable.", Registries.STATUS_EFFECT.map { it.name.string to !it.isBeneficial }.sortedBy { it.first }.toSet()) { options ->
+        for (option in options) {
+            if (option.second)
+                remove.add(Registries.STATUS_EFFECT.first { it.name.string == option.first })
+            else
+                remove.remove(Registries.STATUS_EFFECT.first { it.name.string == option.first })
+        }
+    }
+
+    private val remove = Registries.STATUS_EFFECT.filter { !it.isBeneficial }.toMutableSet()
 
     override val shouldHandleEvents: Boolean
         get() = isEnabled && isIngame
 
     init {
         on<EventHasStatusEffect> { event ->
-            if (mc.player == event.entity && effects.contains(event.effect))
+            if (mc.player == event.entity && remove.contains(event.effect))
                 event.hasStatusEffect = false
-        }
-
-        StatusEffects::class.staticProperties.filter { it.visibility == KVisibility.PUBLIC }.forEach { prop ->
-            val effect = prop.getter.call() as StatusEffect
-            if (effect.isBeneficial)
-                effects += effect
-            switch(Registries.STATUS_EFFECT.getId(effect)!!.path, "Disables this effect.", !effect.isBeneficial) {
-                if (it) effects += effect
-                else effects -= effect
-            }
         }
     }
 }

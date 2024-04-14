@@ -5,9 +5,11 @@
 
 package dev.lyzev.api.imgui.render
 
+import com.mojang.blaze3d.platform.GlConst
+import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventRenderImGui
+import dev.lyzev.api.events.EventSwapBuffers
 import dev.lyzev.api.events.EventRenderImGuiContent
 import dev.lyzev.api.events.on
 import dev.lyzev.api.imgui.ImGuiLoader.gl3
@@ -23,7 +25,6 @@ import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
 import imgui.ImGui.*
 import imgui.flag.ImGuiConfigFlags
-import net.minecraft.client.MinecraftClient
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.opengl.GL13
@@ -86,13 +87,14 @@ object ImGuiRenderer : EventListener {
         if (ModuleToggleableBlur.isEnabled) {
             fbo.endWrite()
 
-            BlurHelper.draw(fbo, clearMask = false)
+            BlurHelper.draw(fbo, false, true)
 
             RenderSystem.disableCull()
             RenderSystem.defaultBlendFunc()
             RenderSystem.enableBlend()
 
-            MinecraftClient.getInstance().framebuffer.beginWrite(true)
+            Schizoid.mc.framebuffer.beginWrite(true)
+            GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
             ShaderPassThrough.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             fbo.beginRead()
@@ -106,7 +108,7 @@ object ImGuiRenderer : EventListener {
                 bloom.clear()
                 bloom.beginWrite(true)
                 ShaderThreshold.bind()
-                RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
                 fbo.beginRead()
                 ShaderThreshold["scene"] = 0
                 ShaderThreshold["primary"] = theme.primary
@@ -123,7 +125,7 @@ object ImGuiRenderer : EventListener {
                 bloom.clear()
                 bloom.beginWrite(true)
                 ShaderTint.bind()
-                RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
                 BlurHelper.mode.output.beginRead()
                 ShaderTint["uTexture"] = 0
                 ShaderTint["uColor"] = Vector3f(theme.primary.red / 255f, theme.primary.green / 255f, theme.primary.blue / 255f)
@@ -133,16 +135,26 @@ object ImGuiRenderer : EventListener {
                 Shader.drawFullScreen()
                 ShaderTint.unbind()
 
-                MinecraftClient.getInstance().framebuffer.beginWrite(true)
-                ShaderBlend.bind()
-                RenderSystem.activeTexture(GL13.GL_TEXTURE0)
-                MinecraftClient.getInstance().framebuffer.beginRead()
-                ShaderBlend["scene"] = 0
-                RenderSystem.activeTexture(GL13.GL_TEXTURE1)
+//                Schizoid.mc.framebuffer.beginWrite(true)
+//                GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
+//                ShaderBlend.bind()
+//                RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+//                Schizoid.mc.framebuffer.beginRead()
+//                ShaderBlend["scene"] = 0
+//                RenderSystem.activeTexture(GL13.GL_TEXTURE1)
+//                bloom.beginRead()
+//                ShaderBlend["textureSampler"] = 1
+//                Shader.drawFullScreen()
+//                ShaderBlend.unbind()
+                Schizoid.mc.framebuffer.beginWrite(true)
+                GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
+                ShaderPassThrough.bind()
+                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
                 bloom.beginRead()
-                ShaderBlend["textureSampler"] = 1
+                ShaderPassThrough["uTexture"] = 0
+                ShaderPassThrough["uScale"] = 1f
                 Shader.drawFullScreen()
-                ShaderBlend.unbind()
+                ShaderPassThrough.unbind()
             }
 
             RenderSystem.enableCull()
@@ -184,7 +196,7 @@ object ImGuiRenderer : EventListener {
          * Listens for the EventRenderImGui event.
          * It smooths the scrolling, renders ImGui, and applies the blur effect if the ModuleToggleableBlur is enabled.
          */
-        on<EventRenderImGui> {
+        on<EventSwapBuffers> {
             smoothScroll()
 
             glfw.newFrame()

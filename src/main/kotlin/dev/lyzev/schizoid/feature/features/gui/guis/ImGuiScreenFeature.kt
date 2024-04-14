@@ -151,10 +151,9 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     override var keybinds by keybinds(
         "Keybinds",
         "All keys used to control the feature.",
-        mutableSetOf(GLFWKey.INSERT, GLFWKey.RIGHT_SHIFT)
-    ) {
-        it.removeIf { key -> key == GLFWKey.MOUSE_BUTTON_LEFT || key == GLFWKey.MOUSE_BUTTON_RIGHT || key == GLFWKey.MOUSE_BUTTON_MIDDLE }
-    }
+        setOf(GLFWKey.INSERT, GLFWKey.RIGHT_SHIFT),
+        setOf(GLFWKey.MOUSE_BUTTON_LEFT, GLFWKey.MOUSE_BUTTON_RIGHT, GLFWKey.MOUSE_BUTTON_MIDDLE)
+    )
 
     override val category: Feature.Category
         get() = Feature.Category.RENDER

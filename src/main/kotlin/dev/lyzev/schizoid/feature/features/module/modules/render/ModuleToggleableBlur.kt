@@ -10,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventRenderWorld
 import dev.lyzev.api.events.on
+import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
@@ -66,7 +67,9 @@ object ModuleToggleableBlur :
 
     init {
         on<EventRenderWorld> {
+            Render.store()
             RenderSystem.disableCull()
+            RenderSystem.disableDepthTest()
             RenderSystem.defaultBlendFunc()
             RenderSystem.enableBlend()
             RenderSystem.depthMask(false)
@@ -108,7 +111,7 @@ object ModuleToggleableBlur :
             ShaderDepth.unbind()
 
             RenderSystem.depthMask(true)
-            RenderSystem.enableCull()
+            Render.restore()
         }
     }
 }

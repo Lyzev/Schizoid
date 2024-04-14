@@ -6,6 +6,7 @@
 package dev.lyzev.schizoid.injection.mixins.minecraft.client.util;
 
 import dev.lyzev.api.events.EventGlfwInit;
+import dev.lyzev.api.events.EventSwapBuffers;
 import net.minecraft.client.util.Window;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -37,5 +38,10 @@ public class MixinWindow {
     private void onSetPhase(String phase, CallbackInfo ci) {
         if (phase.equals("Post startup"))
             new EventGlfwInit(handle).fire();
+    }
+
+    @Inject(method = "swapBuffers", at = @At("HEAD"))
+    private void onSwapBuffers(CallbackInfo ci) {
+        EventSwapBuffers.INSTANCE.fire();
     }
 }

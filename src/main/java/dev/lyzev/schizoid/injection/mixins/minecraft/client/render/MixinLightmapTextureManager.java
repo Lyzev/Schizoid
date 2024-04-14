@@ -5,12 +5,12 @@
 
 package dev.lyzev.schizoid.injection.mixins.minecraft.client.render;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.lyzev.api.events.EventGamma;
-import net.minecraft.client.option.SimpleOption;
 import net.minecraft.client.render.LightmapTextureManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 /**
  * This class provides a mixin for the LightmapTextureManager class in the Minecraft client render package.
@@ -27,10 +27,9 @@ public class MixinLightmapTextureManager {
      * @param instance The instance of the SimpleOption class.
      * @return The gamma value of the event.
      */
-    @SuppressWarnings("rawtypes")
-    @Redirect(method = "update(F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/SimpleOption;getValue()Ljava/lang/Object;", ordinal = 1))
-    private Object onUpdate(SimpleOption instance) {
-        EventGamma event = new EventGamma((Double) instance.getValue());
+    @WrapOperation(method = "update(F)V", at = @At(value = "INVOKE", target = "Ljava/lang/Double;floatValue()F", ordinal = 1))
+    private float onUpdate(Double instance, Operation<Float> original) {
+        EventGamma event = new EventGamma(original.call(instance));
         event.fire();
         return event.getGamma();
     }

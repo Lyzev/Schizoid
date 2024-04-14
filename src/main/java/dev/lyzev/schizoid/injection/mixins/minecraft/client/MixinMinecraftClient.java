@@ -6,7 +6,6 @@
 package dev.lyzev.schizoid.injection.mixins.minecraft.client;
 
 import dev.lyzev.api.events.EventItemUse;
-import dev.lyzev.api.events.EventRenderImGui;
 import dev.lyzev.api.events.EventStartup;
 import dev.lyzev.api.events.EventWindowResize;
 import dev.lyzev.schizoid.Schizoid;
@@ -67,7 +66,7 @@ public class MixinMinecraftClient {
      */
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;endWrite()V", shift = At.Shift.BEFORE))
     private void onRender(CallbackInfo ci) {
-        EventRenderImGui.INSTANCE.fire();
+//        EventRenderImGui.INSTANCE.fire();
     }
 
 

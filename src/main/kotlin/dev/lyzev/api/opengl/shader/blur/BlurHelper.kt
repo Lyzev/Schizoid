@@ -5,8 +5,10 @@
 
 package dev.lyzev.api.opengl.shader.blur
 
+import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
@@ -111,17 +113,13 @@ object BlurHelper {
     fun draw(
         mask: WrappedFramebuffer = BlurHelper.mask,
         clearMask: Boolean = true,
+        useDefaultFbo: Boolean = false,
         opacity: Float = 1f,
         dropShadowColor: Vector4f = Vector4f(0f, 0f, 0f, 1f),
         blurStrength: Int = ModuleToggleableBlur.strength,
         dropShadowStrength: Int = ModuleToggleableBlur.dropShadowStrength
     ) {
-        val active = GlStateManager._getInteger(GL_ACTIVE_TEXTURE)
-        val texture = GlStateManager._getInteger(GL_TEXTURE_BINDING_2D)
-        RenderSystem.activeTexture(GL_TEXTURE0)
-        val texture0 = GlStateManager._getInteger(GL_TEXTURE_BINDING_2D)
-        RenderSystem.activeTexture(GL_TEXTURE1)
-        val texture1 = GlStateManager._getInteger(GL_TEXTURE_BINDING_2D)
+        Render.store()
         setupRenderState()
 
         mode.switchStrength(blurStrength)
@@ -145,6 +143,8 @@ object BlurHelper {
         }
 
         Schizoid.mc.framebuffer.beginWrite(true)
+        if (useDefaultFbo)
+            GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
         ShaderMask.bind()
         RenderSystem.activeTexture(GL_TEXTURE1)
         mask.beginRead()
@@ -173,7 +173,9 @@ object BlurHelper {
             drawFullScreen()
             ShaderTint.unbind()
 
-            MinecraftClient.getInstance().framebuffer.beginWrite(true)
+            Schizoid.mc.framebuffer.beginWrite(true)
+            if (useDefaultFbo)
+                GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
             ShaderMask.bind()
             RenderSystem.activeTexture(GL_TEXTURE1)
             mask.beginRead()
@@ -187,12 +189,7 @@ object BlurHelper {
         }
 
         RenderSystem.enableCull()
-        RenderSystem.activeTexture(GL_TEXTURE1)
-        RenderSystem.bindTexture(texture1)
-        RenderSystem.activeTexture(GL_TEXTURE0)
-        RenderSystem.bindTexture(texture0)
-        RenderSystem.activeTexture(active)
-        RenderSystem.bindTexture(texture)
+        Render.restore()
         if (clearMask) mask.clear()
     }
 }

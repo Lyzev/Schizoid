@@ -7,10 +7,7 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 
 import dev.lyzev.api.events.EventClientPlayerEntityTick
 import dev.lyzev.api.events.on
-import dev.lyzev.api.setting.settings.OptionEnum
-import dev.lyzev.api.setting.settings.option
-import dev.lyzev.api.setting.settings.slider
-import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.api.setting.settings.*
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImColor
 import imgui.ImGui
@@ -19,7 +16,6 @@ import imgui.extension.implot.ImPlot
 import imgui.extension.implot.ImPlot.*
 import imgui.extension.implot.flag.ImPlotAxisFlags
 import imgui.extension.implot.flag.ImPlotCol
-import imgui.extension.implot.flag.ImPlotFlags
 import imgui.extension.implot.flag.ImPlotStyleVar
 import imgui.flag.ImGuiCol
 
@@ -44,38 +40,11 @@ object ModuleToggleableMotionGraph :
 
     val fill by switch("Fill", "Fills the graph.", false)
 
-    val noTitle by switch("No Title", "The plot title will not be displayed", false)
-    val noLegend by switch("No Legend", "The legend will not be displayed.", false)
-    val noMousePos by switch(
-        "No Mouse Pos",
-        "The mouse position, in plot coordinates, will not be displayed inside of the plot.",
-        false
-    )
-    val noHighlight by switch(
-        "No Highlight",
-        "Plot items will not be highlighted when their legend entry is hovered\n.",
-        false
-    )
-
-    val noLabel by switch("No Label", "The axis label will not be displayed.", false)
-    val noGridLines by switch("No Grid Lines", "No grid lines will be displayed.", false)
-    val noTickMarks by switch("No Tick Marks", "No tick marks will be displayed.", false)
-    val noTickLabels by switch("No Tick Labels", "No tick labels will be displayed.", false)
+    var plotFlags = PlotFlags.DEFAULT
+    var axisFlags = AxisFlags.DEFAULT
 
     override fun renderImGuiContent() {
         scale.set(mc.window.framebufferWidth * size / 100f, mc.window.framebufferHeight * size / 100f)
-
-        var plotFlags = ImPlotFlags.NoMenus
-        if (noTitle) plotFlags = plotFlags or ImPlotFlags.NoTitle
-        if (noLegend) plotFlags = plotFlags or ImPlotFlags.NoLegend
-        if (noMousePos) plotFlags = plotFlags or ImPlotFlags.NoMousePos
-        if (noHighlight) plotFlags = plotFlags or ImPlotFlags.NoHighlight
-
-        var axisFlags = ImPlotAxisFlags.AutoFit
-        if (noLabel) axisFlags = axisFlags or ImPlotAxisFlags.NoLabel
-        if (noGridLines) axisFlags = axisFlags or ImPlotAxisFlags.NoGridLines
-        if (noTickMarks) axisFlags = axisFlags or ImPlotAxisFlags.NoTickMarks
-        if (noTickLabels) axisFlags = axisFlags or ImPlotAxisFlags.NoTickLabels
 
         if (beginPlot(
                 mc.player!!.name.literalString,
@@ -114,8 +83,13 @@ object ModuleToggleableMotionGraph :
                 unit.addX(x, x.size.toDouble())
             }
         }
+        multiOption("Plots Flags", "The flags of the plots.", PlotFlags.entries) {
+            plotFlags = it.calc(PlotFlags.DEFAULT)
+        }
+        multiOption("Axis Flags", "The flags of the axis.", AxisFlags.entries) {
+            axisFlags = it.calc(AxisFlags.DEFAULT)
+        }
     }
-
 
     interface Unit {
 

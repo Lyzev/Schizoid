@@ -65,6 +65,11 @@ class SettingClientSwitch(
         super.setValue(ref, prop, value)
     }
 
+    override fun reset() {
+        super.reset()
+        switch.timeAnimator.setReversed(!value)
+    }
+
     init {
         switch.timeAnimator.setReversed(!value)
     }

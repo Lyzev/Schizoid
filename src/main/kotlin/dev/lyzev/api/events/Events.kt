@@ -5,6 +5,7 @@
 
 package dev.lyzev.api.events
 
+import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.schizoid.Schizoid
 import net.minecraft.block.Block
 import net.minecraft.client.network.ClientPlayerEntity
@@ -42,7 +43,7 @@ class EventGlfwInit(val handle: Long) : Event
 /**
  * This event is triggered when ImGui starts rendering.
  */
-object EventRenderImGui : Event
+object EventSwapBuffers : Event
 
 /**
  * This event is triggered when ImGui is rendering its content.
@@ -52,12 +53,13 @@ object EventRenderImGuiContent : Event
 /**
  * This event is triggered when a packet is sent.
  */
-class EventSendPacket(val packet: Packet<*>) : CancellableEvent()
+class EventPacket(val packet: Packet<*>, val type: Type) : CancellableEvent() {
 
-/**
- * This event is triggered when a packet is received.
- */
-class EventReceivePacket(val packet: Packet<*>) : CancellableEvent()
+    enum class Type(override val key: String) : OptionEnum {
+        S2C("S2C"),
+        C2S("C2S")
+    }
+}
 
 /**
  * This event is triggered when a key is pressed.
@@ -97,7 +99,7 @@ class EventRenderWorld(val tickDelta: Float, val limitTime: Long, val matrices: 
 /**
  * This event is triggered when [net.minecraft.client.render.LightmapTextureManager] updates.
  */
-class EventGamma(var gamma: Double) : Event
+class EventGamma(var gamma: Float) : Event
 
 /**
  * This event is triggered when the camera clips to space.
@@ -112,7 +114,17 @@ class EventIsInvisibleTo(var isInvisible: Boolean) : Event
 /**
  * This event is triggered when an entity is rendered.
  */
-class EventRenderModel(val instance: EntityModel<*>, val matrixStack: MatrixStack, val vertexConsumer: VertexConsumer, var light: Int, var overlay: Int, var red: Float, var green: Float, var blue: Float, var alpha: Float) : Event
+class EventRenderModel(
+    val instance: EntityModel<*>,
+    val matrixStack: MatrixStack,
+    val vertexConsumer: VertexConsumer,
+    var light: Int,
+    var overlay: Int,
+    var red: Float,
+    var green: Float,
+    var blue: Float,
+    var alpha: Float
+) : Event
 
 /**
  * This event is triggered when [net.minecraft.client.world.ClientWorld.getBlockParticle] is called.

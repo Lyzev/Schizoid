@@ -4,6 +4,12 @@
  */
 package dev.lyzev.api.imgui.font.icon
 
+import dev.lyzev.api.imgui.font.ImGuiFonts
+import imgui.ImGui
+import imgui.ImGui.*
+import imgui.ImVec2
+import imgui.flag.ImGuiStyleVar
+
 /**
  * https://github.com/SpaiR/imgui-java/blob/main/example/src/main/java/FontAwesomeIcons.java
  *
@@ -28,6 +34,20 @@ object FontAwesomeIcons {
      * Icon range.
      */
     val _IconRange = shortArrayOf(_IconRangeMin, _IconRangeMax, 0)
+
+    private val size = ImVec2()
+
+    fun button(icon: String, width: Float = 16f, height: Float = 16f): Boolean {
+        ImGuiFonts.FONT_AWESOME_SOLID.begin()
+        calcTextSize(size, icon)
+        val paddingX = (width - size.x) / 2f
+        val paddingY = (height - size.y) / 2f
+        pushStyleVar(ImGuiStyleVar.FramePadding, paddingX, paddingY)
+        val result = ImGui.button(icon, width, height)
+        popStyleVar()
+        ImGuiFonts.FONT_AWESOME_SOLID.end()
+        return result
+    }
 
     const val Ad = "\uf641"
     const val AddressBook = "\uf2b9"

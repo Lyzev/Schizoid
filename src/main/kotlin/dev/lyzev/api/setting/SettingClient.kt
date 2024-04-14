@@ -7,8 +7,11 @@ package dev.lyzev.api.setting
 
 import com.google.gson.JsonObject
 import dev.lyzev.api.imgui.render.ImGuiRenderable
+import dev.lyzev.api.imgui.render.ImGuiRenderer
 import dev.lyzev.api.settings.Setting
 import dev.lyzev.schizoid.feature.IFeature
+import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
+import imgui.ImGui
 import kotlin.reflect.KClass
 
 /**
@@ -25,6 +28,13 @@ abstract class SettingClient<T>(
     container: KClass<out IFeature>, name: String, desc: String?, value: T, hidden: () -> Boolean, onChange: (T) -> Unit
 ) : Setting<T>(container, name, desc, value, hidden, onChange), ImGuiRenderable {
 
+    val default = value
+
+    open fun reset() {
+        value = default
+        onChange(value)
+    }
+
     /**
      * Load the setting value from a JSON object.
      * @param value The JSON object containing the setting value.
@@ -36,4 +46,17 @@ abstract class SettingClient<T>(
      * @param value The JSON object to store the setting value.
      */
     abstract fun save(value: JsonObject)
+
+    companion object {
+        /**
+         * The maximum height of the dropdown list.
+         */
+        private val MAX_HEIGHT
+            get() = 5f * (16f + ImGui.getStyle().framePaddingY * 2f)
+
+        /**
+         * Calculate the height of the dropdown list.
+         */
+        fun calcHeight(size: Int): Float = (size.coerceAtLeast(1) * (16f + ImGui.getStyle().framePaddingY * 2f) + 1f).coerceAtMost(MAX_HEIGHT)
+    }
 }

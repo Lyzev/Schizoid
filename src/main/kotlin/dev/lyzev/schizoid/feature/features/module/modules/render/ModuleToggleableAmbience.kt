@@ -3,11 +3,11 @@
  * All rights reserved.
  */
 
-package dev.lyzev.schizoid.feature.features.module.modules.world
+package dev.lyzev.schizoid.feature.features.module.modules.render
 
 import dev.lyzev.api.events.EventClientPlayerEntityTick
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventReceivePacket
+import dev.lyzev.api.events.EventPacket
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
@@ -19,7 +19,7 @@ import net.minecraft.world.World
  * This enum represents the possible units of the timer.
  * It can be either seconds or ticks.
  */
-object ModuleToggleableAmbience : ModuleToggleable("Ambience", "Changes to world time/weather!", category = Category.WORLD), EventListener {
+object ModuleToggleableAmbience : ModuleToggleable("Ambience", "Changes to world time/weather!", category = Category.RENDER), EventListener {
 
     /**
      * The time of day, in ticks.
@@ -54,7 +54,7 @@ object ModuleToggleableAmbience : ModuleToggleable("Ambience", "Changes to world
          * This block of code is executed when the module receives a packet.
          * If the packet is a WorldTimeUpdateS2CPacket, it updates the packet's time of day.
          */
-        on<EventReceivePacket> {
+        on<EventPacket> {
             if (it.packet is WorldTimeUpdateS2CPacket)
                 it.packet.timeOfDay = time.toLong()
         }

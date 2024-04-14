@@ -5,8 +5,7 @@
 
 package dev.lyzev.schizoid.injection.mixins.minecraft.network;
 
-import dev.lyzev.api.events.EventReceivePacket;
-import dev.lyzev.api.events.EventSendPacket;
+import dev.lyzev.api.events.EventPacket;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.PacketCallbacks;
 import net.minecraft.network.listener.PacketListener;
@@ -36,7 +35,7 @@ public class MixinClientConnection {
      */
     @Inject(method = "sendImmediately", at = @At("HEAD"), cancellable = true)
     private void onSendImmediately(Packet<?> packet, @Nullable PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
-        EventSendPacket event = new EventSendPacket(packet);
+        EventPacket event = new EventPacket(packet, EventPacket.Type.C2S);
         event.fire();
         if (event.isCancelled())
             ci.cancel();
@@ -53,7 +52,7 @@ public class MixinClientConnection {
      */
     @Inject(method = "handlePacket", at = @At("HEAD"), cancellable = true)
     private static void onHandlePacket(Packet<?> packet, PacketListener listener, CallbackInfo ci) {
-        EventReceivePacket event = new EventReceivePacket(packet);
+        EventPacket event = new EventPacket(packet, EventPacket.Type.S2C);
         event.fire();
         if (event.isCancelled())
             ci.cancel();

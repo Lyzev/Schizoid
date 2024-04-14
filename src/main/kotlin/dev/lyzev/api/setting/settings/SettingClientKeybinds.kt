@@ -17,8 +17,10 @@ import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
+import imgui.flag.ImGuiStyleVar
 import org.lwjgl.glfw.GLFW
 import kotlin.math.max
+import kotlin.math.min
 import kotlin.reflect.KClass
 
 /**
@@ -34,10 +36,11 @@ class SettingClientKeybinds(
     container: KClass<out IFeature>,
     name: String,
     desc: String?,
-    value: MutableSet<GLFWKey>,
+    value: Set<GLFWKey>,
+    val blacklist: Set<GLFWKey>,
     hide: () -> Boolean,
-    val change: (MutableSet<GLFWKey>) -> Unit
-) : SettingClient<MutableSet<GLFWKey>>(container, name, desc, value, hide, change), EventListener {
+    change: (Set<GLFWKey>) -> Unit
+) : SettingClient<Set<GLFWKey>>(container, name, desc, value, hide, change), EventListener {
 
     // A flag to check if the keybind is listening for input
     private var isListening = false
@@ -46,12 +49,10 @@ class SettingClientKeybinds(
         val treeNode = treeNode(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
         sameLine(max(getWindowContentRegionMaxX() - 10.5f - getStyle().windowPaddingX, 130f))
-        ImGuiFonts.FONT_AWESOME_SOLID.begin()
-        if (button(if (!isListening) FontAwesomeIcons.Plus else FontAwesomeIcons.Hourglass, 17.5f, 17.5f)) {
+        if (FontAwesomeIcons.button(if (!isListening) FontAwesomeIcons.Plus else FontAwesomeIcons.Hourglass)) {
             isListening = true
             EventKeybindsRequest.fire()
         }
-        ImGuiFonts.FONT_AWESOME_SOLID.end()
         if (isItemHovered()) setTooltip(
             """
                 Press to bind.
@@ -59,24 +60,25 @@ class SettingClientKeybinds(
                 """.trimIndent()
         )
         if (treeNode) {
-            val height = value.size * 26f + 2f
-            if (beginListBox("", -1f, if (height > MAX_HEIGHT) MAX_HEIGHT else height)) {
+            if (beginListBox("", -1f, calcHeight(value.size))) {
                 itemsToRemove.clear()
+                if (value.isEmpty()) {
+                    textDisabled("Looks like there's nothing here.")
+                }
                 for (key in value) {
-                    if (selectable(key.name)) itemsToRemove.add(key)
-                    sameLine(getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX)
                     pushID(key.name)
-                    ImGuiFonts.FONT_AWESOME_SOLID.begin()
-                    if (button(FontAwesomeIcons.Trash, 17.5f, 17.5f)) itemsToRemove.add(key)
-                    ImGuiFonts.FONT_AWESOME_SOLID.end()
+                    text(key.name)
+                    sameLine(max(getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX, calcTextSize(key.name).x + getStyle().framePaddingX + 2))
+                    if (FontAwesomeIcons.button(FontAwesomeIcons.Trash))
+                        itemsToRemove.add(key)
                     if (isItemHovered()) setTooltip("Click to remove.")
                     popID()
                 }
                 endListBox()
             }
-            value.removeAll(itemsToRemove)
+            value = value.minus(itemsToRemove)
             if (itemsToRemove.isNotEmpty()) {
-                change(value)
+                onChange(value)
             }
 
             treePop()
@@ -84,9 +86,7 @@ class SettingClientKeybinds(
     }
 
     override fun load(value: JsonObject) {
-        val keys = value["keys"].asJsonArray
-        this.value.clear()
-        keys.map { GLFWKey.valueOf(it.asString) }.forEach(this.value::add)
+        this.value = value["keys"].asJsonArray.map { it.asString }.map { GLFWKey.valueOf(it) }.toSet()
     }
 
     override fun save(value: JsonObject) =
@@ -102,20 +102,15 @@ class SettingClientKeybinds(
         on<EventKeybindsResponse> {
             if (isListening) {
                 isListening = false
-                if (it.key != GLFW.GLFW_KEY_ESCAPE && it.key != GLFW.GLFW_KEY_UNKNOWN) {
-                    value.add(GLFWKey[it.key])
-                    change(value)
+                if (it.key != GLFW.GLFW_KEY_ESCAPE && it.key != GLFW.GLFW_KEY_UNKNOWN && !blacklist.contains(GLFWKey[it.key])) {
+                    this.value = this.value.plus(GLFWKey[it.key])
+                    change(this.value)
                 }
             }
         }
     }
 
     companion object {
-        /**
-         * The maximum height of the list box.
-         */
-        private const val MAX_HEIGHT = 5f * 26f + 2f
-
         /**
          * A set of items to remove from the list.
          */
@@ -137,7 +132,8 @@ class SettingClientKeybinds(
 fun IFeature.keybinds(
     name: String,
     desc: String? = null,
-    value: MutableSet<GLFWKey>,
+    value: Set<GLFWKey>,
+    blacklist: Set<GLFWKey> = emptySet(),
     hide: () -> Boolean = { false },
-    change: (MutableSet<GLFWKey>) -> Unit = {}
-) = SettingClientKeybinds(this::class, name, desc, value, hide, change)
+    change: (Set<GLFWKey>) -> Unit = {}
+) = SettingClientKeybinds(this::class, name, desc, value, blacklist, hide, change)

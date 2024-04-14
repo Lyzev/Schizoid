@@ -23,7 +23,7 @@ enum class ImGuiFonts(override val fontName: String, override val type: ImGuiFon
         override val glyphRanges: ShortArray
             get() = FontAwesomeIcons._IconRange
     },
-    FONT_AWESOME_SOLID("fa-solid-900", ImGuiFont.Type.TTF, 8.75f) {
+    FONT_AWESOME_SOLID("fa-solid-900", ImGuiFont.Type.TTF, 10f) {
         override val glyphRanges: ShortArray
             get() = FontAwesomeIcons._IconRange
     };

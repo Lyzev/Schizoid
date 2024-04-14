@@ -5,10 +5,12 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
+import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.events.*
 import dev.lyzev.api.math.get
+import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.shader.ShaderReflection
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
@@ -27,12 +29,12 @@ import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL13
+import org.lwjgl.opengl.GL46C
 import kotlin.math.cos
 import kotlin.math.sin
 
 object ModuleToggleableTorus :
-    ModuleToggleable("Torus", "Renders a Torus with reflection effect.", category = Category.RENDER),
-    EventListener {
+    ModuleToggleable("Torus", "Renders a Torus with reflection effect.", category = Category.RENDER), EventListener {
 
     val depth by switch("Depth", "Whether to render the torus in depth.", false)
     val frequency by slider("Noise frequency", "The strength of the noise effect.", 50, 0, 100, "%%")
@@ -46,15 +48,13 @@ object ModuleToggleableTorus :
     private fun hit(entity: Entity) {
         if (entity == mc.player) return
         val target = mc.crosshairTarget
-        val hitPos = if (target is EntityHitResult && target.entity == entity)
-            target.pos
-        else
-            entity.eyePos
+        val hitPos = if (target is EntityHitResult && target.entity == entity) target.pos
+        else entity.eyePos
         toruses.add(Torus(hitPos, mc.player?.eyePos!![hitPos]))
     }
 
     init {
-        on<EventReceivePacket> { event ->
+        on<EventPacket> { event ->
             when (event.packet) {
                 is EntityDamageS2CPacket -> hit(mc.world?.getEntityById(event.packet.entityId) ?: return@on)
                 is DamageTiltS2CPacket -> hit(mc.world?.getEntityById(event.packet.id) ?: return@on)
@@ -63,15 +63,19 @@ object ModuleToggleableTorus :
 
         on<EventRenderWorld>(Event.Priority.LOW) { event ->
             toruses.removeIf { System.currentTimeMillis() - it.spawn > lifetime }
-            val texture = GL13.glGetInteger(GL13.GL_TEXTURE0)
-            if (depth)
-                RenderSystem.enableDepthTest()
-            else
-                RenderSystem.disableDepthTest()
+            if (toruses.isEmpty()) return@on
+            Render.store()
+            if (depth) RenderSystem.enableDepthTest()
+            else RenderSystem.disableDepthTest()
             RenderSystem.disableCull()
-            for (torus in toruses) torus.render(event.matrices)
+            try {
+                toruses.forEach { torus ->
+                    torus.render(event.matrices)
+                }
+            } catch (ignored: Exception) {
+            }
             RenderSystem.disableDepthTest()
-            RenderSystem.bindTexture(texture)
+            Render.restore()
         }
     }
 
@@ -128,10 +132,15 @@ object ModuleToggleableTorus :
                     val y4 = (outerRad + innerRad * cos(theta)) * sin(nextPhi)
                     val z4 = innerRad * sin(theta)
 
-                    val t1 = Vector3f((-(outerRad + innerRad * cos(theta)) * sin(phi)).toFloat(),
-                        ((outerRad + innerRad * cos(theta)) * cos(phi)).toFloat(), 0f)
-                    val t2 = Vector3f((-innerRad * sin(theta) * cos(phi)).toFloat(),
-                        (-innerRad * sin(theta) * sin(phi)).toFloat(), (innerRad * cos(theta)).toFloat()
+                    val t1 = Vector3f(
+                        (-(outerRad + innerRad * cos(theta)) * sin(phi)).toFloat(),
+                        ((outerRad + innerRad * cos(theta)) * cos(phi)).toFloat(),
+                        0f
+                    )
+                    val t2 = Vector3f(
+                        (-innerRad * sin(theta) * cos(phi)).toFloat(),
+                        (-innerRad * sin(theta) * sin(phi)).toFloat(),
+                        (innerRad * cos(theta)).toFloat()
                     )
 
                     val normal = t1.cross(t2).normalize()
