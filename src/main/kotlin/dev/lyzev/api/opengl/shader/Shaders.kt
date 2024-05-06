@@ -5,13 +5,24 @@
 
 package dev.lyzev.api.opengl.shader
 
+import com.sun.jna.platform.win32.User32
+import dev.lyzev.api.events.EventListener
+import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import org.joml.Vector2f
 import org.joml.Vector3f
+import org.lwjgl.glfw.GLFW
+import org.lwjgl.opengl.GL43.*
+import org.lwjgl.opengl.GL44
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.math.pow
+import kotlin.math.sin
+import kotlin.math.sqrt
 
 object ShaderDualKawaseDown : ShaderDualKawase("Down")
 object ShaderDualKawaseUp : ShaderDualKawase("Up")
 
-abstract class ShaderDualKawase(shader: String) : Shader("DualKawase$shader") {
+abstract class ShaderDualKawase(shader: String) : ShaderVertexFragment("DualKawase$shader") {
 
     fun setUniforms(offset: Float, halfPixelSize: Vector2f, alpha: Boolean) {
         this["uTexture"] = 0
@@ -21,7 +32,7 @@ abstract class ShaderDualKawase(shader: String) : Shader("DualKawase$shader") {
     }
 }
 
-object ShaderKawase : Shader("Kawase") {
+object ShaderKawase : ShaderVertexFragment("Kawase") {
 
     fun setUniforms(pixelSize: Vector2f, size: Float, alpha: Boolean) {
         this["uTexture"] = 0
@@ -31,7 +42,7 @@ object ShaderKawase : Shader("Kawase") {
     }
 }
 
-object ShaderBox : Shader("Box") {
+object ShaderBox : ShaderVertexFragment("Box") {
 
     fun setUniforms(direction: Vector2f, pixelSize: Vector2f, alpha: Boolean, size: Int) {
         this["uTexture"] = 0
@@ -42,7 +53,7 @@ object ShaderBox : Shader("Box") {
     }
 }
 
-object ShaderGaussian : Shader("Gaussian") {
+object ShaderGaussian : ShaderVertexFragment("Gaussian") {
 
     fun setUniforms(
         direction: Vector2f,
@@ -62,17 +73,104 @@ object ShaderGaussian : Shader("Gaussian") {
     }
 }
 
-object ShaderAcrylic : Shader("Acrylic")
-object ShaderTint : Shader("Tint")
+object ShaderAcrylic : ShaderVertexFragment("Acrylic")
+object ShaderTint : ShaderVertexFragment("Tint")
 
-object ShaderMask : Shader("Mask")
-object ShaderAdd : Shader("Add")
-object ShaderPassThrough : Shader("PassThrough")
+object ShaderMask : ShaderVertexFragment("Mask")
+object ShaderAdd : ShaderVertexFragment("Add")
+object ShaderPassThrough : ShaderVertexFragment("PassThrough")
 
-object ShaderDepth : Shader("Depth")
+object ShaderDepth : ShaderVertexFragment("Depth")
 
-object ShaderThreshold : Shader("Threshold")
-object ShaderBlend : Shader("Blend")
-object ShaderFlip : Shader("Flip")
+object ShaderThreshold : ShaderVertexFragment("Threshold")
+object ShaderBlend : ShaderVertexFragment("Blend")
+object ShaderFlip : ShaderVertexFragment("Flip")
 
-object ShaderReflection : Shader("Reflection")
+object ShaderReflection : ShaderVertexFragment("Reflection")
+
+object ShaderParticle : ShaderCompute("Particle", 80, 1, 1), EventListener {
+
+    private val PARTICLE_COUNT = (300_000 * (User32.INSTANCE.GetSystemMetrics(User32.SM_CYSCREEN) / 1080f)).toInt();
+    private val xpos = doubleArrayOf(0.0)
+    private val ypos = doubleArrayOf(0.0)
+    private val mousePos = Vector2f()
+    private val screenSize = Vector2f()
+
+    private val beginTime = System.nanoTime()
+    private var lastTime = 0.0
+    private var deltaTime = 1.0f
+
+    private var lastMXPos = -1.0
+    private var lastMYPos = -1.0
+
+    override fun draw() {
+        super.draw()
+        bind()
+        bindImageTexture()
+        this["imgOutput"] = 0
+
+        GLFW.glfwGetCursorPos(Schizoid.mc.window.handle, xpos, ypos)
+        this["mousePos"] = mousePos.set(xpos[0].toFloat(), Schizoid.mc.window.framebufferHeight.toFloat() - ypos[0].toFloat())
+
+        this["screenSize"] = screenSize.set(Schizoid.mc.window.framebufferWidth.toFloat(), Schizoid.mc.window.framebufferHeight.toFloat())
+
+        val left = GLFW.glfwGetMouseButton(Schizoid.mc.window.handle, GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS
+        val right = GLFW.glfwGetMouseButton(Schizoid.mc.window.handle, GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS
+
+        var force = 0.0f
+
+        val dist = 0.5f + sqrt((xpos[0] - lastMXPos).pow(2.0) + (ypos[0] - lastMYPos).pow(2.0)).toFloat() / 200.0f
+
+        if (left) force += dist
+        if (right) force -= dist
+        if (left && right) {
+            val time = (System.nanoTime() - beginTime) / 1_000_000.0
+            force = sin(time * 0.01f).toFloat() * 0.25f + 0.5f
+        }
+
+        lastMXPos = xpos[0]
+        lastMYPos = ypos[0]
+
+        this["force"] = force
+        this["deltaTime"] = deltaTime
+        this["colorIdle"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
+        this["colorActive"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleActive
+
+        var remaining = PARTICLE_COUNT
+        var processed = 0
+        while (remaining > 0) {
+            val processing = myGroupSizeX * myGroupSizeY * myGroupSizeZ
+            this["arrayOffset"] = processed
+            glDispatchCompute(processing, 1, 1)
+            processed += processing
+            remaining -= processing
+        }
+        glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
+        val time = (System.nanoTime() - beginTime) / 1_000_000.0
+        deltaTime = (time - lastTime).toFloat()
+        lastTime = time
+
+        Schizoid.mc.framebuffer.beginWrite(true)
+        drawTexture()
+    }
+
+    override val shouldHandleEvents = true
+
+    override fun init() {
+        super.init()
+        bind()
+        val buffer = (0..PARTICLE_COUNT).flatMap {
+            listOf(
+                ThreadLocalRandom.current().nextFloat() * Schizoid.mc.window.framebufferWidth,
+                ThreadLocalRandom.current().nextFloat() * Schizoid.mc.window.framebufferHeight,
+                0.0f,
+                0.0f
+            )
+        }.toTypedArray().toFloatArray()
+        val positionBuffer = glGenBuffers()
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, positionBuffer)
+        GL44.glBufferStorage(GL_SHADER_STORAGE_BUFFER, buffer, GL_MAP_WRITE_BIT or GL44.GL_DYNAMIC_STORAGE_BIT)
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, positionBuffer)
+        unbind()
+    }
+}

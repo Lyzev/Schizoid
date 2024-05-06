@@ -20,7 +20,8 @@ import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
 import net.minecraft.client.MinecraftClient
 import org.joml.Vector4f
-import org.lwjgl.opengl.GL13.*
+import org.lwjgl.opengl.GL13.GL_TEXTURE0
+import org.lwjgl.opengl.GL13.GL_TEXTURE1
 
 /**
  * A helper object for handling blur effects.
@@ -132,7 +133,7 @@ object BlurHelper {
             mode.output.beginRead()
             ShaderAcrylic["uTexture"] = 0
             ShaderAcrylic["uLuminosity"] = ModuleToggleableBlur.luminosity / 100f
-            ShaderAcrylic["uNoiseStrength"] = 0.03f * ModuleToggleableBlur.noiseStrength / 100f
+            ShaderAcrylic["uNoiseStrength"] = 0.04f * ModuleToggleableBlur.noiseStrength / 100f
             ShaderAcrylic["uNoiseScale"] = 4000f * ModuleToggleableBlur.noiseSale / 100f
             ShaderAcrylic["uOpacity"] = -1f
             ShaderAcrylic["uRGBPuke"] = ModuleToggleableBlur.RGBPuke

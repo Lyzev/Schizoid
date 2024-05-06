@@ -7,9 +7,11 @@ package dev.lyzev.schizoid.injection.mixins.minecraft.entity;
 
 import dev.lyzev.api.events.EventIsInvisibleTo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
  * This class provides a mixin for the Entity class in the Minecraft entity package.
@@ -23,13 +25,14 @@ public class MixinEntity {
      * It creates and fires an EventIsInvisibleTo event before the invisibility status is checked.
      * The invisibility status is then determined by the result of the event.
      *
-     * @param instance The instance of the Entity whose invisibility status is being checked.
-     * @return The invisibility status of the Entity, as determined by the EventIsInvisibleTo event.
+     * @param player The player that the Entity is being checked for invisibility against.
+     * @param cir    The callback information.
+     * @return       The invisibility status of the Entity, as determined by the EventIsInvisibleTo event.
      */
-    @Redirect(method = "isInvisibleTo", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isInvisible()Z"))
-    private boolean onIsInvisibleTo(Entity instance) {
-        EventIsInvisibleTo event = new EventIsInvisibleTo(instance.isInvisible());
+    @Inject(method = "isInvisibleTo", at = @At("RETURN"), cancellable = true)
+    private void onIsInvisibleTo(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {
+        EventIsInvisibleTo event = new EventIsInvisibleTo(cir.getReturnValueZ());
         event.fire();
-        return event.isInvisible();
+        cir.setReturnValue(event.isInvisible());
     }
 }

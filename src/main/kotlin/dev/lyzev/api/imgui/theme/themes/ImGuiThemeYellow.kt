@@ -11,19 +11,19 @@ import dev.lyzev.api.imgui.theme.ImGuiThemeBaseLight
 import java.awt.Color
 
 /**
- * Light purple ImGui theme.
+ * Light yellow ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeLightPurple : ImGuiThemeBaseLight(Color(175, 82, 222), Color(194, 138, 222), Color(184, 110, 222))
+object ImGuiThemeLightYellow : ImGuiThemeBaseLight(Color(255, 204, 0), Color(255, 224, 102), Color(255, 214, 51))
 
 /**
- * Dark purple ImGui theme.
+ * Dark yellow ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeDarkPurple : ImGuiThemeBaseDark(Color(191, 90, 242), Color(211, 151, 242), Color(201, 120, 242))
+object ImGuiThemeDarkYellow : ImGuiThemeBaseDark(Color(255, 214, 10), Color(255, 230, 108), Color(255, 222, 59))
 
 /**
- * Glassmorphism purple ImGui theme.
+ * Glassmorphism yellow ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismPurple : ImGuiThemeBaseGlassmorphism(Color(175, 82, 222), Color(194, 138, 222), Color(184, 110, 222))
+object ImGuiThemeGlassmorphismYellow : ImGuiThemeBaseGlassmorphism(Color(255, 204, 0), Color(255, 224, 102), Color(255, 214, 51))

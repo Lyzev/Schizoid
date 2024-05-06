@@ -6,6 +6,9 @@
 package dev.lyzev.api.opengl.shader
 
 import com.mojang.blaze3d.systems.RenderSystem
+import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.EventWindowResize
+import dev.lyzev.api.events.on
 import dev.lyzev.schizoid.Schizoid
 import net.minecraft.client.gl.GlProgramManager
 import net.minecraft.client.render.BufferRenderer
@@ -16,16 +19,20 @@ import org.joml.Vector2f
 import org.joml.Vector3f
 import org.joml.Vector4f
 import org.lwjgl.opengl.GL20.*
+import org.lwjgl.opengl.GL30.GL_RGBA32F
+import org.lwjgl.opengl.GL43.GL_COMPUTE_SHADER
+import org.lwjgl.opengl.GL44
 import java.awt.Color
 import java.io.FileNotFoundException
+import kotlin.properties.Delegates
 
 /**
  * Abstract class representing a Shader.
  * @param shader The name of the shader.
  */
-abstract class Shader(shader: String) {
+abstract class Shader(val shader: String) {
 
-    private val program: Int = glCreateProgram()
+    val program = glCreateProgram()
     private val uniforms = HashMap<String, Int>()
 
     /**
@@ -80,7 +87,8 @@ abstract class Shader(shader: String) {
      */
     operator fun set(name: String, value: Vector3f) = glUniform3f(this[name], value.x, value.y, value.z)
 
-    operator fun set(name: String, value: Color) = glUniform3f(this[name], value.red / 255f, value.green / 255f, value.blue / 255f)
+    operator fun set(name: String, value: Color) =
+        glUniform3f(this[name], value.red / 255f, value.green / 255f, value.blue / 255f)
 
     /**
      * Sets a uniform [Vector4f] value.
@@ -107,7 +115,8 @@ abstract class Shader(shader: String) {
      * @param transpose Whether to transpose the matrix.
      * @param value The [Matrix4f] value to set.
      */
-    operator fun set(name: String, transpose: Boolean, value: Matrix4f) = glUniformMatrix4fv(this[name], transpose, value.get(buffer))
+    operator fun set(name: String, transpose: Boolean, value: Matrix4f) =
+        glUniformMatrix4fv(this[name], transpose, value.get(buffer))
 
     /**
      * Retrieves the location of a uniform variable.
@@ -145,7 +154,7 @@ abstract class Shader(shader: String) {
      * @param source The shader source code.
      * @return The shader ID.
      */
-    private fun compile(type: Int, source: String): Int {
+    fun compile(type: Int, source: String): Int {
         val sourceWithIncludes = processIncludes(source)
         val shader = glCreateShader(type)
         glShaderSource(shader, sourceWithIncludes)
@@ -161,24 +170,18 @@ abstract class Shader(shader: String) {
         return shader
     }
 
-    /**
-     * Initializes the shader program.
-     */
-    init {
-        javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
-                glAttachShader(program, compile(GL_VERTEX_SHADER, it.readAllBytes().decodeToString()))
-            }
-
-        javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_FP.glsl")?.use {
-                glAttachShader(program, compile(GL_FRAGMENT_SHADER, it.readAllBytes().decodeToString()))
-            }
-
+    open fun init() {
         glLinkProgram(program)
 
         val isLinked = glGetProgrami(program, GL_LINK_STATUS)
 
         if (isLinked == 0)
-            Schizoid.logger.error(glGetProgramInfoLog(program, glGetProgrami(program, GL_INFO_LOG_LENGTH)), IllegalStateException("Shader failed to link"))
+            Schizoid.logger.error(
+                glGetProgramInfoLog(
+                    program,
+                    glGetProgrami(program, GL_INFO_LOG_LENGTH)
+                ), IllegalStateException("Shader failed to link")
+            )
     }
 
     companion object {
@@ -186,7 +189,7 @@ abstract class Shader(shader: String) {
         /**
          * The path to the shaders.
          */
-        private const val PATH = "assets/${Schizoid.MOD_ID}/shaders"
+        const val PATH = "assets/${Schizoid.MOD_ID}/shaders"
 
         /**
          * Draws a full screen quad.
@@ -200,5 +203,89 @@ abstract class Shader(shader: String) {
             bufferBuilder.vertex(-1.0, 1.0, .0).next()
             BufferRenderer.draw(bufferBuilder.end())
         }
+    }
+}
+
+abstract class ShaderVertexFragment(
+    shader: String
+) : Shader(shader) {
+
+    final override fun init() {
+        javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
+            glAttachShader(program, compile(GL_VERTEX_SHADER, it.readAllBytes().decodeToString()))
+        }
+
+        javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_FP.glsl")?.use {
+            glAttachShader(program, compile(GL_FRAGMENT_SHADER, it.readAllBytes().decodeToString()))
+        }
+        super.init()
+    }
+
+    init {
+        init()
+    }
+}
+
+abstract class ShaderCompute(
+    shader: String,
+    val myGroupSizeX: Int,
+    val myGroupSizeY: Int,
+    val myGroupSizeZ: Int
+) : Shader(shader), EventListener {
+
+    var texture by Delegates.notNull<Int>()
+
+    open fun draw() = clearTexture()
+
+    fun bindImageTexture() = GL44.glBindImageTexture(0, texture, 0, false, 0, GL_READ_WRITE, GL_RGBA32F)
+
+    private fun clearTexture() = GL44.glClearTexImage(texture, 0, GL_RGBA, GL_FLOAT, transparent)
+
+    fun drawTexture() {
+        ShaderPassThrough.bind()
+        RenderSystem.activeTexture(GL_TEXTURE0)
+        RenderSystem.bindTexture(texture)
+        ShaderPassThrough["uTexture"] = 0
+        ShaderPassThrough["uScale"] = 1f
+        drawFullScreen()
+        ShaderPassThrough.unbind()
+    }
+
+    private fun genTexture() {
+        texture = glGenTextures()
+        glActiveTexture(GL_TEXTURE0)
+        glBindTexture(GL_TEXTURE_2D, texture)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, Schizoid.mc.window.framebufferWidth, Schizoid.mc.window.framebufferHeight, 0, GL_RGBA, GL_FLOAT, 0)
+    }
+
+    override val shouldHandleEvents = true
+
+    override fun init() {
+        javaClass.classLoader
+            .getResourceAsStream("$PATH/core/$shader/${shader}_CP.glsl")
+            ?.use {
+                val computeShader = compile(
+                    GL_COMPUTE_SHADER,
+                    it.readAllBytes().decodeToString().format(myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+                )
+                glAttachShader(program, computeShader)
+            }
+
+        genTexture()
+
+        on<EventWindowResize> {
+            // delete old texture and create a new one
+            glDeleteTextures(texture)
+            genTexture()
+        }
+        super.init()
+    }
+
+    companion object {
+        private val transparent = floatArrayOf(0f, 0f, 0f, 0f)
     }
 }

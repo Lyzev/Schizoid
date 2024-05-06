@@ -43,7 +43,8 @@ object ImGuiLoader : EventListener {
         io.addConfigFlags(NavEnableKeyboard)
         io.addConfigFlags(DockingEnable)
         initFonts()
-        ImGuiScreenFeature.theme.apply()
+        ImGuiScreenFeature.colorScheme.applyStyle(ImGuiScreenFeature.mode)
+        ImGuiScreenFeature.colorScheme.applyColors(ImGuiScreenFeature.mode)
     }
 
     /**

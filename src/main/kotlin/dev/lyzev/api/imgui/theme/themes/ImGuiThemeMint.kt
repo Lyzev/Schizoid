@@ -6,6 +6,7 @@
 package dev.lyzev.api.imgui.theme.themes
 
 import dev.lyzev.api.imgui.theme.ImGuiThemeBaseDark
+import dev.lyzev.api.imgui.theme.ImGuiThemeBaseGlassmorphism
 import dev.lyzev.api.imgui.theme.ImGuiThemeBaseLight
 import java.awt.Color
 
@@ -20,3 +21,9 @@ object ImGuiThemeLightMint : ImGuiThemeBaseLight(Color(0, 199, 190), Color(80, 1
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
 object ImGuiThemeDarkMint : ImGuiThemeBaseDark(Color(99, 230, 226), Color(151, 230, 228), Color(125, 230, 227))
+
+/**
+ * Glassmorphism purple ImGui theme.
+ * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
+ */
+object ImGuiThemeGlassmorphismMint : ImGuiThemeBaseGlassmorphism(Color(0, 199, 190), Color(80, 199, 194), Color(40, 199, 192))

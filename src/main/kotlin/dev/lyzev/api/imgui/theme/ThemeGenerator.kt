@@ -42,11 +42,26 @@ fun main() {
     // Generate the string/class with calculated colors
     println("""
 import dev.lyzev.api.imgui.theme.ImGuiThemeBaseDark
+import dev.lyzev.api.imgui.theme.ImGuiThemeBaseGlassmorphism
 import dev.lyzev.api.imgui.theme.ImGuiThemeBaseLight
 import java.awt.Color
 
+/**
+ * Light ${nameColor.lowercase()} ImGui theme.
+ * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
+ */
 object ImGuiThemeLight${nameColor} : ImGuiThemeBaseLight(Color(${lightColor.red}, ${lightColor.green}, ${lightColor.blue}), Color(${light60Sat.red}, ${light60Sat.green}, ${light60Sat.blue}), Color(${light80Sat.red}, ${light80Sat.green}, ${light80Sat.blue}))
 
+/**
+ * Dark ${nameColor.lowercase()} ImGui theme.
+ * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
+ */
 object ImGuiThemeDark${nameColor} : ImGuiThemeBaseDark(Color(${darkColor.red}, ${darkColor.green}, ${darkColor.blue}), Color(${dark60Sat.red}, ${dark60Sat.green}, ${dark60Sat.blue}), Color(${dark80Sat.red}, ${dark80Sat.green}, ${dark80Sat.blue}))
+
+/**
+ * Glassmorphism ${nameColor.lowercase()} ImGui theme.
+ * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
+ */
+object ImGuiThemeGlassmorphism${nameColor} : ImGuiThemeBaseGlassmorphism(Color(${lightColor.red}, ${lightColor.green}, ${lightColor.blue}), Color(${light60Sat.red}, ${light60Sat.green}, ${light60Sat.blue}), Color(${light80Sat.red}, ${light80Sat.green}, ${light80Sat.blue}))
 """.trimIndent())
 }

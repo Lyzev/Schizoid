@@ -9,23 +9,21 @@ import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventSwapBuffers
 import dev.lyzev.api.events.EventRenderImGuiContent
+import dev.lyzev.api.events.EventSwapBuffers
 import dev.lyzev.api.events.on
 import dev.lyzev.api.imgui.ImGuiLoader.gl3
 import dev.lyzev.api.imgui.ImGuiLoader.glfw
-import dev.lyzev.api.imgui.theme.ImGuiThemeBase
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
-import dev.lyzev.api.opengl.shader.*
+import dev.lyzev.api.opengl.shader.Shader
+import dev.lyzev.api.opengl.shader.ShaderPassThrough
 import dev.lyzev.api.opengl.shader.blur.BlurHelper
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
 import imgui.ImGui.*
 import imgui.flag.ImGuiConfigFlags
-import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.opengl.GL13
 import kotlin.math.max
@@ -103,59 +101,59 @@ object ImGuiRenderer : EventListener {
             Shader.drawFullScreen()
             ShaderPassThrough.unbind()
 
-            if (ImGuiScreenFeature.theme.theme is ImGuiThemeBase && ModuleToggleableBlur.bloom) {
-                val theme = ImGuiScreenFeature.theme.theme as ImGuiThemeBase
-                bloom.clear()
-                bloom.beginWrite(true)
-                ShaderThreshold.bind()
-                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
-                fbo.beginRead()
-                ShaderThreshold["scene"] = 0
-                ShaderThreshold["primary"] = theme.primary
-                ShaderThreshold["secondary"] = theme.secondary
-                ShaderThreshold["accent"] = theme.accent
-                Shader.drawFullScreen()
-                ShaderThreshold.unbind()
-
-                BlurHelper.mode.switchStrength(ModuleToggleableBlur.bloomStrength)
-                BlurHelper.mode.render(bloom, true)
-                if (ModuleToggleableBlur.bloomDouble)
-                    BlurHelper.mode.render(BlurHelper.mode.output, true)
-
-                bloom.clear()
-                bloom.beginWrite(true)
-                ShaderTint.bind()
-                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
-                BlurHelper.mode.output.beginRead()
-                ShaderTint["uTexture"] = 0
-                ShaderTint["uColor"] = Vector3f(theme.primary.red / 255f, theme.primary.green / 255f, theme.primary.blue / 255f)
-                ShaderTint["uOpacity"] = 1f
-                ShaderTint["uRGBPuke"] = ModuleToggleableBlur.bloomRGBPuke
-                ShaderTint["uTime"] = System.nanoTime() / 1000000000f
-                Shader.drawFullScreen()
-                ShaderTint.unbind()
-
+//            if (ImGuiScreenFeature.theme.theme is ImGuiThemeBase && ModuleToggleableBlur.bloom) {
+//                val theme = ImGuiScreenFeature.theme.theme as ImGuiThemeBase
+//                bloom.clear()
+//                bloom.beginWrite(true)
+//                ShaderThreshold.bind()
+//                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
+//                fbo.beginRead()
+//                ShaderThreshold["scene"] = 0
+//                ShaderThreshold["primary"] = theme.primary
+//                ShaderThreshold["secondary"] = theme.secondary
+//                ShaderThreshold["accent"] = theme.accent
+//                Shader.drawFullScreen()
+//                ShaderThreshold.unbind()
+//
+//                BlurHelper.mode.switchStrength(ModuleToggleableBlur.bloomStrength)
+//                BlurHelper.mode.render(bloom, true)
+//                if (ModuleToggleableBlur.bloomDouble)
+//                    BlurHelper.mode.render(BlurHelper.mode.output, true)
+//
+//                bloom.clear()
+//                bloom.beginWrite(true)
+//                ShaderTint.bind()
+//                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
+//                BlurHelper.mode.output.beginRead()
+//                ShaderTint["uTexture"] = 0
+//                ShaderTint["uColor"] = Vector3f(theme.primary.red / 255f, theme.primary.green / 255f, theme.primary.blue / 255f)
+//                ShaderTint["uOpacity"] = 1f
+//                ShaderTint["uRGBPuke"] = ModuleToggleableBlur.bloomRGBPuke
+//                ShaderTint["uTime"] = System.nanoTime() / 1000000000f
+//                Shader.drawFullScreen()
+//                ShaderTint.unbind()
+//
+////                Schizoid.mc.framebuffer.beginWrite(true)
+////                GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
+////                ShaderBlend.bind()
+////                RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+////                Schizoid.mc.framebuffer.beginRead()
+////                ShaderBlend["scene"] = 0
+////                RenderSystem.activeTexture(GL13.GL_TEXTURE1)
+////                bloom.beginRead()
+////                ShaderBlend["textureSampler"] = 1
+////                Shader.drawFullScreen()
+////                ShaderBlend.unbind()
 //                Schizoid.mc.framebuffer.beginWrite(true)
 //                GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
-//                ShaderBlend.bind()
-//                RenderSystem.activeTexture(GL13.GL_TEXTURE0)
-//                Schizoid.mc.framebuffer.beginRead()
-//                ShaderBlend["scene"] = 0
-//                RenderSystem.activeTexture(GL13.GL_TEXTURE1)
+//                ShaderPassThrough.bind()
+//                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
 //                bloom.beginRead()
-//                ShaderBlend["textureSampler"] = 1
+//                ShaderPassThrough["uTexture"] = 0
+//                ShaderPassThrough["uScale"] = 1f
 //                Shader.drawFullScreen()
-//                ShaderBlend.unbind()
-                Schizoid.mc.framebuffer.beginWrite(true)
-                GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
-                ShaderPassThrough.bind()
-                RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
-                bloom.beginRead()
-                ShaderPassThrough["uTexture"] = 0
-                ShaderPassThrough["uScale"] = 1f
-                Shader.drawFullScreen()
-                ShaderPassThrough.unbind()
-            }
+//                ShaderPassThrough.unbind()
+//            }
 
             RenderSystem.enableCull()
         }

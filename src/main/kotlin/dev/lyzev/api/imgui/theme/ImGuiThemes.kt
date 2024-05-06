@@ -17,20 +17,42 @@ import net.minecraft.client.gui.DrawContext
  * @param key The key of the theme.
  * @param theme The ImGuiTheme instance of the theme.
  */
-enum class ImGuiThemes(override val key: String, val theme: ImGuiTheme) : ImGuiTheme, OptionEnum {
-    LIGHT_ORANGE("Light Orange", ImGuiThemeLightOrange),
-    DARK_ORANGE("Dark Orange", ImGuiThemeDarkOrange),
-    LIGHT_RED("Light Red", ImGuiThemeLightRed),
-    DARK_RED("Dark Red", ImGuiThemeDarkRed),
-    LIGHT_MINT("Light Mint", ImGuiThemeLightMint),
-    DARK_MINT("Dark Mint", ImGuiThemeDarkMint),
-    LIGHT_GREEN("Light Green", ImGuiThemeLightGreen),
-    DARK_GREEN("Dark Green", ImGuiThemeDarkGreen),
-    LIGHT_PURPLE("Light Purple", ImGuiThemeLightPurple),
-    DARK_PURPLE("Dark Purple", ImGuiThemeDarkPurple);
+enum class ImGuiThemes(
+    override val key: String,
+    val light: ImGuiTheme,
+    val dark: ImGuiTheme,
+    val glassmorphism: ImGuiTheme
+) : OptionEnum {
+    RED("Red", ImGuiThemeLightRed, ImGuiThemeDarkRed, ImGuiThemeGlassmorphismRed),
+    ORANGE("Orange", ImGuiThemeLightOrange, ImGuiThemeDarkOrange, ImGuiThemeGlassmorphismOrange),
+    YELLOW("Yellow", ImGuiThemeLightYellow, ImGuiThemeDarkYellow, ImGuiThemeGlassmorphismYellow),
+    GREEN("Green", ImGuiThemeLightGreen, ImGuiThemeDarkGreen, ImGuiThemeGlassmorphismGreen),
+    MINT("Mint", ImGuiThemeLightMint, ImGuiThemeDarkMint, ImGuiThemeGlassmorphismMint),
+    TEAL("Teal", ImGuiThemeLightTeal, ImGuiThemeDarkTeal, ImGuiThemeGlassmorphismTeal),
+    CYAN("Cyan", ImGuiThemeLightCyan, ImGuiThemeDarkCyan, ImGuiThemeGlassmorphismCyan),
+    BLUE("Blue", ImGuiThemeLightBlue, ImGuiThemeDarkBlue, ImGuiThemeGlassmorphismBlue),
+    INDIGO("Indigo", ImGuiThemeLightIndigo, ImGuiThemeDarkIndigo, ImGuiThemeGlassmorphismIndigo),
+    PURPLE("Purple", ImGuiThemeLightPurple, ImGuiThemeDarkPurple, ImGuiThemeGlassmorphismPurple),
+    PINK("Pink", ImGuiThemeLightPink, ImGuiThemeDarkPink, ImGuiThemeGlassmorphismPink),
+    BROWN("Brown", ImGuiThemeLightBrown, ImGuiThemeDarkBrown, ImGuiThemeGlassmorphismBrown),;
 
-    override fun applyStyle() = theme.applyStyle()
-    override fun applyColors() = theme.applyColors()
+    operator fun get(mode: Mode) =
+        when (mode) {
+            Mode.LIGHT -> light
+            Mode.DARK -> dark
+            Mode.GLASSMORPHISM -> glassmorphism
+        }
 
-    override fun renderInGameBackground(context: DrawContext, width: Int, height: Int) = theme.renderInGameBackground(context, width, height)
+    fun applyStyle(mode: Mode) = this[mode].applyStyle()
+
+    fun applyColors(mode: Mode) = this[mode].applyColors()
+
+    fun renderInGameBackground(context: DrawContext, width: Int, height: Int, mode: Mode) =
+        this[mode].renderInGameBackground(context, width, height)
+
+    enum class Mode(override val key: String) : OptionEnum {
+        LIGHT("Light"),
+        DARK("Dark"),
+        GLASSMORPHISM("Glassmorphism")
+    }
 }

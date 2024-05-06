@@ -18,6 +18,9 @@ import java.awt.Color
  */
 interface ImGuiTheme {
 
+    val particleIdle: Color
+    val particleActive: Color
+
     /**
      * The style of the ImGui.
      */
@@ -79,8 +82,13 @@ interface ImGuiTheme {
  */
 abstract class ImGuiThemeBase(val alpha: Float, val text: Color, val textDisabled: Color, val background: Color, val foreground: Color, val primary: Color, val secondary: Color, val accent: Color) : ImGuiTheme {
 
+    override val particleIdle: Color
+        get() = primary
+
+    override val particleActive: Color
+        get() = secondary
+
     override fun applyStyle() {
-        style.alpha = alpha
         style.antiAliasedFill = true
         style.antiAliasedLines = true
         style.antiAliasedLinesUseTex = false
@@ -109,9 +117,9 @@ abstract class ImGuiThemeBase(val alpha: Float, val text: Color, val textDisable
 
         style.setColor(Text, text)
         style.setColor(TextDisabled, textDisabled)
-        style.setColor(WindowBg, background, lighterAlpha)
-        style.setColor(ChildBg, foreground, alpha)
-        style.setColor(PopupBg, background, lighterAlpha)
+        style.setColor(WindowBg, background, alpha)
+        style.setColor(ChildBg, foreground, lightestAlpha)
+        style.setColor(PopupBg, background, alpha)
         style.setColor(Border, foreground, alpha)
         style.setColor(BorderShadow, background, alpha)
         style.setColor(FrameBg, foreground, alpha)
@@ -142,7 +150,7 @@ abstract class ImGuiThemeBase(val alpha: Float, val text: Color, val textDisable
         style.setColor(ResizeGripActive, foreground, alpha)
         style.setColor(Tab, foreground, lightestAlpha)
         style.setColor(TabHovered, foreground, alpha)
-        style.setColor(TabActive, foreground)
+        style.setColor(TabActive, foreground, alpha)
         style.setColor(TabUnfocused, foreground, lightestAlpha)
         style.setColor(TabUnfocusedActive, foreground, alpha)
         style.setColor(DockingPreview, foreground, alpha)
@@ -173,7 +181,7 @@ abstract class ImGuiThemeBase(val alpha: Float, val text: Color, val textDisable
  * @param accent The accent color of the theme.
  */
 abstract class ImGuiThemeBaseDark(primary: Color, secondary: Color, accent: Color) : ImGuiThemeBase(
-    .9f,
+    .6f,
     Color.WHITE,
     Color(152, 152, 157),
     Color.BLACK,
@@ -194,7 +202,7 @@ abstract class ImGuiThemeBaseDark(primary: Color, secondary: Color, accent: Colo
  * @param accent The accent color of the theme.
  */
 abstract class ImGuiThemeBaseLight(primary: Color, secondary: Color, accent: Color) : ImGuiThemeBase(
-    .9f,
+    .6f,
     Color.BLACK,
     Color(142, 142, 147),
     Color.WHITE,
@@ -205,4 +213,19 @@ abstract class ImGuiThemeBaseLight(primary: Color, secondary: Color, accent: Col
 ) {
 
     override fun renderInGameBackground(context: DrawContext, width: Int, height: Int) = context.fillGradient(0, 0, width, height, 0x64f0efef, 0x18f0efef)
+}
+
+abstract class ImGuiThemeBaseGlassmorphism(primary: Color, secondary: Color, accent: Color) : ImGuiThemeBase(
+    .4f,
+    Color.WHITE,
+    Color(152, 152, 157),
+    Color.WHITE,
+    Color(242, 242, 247),
+    primary,
+    secondary,
+    accent
+) {
+
+    override fun renderInGameBackground(context: DrawContext, width: Int, height: Int) {
+    }
 }

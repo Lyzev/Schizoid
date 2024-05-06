@@ -5,6 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.gui.guis
 
+import com.mojang.blaze3d.systems.RenderCall
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
@@ -15,6 +16,7 @@ import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableSearch
 import dev.lyzev.api.imgui.theme.ImGuiThemes
+import dev.lyzev.api.opengl.shader.ShaderParticle
 import dev.lyzev.api.setting.settings.keybinds
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
@@ -28,8 +30,17 @@ import org.lwjgl.glfw.GLFW
 
 object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
 
-    val theme by option("Theme", "The theme of the GUI.", ImGuiThemes.DARK_PURPLE, ImGuiThemes.entries) {
-        RenderSystem.recordRenderCall { it.apply() }
+    private val change: RenderCall = RenderCall {
+        colorScheme.applyStyle(mode)
+        colorScheme.applyColors(mode)
+    }
+
+    val mode by option("Mode", "The mode of the GUI.", ImGuiThemes.Mode.GLASSMORPHISM, ImGuiThemes.Mode.entries) {
+        RenderSystem.recordRenderCall(change)
+    }
+
+    val colorScheme by option("Color Scheme", "The color scheme of the GUI.", ImGuiThemes.TEAL, ImGuiThemes.entries) {
+        RenderSystem.recordRenderCall(change)
     }
 
     private val texturesMario = Array(3) {
@@ -38,13 +49,13 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     private var isMarioRunning = false
     private val timeAnimatorMario = TimeAnimator(8000)
 
-    private val animationMario by option(
+    val animationMario by option(
         "Mario Animation",
         "Enables the Mario animation.",
         EasingFunction.IN_OUT_ELASTIC,
         EasingFunction.entries
     )
-    private val speedMario by slider(
+    val speedMario by slider(
         "Mario Speed",
         "The speed of the Mario animation.",
         5000,
@@ -63,10 +74,16 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     val search = ImGuiRenderableSearch()
 
     override fun renderInGameBackground(context: DrawContext) =
-        theme.renderInGameBackground(context, this.width, this.height)
+        colorScheme.renderInGameBackground(context, this.width, this.height, mode)
 
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
+
+        RenderSystem.disableCull()
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.enableBlend()
+        ShaderParticle.draw()
+        RenderSystem.enableCull()
 
         if (isWaitingForInput && System.currentTimeMillis() - waitingForInput > TIMEOUT) {
             EventKeybindsResponse(GLFW.GLFW_KEY_UNKNOWN).fire()
@@ -132,6 +149,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     }
 
     init {
+        ShaderParticle.init()
         on<EventKeybindsRequest> {
             if (isWaitingForInput) EventKeybindsResponse(GLFW.GLFW_KEY_UNKNOWN).fire()
             waitingForInput = System.currentTimeMillis()

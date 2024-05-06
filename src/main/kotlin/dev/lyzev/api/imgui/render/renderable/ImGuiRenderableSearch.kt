@@ -86,16 +86,18 @@ class ImGuiRenderableSearch : ImGuiRenderable {
             shouldFocus = false
             inputTextWithHint("##search", "Search...", input)
             if (GLFWKey.ENTER.isPressed()) {
-                result = FeatureManager.get(*Feature.Category.values()).maxByOrNull { FuzzySearch.weightedRatio(
-                    input.get(), it.name) }
+                result = FeatureManager.get(*Feature.Category.values()).maxByOrNull {
+                    FuzzySearch.weightedRatio(if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(), if (input.get().startsWith("@")) it.category.name else it.name)
+                }
                 if (result != null) {
                     prevResult.remove(result!!.name)
                     prevResult.add(0, result!!.name)
                 }
             }
             if (beginListBox("##searchResults", getColumnWidth(), mc.window.framebufferHeight * .15f)) {
-                FeatureManager.get(*Feature.Category.values()).sortedByDescending { FuzzySearch.weightedRatio(
-                    input.get(), it.name) }.forEach { feature ->
+                FeatureManager.get(*Feature.Category.values()).sortedByDescending {
+                    FuzzySearch.weightedRatio(if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(), if (input.get().startsWith("@")) it.category.name else it.name)
+                }.forEach { feature ->
                     if (selectable("[${feature.category}] ${feature.name}", false)) {
                         result = feature
                         prevResult.remove(feature.name)
