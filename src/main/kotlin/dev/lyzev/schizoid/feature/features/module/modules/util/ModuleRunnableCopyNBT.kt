@@ -19,7 +19,7 @@ object ModuleRunnableCopyNBT :
         val itemInHand = mc.player?.getStackInHand(hand.type)
         if (itemInHand == null || itemInHand.components == null || itemInHand.components!!.isEmpty)
             return "There is no NBT data to copy."
-        copy(itemInHand.components!!.toString())
+        copy(itemInHand.encode(mc.world?.registryManager).asString())
         return null
     }
 
