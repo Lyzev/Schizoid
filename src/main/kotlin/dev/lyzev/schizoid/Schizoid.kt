@@ -11,6 +11,7 @@ import dev.lyzev.api.events.EventStartup
 import dev.lyzev.api.events.on
 import dev.lyzev.api.imgui.ImGuiLoader
 import dev.lyzev.api.setting.SettingInitializer
+import dev.lyzev.api.theme.OSTheme
 import dev.lyzev.schizoid.Schizoid.CI
 import dev.lyzev.schizoid.Schizoid.METADATA
 import dev.lyzev.schizoid.Schizoid.MOD_AUTHORS
@@ -106,6 +107,7 @@ object Schizoid : EventListener {
                     logger.warn("Running in a continuous integration environment!")
                 FeatureManager
                 SettingInitializer
+                OSTheme.startListenForUpdatesThread()
                 Runtime.getRuntime().addShutdownHook(Thread { EventShutdown.fire() })
                 logger.info("Initialized ${FeatureManager.features.size} features!")
             }.onSuccess { // Log successful initialization.

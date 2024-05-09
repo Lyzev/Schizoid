@@ -7,6 +7,7 @@ package dev.lyzev.api.imgui.theme
 
 import dev.lyzev.api.imgui.theme.themes.*
 import dev.lyzev.api.setting.settings.OptionEnum
+import dev.lyzev.api.theme.OSTheme
 import net.minecraft.client.gui.DrawContext
 
 /**
@@ -40,6 +41,7 @@ enum class ImGuiThemes(
         when (mode) {
             Mode.LIGHT -> light
             Mode.DARK -> dark
+            Mode.SYSTEM -> if (OSTheme.getCurrentTheme() == OSTheme.Theme.Dark) dark else light
             Mode.GLASSMORPHISM -> glassmorphism
         }
 
@@ -53,6 +55,7 @@ enum class ImGuiThemes(
     enum class Mode(override val key: String) : OptionEnum {
         LIGHT("Light"),
         DARK("Dark"),
+        SYSTEM("System"),
         GLASSMORPHISM("Glassmorphism")
     }
 }
