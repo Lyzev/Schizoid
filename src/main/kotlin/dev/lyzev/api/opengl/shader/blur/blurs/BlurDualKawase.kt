@@ -16,7 +16,6 @@ import dev.lyzev.api.opengl.shader.ShaderDualKawaseUp
 import dev.lyzev.api.opengl.shader.blur.Blur
 import net.minecraft.client.gl.Framebuffer
 import org.joml.Vector2f
-import kotlin.math.pow
 
 /**
  * Object that represents a dual Kawase blur.
@@ -57,7 +56,7 @@ object BlurDualKawase : Blur {
      * Array of framebuffers used for the blur process.
      * Each framebuffer is wrapped in a WrappedFramebuffer object.
      */
-    private val fbos = Array(6) { WrappedFramebuffer(1f / 2f.pow(it)) }
+    private val fbos = Array(6) { WrappedFramebuffer(it) }
 
     /**
      * Pair representing the current strength of the blur.

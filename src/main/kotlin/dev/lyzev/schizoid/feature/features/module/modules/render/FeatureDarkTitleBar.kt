@@ -48,7 +48,7 @@ object FeatureDarkTitleBar: Feature("Dark Title Bar", "Adds a dark Title Bar", e
         }
         val win32 = GLFWNativeWin32.glfwGetWin32Window(mc.window.handle)
         val hwnd = HWND(Pointer(win32))
-        DwmApi.INSTANCE.DwmSetWindowAttribute(hwnd, 20, IntByReference(if (dark) 1 else 0), 4)
+        DwmApi.DwmSetWindowAttribute(hwnd, 20, IntByReference(if (dark) 1 else 0), 4)
 
         // Workaround: Reload window
         GLFW.glfwHideWindow(mc.window.handle)

@@ -5,7 +5,6 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.events.*
@@ -29,7 +28,6 @@ import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL13
-import org.lwjgl.opengl.GL46C
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -70,7 +68,7 @@ object ModuleToggleableTorus :
             RenderSystem.disableCull()
             try {
                 toruses.forEach { torus ->
-                    torus.render(event.matrices)
+//                    torus.render(event.matrices)
                 }
             } catch (ignored: Exception) {
             }

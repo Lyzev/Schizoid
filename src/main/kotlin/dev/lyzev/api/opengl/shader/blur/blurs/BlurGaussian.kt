@@ -40,7 +40,7 @@ object BlurGaussian : Blur {
      * Each framebuffer is wrapped in a WrappedFramebuffer object.
      */
     private val fbos = Array(2) {
-        WrappedFramebuffer(.25f)
+        WrappedFramebuffer(2)
     }
 
     /**

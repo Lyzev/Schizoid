@@ -24,6 +24,7 @@ import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
 import imgui.ImGui.*
 import imgui.flag.ImGuiConfigFlags
+import net.minecraft.util.Formatting
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.opengl.GL13
 import kotlin.math.max
@@ -187,6 +188,35 @@ object ImGuiRenderer : EventListener {
         getIO().mouseWheel += scrollYSpeed
     }
 
+    /**
+     * Implement Minecraft Color Code support for ImGui. Use color codes from the Formatting class.
+     */
+    fun minecraft(text: String) {
+        val splits = text.split("§")
+        val start = text.startsWith("§")
+        for (i in splits.indices) {
+            val split = splits[i]
+            if (i == 0 && !start) {
+                text(split)
+                continue
+            }
+            if (split.isEmpty()) continue
+            val color = split[0]
+            val code = Formatting.byCode(color)
+            if (code != null && code.isColor) {
+                if (i > 0) {
+                    sameLine(0f, 0f)
+                }
+                textColored(code.colorValue!! shl 8 or 0xFF, split.substring(1))
+           } else {
+                if (i > 0) {
+                    sameLine(0f, 0f)
+                }
+                text("§$split")
+            }
+        }
+    }
+
     override val shouldHandleEvents = true
 
     init {
@@ -206,9 +236,9 @@ object ImGuiRenderer : EventListener {
                 (Schizoid.mc.currentScreen as ImGuiScreen).renderImGui()
             render()
 
-            preRenderImGui()
+//            preRenderImGui()
             renderImGui()
-            postRenderImGui()
+//            postRenderImGui()
         }
     }
 }

@@ -95,7 +95,7 @@ class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event
 /**
  * This event is triggered when the world is rendered.
  */
-class EventRenderWorld(val tickDelta: Float, val limitTime: Long, val matrices: MatrixStack) : Event
+class EventRenderWorld(val tickDelta: Float, val limitTime: Long) : Event
 
 /**
  * This event is triggered when [net.minecraft.client.render.LightmapTextureManager] updates.

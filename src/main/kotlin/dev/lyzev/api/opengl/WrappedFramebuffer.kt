@@ -5,6 +5,7 @@
 
 package dev.lyzev.api.opengl
 
+import com.google.common.math.IntMath
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.platform.TextureUtil
@@ -16,20 +17,19 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.Framebuffer
 import net.minecraft.client.gl.SimpleFramebuffer
 import net.minecraft.client.util.ScreenshotRecorder
-import kotlin.math.ceil
 
 /**
  * A simple wrapper around the [SimpleFramebuffer] class.
  * This class is used to create a framebuffer with a size multiplier which uses [GlConst.GL_LINEAR] as the texture filter.
  *
- * @param multi The multiplier for the framebuffer size.
+ * @param lod The level of detail of the framebuffer.
  * @param useDepth Whether to use a depth attachment or not.
  * @see SimpleFramebuffer
  * @see EventListener
  */
-class WrappedFramebuffer(val multi: Float = 1f, useDepth: Boolean = false) : SimpleFramebuffer(
-    ceil(MinecraftClient.getInstance().window.framebufferWidth * multi).toInt(),
-    ceil(MinecraftClient.getInstance().window.framebufferHeight * multi).toInt(),
+class WrappedFramebuffer(val lod: Int = 0, useDepth: Boolean = false) : SimpleFramebuffer(
+    MinecraftClient.getInstance().window.framebufferWidth / IntMath.pow(2, lod),
+    MinecraftClient.getInstance().window.framebufferHeight / IntMath.pow(2, lod),
     useDepth,
     MinecraftClient.IS_SYSTEM_MAC
 ), EventListener {
@@ -104,8 +104,8 @@ class WrappedFramebuffer(val multi: Float = 1f, useDepth: Boolean = false) : Sim
          */
         on<EventWindowResize> {
             resize(
-                (MinecraftClient.getInstance().window.framebufferWidth * multi).toInt(),
-                (MinecraftClient.getInstance().window.framebufferHeight * multi).toInt(),
+                MinecraftClient.getInstance().window.framebufferWidth / IntMath.pow(2, lod),
+                MinecraftClient.getInstance().window.framebufferHeight / IntMath.pow(2, lod),
                 MinecraftClient.IS_SYSTEM_MAC
             )
         }

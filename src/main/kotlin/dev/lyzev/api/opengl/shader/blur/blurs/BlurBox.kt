@@ -34,7 +34,7 @@ object BlurBox : Blur {
      * Each framebuffer is wrapped in a WrappedFramebuffer object.
      */
     private val fbos = Array(2) {
-        WrappedFramebuffer(.25f)
+        WrappedFramebuffer(2)
     }
 
     /**
@@ -72,7 +72,9 @@ object BlurBox : Blur {
         texelSize.set(1f / sourceFBO.textureWidth, 1f / sourceFBO.textureHeight)
         // Initial iteration
         direction.set(1f, 0f)
+        // sourceFBO -> farbe
         renderToFBO(fbos[0], sourceFBO, alpha)
+        // fbos[0] -> schwarz
         // Rest of the iterations
         for (i in 1 until 4) {
             direction.set((i - 1) % 2f, i % 2f)

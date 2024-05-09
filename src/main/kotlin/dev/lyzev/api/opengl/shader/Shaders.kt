@@ -88,7 +88,7 @@ object ShaderFlip : ShaderVertexFragment("Flip")
 
 object ShaderReflection : ShaderVertexFragment("Reflection")
 
-object ShaderParticle : ShaderCompute("Particle", 80, 1, 1), EventListener {
+object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
 
     private val PARTICLE_COUNT = (300_000 * (User32.INSTANCE.GetSystemMetrics(User32.SM_CYSCREEN) / 1080f)).toInt();
     private val xpos = doubleArrayOf(0.0)
@@ -110,9 +110,13 @@ object ShaderParticle : ShaderCompute("Particle", 80, 1, 1), EventListener {
         this["imgOutput"] = 0
 
         GLFW.glfwGetCursorPos(Schizoid.mc.window.handle, xpos, ypos)
-        this["mousePos"] = mousePos.set(xpos[0].toFloat(), Schizoid.mc.window.framebufferHeight.toFloat() - ypos[0].toFloat())
+        this["mousePos"] =
+            mousePos.set(xpos[0].toFloat(), Schizoid.mc.window.framebufferHeight.toFloat() - ypos[0].toFloat())
 
-        this["screenSize"] = screenSize.set(Schizoid.mc.window.framebufferWidth.toFloat(), Schizoid.mc.window.framebufferHeight.toFloat())
+        this["screenSize"] = screenSize.set(
+            Schizoid.mc.window.framebufferWidth.toFloat(),
+            Schizoid.mc.window.framebufferHeight.toFloat()
+        )
 
         val left = GLFW.glfwGetMouseButton(Schizoid.mc.window.handle, GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS
         val right = GLFW.glfwGetMouseButton(Schizoid.mc.window.handle, GLFW.GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS
@@ -172,5 +176,9 @@ object ShaderParticle : ShaderCompute("Particle", 80, 1, 1), EventListener {
         GL44.glBufferStorage(GL_SHADER_STORAGE_BUFFER, buffer, GL_MAP_WRITE_BIT or GL44.GL_DYNAMIC_STORAGE_BIT)
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, positionBuffer)
         unbind()
+    }
+
+    init {
+        init()
     }
 }

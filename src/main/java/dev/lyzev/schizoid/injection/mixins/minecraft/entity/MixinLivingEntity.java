@@ -9,6 +9,7 @@ import dev.lyzev.api.events.EventHasStatusEffect;
 import dev.lyzev.schizoid.feature.features.module.modules.movement.ModuleToggleableAirJump;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.registry.entry.RegistryEntry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -56,8 +57,8 @@ public abstract class MixinLivingEntity {
      * @param cir    The callback information, which includes the return value of the status effect check.
      */
     @Inject(method = "hasStatusEffect", at = @At("RETURN"), cancellable = true)
-    public void onHasStatusEffect(StatusEffect effect, CallbackInfoReturnable<Boolean> cir) {
-        EventHasStatusEffect event = new EventHasStatusEffect((LivingEntity) (Object) this, effect, cir.getReturnValue());
+    public void onHasStatusEffect(RegistryEntry<StatusEffect> effect, CallbackInfoReturnable<Boolean> cir) {
+        EventHasStatusEffect event = new EventHasStatusEffect((LivingEntity) (Object) this, effect.value(), cir.getReturnValue());
         event.fire();
         cir.setReturnValue(event.getHasStatusEffect());
     }

@@ -17,9 +17,9 @@ object ModuleRunnableCopyNBT :
     override fun invoke(): String? {
         if (!isIngame) return "You are not in a game."
         val itemInHand = mc.player?.getStackInHand(hand.type)
-        if (itemInHand == null || itemInHand.nbt == null)
+        if (itemInHand == null || itemInHand.components == null || itemInHand.components!!.isEmpty)
             return "There is no NBT data to copy."
-        copy(itemInHand.nbt!!.asString())
+        copy(itemInHand.components!!.toString())
         return null
     }
 

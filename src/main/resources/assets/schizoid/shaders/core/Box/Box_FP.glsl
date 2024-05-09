@@ -25,4 +25,5 @@ void main() {
     if (!uAlpha) {
         color.a = 1;
     }
+    color.rgba = vec4(1, 0, 0, 1);
 }
