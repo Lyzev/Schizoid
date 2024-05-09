@@ -9,10 +9,7 @@ import com.mojang.blaze3d.systems.RenderCall
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
-import dev.lyzev.api.events.EventKeybindsRequest
-import dev.lyzev.api.events.EventKeybindsResponse
-import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.on
+import dev.lyzev.api.events.*
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableSearch
 import dev.lyzev.api.imgui.theme.ImGuiThemes
@@ -35,7 +32,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         colorScheme.applyColors(mode)
     }
 
-    val mode by option("Mode", "The mode of the GUI.", ImGuiThemes.Mode.GLASSMORPHISM, ImGuiThemes.Mode.entries) {
+    val mode by option("Mode", "The mode of the GUI.", ImGuiThemes.Mode.SYSTEM, ImGuiThemes.Mode.entries) {
         RenderSystem.recordRenderCall(change)
     }
 
@@ -154,6 +151,9 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
             if (isWaitingForInput) EventKeybindsResponse(GLFW.GLFW_KEY_UNKNOWN).fire()
             waitingForInput = System.currentTimeMillis()
             isWaitingForInput = true
+        }
+        on<EventOSThemeUpdate> {
+            RenderSystem.recordRenderCall(change)
         }
     }
 
