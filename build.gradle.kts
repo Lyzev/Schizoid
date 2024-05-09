@@ -75,6 +75,17 @@ loom {
     }
 }
 
+tasks.register("fixRunResources") {
+    dependsOn("processResources")
+
+    doLast {
+        copy {
+            from("build/resources/main")
+            into("out/production/Schizoid.main")
+        }
+    }
+}
+
 tasks.register("updateFabric") {
     group = project.extra["archives_base_name"] as String
     description = "Update Fabric Library Versions"
