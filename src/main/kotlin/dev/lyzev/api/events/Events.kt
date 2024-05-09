@@ -19,6 +19,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.packet.Packet
+import org.joml.Matrix4f
 
 /**
  * This event is triggered during the startup phase of the application.
@@ -95,7 +96,7 @@ class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event
 /**
  * This event is triggered when the world is rendered.
  */
-class EventRenderWorld(val tickDelta: Float, val limitTime: Long, val matrices: MatrixStack) : Event
+class EventRenderWorld(val tickDelta: Float, val limitTime: Long, val modelViewMat: Matrix4f, val projMat: Matrix4f) : Event
 
 /**
  * This event is triggered when [net.minecraft.client.render.LightmapTextureManager] updates.

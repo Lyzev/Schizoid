@@ -6,9 +6,7 @@
 package dev.lyzev.schizoid.feature
 
 import dev.lyzev.api.glfw.GLFWKey
-import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.ImGuiFonts.*
-import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.api.setting.settings.keybinds

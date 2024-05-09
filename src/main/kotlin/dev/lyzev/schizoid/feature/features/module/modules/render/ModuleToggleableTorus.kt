@@ -5,7 +5,6 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.events.*
@@ -19,17 +18,15 @@ import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.network.packet.s2c.play.DamageTiltS2CPacket
 import net.minecraft.network.packet.s2c.play.EntityDamageS2CPacket
 import net.minecraft.util.hit.EntityHitResult
-import net.minecraft.util.math.RotationAxis
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
+import org.joml.Matrix4f
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL13
-import org.lwjgl.opengl.GL46C
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -70,7 +67,7 @@ object ModuleToggleableTorus :
             RenderSystem.disableCull()
             try {
                 toruses.forEach { torus ->
-                    torus.render(event.matrices)
+                    torus.render(event.modelViewMat, event.projMat)
                 }
             } catch (ignored: Exception) {
             }
@@ -83,17 +80,15 @@ object ModuleToggleableTorus :
 
         val spawn = System.currentTimeMillis()
 
-        fun render(matrices: MatrixStack) {
+        fun render(modelViewMat: Matrix4f, projMat: Matrix4f) {
             val cam = mc.gameRenderer.camera.pos
-            matrices.push()
-            matrices.translate(pos.x - cam.x, pos.y - cam.y, pos.z - cam.z)
-            matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-rotation.y)) // yaw
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(rotation.x)) // pitch
-            val model = matrices.peek().positionMatrix
-
+            val modelViewMat = Matrix4f(modelViewMat)
+            modelViewMat.translate((pos.x - cam.x).toFloat(), (pos.y - cam.y).toFloat(), (pos.z - cam.z).toFloat())
+            modelViewMat.rotateY((-rotation.y * Math.PI / 180f).toFloat()) // yaw
+            modelViewMat.rotateX((rotation.x * Math.PI / 180f).toFloat()) // pitch
             ShaderReflection.bind()
-            ShaderReflection["ModelViewMat", false] = model
-            ShaderReflection["ProjMat", false] = RenderSystem.getProjectionMatrix()
+            ShaderReflection["ModelViewMat", false] = modelViewMat
+            ShaderReflection["ProjMat", false] = projMat
             GL13.glActiveTexture(GL13.GL_TEXTURE0)
             mc.framebuffer.beginRead()
             ShaderReflection["Tex0"] = 0
@@ -152,7 +147,6 @@ object ModuleToggleableTorus :
                 }
             }
             BufferRenderer.draw(bufferBuilder.end())
-            matrices.pop()
             ShaderReflection.unbind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
         }

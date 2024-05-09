@@ -13,6 +13,7 @@
     "minecraft.client.render.MixinCamera",
     "minecraft.client.render.MixinGameRenderer",
     "minecraft.client.render.MixinLightmapTextureManager",
+    "minecraft.client.render.MixinWorldRenderer",
     "minecraft.client.render.entity.MixinLivingEntityRenderer",
     "minecraft.client.util.MixinWindow",
     "minecraft.client.world.MixinClientWorld",

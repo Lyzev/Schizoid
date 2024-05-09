@@ -93,7 +93,7 @@ object ModuleToggleableBlur :
             }
 
             method.value.switchStrength(fogStrength)
-            method.value.render(if (fogRGBPuke) fbo else mc.framebuffer)
+            method.value.render(if (fogRGBPuke) fbo else mc.framebuffer, false)
 
             mc.framebuffer.beginWrite(true)
             ShaderDepth.bind()

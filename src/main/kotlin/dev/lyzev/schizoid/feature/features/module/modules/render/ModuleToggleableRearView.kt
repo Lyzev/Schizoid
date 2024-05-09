@@ -15,7 +15,6 @@ import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.image
 import net.minecraft.client.MinecraftClient
-import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.util.Util
 import org.lwjgl.opengl.GL13
 import kotlin.math.ceil
@@ -59,8 +58,7 @@ object ModuleToggleableRearView :
             rearView.beginWrite(true)
             mc.gameRenderer.renderWorld(
                 if (mc.paused) mc.pausedTickDelta else mc.renderTickCounter.tickDelta,
-                Util.getMeasuringTimeNano(),
-                MatrixStack()
+                Util.getMeasuringTimeNano()
             )
 
             RenderSystem.disableCull()

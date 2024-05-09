@@ -146,7 +146,6 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     }
 
     init {
-        ShaderParticle.init()
         on<EventKeybindsRequest> {
             if (isWaitingForInput) EventKeybindsResponse(GLFW.GLFW_KEY_UNKNOWN).fire()
             waitingForInput = System.currentTimeMillis()

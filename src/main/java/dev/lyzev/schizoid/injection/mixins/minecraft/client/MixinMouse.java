@@ -47,22 +47,8 @@ public class MixinMouse {
      * @param instance The Mouse instance.
      * @return The return value of the event.
      */
-    @Redirect(method = "onCursorPos", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;isCursorLocked()Z"))
-    private boolean onCursorPos(Mouse instance) {
-        EventIsCursorLocked event = new EventIsCursorLocked(instance.isCursorLocked());
-        event.fire();
-        return event.isCursorLocked();
-    }
-
-    /**
-     * This method is a redirect for the isCursorLocked method of the Mouse class.
-     * It creates and fires an EventIsCursorLocked event when it is checked if the cursor is locked.
-     * The return value of the isCursorLocked method is then replaced by the return value of the event.
-     * @param instance The Mouse instance.
-     * @return The return value of the event.
-     */
-    @Redirect(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;isCursorLocked()Z"))
-    private boolean onUpdateMouse(Mouse instance) {
+    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;isCursorLocked()Z"))
+    private boolean onTick(Mouse instance) {
         EventIsCursorLocked event = new EventIsCursorLocked(instance.isCursorLocked());
         event.fire();
         return event.isCursorLocked();

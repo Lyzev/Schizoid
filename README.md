@@ -29,6 +29,11 @@
 
 Coming soon.
 
+## Development
+
+In IntelliJ, you should add the Gradle Task `:fixRunResources` before launch to the `Minecraft Client` run configuration.
+Otherwise, the client may not start.
+
 ## Bugs and Suggestions
 
 ### Discord
