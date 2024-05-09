@@ -15,6 +15,7 @@ import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.ShaderAcrylic
 import dev.lyzev.api.opengl.shader.ShaderAdd
 import dev.lyzev.api.opengl.shader.ShaderMask
+import dev.lyzev.api.opengl.shader.ShaderTint
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
 import net.minecraft.client.MinecraftClient
@@ -157,36 +158,36 @@ object BlurHelper {
         drawFullScreen()
         ShaderMask.unbind()
 
-//        if (ModuleToggleableBlur.dropShadow) {
-//            mode.switchStrength(dropShadowStrength)
-//            mode.render(mask, true)
-//
-//            dropShadow.beginWrite(true)
-//            ShaderTint.bind()
-//            RenderSystem.activeTexture(GL_TEXTURE0)
-//            mode.output.beginRead()
-//            ShaderTint["uTexture"] = 0
-//            ShaderTint["uColor"] = dropShadowColor
-//            ShaderTint["uOpacity"] = 1f
-//            ShaderTint["uRGBPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
-//            ShaderTint["uTime"] = System.nanoTime() / 1000000000f
-//            drawFullScreen()
-//            ShaderTint.unbind()
-//
-//            Schizoid.mc.framebuffer.beginWrite(true)
-//            if (useDefaultFbo)
-//                GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
-//            ShaderMask.bind()
-//            RenderSystem.activeTexture(GL_TEXTURE1)
-//            mask.beginRead()
-//            RenderSystem.activeTexture(GL_TEXTURE0)
-//            dropShadow.beginRead()
-//            ShaderMask["u_s2Texture"] = 0
-//            ShaderMask["u_s2Mask"] = 1
-//            ShaderMask["u_bInvert"] = true
-//            drawFullScreen()
-//            ShaderMask.unbind()
-//        }
+        if (ModuleToggleableBlur.dropShadow) {
+            mode.switchStrength(dropShadowStrength)
+            mode.render(mask, true)
+
+            dropShadow.beginWrite(true)
+            ShaderTint.bind()
+            RenderSystem.activeTexture(GL_TEXTURE0)
+            mode.output.beginRead()
+            ShaderTint["uTexture"] = 0
+            ShaderTint["uColor"] = dropShadowColor
+            ShaderTint["uOpacity"] = 1f
+            ShaderTint["uRGBPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
+            ShaderTint["uTime"] = System.nanoTime() / 1000000000f
+            drawFullScreen()
+            ShaderTint.unbind()
+
+            Schizoid.mc.framebuffer.beginWrite(true)
+            if (useDefaultFbo)
+                GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
+            ShaderMask.bind()
+            RenderSystem.activeTexture(GL_TEXTURE1)
+            mask.beginRead()
+            RenderSystem.activeTexture(GL_TEXTURE0)
+            dropShadow.beginRead()
+            ShaderMask["u_s2Texture"] = 0
+            ShaderMask["u_s2Mask"] = 1
+            ShaderMask["u_bInvert"] = true
+            drawFullScreen()
+            ShaderMask.unbind()
+        }
 
         RenderSystem.enableCull()
         Render.restore()

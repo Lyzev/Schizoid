@@ -236,9 +236,9 @@ object ImGuiRenderer : EventListener {
                 (Schizoid.mc.currentScreen as ImGuiScreen).renderImGui()
             render()
 
-//            preRenderImGui()
+            preRenderImGui()
             renderImGui()
-//            postRenderImGui()
+            postRenderImGui()
         }
     }
 }
