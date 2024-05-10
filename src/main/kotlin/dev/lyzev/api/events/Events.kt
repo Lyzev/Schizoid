@@ -57,6 +57,10 @@ object EventRenderImGuiContent : Event
  */
 class EventPacket(val packet: Packet<*>, val type: Type) : CancellableEvent() {
 
+    companion object {
+        var allowTrigger = true
+    }
+
     enum class Type(override val key: String) : OptionEnum {
         S2C("S2C"),
         C2S("C2S")

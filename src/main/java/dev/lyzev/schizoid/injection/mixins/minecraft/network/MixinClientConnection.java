@@ -35,10 +35,12 @@ public class MixinClientConnection {
      */
     @Inject(method = "sendImmediately", at = @At("HEAD"), cancellable = true)
     private void onSendImmediately(Packet<?> packet, @Nullable PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
-        EventPacket event = new EventPacket(packet, EventPacket.Type.C2S);
-        event.fire();
-        if (event.isCancelled())
-            ci.cancel();
+        if (EventPacket.Companion.getAllowTrigger()) {
+            EventPacket event = new EventPacket(packet, EventPacket.Type.C2S);
+            event.fire();
+            if (event.isCancelled())
+                ci.cancel();
+        }
     }
 
     /**
@@ -52,9 +54,11 @@ public class MixinClientConnection {
      */
     @Inject(method = "handlePacket", at = @At("HEAD"), cancellable = true)
     private static void onHandlePacket(Packet<?> packet, PacketListener listener, CallbackInfo ci) {
-        EventPacket event = new EventPacket(packet, EventPacket.Type.S2C);
-        event.fire();
-        if (event.isCancelled())
-            ci.cancel();
+        if (EventPacket.Companion.getAllowTrigger()) {
+            EventPacket event = new EventPacket(packet, EventPacket.Type.S2C);
+            event.fire();
+            if (event.isCancelled())
+                ci.cancel();
+        }
     }
 }
