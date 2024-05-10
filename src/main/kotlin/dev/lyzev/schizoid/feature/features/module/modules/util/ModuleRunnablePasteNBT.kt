@@ -30,12 +30,4 @@ object ModuleRunnablePasteNBT :
         mc.player!!.giveItemStack(ItemStack.fromNbtOrEmpty(mc.world!!.registryManager, nbt))
         return null
     }
-
-    enum class Hand(val type: net.minecraft.util.Hand) : OptionEnum {
-        MAIN_HAND(net.minecraft.util.Hand.MAIN_HAND),
-        OFF_HAND(net.minecraft.util.Hand.OFF_HAND);
-
-        override val key: String
-            get() = type.name
-    }
 }
