@@ -232,8 +232,11 @@ object ImGuiRenderer : EventListener {
             // Call the event to render ImGui content.
             EventRenderImGuiContent.fire()
             // Render the current ImGui Screen.
-            if (Schizoid.mc.currentScreen is ImGuiScreen)
+            if (Schizoid.mc.currentScreen is ImGuiScreen) {
+                getIO().wantCaptureKeyboard = true
                 (Schizoid.mc.currentScreen as ImGuiScreen).renderImGui()
+            } else
+                getIO().wantCaptureKeyboard = false
             render()
 
             preRenderImGui()
