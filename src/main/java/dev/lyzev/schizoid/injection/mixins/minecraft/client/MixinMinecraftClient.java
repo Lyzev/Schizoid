@@ -6,15 +6,20 @@
 package dev.lyzev.schizoid.injection.mixins.minecraft.client;
 
 import dev.lyzev.api.events.EventItemUse;
+import dev.lyzev.api.events.EventReload;
 import dev.lyzev.api.events.EventStartup;
 import dev.lyzev.api.events.EventWindowResize;
 import dev.lyzev.schizoid.Schizoid;
 import net.minecraft.client.MinecraftClient;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.concurrent.CompletableFuture;
 
 /**
  * This class provides mixins for the MinecraftClient class in the Minecraft client package.
@@ -59,19 +64,6 @@ public class MixinMinecraftClient {
     }
 
     /**
-     * This method is a mixin for the render method of the MinecraftClient class.
-     * It fires an EventRenderImGui event before the endWrite method of the Framebuffer class is invoked.
-     *
-     * @param ci The callback information.
-     */
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gl/Framebuffer;endWrite()V", shift = At.Shift.BEFORE))
-    private void onRender(CallbackInfo ci) {
-//        EventRenderImGui.INSTANCE.fire();
-    }
-
-
-
-    /**
      * This method is a mixin for the doItemUse method of the MinecraftClient class.
      * It creates and fires an EventItemUse event before the isRiding method of the ClientPlayerEntity class is invoked.
      * The item use cooldown of the MinecraftClient instance is then replaced by the item use cooldown of the event.
@@ -84,4 +76,10 @@ public class MixinMinecraftClient {
         event.fire();
         this.itemUseCooldown = event.getItemUseCooldown();
     }
+
+    @Inject(method = "reloadResources()Ljava/util/concurrent/CompletableFuture;", at = @At(value = "HEAD"))
+    private void onReloadResources(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
+        EventReload.INSTANCE.fire();
+    }
+
 }

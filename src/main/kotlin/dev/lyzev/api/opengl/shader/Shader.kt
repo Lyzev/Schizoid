@@ -7,6 +7,7 @@ package dev.lyzev.api.opengl.shader
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.EventReload
 import dev.lyzev.api.events.EventWindowResize
 import dev.lyzev.api.events.on
 import dev.lyzev.schizoid.Schizoid
@@ -30,9 +31,9 @@ import kotlin.properties.Delegates
  * Abstract class representing a Shader.
  * @param shader The name of the shader.
  */
-abstract class Shader(val shader: String) {
+abstract class Shader(val shader: String): EventListener {
 
-    val program = glCreateProgram()
+    var program = glCreateProgram()
     private val uniforms = HashMap<String, Int>()
 
     /**
@@ -170,6 +171,8 @@ abstract class Shader(val shader: String) {
         return shader
     }
 
+    internal var addedEventListener = false
+
     open fun init() {
         glLinkProgram(program)
 
@@ -182,6 +185,15 @@ abstract class Shader(val shader: String) {
                     glGetProgrami(program, GL_INFO_LOG_LENGTH)
                 ), IllegalStateException("Shader failed to link")
             )
+
+        if (!addedEventListener) {
+            addedEventListener = true
+            on<EventReload> {
+                glDeleteProgram(program)
+                program = glCreateProgram()
+                init()
+            }
+        }
     }
 
     companion object {
@@ -204,6 +216,8 @@ abstract class Shader(val shader: String) {
             BufferRenderer.draw(bufferBuilder.end())
         }
     }
+
+    override val shouldHandleEvents = true
 }
 
 abstract class ShaderVertexFragment(
@@ -211,13 +225,20 @@ abstract class ShaderVertexFragment(
 ) : Shader(shader) {
 
     final override fun init() {
-        javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
-            glAttachShader(program, compile(GL_VERTEX_SHADER, it.readAllBytes().decodeToString()))
-        }
+        val vSource = javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
+            it.readAllBytes().decodeToString()
+        } ?: "null"
+        val vShader = compile(GL_VERTEX_SHADER, vSource)
+        glAttachShader(program, vShader)
 
-        javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_FP.glsl")?.use {
-            glAttachShader(program, compile(GL_FRAGMENT_SHADER, it.readAllBytes().decodeToString()))
-        }
+        val fSource = javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_FP.glsl")?.use {
+            it.readAllBytes().decodeToString()
+        } ?: "null"
+        val fShader = compile(GL_FRAGMENT_SHADER, fSource)
+        glAttachShader(program, fShader)
+
+        glDeleteShader(vShader)
+        glDeleteShader(fShader)
         super.init()
     }
 
@@ -231,9 +252,9 @@ abstract class ShaderCompute(
     val myGroupSizeX: Int,
     val myGroupSizeY: Int,
     val myGroupSizeZ: Int
-) : Shader(shader), EventListener {
+) : Shader(shader) {
 
-    var texture by Delegates.notNull<Int>()
+    var texture: Int = 0
 
     open fun draw() = clearTexture()
 
@@ -262,8 +283,6 @@ abstract class ShaderCompute(
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, Schizoid.mc.window.framebufferWidth, Schizoid.mc.window.framebufferHeight, 0, GL_RGBA, GL_FLOAT, 0)
     }
 
-    override val shouldHandleEvents = true
-
     override fun init() {
         javaClass.classLoader
             .getResourceAsStream("$PATH/core/$shader/${shader}_CP.glsl")
@@ -273,14 +292,21 @@ abstract class ShaderCompute(
                     it.readAllBytes().decodeToString().format(myGroupSizeX, myGroupSizeY, myGroupSizeZ)
                 )
                 glAttachShader(program, computeShader)
+                glDeleteShader(computeShader)
             }
 
-        genTexture()
-
-        on<EventWindowResize> {
-            // delete old texture and create a new one
-            glDeleteTextures(texture)
+        if (texture == 0) {
             genTexture()
+        }
+
+        if (!addedEventListener) {
+            on<EventWindowResize> {
+                // delete old texture and create a new one
+                if (texture != 0) {
+                    glDeleteTextures(texture)
+                }
+                genTexture()
+            }
         }
         super.init()
     }

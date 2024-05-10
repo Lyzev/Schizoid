@@ -12,6 +12,7 @@ import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import org.joml.Vector2f
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
+import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL43.*
 import org.lwjgl.opengl.GL44
 import java.util.concurrent.ThreadLocalRandom
@@ -88,7 +89,7 @@ object ShaderFlip : ShaderVertexFragment("Flip")
 
 object ShaderReflection : ShaderVertexFragment("Reflection")
 
-object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
+object ShaderParticle : ShaderCompute("Particle", 32, 1, 1), EventListener {
 
     private val PARTICLE_COUNT = (300_000 * (User32.INSTANCE.GetSystemMetrics(User32.SM_CYSCREEN) / 1080f)).toInt();
     private val xpos = doubleArrayOf(0.0)
@@ -160,7 +161,10 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
 
     override val shouldHandleEvents = true
 
+    var positionBuffer: Int = 0
+
     override fun init() {
+        val cachedAddedEventListener = addedEventListener
         super.init()
         bind()
         val buffer = (0..PARTICLE_COUNT).flatMap {
@@ -171,6 +175,9 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
                 0.0f
             )
         }.toTypedArray().toFloatArray()
+        if (positionBuffer != 0) {
+            GL15.glDeleteBuffers(positionBuffer)
+        }
         val positionBuffer = glGenBuffers()
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, positionBuffer)
         GL44.glBufferStorage(GL_SHADER_STORAGE_BUFFER, buffer, GL_MAP_WRITE_BIT or GL44.GL_DYNAMIC_STORAGE_BIT)
