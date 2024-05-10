@@ -17,20 +17,18 @@ import dev.lyzev.api.opengl.shader.ShaderParticle
 import dev.lyzev.api.setting.settings.keybinds
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
+import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.Feature
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
-
+import org.lwjgl.opengl.GL20.glCreateProgram
+import org.lwjgl.opengl.GL20.glDeleteProgram
 
 object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
-
-    private val change: RenderCall = RenderCall {
-        colorScheme.applyStyle(mode)
-        colorScheme.applyColors(mode)
-    }
 
     val mode by option("Mode", "The mode of the GUI.", ImGuiThemes.Mode.SYSTEM, ImGuiThemes.Mode.entries) {
         RenderSystem.recordRenderCall(change)
@@ -39,6 +37,19 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     val colorScheme by option("Color Scheme", "The color scheme of the GUI.", ImGuiThemes.TEAL, ImGuiThemes.entries) {
         RenderSystem.recordRenderCall(change)
     }
+
+    private val change: RenderCall = RenderCall {
+        colorScheme.applyStyle(mode)
+        colorScheme.applyColors(mode)
+    }
+
+    val particles by switch("Particles", "Enables the particle shader.", true) {
+        if (!it) return@switch
+        glDeleteProgram(ShaderParticle.program)
+        ShaderParticle.program = glCreateProgram()
+        ShaderParticle.init()
+    }
+    val particleAmount by slider("Particle Amount", "The amount of particles.", 100, 1, 1000, "k", hide = ::particles neq true)
 
     private val texturesMario = Array(3) {
         Identifier(Schizoid.MOD_ID, "textures/mario_$it.png")
@@ -76,11 +87,13 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
 
-        RenderSystem.disableCull()
-        RenderSystem.defaultBlendFunc()
-        RenderSystem.enableBlend()
-        ShaderParticle.draw()
-        RenderSystem.enableCull()
+        if (particles) {
+            RenderSystem.disableCull()
+            RenderSystem.defaultBlendFunc()
+            RenderSystem.enableBlend()
+            ShaderParticle.draw()
+            RenderSystem.enableCull()
+        }
 
         if (isWaitingForInput && System.currentTimeMillis() - waitingForInput > TIMEOUT) {
             EventKeybindsResponse(GLFW.GLFW_KEY_UNKNOWN).fire()

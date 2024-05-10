@@ -5,7 +5,6 @@
 
 package dev.lyzev.api.opengl.shader
 
-import com.sun.jna.platform.win32.User32
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
@@ -89,9 +88,10 @@ object ShaderFlip : ShaderVertexFragment("Flip")
 
 object ShaderReflection : ShaderVertexFragment("Reflection")
 
-object ShaderParticle : ShaderCompute("Particle", 32, 1, 1), EventListener {
+object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
 
-    private val PARTICLE_COUNT = (300_000 * (User32.INSTANCE.GetSystemMetrics(User32.SM_CYSCREEN) / 1080f)).toInt();
+    private val PARTICLE_COUNT
+        get() = ImGuiScreenFeature.particleAmount * 1000
     private val xpos = doubleArrayOf(0.0)
     private val ypos = doubleArrayOf(0.0)
     private val mousePos = Vector2f()
@@ -141,14 +141,12 @@ object ShaderParticle : ShaderCompute("Particle", 32, 1, 1), EventListener {
         this["colorIdle"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
         this["colorActive"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleActive
 
-        var remaining = PARTICLE_COUNT
         var processed = 0
-        while (remaining > 0) {
+        while (processed < PARTICLE_COUNT) {
             val processing = myGroupSizeX * myGroupSizeY * myGroupSizeZ
             this["arrayOffset"] = processed
-            glDispatchCompute(processing, 1, 1)
+            glDispatchCompute(myGroupSizeX, myGroupSizeY, myGroupSizeZ)
             processed += processing
-            remaining -= processing
         }
         glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
         val time = (System.nanoTime() - beginTime) / 1_000_000.0
@@ -161,10 +159,9 @@ object ShaderParticle : ShaderCompute("Particle", 32, 1, 1), EventListener {
 
     override val shouldHandleEvents = true
 
-    var positionBuffer: Int = 0
+    private var positionBuffer: Int = 0
 
     override fun init() {
-        val cachedAddedEventListener = addedEventListener
         super.init()
         bind()
         val buffer = (0..PARTICLE_COUNT).flatMap {

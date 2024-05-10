@@ -25,7 +25,7 @@ layout(location = 7) uniform vec3 colorActive;
 
 layout(rgba32f, binding = 0) uniform image2D imgOutput;
 
-#define SIMULATION_SPEED .001
+#define SIMULATION_SPEED .00001
 #define AIR_RESISTANCE .98
 #define GRAVITY 75000
 #define PI 3.14159265359
@@ -40,11 +40,11 @@ void main() {
     p.motion *= AIR_RESISTANCE;
     if (force != 0) {
         vec2 dist = normalize(mousePos - p.position);
-        float speed = min(MAX_SPEED, MIN_SPEED + length(GRAVITY * GRAVITY * dist) * SIMULATION_SPEED);
+        float speed = min(MAX_SPEED, MIN_SPEED + length(GRAVITY * GRAVITY * dist));
         float phi = atan(dist.y, dist.x);
         phi += (rand(p.position) - .5) * (PI / 4); // -22.5 to 22.5 degrees
         vec2 dir = vec2(cos(phi), sin(phi)) * speed;
-        p.motion += dir * time * force;
+        p.motion += dir * force;
     }
     vec2 pre = p.position;
     p.position += p.motion * time;
