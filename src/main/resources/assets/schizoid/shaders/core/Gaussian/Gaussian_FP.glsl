@@ -6,6 +6,7 @@
 #version 330
 
 precision lowp float;
+precision lowp sampler2D;
 
 in vec2 uv;
 out vec4 color;
