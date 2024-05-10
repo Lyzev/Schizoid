@@ -12,6 +12,10 @@ import net.minecraft.text.Text
 
 abstract class ImGuiScreen(title: String) : Screen(Text.of(title)), IFeature {
 
+    override fun applyBlur(delta: Float) {
+        // Remove the blur effect
+    }
+
     abstract fun renderImGui()
 
     override fun keybindReleased() {

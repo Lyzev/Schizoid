@@ -52,7 +52,7 @@ class SettingClientText(
         /**
          * The ImString instance used to store the value of the text setting.
          */
-        private val v = ImString()
+        private val v = ImString("", 1024)
     }
 }
 
