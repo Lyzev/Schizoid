@@ -7,6 +7,8 @@
 
 #version 430 core
 
+precision lowp float;
+
 layout (local_size_x = %d, local_size_y = %d, local_size_z = %d) in;
 
 struct Particle {
@@ -25,29 +27,28 @@ layout(location = 7) uniform vec3 colorActive;
 
 layout(rgba32f, binding = 0) uniform image2D imgOutput;
 
-#define SIMULATION_SPEED .00001
+#define SIMULATION_SPEED 1 / (1000 / 60) // 60 fps
 #define AIR_RESISTANCE .98
-#define GRAVITY 75000
+#define GRAVITY 8.91
 #define PI 3.14159265359
-#define MAX_SPEED 10000
-#define MIN_SPEED 1000
+#define MAX_SPEED 8.91
 
 #include "Noise.glsl"
 
 void main() {
     Particle p = particles[gl_LocalInvocationIndex + arrayOffset];
-    float time = deltaTime * SIMULATION_SPEED;
-    p.motion *= AIR_RESISTANCE;
+    float simulate = deltaTime * SIMULATION_SPEED;
+    p.motion *= AIR_RESISTANCE + .02 * (1 - simulate);
     if (force != 0) {
         vec2 dist = normalize(mousePos - p.position);
-        float speed = min(MAX_SPEED, MIN_SPEED + length(GRAVITY * GRAVITY * dist));
+        float speed = min(MAX_SPEED, length(GRAVITY * dist));
         float phi = atan(dist.y, dist.x);
-        phi += (rand(p.position) - .5) * (PI / 4); // -22.5 to 22.5 degrees
+        phi += (rand(p.position) - .5) * (PI / 4); // -22.5° to 22.5°
         vec2 dir = vec2(cos(phi), sin(phi));
-        p.motion += dir * speed * force * time;
+        p.motion += dir * speed * force * simulate;
     }
     vec2 pre = p.position;
-    p.position += p.motion;
+    p.position += p.motion * simulate;
     if (p.position.x < 0 || p.position.x > screenSize.x) {
         p.position.x = pre.x;
         p.motion.x *= -1;

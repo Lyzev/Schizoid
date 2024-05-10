@@ -123,13 +123,13 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
 
         var force = 0.0f
 
-        val dist = 0.5f + sqrt((xpos[0] - lastMXPos).pow(2.0) + (ypos[0] - lastMYPos).pow(2.0)).toFloat() / 200.0f
+        val dist = 0.1f + sqrt(((xpos[0] - lastMXPos) * (deltaTime / 16.6666)).pow(2.0) + ((ypos[0] - lastMYPos) * (deltaTime / 16.6666)).pow(2.0)).toFloat() / 400.0f
 
         if (left) force += dist
         if (right) force -= dist
         if (left && right) {
             val time = (System.nanoTime() - beginTime) / 1_000_000.0
-            force = sin(time * 0.01f).toFloat() * 0.25f + 0.5f
+            force = sin(time * 0.003f).toFloat() * 0.55f + 0.5f
         }
 
         lastMXPos = xpos[0]
