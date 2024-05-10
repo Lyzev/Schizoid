@@ -80,6 +80,10 @@ object Schizoid : EventListener {
      * Whether the mod is running in a continuous integration environment.
      */
     val CI = properties.getProperty("CI")?.toBooleanStrict() ?: false
+
+    /**
+     * Whether the mod is running in developer mode.
+     */
     val DEVELOPER_MODE = System.getProperty("fabric.development")?.toBoolean() ?: false
 
     /**
@@ -90,9 +94,7 @@ object Schizoid : EventListener {
     /**
      * The root directory of the Schizoid mod, used for storing mod-specific data.
      */
-    val root = File(
-        mc.runDirectory, MOD_ID
-    ).apply { if (!exists()) mkdir() }
+    val root = File(System.getProperty("user.home") + File.separator + MOD_ID).apply { if (!exists()) mkdir() }
 
     /**
      * The logger for the Schizoid mod.
