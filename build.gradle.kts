@@ -36,7 +36,12 @@ val lastCommitHash = stdout.toByteArray().decodeToString().trim()
 
 val ci = System.getenv("CI")?.toBooleanStrictOrNull() ?: false
 
-version = if (ci) "nightly+$lastCommitHash" else project.extra["mod_version"] as String
+version = project.extra["mod_version"] as String
+if (ci)
+    version = "$version+$lastCommitHash"
+else
+    version = "$version+${libs.minecraft.get().version}"
+println("$version+${libs.minecraft.get().version}")
 group = project.extra["maven_group"] as String
 
 repositories {

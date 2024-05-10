@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'dev'
+      - 'master'
 
 jobs:
   build:
@@ -19,6 +19,12 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
           cache: gradle
+      - name: Read version from gradle.properties
+        id: get_version
+        run: echo "::set-output name=mod_version::$(grep -oP 'mod_version=\K.+' gradle.properties)"
+      - name: Read archives_base_name from gradle.properties
+        id: get_archives_base_name
+        run: echo "::set-output name=archives_base_name::$(grep -oP 'archives_base_name=\K.+' gradle.properties)"
       - name: Set Commit Hash
         id: commit_hash
         run: echo "::set-output name=commit_hash::$(git log --pretty=format:'%h' -n 1)"
@@ -46,7 +52,7 @@ jobs:
         name: Create Release
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
-          automatic_release_tag: 'nightly+${{ steps.commit_hash.outputs.commit_hash }}'
-          title: 'Nightly Build ${{ steps.current_datetime.outputs.current_datetime }}'
+          automatic_release_tag: 'v${{ steps.get_version.outputs.mod_version }}+${{ steps.commit_hash.outputs.commit_hash }}'
+          title: '${{ steps.get_archives_base_name.outputs.archives_base_name }} ${{ steps.get_version.outputs.mod_version }}+${{ steps.commit_hash.outputs.commit_hash }}'
           files: |
             release/*
