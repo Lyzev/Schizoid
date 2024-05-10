@@ -27,12 +27,24 @@
 
 ## Installation
 
-Coming soon.
+### Requirements
 
-## Development
+- [Fabric API](https://modrinth.com/mod/fabric-api)
+- [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
 
-In IntelliJ, you should add the Gradle Task `:fixRunResources` before launch to the `Minecraft Client` run configuration.
-Otherwise, the client may not start.
+### Instructions
+
+1. Download the latest release of Schizoid from the [releases page](https://github.com/Lyzev/Schizoid/releases/latest).
+2. Move the downloaded JAR file to the `mods` folder in your Minecraft installation directory.
+3. Launch the game and enjoy the features of Schizoid.
+
+**WARNING:** Nightly builds are not recommended for general use. They are intended for testing purposes only. Use them
+at your own risk, as there will be no support for it.
+
+## Contributing
+
+If you are interested in contributing to this project, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for
+more information.
 
 ## Bugs and Suggestions
 
