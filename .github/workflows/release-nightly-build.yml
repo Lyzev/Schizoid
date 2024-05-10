@@ -3,6 +3,11 @@ name: "Release Nightly Build"
 on:
   workflow_dispatch:
   push:
+    paths:
+      - '*.properties'
+      - '*.kts'
+      - 'gradle/**'
+      - "src/**"
     branches:
       - 'master'
 
@@ -22,9 +27,9 @@ jobs:
       - name: Read version from gradle.properties
         id: get_version
         run: echo "mod_version=$(grep -oP 'mod_version=\K.+' gradle.properties)" >> $GITHUB_OUTPUT
-      - name: Read archives_base_name from gradle.properties
-        id: get_archives_base_name
-        run: echo "archives_base_name=$(grep -oP 'archives_base_name=\K.+' gradle.properties)" >> $GITHUB_OUTPUT
+      - name: Read mod_name from gradle.properties
+        id: get_mod_name
+        run: echo "mod_name=$(grep -oP 'mod_name=\K.+' gradle.properties)" >> $GITHUB_OUTPUT
       - name: Set Commit Hash
         id: commit_hash
         run: echo "commit_hash=$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_OUTPUT
@@ -53,6 +58,6 @@ jobs:
         with:
           repo_token: '${{ secrets.GITHUB_TOKEN }}'
           automatic_release_tag: 'v${{ steps.get_version.outputs.mod_version }}+${{ steps.commit_hash.outputs.commit_hash }}'
-          title: '${{ steps.get_archives_base_name.outputs.archives_base_name }} ${{ steps.get_version.outputs.mod_version }}+${{ steps.commit_hash.outputs.commit_hash }}'
+          title: '${{ steps.get_mod_name.outputs.mod_name }} ${{ steps.get_version.outputs.mod_version }}+${{ steps.commit_hash.outputs.commit_hash }}'
           files: |
             release/*

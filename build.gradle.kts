@@ -228,6 +228,7 @@ tasks {
                     "java" to project.extra["java_version"] as String,
                     "id" to project.extra["archives_base_name"] as String,
                     "version" to project.version.toString(),
+                    "name" to project.extra["mod_name"] as String,
                     "minecraft" to libs.versions.minecraft.get(),
                     "fabricloader" to libs.versions.fabric.loader.get(),
                     "fabric_api" to libs.versions.fabric.api.get(),

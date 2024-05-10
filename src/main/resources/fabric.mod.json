@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "${id}",
   "version": "${version}",
-  "name": "Schizoid",
+  "name": "${name}",
   "description": "Elevate your Minecraft gameplay with this free and feature-rich client built with Fabric API and utilizing mixin-based injection techniques.",
   "authors": [
     "Lyzev"
@@ -13,12 +13,12 @@
     "sources": "https://github.com/Lyzev/Schizoid"
   },
   "license": "AGPL-3.0",
-  "icon": "assets/schizoid/icon.png",
+  "icon": "assets/${id}/icon.png",
   "environment": "client",
   "mixins": [
-    "schizoid.mixins.json"
+    "${id}.mixins.json"
   ],
-  "accessWidener": "schizoid.accesswidener",
+  "accessWidener": "${id}.accesswidener",
   "depends": {
     "fabricloader": ">=${fabricloader}",
     "fabric-api": ">=${fabric_api}",
