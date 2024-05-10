@@ -13,6 +13,7 @@ uniform sampler2D u_s2Mask;
 uniform bool u_bInvert;
 
 void main() {
+    f_out_f4Color = vec4(0);
     if (u_bInvert) {
         if (texture(u_s2Mask, v_out_f2Uv).a == 0) {
             f_out_f4Color = texture(u_s2Texture, v_out_f2Uv);
