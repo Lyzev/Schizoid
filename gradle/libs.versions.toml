@@ -2,25 +2,35 @@
 # All rights reserved.
 
 [versions]
-kotlin = "1.9.20"
+kotlin = "1.9.24"
+dokka = "1.9.20"
+shadow = "8.1.1"
 
-dokka = "1.9.10"
+# https://fabricmc.net/develop
+minecraft = "1.20.6"
+yarn_mappings = "1.20.6+build.1"
+fabric_loader = "0.15.11"
+fabric_api = "0.98.0+1.20.6"
+# https://github.com/FabricMC/fabric-language-kotlin
+fabric_kl = "1.10.20+kotlin.1.9.24"
+# https://github.com/FabricMC/fabric-loom
+fabric_loom = "1.6-SNAPSHOT"
 
-# https://fabricmc.net/develop/
-minecraft = "1.20.2"
-yarn_mappings = "1.20.2+build.4"
-fabric_loader = "0.14.24"
-fabric_api = "0.90.7+1.20.2"
-# https://github.com/FabricMC/fabric-language-kotlin/releases
-fabric_kl = "1.10.13+kotlin.1.9.20"
-# https://github.com/FabricMC/fabric-loom/releases
-fabric_loom = "1.4-SNAPSHOT"
+# https://github.com/Lyzev
+lyzev_events = "1.0.4"
+lyzev_settings = "1.0.1"
 
-lyzev_events = "1.0.3"
-lyzev_settings = "1.0.0"
-
+# https://github.com/ronmamo/reflections
 reflections = "0.10.2"
+# https://github.com/SpaiR/imgui-java
 imgui = "1.86.11"
+# fuzzywuzzy
+fuzzywuzzy = "1.4.0"
+
+# https://github.com/TerraformersMC/ModMenu
+modmenu = "9.0.0"
+# https://github.com/CaffeineMC/sodium-fabric
+sodium = "mc1.20.6-0.5.8"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -33,18 +43,25 @@ lyzev_events = { module = "com.github.Lyzev:Events", version.ref = "lyzev_events
 lyzev_settings = { module = "com.github.Lyzev:Settings", version.ref = "lyzev_settings" }
 
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
+
 imgui_binding = { module = "io.github.spair:imgui-java-binding", version.ref = "imgui" }
 imgui_lwjgl3 = { module = "io.github.spair:imgui-java-lwjgl3", version.ref = "imgui" }
 imgui_natives_windows = { module = "io.github.spair:imgui-java-natives-windows", version.ref = "imgui" }
 imgui_natives_linux = { module = "io.github.spair:imgui-java-natives-linux", version.ref = "imgui" }
 imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", version.ref = "imgui" }
 
+fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
+
+modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
+sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
+
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin_serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+shadow = { id = "com.github.johnrengelman.shadow", version.ref = "shadow" }
 fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }
 
 [bundles]
 fabric = ["fabric_api", "fabric_loader", "fabric_kl"]
 imgui = ["imgui_binding", "imgui_lwjgl3", "imgui_natives_windows", "imgui_natives_linux", "imgui_natives_macos"]
+modrinth = ["sodium"] # "modmenu"

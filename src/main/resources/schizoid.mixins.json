@@ -1,12 +1,29 @@
 {
   "required": true,
-  "package": "dev.lyzev.schizoid.mixins",
+  "package": "dev.lyzev.schizoid.injection.mixins",
   "compatibilityLevel": "JAVA_${java}",
   "client": [
     "imgui.MixinImGuiImplGlfw",
-    "minecraft.client.MixinWindow"
+    "minecraft.client.MixinKeyboard",
+    "minecraft.client.MixinMinecraftClient",
+    "minecraft.client.MixinMouse",
+    "minecraft.client.input.MixinKeyboardInput",
+    "minecraft.client.network.MixinClientPlayerEntity",
+    "minecraft.client.network.MixinClientPlayerInteractionManager",
+    "minecraft.client.render.MixinCamera",
+    "minecraft.client.render.MixinGameRenderer",
+    "minecraft.client.render.MixinLightmapTextureManager",
+    "minecraft.client.render.MixinWorldRenderer",
+    "minecraft.client.render.entity.MixinLivingEntityRenderer",
+    "minecraft.client.util.MixinWindow",
+    "minecraft.client.world.MixinClientWorld",
+    "minecraft.entity.MixinEntity",
+    "minecraft.entity.MixinLivingEntity",
+    "minecraft.network.MixinClientConnection"
   ],
   "injectors": {
     "defaultRequire": 1
-  }
+  },
+  "mixins": [
+  ]
 }

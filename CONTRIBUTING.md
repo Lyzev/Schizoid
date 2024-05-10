@@ -3,6 +3,23 @@
 Thank you for considering contributing to this Minecraft mixin-based hacked client! Your contributions will help to make
 it even better.
 
+### Setting up a Workspace
+
+1. Clone the repository using your preferred IDE or the command line:
+    ```shell
+    git clone https://github.com/Lyzev/Schizoid.git
+    ```
+2. Open the project in your IDE and ensure that the Gradle project is imported.
+3. Run the `:downloadAssets` Gradle task to download the necessary assets.
+4. Run the `:genSources` Gradle task to generate the necessary sources.
+5. Run the client to ensure that everything is working correctly.
+   Use your preferred method:
+    - Run the `:runClient` Gradle task to start the client.
+    - Run the `Minecraft Client` run configuration in your IDE. (Add the `:fixRunResources` Gradle task before launch.)  
+      Add the CI environment variable `CI=true` if necessary.
+6. Make your changes and submit a pull request.
+7. Ensure that your code is formatted according to the project's code style.
+
 ## How to Contribute
 
 There are many ways to contribute to this project, from writing tutorials and implement new features, to fixing bugs

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "schizoid",
+  "id": "${id}",
   "version": "${version}",
   "name": "Schizoid",
   "description": "Elevate your Minecraft gameplay with this free and feature-rich client built with Fabric API and utilizing mixin-based injection techniques.",
@@ -15,14 +15,6 @@
   "license": "AGPL-3.0",
   "icon": "assets/schizoid/icon.png",
   "environment": "client",
-  "entrypoints": {
-    "main": [
-      {
-        "adapter": "kotlin",
-        "value": "dev.lyzev.schizoid.Schizoid"
-      }
-    ]
-  },
   "mixins": [
     "schizoid.mixins.json"
   ],

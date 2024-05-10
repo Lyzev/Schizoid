@@ -9,18 +9,42 @@
 <div align="center">
     <a href="https://lyzev.github.io/discord"><img src="https://img.shields.io/discord/610120595765723137?logo=discord" alt="Discord"/></a>
     <br><br>
+    <img src="https://img.shields.io/github/downloads/Lyzev/Schizoid/total" alt="GitHub downloads"/>
+    <br><br>
     <img src="https://img.shields.io/github/last-commit/Lyzev/Schizoid" alt="GitHub last commit"/>
     <img src="https://img.shields.io/github/commit-activity/w/Lyzev/Schizoid" alt="GitHub commit activity"/>
     <br>
     <img src="https://img.shields.io/github/languages/code-size/Lyzev/Schizoid" alt="GitHub code size in bytes"/>
     <img src="https://img.shields.io/github/contributors/Lyzev/Schizoid" alt="GitHub contributors"/>
+    <br><br>
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/code-quality.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/code-quality.yml/badge.svg" alt="Code Quality"/></a>
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/documentation.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/documentation.yml/badge.svg" alt="Documentation"/></a>
     <br>
-    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/pipeline.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/pipeline.yml/badge.svg" alt="Pipeline"/></a>
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/release.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/release.yml/badge.svg" alt="Release"/></a>
+    <br>    
+    <a href="https://github.com/Lyzev/Schizoid/actions/workflows/gradle-wrapper-validation.yml"><img src="https://github.com/Lyzev/Schizoid/actions/workflows/gradle-wrapper-validation.yml/badge.svg" alt="Validate Gradle Wrapper"/></a>
 </div>
 
 ## Installation
 
-Coming soon.
+### Requirements
+
+- [Fabric API](https://modrinth.com/mod/fabric-api)
+- [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
+
+### Instructions
+
+1. Download the latest release of Schizoid from the [releases page](https://github.com/Lyzev/Schizoid/releases/latest).
+2. Move the downloaded JAR file to the `mods` folder in your Minecraft installation directory.
+3. Launch the game and enjoy the features of Schizoid.
+
+**WARNING:** Nightly builds are not recommended for general use. They are intended for testing purposes only. Use them
+at your own risk, as there will be no support for it.
+
+## Contributing
+
+If you are interested in contributing to this project, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for
+more information.
 
 ## Bugs and Suggestions
 

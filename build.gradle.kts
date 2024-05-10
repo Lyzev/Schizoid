@@ -9,11 +9,13 @@ import groovy.xml.XmlParser
 import me.lyzev.network.http.HttpClient
 import me.lyzev.network.http.HttpMethod
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.ByteArrayOutputStream
+import java.util.*
 
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.shadow)
     alias(libs.plugins.fabric.loom)
 }
 
@@ -25,7 +27,21 @@ idea {
 
 base { archivesName.set(project.extra["archives_base_name"] as String) }
 
+val stdout = ByteArrayOutputStream()
+exec {
+    commandLine("git", "rev-parse", "--short", "HEAD")
+    standardOutput = stdout
+}
+val lastCommitHash = stdout.toByteArray().decodeToString().trim()
+
+val ci = System.getenv("CI")?.toBooleanStrictOrNull() ?: false
+
 version = project.extra["mod_version"] as String
+if (ci)
+    version = "$version+$lastCommitHash"
+else
+    version = "$version+${libs.minecraft.get().version}"
+println("$version+${libs.minecraft.get().version}")
 group = project.extra["maven_group"] as String
 
 repositories {
@@ -44,23 +60,52 @@ dependencies {
 
     modImplementation(libs.bundles.fabric)
 
-    // https://github.com/Lyzev
+    // Libraries (required)
     implementation(libs.lyzev.events)
     implementation(libs.lyzev.settings)
 
-    // https://github.com/ronmamo/reflections
     implementation(libs.reflections)
-
-    // https://github.com/SpaiR/imgui-java
     implementation(libs.bundles.imgui)
+    implementation(libs.fuzzywuzzy)
+
+    // Mods (optional)
+    modRuntimeOnly(libs.bundles.modrinth)
 }
 
 loom {
-    accessWidenerPath.set(File("src/main/resources/schizoid.accesswidener"))
+    accessWidenerPath = file("src/main/resources/${project.extra["archives_base_name"] as String}.accesswidener")
+    mods {
+        create(base.archivesName.get()) {
+            sourceSet(sourceSets.main.get())
+        }
+    }
+}
+
+tasks.register("fixRunResources") {
+    group = project.extra["archives_base_name"] as String
+    description = "Fix Run Resources"
+    dependsOn("generateProperties", "processResources")
+    doLast {
+        copy {
+            from("build/resources/main")
+            into("out/production/Schizoid.main")
+        }
+    }
+}
+
+tasks.register("generateProperties") {
+    group = project.extra["archives_base_name"] as String
+    description = "Generate Properties"
+    doLast {
+        val props = Properties()
+        props.setProperty("MOD_ID", project.extra["archives_base_name"] as String)
+        props.setProperty("CI", ci.toString())
+        file("src/main/resources/app.properties").outputStream().use { props.store(it, null) }
+    }
 }
 
 tasks.register("updateFabric") {
-    group = "schizoid"
+    group = project.extra["archives_base_name"] as String
     description = "Update Fabric Library Versions"
     doLast {
         val gameVersion = HttpClient.request(HttpMethod.GET, "https://meta.fabricmc.net/v2/versions/game").let { data ->
@@ -120,19 +165,19 @@ tasks.register("updateFabric") {
 }
 
 tasks.register("updateKotlin") {
-    group = "schizoid"
+    group = project.extra["archives_base_name"] as String
     description = "Update Kotlin and Dokka Versions"
     doLast {
         val kotlinVersion = HttpClient.request(
             HttpMethod.GET, "https://api.github.com/repos/JetBrains/kotlin/releases/latest"
         ).let { data ->
-            JsonParser.parseString(data.toString()).asJsonObject["target_commitish"].asString
+            JsonParser.parseString(data.toString()).asJsonObject["tag_name"].asString.removePrefix("v")
         }
 
         val dokkaVersion = HttpClient.request(
             HttpMethod.GET, "https://api.github.com/repos/Kotlin/dokka/releases/latest"
         ).let { data ->
-            JsonParser.parseString(data.toString()).asJsonObject["target_commitish"].asString
+            JsonParser.parseString(data.toString()).asJsonObject["tag_name"].asString.removePrefix("v")
         }
 
         val versions = mapOf(
@@ -159,8 +204,11 @@ fun updateTomlVersions(tomlContent: String, versions: Map<String, String>): Stri
 }
 
 tasks {
-
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
+
+    build {
+        dependsOn("generateProperties")
+    }
 
     withType<JavaCompile> {
         options.encoding = "UTF-8"
@@ -178,7 +226,8 @@ tasks {
             expand(
                 mutableMapOf(
                     "java" to project.extra["java_version"] as String,
-                    "version" to project.extra["mod_version"] as String,
+                    "id" to project.extra["archives_base_name"] as String,
+                    "version" to project.version.toString(),
                     "minecraft" to libs.versions.minecraft.get(),
                     "fabricloader" to libs.versions.fabric.loader.get(),
                     "fabric_api" to libs.versions.fabric.api.get(),
@@ -187,6 +236,10 @@ tasks {
             )
         }
         filesMatching("*.mixins.json") { expand(mutableMapOf("java" to javaVersion.toString())) }
+    }
+
+    runClient {
+        dependsOn("generateProperties")
     }
 
     // Run `./gradlew wrapper --gradle-version <newVersion>` or `gradle wrapper --gradle-version <newVersion>` to update gradle scripts
@@ -202,8 +255,28 @@ tasks {
         withSourcesJar()
     }
 
+    shadowJar {
+        archiveClassifier.set("shadow")
+
+        // META-INF/versions/20
+        exclude("META-INF/versions/20/**")
+
+        dependencies {
+            include(dependency(libs.lyzev.events.get()))
+            include(dependency(libs.lyzev.settings.get()))
+            include(dependency(libs.reflections.get()))
+            include(dependency(libs.fuzzywuzzy.get()))
+            include(dependency("org.javassist:javassist")) // dependency of reflections
+            libs.bundles.imgui.get().forEach { include(dependency(it)) }
+        }
+    }
+
+    remapJar {
+        inputFile = shadowJar.get().archiveFile
+    }
+
     dokkaHtml.configure {
-		moduleName.set("Schizoid")
+		moduleName.set(project.extra["archives_base_name"] as String)
 		dokkaSourceSets {
 			configureEach {
 				includes.from("dokka-docs.md")

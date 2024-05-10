@@ -2,7 +2,8 @@
 
 ## Supported Versions
 
-At the moment, no releases have been made yet, so no version is officially supported yet.
+At the moment, no official releases have been made yet, so no version is officially supported yet.  
+Keep in mind that nightly builds are not guaranteed to be stable and are not supported.
 
 ## Reporting a Vulnerability
 
