@@ -73,7 +73,6 @@ abstract class ModuleRunnable(
                 invoke()
             if (isItemHovered()) setTooltip("Invoke the module.")
             if (response != null) {
-                sameLine()
                 textColored(255, 69, 58, 255, response!!)
             }
             @Suppress("UNCHECKED_CAST")
