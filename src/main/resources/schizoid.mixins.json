@@ -11,6 +11,7 @@
     "minecraft.client.network.MixinClientPlayerEntity",
     "minecraft.client.network.MixinClientPlayerInteractionManager",
     "minecraft.client.render.MixinCamera",
+    "minecraft.client.render.MixinGameRenderer",
     "minecraft.client.render.MixinLightmapTextureManager",
     "minecraft.client.render.MixinWorldRenderer",
     "minecraft.client.render.entity.MixinLivingEntityRenderer",

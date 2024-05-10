@@ -57,13 +57,13 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
 
     val animationMario by option(
         "Mario Animation",
-        "Enables the Mario animation.",
+        "The animation type.",
         EasingFunction.IN_OUT_ELASTIC,
         EasingFunction.entries
     )
     val speedMario by slider(
         "Mario Speed",
-        "The speed of the Mario animation.",
+        "The speed of the animation.",
         5000,
         1000,
         10000,
