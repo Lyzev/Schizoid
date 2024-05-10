@@ -21,16 +21,16 @@ jobs:
           cache: gradle
       - name: Read version from gradle.properties
         id: get_version
-        run: echo "::set-output name=mod_version::$(grep -oP 'mod_version=\K.+' gradle.properties)"
+        run: echo "mod_version=$(grep -oP 'mod_version=\K.+' gradle.properties)" >> $GITHUB_OUTPUT
       - name: Read archives_base_name from gradle.properties
         id: get_archives_base_name
-        run: echo "::set-output name=archives_base_name::$(grep -oP 'archives_base_name=\K.+' gradle.properties)"
+        run: echo "archives_base_name=$(grep -oP 'archives_base_name=\K.+' gradle.properties)" >> $GITHUB_OUTPUT
       - name: Set Commit Hash
         id: commit_hash
-        run: echo "::set-output name=commit_hash::$(git log --pretty=format:'%h' -n 1)"
+        run: echo "commit_hash=$(git log --pretty=format:'%h' -n 1)" >> $GITHUB_OUTPUT
       - name: Set Current Date and Time
         id: current_datetime
-        run: echo "::set-output name=current_datetime::$(date +'%Y.%m.%d %H:%M')"
+        run: echo "current_datetime=$(date +'%Y.%m.%d %H:%M')" >> $GITHUB_OUTPUT
       - name: Build the project
         run: ./gradlew build
       - name: Create Release Assets

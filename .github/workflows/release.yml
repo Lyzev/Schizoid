@@ -21,13 +21,13 @@ jobs:
           cache: gradle
       - name: Read version from gradle.properties
         id: get_version
-        run: echo "::set-output name=mod_version::$(grep -oP 'mod_version=\K.+' gradle.properties)"
+        run: echo "mod_version=$(grep -oP 'mod_version=\K.+' gradle.properties)" >> $GITHUB_OUTPUT
       - name: Read archives_base_name from gradle.properties
         id: get_archives_base_name
-        run: echo "::set-output name=archives_base_name::$(grep -oP 'archives_base_name=\K.+' gradle.properties)"
+        run: echo "archives_base_name=$(grep -oP 'archives_base_name=\K.+' gradle.properties)" >> $GITHUB_OUTPUT
       - name: Read minecraft version from libs.versions.toml
         id: get_minecraft_version
-        run: echo "::set-output name=minecraft_version::$(grep -oP 'minecraft = "\K[^"]+' gradle/libs.versions.toml)"
+        run: echo "minecraft_version=$(grep -oP 'minecraft = "\K[^"]+' gradle/libs.versions.toml)" >> $GITHUB_OUTPUT
       - name: Build the project
         run: ./gradlew build
       - name: Create Release Assets
