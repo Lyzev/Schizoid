@@ -49,6 +49,7 @@ class WrappedFramebuffer(lod: Int = 0, useDepth: Boolean = false) : SimpleFrameb
                 MinecraftClient.getInstance().window.framebufferHeight / IntMath.pow(2, lod),
                 MinecraftClient.IS_SYSTEM_MAC
             )
+            setTexFilter(GlConst.GL_LINEAR)
         }
     }
 }

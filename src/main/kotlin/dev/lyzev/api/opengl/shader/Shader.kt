@@ -194,7 +194,7 @@ abstract class Shader(val shader: String): EventListener {
 
     init {
         on<EventReload> {
-            if (!Schizoid.CI) return@on
+            if (!Schizoid.DEVELOPER_MODE) return@on
             reload()
         }
     }

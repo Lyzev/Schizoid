@@ -80,6 +80,7 @@ object Schizoid : EventListener {
      * Whether the mod is running in a continuous integration environment.
      */
     val CI = properties.getProperty("CI")?.toBooleanStrict() ?: false
+    val DEVELOPER_MODE = System.getProperty("fabric.development")?.toBoolean() ?: false
 
     /**
      * The Minecraft client instance.
@@ -111,6 +112,8 @@ object Schizoid : EventListener {
                 logger.info("Initializing Schizoid v$MOD_VERSION by ${MOD_AUTHORS.joinToString(" & ") { it.name }}...")
                 if (CI)
                     logger.warn("Running in a continuous integration environment!")
+                if (DEVELOPER_MODE)
+                    logger.warn("Running in developer mode!")
                 FeatureManager
                 SettingInitializer
                 OSTheme.startListenForUpdatesThread()

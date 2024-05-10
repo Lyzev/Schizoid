@@ -11,6 +11,7 @@ import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
 import dev.lyzev.api.events.*
 import dev.lyzev.api.glfw.GLFWKey
+import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableDeveloperTool
 import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableSearch
 import dev.lyzev.api.imgui.theme.ImGuiThemes
 import dev.lyzev.api.opengl.shader.ShaderParticle
@@ -77,6 +78,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     private const val TIMEOUT = 5000
 
     val search = ImGuiRenderableSearch()
+    val devTools = ImGuiRenderableDeveloperTool()
 
     override fun renderInGameBackground(context: DrawContext) =
         colorScheme.renderInGameBackground(context, this.width, this.height, mode)
@@ -151,6 +153,8 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
 
 
     override fun renderImGui() {
+        if (Schizoid.DEVELOPER_MODE)
+            devTools.render()
         search.render()
         IFeature.Category.entries.forEach(IFeature.Category::render)
     }
