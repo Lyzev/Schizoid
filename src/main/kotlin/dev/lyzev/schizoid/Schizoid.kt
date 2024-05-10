@@ -23,10 +23,12 @@ import dev.lyzev.schizoid.Schizoid.mc
 import dev.lyzev.schizoid.Schizoid.root
 import dev.lyzev.schizoid.feature.FeatureManager
 import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.metadata.Person
 import net.minecraft.client.MinecraftClient
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.File
+import java.util.*
 
 /**
  * Elevate your Minecraft gameplay with this free and feature-rich client built with Fabric API and utilizing mixin-based injection techniques.
@@ -43,10 +45,16 @@ import java.io.File
  */
 object Schizoid : EventListener {
 
+    private val properties = Properties().apply {
+        ClassLoader.getSystemResourceAsStream("app.properties").use {
+            load(it)
+        }
+    }
+
     /**
      * The unique identifier of the mod.
      */
-    const val MOD_ID = "schizoid"
+    val MOD_ID = properties.getProperty("MOD_ID")
 
     /**
      * The metadata of the mod.
@@ -66,19 +74,17 @@ object Schizoid : EventListener {
     /**
      * The list of authors contributing to the mod.
      */
-    @Suppress("SpellCheckingInspection")
-    val MOD_AUTHORS = METADATA.authors
+    val MOD_AUTHORS: MutableCollection<Person> = METADATA.authors
 
     /**
      * Whether the mod is running in a continuous integration environment.
      */
-    val CI = System.getProperty("CI")?.toBooleanStrict() ?: false
+    val CI = properties.getProperty("CI")?.toBooleanStrict() ?: false
 
     /**
      * The Minecraft client instance.
      */
-    val mc: MinecraftClient
-        get() = MinecraftClient.getInstance()
+    val mc = MinecraftClient.getInstance()
 
     /**
      * The root directory of the Schizoid mod, used for storing mod-specific data.

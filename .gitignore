@@ -44,3 +44,6 @@ bin/
 ### Fabric ###
 /run/
 /.idea/runConfigurations/
+
+### Schizoid ###
+src/main/resources/app.properties

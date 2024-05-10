@@ -10,6 +10,7 @@ import me.lyzev.network.http.HttpClient
 import me.lyzev.network.http.HttpMethod
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 plugins {
     alias(libs.plugins.kotlin)
@@ -76,13 +77,25 @@ loom {
 }
 
 tasks.register("fixRunResources") {
+    group = project.extra["archives_base_name"] as String
+    description = "Fix Run Resources"
     dependsOn("processResources")
-
     doLast {
         copy {
             from("build/resources/main")
             into("out/production/Schizoid.main")
         }
+    }
+}
+
+tasks.register("generateProperties") {
+    group = project.extra["archives_base_name"] as String
+    description = "Generate Properties"
+    doLast {
+        val props = Properties()
+        props.setProperty("MOD_ID", project.extra["archives_base_name"] as String)
+        props.setProperty("CI", ci.toString())
+        file("src/main/resources/app.properties").outputStream().use { props.store(it, null) }
     }
 }
 
@@ -188,6 +201,10 @@ fun updateTomlVersions(tomlContent: String, versions: Map<String, String>): Stri
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
 
+    build {
+        dependsOn("generateProperties")
+    }
+
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
@@ -217,7 +234,7 @@ tasks {
     }
 
     runClient {
-        this.systemProperty("CI", ci.toString())
+        dependsOn("generateProperties")
     }
 
     // Run `./gradlew wrapper --gradle-version <newVersion>` or `gradle wrapper --gradle-version <newVersion>` to update gradle scripts

@@ -174,7 +174,7 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
         if (positionBuffer != 0) {
             GL15.glDeleteBuffers(positionBuffer)
         }
-        val positionBuffer = glGenBuffers()
+        positionBuffer = glGenBuffers()
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, positionBuffer)
         GL44.glBufferStorage(GL_SHADER_STORAGE_BUFFER, buffer, GL_MAP_WRITE_BIT or GL44.GL_DYNAMIC_STORAGE_BIT)
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, positionBuffer)

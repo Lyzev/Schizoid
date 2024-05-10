@@ -25,7 +25,6 @@ import org.lwjgl.opengl.GL43.GL_COMPUTE_SHADER
 import org.lwjgl.opengl.GL44
 import java.awt.Color
 import java.io.FileNotFoundException
-import kotlin.properties.Delegates
 
 /**
  * Abstract class representing a Shader.
@@ -171,8 +170,6 @@ abstract class Shader(val shader: String): EventListener {
         return shader
     }
 
-    internal var addedEventListener = false
-
     open fun init() {
         glLinkProgram(program)
 
@@ -185,14 +182,15 @@ abstract class Shader(val shader: String): EventListener {
                     glGetProgrami(program, GL_INFO_LOG_LENGTH)
                 ), IllegalStateException("Shader failed to link")
             )
+    }
 
-        if (!addedEventListener) {
-            addedEventListener = true
-            on<EventReload> {
-                glDeleteProgram(program)
-                program = glCreateProgram()
-                init()
-            }
+    override val shouldHandleEvents = Schizoid.CI
+
+    init {
+        on<EventReload> {
+            glDeleteProgram(program)
+            program = glCreateProgram()
+            init()
         }
     }
 
@@ -201,7 +199,7 @@ abstract class Shader(val shader: String): EventListener {
         /**
          * The path to the shaders.
          */
-        const val PATH = "assets/${Schizoid.MOD_ID}/shaders"
+        val PATH = "assets/${Schizoid.MOD_ID}/shaders"
 
         /**
          * Draws a full screen quad.
@@ -216,8 +214,6 @@ abstract class Shader(val shader: String): EventListener {
             BufferRenderer.draw(bufferBuilder.end())
         }
     }
-
-    override val shouldHandleEvents = true
 }
 
 abstract class ShaderVertexFragment(
@@ -225,13 +221,13 @@ abstract class ShaderVertexFragment(
 ) : Shader(shader) {
 
     final override fun init() {
-        val vSource = javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
+        val vSource = ClassLoader.getSystemResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
             it.readAllBytes().decodeToString()
         } ?: "null"
         val vShader = compile(GL_VERTEX_SHADER, vSource)
         glAttachShader(program, vShader)
 
-        val fSource = javaClass.classLoader.getResourceAsStream("$PATH/core/$shader/${shader}_FP.glsl")?.use {
+        val fSource = ClassLoader.getSystemResourceAsStream("$PATH/core/$shader/${shader}_FP.glsl")?.use {
             it.readAllBytes().decodeToString()
         } ?: "null"
         val fShader = compile(GL_FRAGMENT_SHADER, fSource)
@@ -284,8 +280,7 @@ abstract class ShaderCompute(
     }
 
     override fun init() {
-        javaClass.classLoader
-            .getResourceAsStream("$PATH/core/$shader/${shader}_CP.glsl")
+        ClassLoader.getSystemResourceAsStream("$PATH/core/$shader/${shader}_CP.glsl")
             ?.use {
                 val computeShader = compile(
                     GL_COMPUTE_SHADER,
@@ -298,17 +293,17 @@ abstract class ShaderCompute(
         if (texture == 0) {
             genTexture()
         }
-
-        if (!addedEventListener) {
-            on<EventWindowResize> {
-                // delete old texture and create a new one
-                if (texture != 0) {
-                    glDeleteTextures(texture)
-                }
-                genTexture()
-            }
-        }
         super.init()
+    }
+
+    init {
+        on<EventWindowResize> {
+            // delete old texture and create a new one
+            if (texture != 0) {
+                glDeleteTextures(texture)
+            }
+            genTexture()
+        }
     }
 
     companion object {
