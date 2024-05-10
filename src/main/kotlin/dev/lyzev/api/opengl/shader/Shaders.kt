@@ -104,6 +104,7 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
     private var lastMYPos = -1.0
 
     override fun draw() {
+        deltaTime = deltaTime.coerceAtMost(100f)
         super.draw()
         bind()
         bindImageTexture()
