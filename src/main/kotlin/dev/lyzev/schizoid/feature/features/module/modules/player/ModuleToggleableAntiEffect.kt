@@ -9,11 +9,11 @@ import dev.lyzev.api.events.EventHasStatusEffect
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.multiOption
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.registry.Registries
-import net.minecraft.registry.Registry
 
-object ModuleToggleableAntiEffect : ModuleToggleable("Anti Effect", "Makes everything brighter.", category = Category.PLAYER), EventListener {
+object ModuleToggleableAntiEffect : ModuleToggleable("Anti Effect", "Makes everything brighter.", category = IFeature.Category.PLAYER), EventListener {
 
     val effects = multiOption("Effects", "Effects to disable.", Registries.STATUS_EFFECT.map { it.name.string to !it.isBeneficial }.sortedBy { it.first }.toSet()) { options ->
         for (option in options) {

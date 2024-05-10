@@ -12,6 +12,7 @@ import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderFlip
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.image
 import net.minecraft.client.MinecraftClient
@@ -20,7 +21,7 @@ import org.lwjgl.opengl.GL13
 import kotlin.math.ceil
 
 object ModuleToggleableRearView :
-    ModuleToggleableRenderImGuiContent("Rear View", "Shows a rear view of the player.", category = Category.RENDER) {
+    ModuleToggleableRenderImGuiContent("Rear View", "Shows a rear view of the player.", category = IFeature.Category.RENDER) {
 
     val size by slider("Size", "The size of the rear view.", 15, 5, 100, "%%")
 

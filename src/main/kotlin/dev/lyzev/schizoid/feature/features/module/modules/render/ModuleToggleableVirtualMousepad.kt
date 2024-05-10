@@ -8,6 +8,7 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 import dev.lyzev.api.events.EventClientPlayerEntityTick
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.slider
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImColor
 import imgui.ImGui.*
@@ -16,7 +17,7 @@ import kotlin.math.abs
 import kotlin.math.max
 
 object ModuleToggleableVirtualMousepad :
-    ModuleToggleableRenderImGuiContent("Virtual Mousepad", "Visualizes your rotations.", category = Category.RENDER) {
+    ModuleToggleableRenderImGuiContent("Virtual Mousepad", "Visualizes your rotations.", category = IFeature.Category.RENDER) {
 
     val size by slider("Size", "The size of the virtual mousepad.", 15, 5, 100, "%%")
     val length by slider("Length", "The length of the graph.", 20, 1, 100, "ticks") {

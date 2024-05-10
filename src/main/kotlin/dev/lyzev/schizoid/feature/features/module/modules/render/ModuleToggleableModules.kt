@@ -8,11 +8,12 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.schizoid.feature.FeatureManager
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.*
 
-object ModuleToggleableModules : ModuleToggleableRenderImGuiContent("Modules", "Shows a list of all enabled modules.", category = Category.RENDER) {
+object ModuleToggleableModules : ModuleToggleableRenderImGuiContent("Modules", "Shows a list of all enabled modules.", category = IFeature.Category.RENDER) {
 
     val showKeybinds by option("Show Keybinds", "Shows the keybinds of the modules.", ShowKeyBinds.FIRST, ShowKeyBinds.entries)
 

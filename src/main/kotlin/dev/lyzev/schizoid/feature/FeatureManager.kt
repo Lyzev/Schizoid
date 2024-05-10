@@ -46,12 +46,12 @@ object FeatureManager : EventListener {
     /**
      * Gets a list of features by their category.
      */
-    operator fun get(category: Feature.Category): List<IFeature> = features.filter { it.category == category }
+    operator fun get(category: IFeature.Category): List<IFeature> = features.filter { it.category == category }
 
     /**
      * Gets a list of features by their categories.
      */
-    operator fun get(vararg category: Feature.Category): List<IFeature> = features.filter { category.contains(it.category) }
+    operator fun get(vararg category: IFeature.Category): List<IFeature> = features.filter { category.contains(it.category) }
 
     /**
      * Sends a chat message to the player.
@@ -68,7 +68,8 @@ object FeatureManager : EventListener {
             .filter { !Modifier.isInterface(it.modifiers) && !Modifier.isAbstract(it.modifiers) }
             .forEach {
                 val feature = Reflection.getOrCreateKotlinClass(it).objectInstance as IFeature
-                features += feature
+                if (!feature.hide)
+                    features += feature
                 Schizoid.logger.info("Initialized feature: ${feature.name}.")
             }
         features.sortBy { it.name }

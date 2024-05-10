@@ -16,6 +16,7 @@ import dev.lyzev.api.setting.settings.multiOption
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.feature.Feature
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import imgui.ImGui.*
 import imgui.extension.implot.flag.ImPlotAxisFlags
@@ -31,7 +32,7 @@ import imgui.type.ImBoolean
  * @param key The keybind of the module.
  * @property category The category of the module.
  */
-abstract class Module(name: String, desc: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: Category) :
+abstract class Module(name: String, desc: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: IFeature.Category) :
     Feature(name, desc, keys, category)
 
 /**
@@ -46,7 +47,7 @@ abstract class ModuleRunnable(
     name: String,
     desc: String,
     keys: MutableSet<GLFWKey> = mutableSetOf(),
-    category: Category
+    category: IFeature.Category
 ) :
     Module(name, desc, keys, category), () -> String? {
 
@@ -102,7 +103,7 @@ abstract class ModuleToggleable(
     name: String,
     desc: String,
     keys: MutableSet<GLFWKey> = mutableSetOf(),
-    category: Category
+    category: IFeature.Category
 ) :
     Module(name, desc, keys, category) {
 
@@ -155,7 +156,7 @@ abstract class ModuleToggleableRenderImGuiContent(
     name: String,
     desc: String,
     keys: MutableSet<GLFWKey> = mutableSetOf(),
-    category: Category
+    category: IFeature.Category
 ) : ModuleToggleable(name, desc, keys, category), EventListener {
 
     var windowFlags = WindowFlags.DEFAULT

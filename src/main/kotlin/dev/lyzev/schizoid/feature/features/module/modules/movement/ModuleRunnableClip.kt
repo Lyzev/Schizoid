@@ -7,9 +7,10 @@ package dev.lyzev.schizoid.feature.features.module.modules.movement
 
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
 
-object ModuleRunnableClip : ModuleRunnable("Clip", "Allows you to clip through blocks.", category = Category.MOVEMENT) {
+object ModuleRunnableClip : ModuleRunnable("Clip", "Allows you to clip through blocks.", category = IFeature.Category.MOVEMENT) {
 
     val verticalLook by switch("Vertical Look", "Whether to move the player's look vector vertically.", false)
     val vertical by slider("Vertical", "The vertical speed.", 5f, -10f, 10f, 1, "blocks", true)

@@ -8,6 +8,7 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 import dev.lyzev.api.events.EventClientPlayerEntityTick
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.*
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImColor
 import imgui.ImGui
@@ -20,7 +21,7 @@ import imgui.extension.implot.flag.ImPlotStyleVar
 import imgui.flag.ImGuiCol
 
 object ModuleToggleableMotionGraph :
-    ModuleToggleableRenderImGuiContent("Motion Graph", "Shows a graph of the player's motion.", category = Category.RENDER) {
+    ModuleToggleableRenderImGuiContent("Motion Graph", "Shows a graph of the player's motion.", category = IFeature.Category.RENDER) {
 
     private val y = mutableListOf(0.0)
     private val x = mutableListOf(0.0)

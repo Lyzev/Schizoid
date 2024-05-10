@@ -10,13 +10,14 @@ import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.gui.screen.ChatScreen
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.item.ItemGroups
 
-object ModuleToggleableScreenMove : ModuleToggleable("Screen Move", "Allows you to move while in GUI screens.", category = Category.MOVEMENT), EventListener {
+object ModuleToggleableScreenMove : ModuleToggleable("Screen Move", "Allows you to move while in GUI screens.", category = IFeature.Category.MOVEMENT), EventListener {
 
     val mouse by switch("Mouse", "Pass through the mouse.", false)
     val weight by slider("Weight", "The weight of the mouse movement.", 20, 1, 100, "%%", hide = ::mouse neq true)

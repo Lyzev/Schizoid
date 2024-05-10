@@ -10,13 +10,14 @@ import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_BOLD
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.setting.settings.text
-import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
-import imgui.ImGui.*
 import dev.lyzev.api.settings.Setting.Companion.eq
 import dev.lyzev.api.settings.Setting.Companion.neq
+import dev.lyzev.schizoid.feature.IFeature
+import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
+import imgui.ImGui.*
 
 object ModuleToggleableWaterMark :
-    ModuleToggleableRenderImGuiContent("Water Mark", "Shows a water mark on the screen.", category = Category.RENDER) {
+    ModuleToggleableRenderImGuiContent("Water Mark", "Shows a water mark on the screen.", category = IFeature.Category.RENDER) {
 
         val waterMarkMath by switch("Water Mark Math", "Shows a random math function.", false)
     val interval by slider("Interval", "The interval to switch between math functions.", 300, 0, 5000, "ms", hide = ::waterMarkMath neq true)

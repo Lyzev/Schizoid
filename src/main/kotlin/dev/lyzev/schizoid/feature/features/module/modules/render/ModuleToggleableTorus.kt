@@ -13,6 +13,7 @@ import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.shader.ShaderReflection
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.Tessellator
@@ -31,7 +32,8 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 object ModuleToggleableTorus :
-    ModuleToggleable("Torus", "Renders a Torus with reflection effect.", category = Category.RENDER), EventListener {
+    ModuleToggleable("Torus", "Renders a Torus with reflection effect.", category = IFeature.Category.RENDER),
+    EventListener {
 
     val depth by switch("Depth", "Whether to render the torus in depth.", false)
     val frequency by slider("Noise frequency", "The strength of the noise effect.", 50, 0, 100, "%%")
@@ -82,10 +84,10 @@ object ModuleToggleableTorus :
 
         fun render(modelViewMat: Matrix4f, projMat: Matrix4f) {
             val cam = mc.gameRenderer.camera.pos
-            val modelViewMat = Matrix4f(modelViewMat)
+            @Suppress("NAME_SHADOWING") val modelViewMat = Matrix4f(modelViewMat)
             modelViewMat.translate((pos.x - cam.x).toFloat(), (pos.y - cam.y).toFloat(), (pos.z - cam.z).toFloat())
-            modelViewMat.rotateY((-rotation.y * Math.PI / 180f).toFloat()) // yaw
-            modelViewMat.rotateX((rotation.x * Math.PI / 180f).toFloat()) // pitch
+            modelViewMat.rotateY(Math.toRadians((-rotation.y).toDouble()).toFloat()) // yaw
+            modelViewMat.rotateX(Math.toRadians((rotation.x).toDouble()).toFloat()) // pitch
             ShaderReflection.bind()
             ShaderReflection["ModelViewMat", false] = modelViewMat
             ShaderReflection["ProjMat", false] = projMat

@@ -29,38 +29,11 @@ abstract class Feature(
     override val name: String,
     override val desc: String,
     keys: Set<GLFWKey>,
-    override val category: Category
+    override val category: IFeature.Category
 ) : IFeature {
 
     // The keybind of the feature.
     override var keybinds by keybinds("Keybinds", "All keys used to control the feature.", keys)
-
-    /**
-     * Represents a category of features.
-     */
-    enum class Category : ImGuiRenderable {
-        COMBAT,
-        MOVEMENT,
-        GHOST,
-        PLAYER,
-        RENDER,
-        UTIL,
-        EXPLOIT,
-        MISC;
-
-        override fun render() {
-            OPEN_SANS_BOLD.begin()
-            if (ImGuiScreenFeature.search.result != null && ImGuiScreenFeature.search.result!!.category == this)
-                setNextWindowFocus()
-            if (begin("\"$name\"")) {
-                OPEN_SANS_REGULAR.begin()
-                FeatureManager[this].forEach(IFeature::render)
-                OPEN_SANS_REGULAR.end()
-            }
-            OPEN_SANS_BOLD.end()
-            end()
-        }
-    }
 }
 
 /**
@@ -71,7 +44,9 @@ interface IFeature : ImGuiRenderable {
     val name: String
     val desc: String
     var keybinds: Set<GLFWKey>
-    val category: Feature.Category
+    val category: Category
+    val hide: Boolean
+        get() = false
 
     /**
      * Renders the feature and its settings using ImGui.
@@ -140,4 +115,31 @@ interface IFeature : ImGuiRenderable {
      */
     val isSingleplayer: Boolean
         get() = isIngame && mc.isInSingleplayer
+
+    /**
+     * Represents a category of features.
+     */
+    enum class Category : ImGuiRenderable {
+        COMBAT,
+        MOVEMENT,
+        GHOST,
+        PLAYER,
+        RENDER,
+        UTIL,
+        EXPLOIT,
+        MISC;
+
+        override fun render() {
+            OPEN_SANS_BOLD.begin()
+            if (ImGuiScreenFeature.search.result != null && ImGuiScreenFeature.search.result!!.category == this)
+                setNextWindowFocus()
+            if (begin("\"$name\"")) {
+                OPEN_SANS_REGULAR.begin()
+                FeatureManager[this].forEach(IFeature::render)
+                OPEN_SANS_REGULAR.end()
+            }
+            OPEN_SANS_BOLD.end()
+            end()
+        }
+    }
 }

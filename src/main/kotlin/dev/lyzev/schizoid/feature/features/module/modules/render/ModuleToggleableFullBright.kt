@@ -11,11 +11,12 @@ import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.option
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 
-object ModuleToggleableFullBright : ModuleToggleable("Full Bright", "Makes everything brighter.", category = Category.RENDER), EventListener {
+object ModuleToggleableFullBright : ModuleToggleable("Full Bright", "Makes everything brighter.", category = IFeature.Category.RENDER), EventListener {
 
     val mode by option("Mode", "The mode of the full bright.", Mode.GAMMA, Mode.entries) {
         if (isEnabled && it == Mode.GAMMA) {

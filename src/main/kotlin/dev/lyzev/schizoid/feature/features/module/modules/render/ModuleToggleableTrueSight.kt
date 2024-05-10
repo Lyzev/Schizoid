@@ -9,10 +9,11 @@ import dev.lyzev.api.events.*
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.block.Blocks
 
-object ModuleToggleableTrueSight : ModuleToggleable("True Sight", "Makes invisible entities and barriers visible.", category = Category.RENDER), EventListener {
+object ModuleToggleableTrueSight : ModuleToggleable("True Sight", "Makes invisible entities and barriers visible.", category = IFeature.Category.RENDER), EventListener {
 
     val entities by switch("Entities", "Makes invisible entities visible.", true)
     val alpha by slider("Alpha", "The alpha of the entities.", 15, 1, 100, "%%", hide = ::entities neq true)

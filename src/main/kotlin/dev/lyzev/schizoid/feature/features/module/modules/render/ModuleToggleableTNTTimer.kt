@@ -10,6 +10,7 @@ import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.option
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.entity.TntEntity
 import net.minecraft.text.Text
@@ -20,7 +21,7 @@ import net.minecraft.text.Text
  * The time can be displayed in seconds or ticks, depending on the user's preference.
  */
 object ModuleToggleableTNTTimer :
-    ModuleToggleable("TNT Timer", "Displays the time left until a TNT block explodes.", category = Category.RENDER),
+    ModuleToggleable("TNT Timer", "Displays the time left until a TNT block explodes.", category = IFeature.Category.RENDER),
     EventListener {
 
     /**

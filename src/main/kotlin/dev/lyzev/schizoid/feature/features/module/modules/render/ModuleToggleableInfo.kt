@@ -8,16 +8,16 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.text
 import net.minecraft.util.math.MathHelper
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import kotlin.reflect.KProperty
 
 
 object ModuleToggleableInfo :
-    ModuleToggleableRenderImGuiContent("Info", "Shows a water mark on the screen.", category = Category.RENDER) {
+    ModuleToggleableRenderImGuiContent("Info", "Shows a water mark on the screen.", category = IFeature.Category.RENDER) {
 
     val fps by switch("FPS", "Shows the current FPS.", true)
     val username by switch("Username", "Shows the current username.", true)

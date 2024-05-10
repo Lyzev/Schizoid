@@ -5,12 +5,13 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.util
 
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.StringNbtReader
 
 object ModuleRunnablePasteNBT :
-    ModuleRunnable("Paste NBT", "Pastes the NBT data to your inventory.", category = Category.UTIL) {
+    ModuleRunnable("Paste NBT", "Pastes the NBT data to your inventory.", category = IFeature.Category.UTIL) {
 
     override fun invoke(): String? {
         if (!isIngame) return "You are not in a game."

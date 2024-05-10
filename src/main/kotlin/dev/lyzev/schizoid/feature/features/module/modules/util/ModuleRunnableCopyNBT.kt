@@ -7,10 +7,11 @@ package dev.lyzev.schizoid.feature.features.module.modules.util
 
 import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.option
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
 
 object ModuleRunnableCopyNBT :
-    ModuleRunnable("Copy NBT", "Copies the NBT data of the item in your hand to the clipboard.", category = Category.UTIL) {
+    ModuleRunnable("Copy NBT", "Copies the NBT data of the item in your hand to the clipboard.", category = IFeature.Category.UTIL) {
 
     private val hand by option("Hand", "The hand to copy the NBT from.", Hand.MAIN_HAND, Hand.entries)
 

@@ -21,12 +21,13 @@ import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.MinecraftClient
 import org.lwjgl.opengl.GL13
 
 object ModuleToggleableBlur :
-    ModuleToggleable("Blur", "All settings related to blur effects.", category = Category.RENDER), EventListener {
+    ModuleToggleable("Blur", "All settings related to blur effects.", category = IFeature.Category.RENDER), EventListener {
 
     val method = option("Method", "The method used to blur the screen.", Blurs.DUAL_KAWASE, Blurs.entries)
     val useLinearSampling by switch("Linear Sampling", "Enables linear sampling for the Gaussian blur.", true, method::value neq Blurs.GAUSSIAN)

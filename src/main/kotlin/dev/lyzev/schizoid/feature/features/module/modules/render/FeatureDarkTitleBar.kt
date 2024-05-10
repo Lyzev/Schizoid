@@ -11,36 +11,24 @@ import com.sun.jna.ptr.IntByReference
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventOSThemeUpdate
 import dev.lyzev.api.events.on
+import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.jna.DwmApi
 import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.theme.OSTheme
-import dev.lyzev.schizoid.feature.Feature
+import dev.lyzev.api.theme.WindowsTheme
+import dev.lyzev.api.theme.theme
+import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.IFeature
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWNativeWin32
 
-object FeatureDarkTitleBar: Feature("Dark Title Bar", "Adds a dark Title Bar", emptySet(), Category.RENDER), EventListener {
-
-    enum class Mode: OptionEnum {
-        Light, Dark, System;
-
-        override val key: String
-            get() = name
-    }
+object FeatureDarkTitleBar: IFeature, EventListener {
 
     val mode by option("Mode", "Mode", Mode.System, enumValues<Mode>().toList(), change = ::setTitleBarColor)
 
-    init {
-        setTitleBarColor(mode)
-
-        on<EventOSThemeUpdate> {
-            if (mode == Mode.System) {
-                setTitleBarColor(if (it.theme == OSTheme.Theme.Dark) Mode.Dark else Mode.Light)
-            }
-        }
-    }
-
     private fun setTitleBarColor(value: Mode) {
+        if (hide) return
         val dark = when (value) {
             Mode.Light -> false
             Mode.Dark -> true
@@ -55,8 +43,32 @@ object FeatureDarkTitleBar: Feature("Dark Title Bar", "Adds a dark Title Bar", e
         GLFW.glfwShowWindow(mc.window.handle)
     }
 
+    override val name = "Dark Title Bar"
+    override val desc = "Changes the title bar color."
+    override var keybinds: Set<GLFWKey> = emptySet()
+    override val category = IFeature.Category.RENDER
+    override val hide = theme != WindowsTheme
+
     override fun keybindReleased() {
+        // Not needed
     }
 
-    override val shouldHandleEvents = true
+    override val shouldHandleEvents = mode == Mode.System
+
+    init {
+        if (hide) {
+            Schizoid.logger.warn("Dark Title Bar is only supported on Windows.")
+        } else {
+            setTitleBarColor(mode)
+            on<EventOSThemeUpdate> {
+                setTitleBarColor(if (it.theme == OSTheme.Theme.Dark) Mode.Dark else Mode.Light)
+            }
+        }
+    }
+
+    enum class Mode : OptionEnum {
+        Light, Dark, System;
+
+        override val key = name
+    }
 }

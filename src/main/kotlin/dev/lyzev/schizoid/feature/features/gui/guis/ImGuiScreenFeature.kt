@@ -20,7 +20,7 @@ import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.Schizoid
-import dev.lyzev.schizoid.feature.Feature
+import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.Identifier
@@ -152,7 +152,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
 
     override fun renderImGui() {
         search.render()
-        Feature.Category.entries.forEach(Feature.Category::render)
+        IFeature.Category.entries.forEach(IFeature.Category::render)
     }
 
     init {
@@ -171,10 +171,8 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
 
     override fun shouldPause(): Boolean = false
 
-    override val name: String
-        get() = "Feature Screen"
-    override val desc: String
-        get() = "Displays all features and their respective settings."
+    override val name = "Feature Screen"
+    override val desc = "Displays all features and their respective settings."
     override var keybinds by keybinds(
         "Keybinds",
         "All keys used to control the feature.",
@@ -182,6 +180,5 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         setOf(GLFWKey.MOUSE_BUTTON_LEFT, GLFWKey.MOUSE_BUTTON_RIGHT, GLFWKey.MOUSE_BUTTON_MIDDLE)
     )
 
-    override val category: Feature.Category
-        get() = Feature.Category.RENDER
+    override val category = IFeature.Category.RENDER
 }

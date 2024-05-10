@@ -9,7 +9,6 @@ import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_BOLD
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.imgui.render.ImGuiRenderable
-import dev.lyzev.schizoid.feature.Feature
 import dev.lyzev.schizoid.feature.FeatureManager
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature.mc
@@ -86,7 +85,7 @@ class ImGuiRenderableSearch : ImGuiRenderable {
             shouldFocus = false
             inputTextWithHint("##search", "Search...", input)
             if (GLFWKey.ENTER.isPressed()) {
-                result = FeatureManager.get(*Feature.Category.values()).maxByOrNull {
+                result = FeatureManager.get(*IFeature.Category.values()).maxByOrNull {
                     FuzzySearch.weightedRatio(if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(), if (input.get().startsWith("@")) it.category.name else it.name)
                 }
                 if (result != null) {
@@ -95,7 +94,7 @@ class ImGuiRenderableSearch : ImGuiRenderable {
                 }
             }
             if (beginListBox("##searchResults", getColumnWidth(), mc.window.framebufferHeight * .15f)) {
-                FeatureManager.get(*Feature.Category.values()).sortedByDescending {
+                FeatureManager.get(*IFeature.Category.values()).sortedByDescending {
                     FuzzySearch.weightedRatio(if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(), if (input.get().startsWith("@")) it.category.name else it.name)
                 }.forEach { feature ->
                     if (selectable("[${feature.category}] ${feature.name}", false)) {
