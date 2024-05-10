@@ -90,8 +90,7 @@ object ShaderReflection : ShaderVertexFragment("Reflection")
 
 object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
 
-    private val PARTICLE_COUNT
-        get() = ImGuiScreenFeature.particleAmount * 1000
+    var amount = 100_000
     private val xpos = doubleArrayOf(0.0)
     private val ypos = doubleArrayOf(0.0)
     private val mousePos = Vector2f()
@@ -142,7 +141,7 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
         this["colorActive"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleActive
 
         var processed = 0
-        while (processed < PARTICLE_COUNT) {
+        while (processed < amount) {
             val processing = myGroupSizeX * myGroupSizeY * myGroupSizeZ
             this["arrayOffset"] = processed
             glDispatchCompute(myGroupSizeX, myGroupSizeY, myGroupSizeZ)
@@ -164,7 +163,7 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
     override fun init() {
         super.init()
         bind()
-        val buffer = (0..PARTICLE_COUNT).flatMap {
+        val buffer = (0..amount).flatMap {
             listOf(
                 ThreadLocalRandom.current().nextFloat() * Schizoid.mc.window.framebufferWidth,
                 ThreadLocalRandom.current().nextFloat() * Schizoid.mc.window.framebufferHeight,

@@ -43,10 +43,11 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         colorScheme.applyColors(mode)
     }
 
-    val particles by switch("Particles", "Enables the particle shader.", true) {
+    val particles: Boolean by switch("Particles", "Enables the particle shader.\nToggle to reload.", true) {
         if (!it) return@switch
         glDeleteProgram(ShaderParticle.program)
         ShaderParticle.program = glCreateProgram()
+        ShaderParticle.amount = particleAmount * 1000
         ShaderParticle.init()
     }
     val particleAmount by slider("Particle Amount", "The amount of particles.", 100, 1, 1000, "k", hide = ::particles neq true)
