@@ -42,7 +42,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         colorScheme.applyColors(mode)
     }
 
-    val particles: Boolean by switch("Particles", "Enables the particle shader.\nToggle to reload.", true) {
+    val particles: Boolean by switch("Particles", "Enables the particle shader.\nToggle to reload.", false) {
         if (!it) return@switch
         ShaderParticle.amount = particleAmount * 1000
         ShaderParticle.reload()
