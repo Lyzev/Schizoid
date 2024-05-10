@@ -184,13 +184,18 @@ abstract class Shader(val shader: String): EventListener {
             )
     }
 
-    override val shouldHandleEvents = Schizoid.CI
+    fun reload() {
+        glDeleteProgram(program)
+        program = glCreateProgram()
+        init()
+    }
+
+    override val shouldHandleEvents = true
 
     init {
         on<EventReload> {
-            glDeleteProgram(program)
-            program = glCreateProgram()
-            init()
+            if (!Schizoid.CI) return@on
+            reload()
         }
     }
 

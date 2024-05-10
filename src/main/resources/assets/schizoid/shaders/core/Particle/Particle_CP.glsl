@@ -44,10 +44,10 @@ void main() {
         float phi = atan(dist.y, dist.x);
         phi += (rand(p.position) - .5) * (PI / 4); // -22.5 to 22.5 degrees
         vec2 dir = vec2(cos(phi), sin(phi)) * speed;
-        p.motion += dir * force;
+        p.motion += dir * force * time;
     }
     vec2 pre = p.position;
-    p.position += p.motion * time;
+    p.position += p.motion;
     if (p.position.x < 0 || p.position.x > screenSize.x) {
         p.position.x = pre.x;
         p.motion.x *= -1;

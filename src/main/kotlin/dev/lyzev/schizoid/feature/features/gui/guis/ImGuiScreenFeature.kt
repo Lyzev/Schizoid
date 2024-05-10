@@ -25,8 +25,6 @@ import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
-import org.lwjgl.opengl.GL20.glCreateProgram
-import org.lwjgl.opengl.GL20.glDeleteProgram
 
 object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
 
@@ -45,10 +43,8 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
 
     val particles: Boolean by switch("Particles", "Enables the particle shader.\nToggle to reload.", true) {
         if (!it) return@switch
-        glDeleteProgram(ShaderParticle.program)
-        ShaderParticle.program = glCreateProgram()
         ShaderParticle.amount = particleAmount * 1000
-        ShaderParticle.init()
+        ShaderParticle.reload()
     }
     val particleAmount by slider("Particle Amount", "The amount of particles.", 100, 1, 1000, "k", hide = ::particles neq true)
 
