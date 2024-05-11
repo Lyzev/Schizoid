@@ -15,11 +15,6 @@ import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket
 import net.minecraft.world.World
 
-
-/**
- * This enum represents the possible units of the timer.
- * It can be either seconds or ticks.
- */
 object ModuleToggleableAmbience : ModuleToggleable("Ambience", "Changes to world time/weather!", category = IFeature.Category.RENDER), EventListener {
 
     /**
