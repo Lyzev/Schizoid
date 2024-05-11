@@ -35,7 +35,7 @@ class SettingClientColor(
                 value = Color(v[0], v[1], v[2])
         } else {
             v[3] = value.alpha / 255f
-            if (colorPicker4("##$name", v, ImGuiColorEditFlags.AlphaBar or DEFAULT_FLAGS))
+            if (colorPicker4("##$name", v,  DEFAULT_FLAGS or ImGuiColorEditFlags.AlphaBar))
                 value = Color(v[0], v[1], v[2], v[3])
         }
     }
