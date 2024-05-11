@@ -88,6 +88,8 @@ object ShaderFlip : ShaderVertexFragment("Flip")
 
 object ShaderReflection : ShaderVertexFragment("Reflection")
 
+object ShaderColorGrading : ShaderVertexFragment("ColorGrading")
+
 object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
 
     var amount = 100_000
