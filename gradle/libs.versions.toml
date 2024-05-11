@@ -28,7 +28,7 @@ imgui = "1.86.11"
 fuzzywuzzy = "1.4.0"
 
 # https://github.com/TerraformersMC/ModMenu
-modmenu = "9.0.0"
+modmenu = "10.0.0-beta.1"
 # https://github.com/CaffeineMC/sodium-fabric
 sodium = "mc1.20.6-0.5.8"
 
@@ -64,4 +64,4 @@ fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }
 [bundles]
 fabric = ["fabric_api", "fabric_loader", "fabric_kl"]
 imgui = ["imgui_binding", "imgui_lwjgl3", "imgui_natives_windows", "imgui_natives_linux", "imgui_natives_macos"]
-modrinth = ["sodium"] # "modmenu"
+modrinth = ["sodium", "modmenu"]
