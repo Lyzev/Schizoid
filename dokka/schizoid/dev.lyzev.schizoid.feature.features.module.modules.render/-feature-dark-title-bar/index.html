@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>FeatureDarkTitleBar</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            schizoid
+                    </a>
+            </div>
+            <div class="library-version">
+0.1.0+d06b340            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="schizoid::dev.lyzev.schizoid.feature.features.module.modules.render/FeatureDarkTitleBar///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../index.html">schizoid</a><span class="delimiter">/</span><a href="../index.html">dev.lyzev.schizoid.feature.features.module.modules.render</a><span class="delimiter">/</span><span class="current">FeatureDarkTitleBar</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Feature</span><wbr></wbr><span>Dark</span><wbr></wbr><span>Title</span><wbr></wbr><span><span>Bar</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">object </span><a href="index.html">FeatureDarkTitleBar</a> : <a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a>, <span data-unresolved-link="dev.lyzev.api.events/EventListener///PointingToDeclaration/">EventListener</span></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="532871618%2FClasslikes%2F769193423" anchor-label="Mode" id="532871618%2FClasslikes%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-mode/index.html"><span><span>Mode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="532871618%2FClasslikes%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">enum </span><a href="-mode/index.html">Mode</a> : <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-enum/index.html">Enum</a><span class="token operator">&lt;</span><a href="-mode/index.html">FeatureDarkTitleBar.Mode</a><span class="token operator">&gt; </span>, <a href="../../dev.lyzev.api.setting.settings/-option-enum/index.html">OptionEnum</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-36836718%2FProperties%2F769193423" anchor-label="category" id="-36836718%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="category.html"><span><span>category</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-36836718%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="category.html">category</a><span class="token operator">: </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/-category/index.html">IFeature.Category</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-160594465%2FProperties%2F769193423" anchor-label="desc" id="-160594465%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="desc.html"><span><span>desc</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-160594465%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="desc.html">desc</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="115597390%2FProperties%2F769193423" anchor-label="hide" id="115597390%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="hide.html"><span><span>hide</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="115597390%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="hide.html">hide</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1078365623%2FProperties%2F769193423" anchor-label="isIngame" id="1078365623%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.schizoid.feature/-i-feature/is-ingame.html"><span>is</span><wbr></wbr><span><span>Ingame</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1078365623%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/is-ingame.html">isIngame</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Whether the player is in a game.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1117355630%2FProperties%2F769193423" anchor-label="isMultiplayer" id="-1117355630%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.schizoid.feature/-i-feature/is-multiplayer.html"><span>is</span><wbr></wbr><span><span>Multiplayer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1117355630%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/is-multiplayer.html">isMultiplayer</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Whether the player is in a multiplayer game.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="53781157%2FProperties%2F769193423" anchor-label="isSingleplayer" id="53781157%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.schizoid.feature/-i-feature/is-singleplayer.html"><span>is</span><wbr></wbr><span><span>Singleplayer</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="53781157%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/is-singleplayer.html">isSingleplayer</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Whether the player is in a singleplayer game.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1474652967%2FProperties%2F769193423" anchor-label="keybinds" id="-1474652967%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="keybinds.html"><span><span>keybinds</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1474652967%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">var </span><a href="keybinds.html">keybinds</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.glfw/-g-l-f-w-key/index.html">GLFWKey</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="183979618%2FProperties%2F769193423" anchor-label="mc" id="183979618%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.schizoid.feature/-i-feature/mc.html"><span><span>mc</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="183979618%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/mc.html">mc</a><span class="token operator">: </span><span data-unresolved-link="net.minecraft.client/MinecraftClient///PointingToDeclaration/">MinecraftClient</span></div><div class="brief "><p class="paragraph">The Minecraft client instance.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2052686605%2FProperties%2F769193423" anchor-label="mode" id="2052686605%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="mode.html"><span><span>mode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2052686605%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="mode.html">mode</a><span class="token operator">: </span><a href="-mode/index.html">FeatureDarkTitleBar.Mode</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2081724197%2FProperties%2F769193423" anchor-label="name" id="2081724197%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="name.html"><span><span>name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2081724197%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="name.html">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1330531876%2FProperties%2F769193423" anchor-label="shouldHandleEvents" id="-1330531876%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="should-handle-events.html"><span>should</span><wbr></wbr><span>Handle</span><wbr></wbr><span><span>Events</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1330531876%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="should-handle-events.html">shouldHandleEvents</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-769528381%2FFunctions%2F769193423" anchor-label="color" id="-769528381%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.api.setting.settings/color.html"><span><span>color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-769528381%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/color.html"><span class="token function">color</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter ">useAlpha<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-color/index.html">SettingClientColor</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-465932479%2FFunctions%2F769193423" anchor-label="copy" id="-465932479%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.schizoid.feature/-i-feature/copy.html"><span><span>copy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-465932479%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/copy.html"><span class="token function">copy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">text<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="147758065%2FFunctions%2F769193423" anchor-label="keybindReleased" id="147758065%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="keybind-released.html"><span>keybind</span><wbr></wbr><span><span>Released</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="147758065%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="keybind-released.html"><span class="token function">keybindReleased</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Called when the keybind is pressed.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2080705168%2FFunctions%2F769193423" anchor-label="keybinds" id="-2080705168%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.api.setting.settings/keybinds.html"><span><span>keybinds</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2080705168%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/keybinds.html"><span class="token function">keybinds</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.glfw/-g-l-f-w-key/index.html">GLFWKey</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">blacklist<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.glfw/-g-l-f-w-key/index.html">GLFWKey</a><span class="token operator">&gt;</span><span class="token operator"> = </span>emptySet()<span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.glfw/-g-l-f-w-key/index.html">GLFWKey</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-keybinds/index.html">SettingClientKeybinds</a></div><div class="brief "><p class="paragraph">Creates a new keybind setting.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="234181182%2FFunctions%2F769193423" anchor-label="multiOption" id="234181182%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.api.setting.settings/multi-option.html"><span>multi</span><wbr></wbr><span><span>Option</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="234181182%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html">T</a><span class="token operator"> : </span><a href="../../dev.lyzev.api.setting.settings/-option-enum/index.html">OptionEnum</a><span class="token operator">&gt; </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html"><span class="token function">multiOption</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html">T</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-multi-option-enum/index.html">SettingClientMultiOptionEnum</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html">T</a><span class="token operator"> : </span><a href="../../dev.lyzev.api.setting.settings/-option-enum/index.html">OptionEnum</a><span class="token operator">&gt; </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html"><span class="token function">multiOption</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html">T</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html">T</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-multi-option-enum/index.html">SettingClientMultiOptionEnum</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html">T</a><span class="token operator">&gt;</span></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/multi-option.html"><span class="token function">multiOption</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-pair/index.html">Pair</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator">&gt;</span><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-multi-option-string/index.html">SettingClientMultiOptionString</a></div><div class="brief "><p class="paragraph">A specific implementation of the <a href="../../dev.lyzev.api.setting/-setting-client/index.html">SettingClient</a> class for multi-option settings.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1677437432%2FFunctions%2F769193423" anchor-label="multiText" id="1677437432%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.api.setting.settings/multi-text.html"><span>multi</span><wbr></wbr><span><span>Text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1677437432%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/multi-text.html"><span class="token function">multiText</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token operator"> = </span>mutableSetOf()<span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-set/index.html">Set</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-multi-text/index.html">SettingClientMultiText</a></div><div class="brief "><p class="paragraph">Creates a new multi-text setting.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1099624040%2FFunctions%2F769193423" anchor-label="option" id="-1099624040%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.api.setting.settings/option.html"><span><span>option</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1099624040%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/option.html">T</a><span class="token operator"> : </span><a href="../../dev.lyzev.api.setting.settings/-option-enum/index.html">OptionEnum</a><span class="token operator">&gt; </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/option.html"><span class="token function">option</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/option.html">T</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/option.html">T</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="../../dev.lyzev.api.setting.settings/option.html">T</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-option-enum/index.html">SettingClientOptionEnum</a><span class="token operator">&lt;</span><a href="../../dev.lyzev.api.setting.settings/option.html">T</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Creates a new enum option setting.</p></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/option.html"><span class="token function">option</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-option-string/index.html">SettingClientOptionString</a></div><div class="brief "><p class="paragraph">Creates a new string option setting.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1942643938%2FFunctions%2F769193423" anchor-label="render" id="1942643938%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.schizoid.feature/-i-feature/render.html"><span><span>render</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1942643938%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/render.html"><span class="token function">render</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Renders the feature and its settings using ImGui.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-696524885%2FFunctions%2F769193423" anchor-label="sendChatMessage" id="-696524885%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.schizoid.feature/-i-feature/send-chat-message.html"><span>send</span><wbr></wbr><span>Chat</span><wbr></wbr><span><span>Message</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-696524885%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/send-chat-message.html"><span class="token function">sendChatMessage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">message<span class="token operator">: </span><span data-unresolved-link="net.minecraft.text/Text///PointingToDeclaration/">Text</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Sends a chat message to the player.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1711325139%2FFunctions%2F769193423" anchor-label="slider" id="-1711325139%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.api.setting.settings/slider.html"><span><span>slider</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1711325139%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/slider.html"><span class="token function">slider</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">minValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">maxValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">unit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">allowOutOfBounds<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-slider/index.html">SettingClientSlider</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Creates a new integer slider setting.</p></div><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/slider.html"><span class="token function">slider</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">minValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">maxValue<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">decimalPlaces<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">1</span><span class="token punctuation">, </span></span><span class="parameter ">unit<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">allowOutOfBounds<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-slider/index.html">SettingClientSlider</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Creates a new float slider setting.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1926469844%2FFunctions%2F769193423" anchor-label="switch" id="1926469844%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.api.setting.settings/switch.html"><span><span>switch</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1926469844%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/switch.html"><span class="token function">switch</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-switch/index.html">SettingClientSwitch</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1232646667%2FFunctions%2F769193423" anchor-label="text" id="-1232646667%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../dev.lyzev.api.setting.settings/text.html"><span><span>text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1232646667%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="../../dev.lyzev.schizoid.feature/-i-feature/index.html">IFeature</a><span class="token punctuation">.</span><a href="../../dev.lyzev.api.setting.settings/text.html"><span class="token function">text</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">desc<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">hide<span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span>{ false }<span class="token punctuation">, </span></span><span class="parameter ">change<span class="token operator">: </span><span class="token punctuation">(</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator"> = </span>{}</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../dev.lyzev.api.setting.settings/-setting-client-text/index.html">SettingClientText</a></div><div class="brief "><p class="paragraph">Extension function for the IFeature interface. Creates a new SettingClientText instance with the provided parameters.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

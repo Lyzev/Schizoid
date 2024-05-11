@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>ImGuiThemeBase</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            schizoid
+                    </a>
+            </div>
+            <div class="library-version">
+0.1.0+d06b340            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="schizoid::dev.lyzev.api.imgui.theme/ImGuiThemeBase///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../index.html">schizoid</a><span class="delimiter">/</span><a href="../index.html">dev.lyzev.api.imgui.theme</a><span class="delimiter">/</span><span class="current">ImGuiThemeBase</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Im</span><wbr></wbr><span>Gui</span><wbr></wbr><span>Theme</span><wbr></wbr><span><span>Base</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">ImGuiThemeBase</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>alpha<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>text<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>textDisabled<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>background<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>foreground<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>primary<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>secondary<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>accent<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></span></span><span class="token punctuation">)</span> : <a href="../-im-gui-theme/index.html">ImGuiTheme</a></div><p class="paragraph">Abstract class representing an ImGui theme with base colors.</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>alpha</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The alpha value of the theme.</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>text</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The text color of the theme.</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>text</span><wbr></wbr><span><span>Disabled</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The disabled text color of the theme.</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>background</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The background color of the theme.</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>foreground</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The foreground color of the theme.</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>primary</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The primary color of the theme.</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>secondary</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The secondary color of the theme.</p></div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>accent</span></span></u></div></span></div><div><div class="title"><p class="paragraph">The accent color of the theme.</p></div></div></div></div></div><h4 class="">Inheritors</h4><div class="table"><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-im-gui-theme-base-dark/index.html">ImGuiThemeBaseDark</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-im-gui-theme-base-light/index.html">ImGuiThemeBaseLight</a></div></span></div><div></div></div></div><div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><a href="../-im-gui-theme-base-glassmorphism/index.html">ImGuiThemeBaseGlassmorphism</a></div></span></div><div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="496617375%2FConstructors%2F769193423" anchor-label="ImGuiThemeBase" id="496617375%2FConstructors%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-im-gui-theme-base.html"><span>Im</span><wbr></wbr><span>Gui</span><wbr></wbr><span>Theme</span><wbr></wbr><span><span>Base</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="496617375%2FConstructors%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">alpha<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a><span class="token punctuation">, </span></span><span class="parameter ">text<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter ">textDisabled<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter ">background<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter ">foreground<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter ">primary<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter ">secondary<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter ">accent<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="681464385%2FProperties%2F769193423" anchor-label="accent" id="681464385%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="accent.html"><span><span>accent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="681464385%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="accent.html">accent</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1133342127%2FProperties%2F769193423" anchor-label="alpha" id="-1133342127%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="alpha.html"><span><span>alpha</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1133342127%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="alpha.html">alpha</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-842697891%2FProperties%2F769193423" anchor-label="background" id="-842697891%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="background.html"><span><span>background</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-842697891%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="background.html">background</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-278417176%2FProperties%2F769193423" anchor-label="foreground" id="-278417176%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="foreground.html"><span><span>foreground</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-278417176%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="foreground.html">foreground</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-353530337%2FProperties%2F769193423" anchor-label="particleActive" id="-353530337%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="particle-active.html"><span>particle</span><wbr></wbr><span><span>Active</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-353530337%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="particle-active.html">particleActive</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1900690193%2FProperties%2F769193423" anchor-label="particleIdle" id="1900690193%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="particle-idle.html"><span>particle</span><wbr></wbr><span><span>Idle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1900690193%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="particle-idle.html">particleIdle</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="694301101%2FProperties%2F769193423" anchor-label="primary" id="694301101%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="primary.html"><span><span>primary</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="694301101%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="primary.html">primary</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1437634043%2FProperties%2F769193423" anchor-label="secondary" id="1437634043%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="secondary.html"><span><span>secondary</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1437634043%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="secondary.html">secondary</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="990903407%2FProperties%2F769193423" anchor-label="style" id="990903407%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-im-gui-theme/style.html"><span><span>style</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="990903407%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="../-im-gui-theme/style.html">style</a><span class="token operator">: </span><span data-unresolved-link="imgui/ImGuiStyle///PointingToDeclaration/">ImGuiStyle</span></div><div class="brief "><p class="paragraph">The style of the ImGui.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="87855806%2FProperties%2F769193423" anchor-label="text" id="87855806%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="text.html"><span><span>text</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="87855806%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="text.html">text</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2032285022%2FProperties%2F769193423" anchor-label="textDisabled" id="-2032285022%2FProperties%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="text-disabled.html"><span>text</span><wbr></wbr><span><span>Disabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2032285022%2FProperties%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="text-disabled.html">textDisabled</a><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="927831378%2FFunctions%2F769193423" anchor-label="apply" id="927831378%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-im-gui-theme/apply.html"><span><span>apply</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="927831378%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="../-im-gui-theme/apply.html"><span class="token function">apply</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Applies the style and colors of the theme.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-817530959%2FFunctions%2F769193423" anchor-label="applyColors" id="-817530959%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="apply-colors.html"><span>apply</span><wbr></wbr><span><span>Colors</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-817530959%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="apply-colors.html"><span class="token function">applyColors</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Applies the colors of the theme.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1819152200%2FFunctions%2F769193423" anchor-label="applyStyle" id="1819152200%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="apply-style.html"><span>apply</span><wbr></wbr><span><span>Style</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1819152200%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="apply-style.html"><span class="token function">applyStyle</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Applies the style of the theme.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-353563560%2FFunctions%2F769193423" anchor-label="renderInGameBackground" id="-353563560%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-im-gui-theme/render-in-game-background.html"><span>render</span><wbr></wbr><span>In</span><wbr></wbr><span>Game</span><wbr></wbr><span><span>Background</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-353563560%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="../-im-gui-theme/render-in-game-background.html"><span class="token function">renderInGameBackground</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.gui/DrawContext///PointingToDeclaration/">DrawContext</span><span class="token punctuation">, </span></span><span class="parameter ">width<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">height<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Renders the in-game background.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-380818532%2FFunctions%2F769193423" anchor-label="setColor" id="-380818532%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../-im-gui-theme/set-color.html"><span>set</span><wbr></wbr><span><span>Color</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-380818532%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><span data-unresolved-link="imgui/ImGuiStyle///PointingToDeclaration/">ImGuiStyle</span><span class="token punctuation">.</span><a href="../-im-gui-theme/set-color.html"><span class="token function">setColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">imGuiCol<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">color<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets the color of an ImGuiCol.</p></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><span data-unresolved-link="imgui/ImGuiStyle///PointingToDeclaration/">ImGuiStyle</span><span class="token punctuation">.</span><a href="../-im-gui-theme/set-color.html"><span class="token function">setColor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">imGuiCol<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">color<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.desktop/java/awt/Color.html">Color</a><span class="token punctuation">, </span></span><span class="parameter ">alpha<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-float/index.html">Float</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Sets the color of an ImGuiCol with custom alpha.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
