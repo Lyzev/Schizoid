@@ -30,13 +30,13 @@ class SettingClientColor(
         v[0] = value.red / 255f
         v[1] = value.green / 255f
         v[2] = value.blue / 255f
-        if (useAlpha) {
+        if (!useAlpha) {
             if (colorPicker3("##$name", v, DEFAULT_FLAGS))
-                this.value = Color(v[0], v[1], v[2])
+                value = Color(v[0], v[1], v[2])
         } else {
             v[3] = value.alpha / 255f
             if (colorPicker4("##$name", v, ImGuiColorEditFlags.AlphaBar or DEFAULT_FLAGS))
-                this.value = Color(v[0], v[1], v[2], v[3])
+                value = Color(v[0], v[1], v[2], v[3])
         }
     }
 
