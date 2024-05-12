@@ -14,6 +14,7 @@ import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket
+import kotlin.concurrent.thread
 
 object ModuleToggleableAutoText :
     ModuleToggleable("AutoText", "Automatically sends messages based on triggers.", category = IFeature.Category.UTIL),
@@ -57,10 +58,10 @@ object ModuleToggleableAutoText :
                 if (message != null) {
                     for (i in triggers.indices) {
                         if (message.contains(triggers.elementAt(i))) {
-                            Thread {
+                            thread {
                                 Thread.sleep(delay.toLong())
                                 mc.networkHandler?.sendChatMessage(messages.random())
-                            }.start()
+                            }
                             break
                         }
                     }
