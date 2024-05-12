@@ -22,7 +22,9 @@ interface Blur {
      * @param sourceFBO The framebuffer to render from.
      * @param alpha Whether to use alpha blending.
      */
-    fun render(sourceFBO: Framebuffer = mc.framebuffer, alpha: Boolean = false)
+    fun render(sourceFBO: Framebuffer = mc.framebuffer, alpha: Boolean = false) = render(sourceFBO.colorAttachment, alpha)
+
+    fun render(sourceTex: Int, alpha: Boolean = false)
 
     /**
      * Getter for the output framebuffer.

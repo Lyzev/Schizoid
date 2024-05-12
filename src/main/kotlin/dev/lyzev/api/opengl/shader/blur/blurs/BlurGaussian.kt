@@ -82,24 +82,22 @@ object BlurGaussian : Blur {
      * @param sourceFBO The framebuffer to render from.
      * @param alpha Whether to use alpha blending.
      */
-    private fun renderToFBO(targetFBO: Framebuffer, sourceFBO: Framebuffer, alpha: Boolean) {
+    private fun renderToFBO(targetFBO: Framebuffer, sourceTex: Int, alpha: Boolean) {
         targetFBO.clear()
         targetFBO.beginWrite(true)
         ShaderGaussian.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
-        sourceFBO.beginRead()
-        ShaderGaussian.setUniforms(direction, texelSize, alpha, gaussian, support, ModuleToggleableBlur.useLinearSampling)
+        RenderSystem.bindTexture(sourceTex)
+        ShaderGaussian.setUniforms(direction, texelSize.set(1f / targetFBO.textureWidth, 1f / targetFBO.textureHeight), alpha, gaussian, support, ModuleToggleableBlur.useLinearSampling)
         Shader.drawFullScreen()
         ShaderGaussian.unbind()
     }
 
-
-    override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        texelSize.set(1f / fbos[0].textureWidth, 1f / fbos[0].textureHeight)
+    override fun render(sourceTex: Int, alpha: Boolean) {
         direction.set(1f, 0f)
-        renderToFBO(fbos[0], sourceFBO, alpha)
+        renderToFBO(fbos[0], sourceTex, alpha)
         direction.set(0f, 1f)
-        renderToFBO(fbos[1], fbos[0], alpha)
+        renderToFBO(fbos[1], fbos[0].colorAttachment, alpha)
     }
 
     override val output: WrappedFramebuffer
