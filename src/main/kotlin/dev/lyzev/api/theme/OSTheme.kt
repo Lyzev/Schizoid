@@ -7,10 +7,7 @@ package dev.lyzev.api.theme
 
 import com.sun.jna.platform.win32.*
 import com.sun.jna.platform.win32.WinReg.HKEYByReference
-import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventOSThemeUpdate
-import dev.lyzev.api.events.EventShutdown
-import dev.lyzev.api.events.on
+import dev.lyzev.api.events.*
 import kotlinx.coroutines.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -36,7 +33,7 @@ interface OSTheme : EventListener {
     fun startListenForUpdatesThread()
 
     override val shouldHandleEvents: Boolean
-        get() = true
+        get() = theme == this
 }
 
 // Windows implementation
@@ -100,20 +97,13 @@ object MacOSTheme : OSTheme {
         return if (theme == "Dark") OSTheme.Theme.Dark else OSTheme.Theme.Light
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun startListenForUpdatesThread() {
-        job = GlobalScope.launch {
-            while (isActive) {
-                val theme = getCurrentTheme()
-                if (lastTheme != theme) {
-                    EventOSThemeUpdate(theme).fire()
-                    lastTheme = theme
-                }
-                delay(1000)
+        on<EventScheduleTask> {
+            val theme = getCurrentTheme()
+            if (lastTheme != theme) {
+                EventOSThemeUpdate(theme).fire()
+                lastTheme = theme
             }
-        }
-        on<EventShutdown> {
-            job?.cancel()
         }
     }
 }
@@ -131,20 +121,13 @@ object LinuxTheme : OSTheme {
         return if (theme.contains("dark", ignoreCase = true)) OSTheme.Theme.Dark else OSTheme.Theme.Light
     }
 
-    @OptIn(DelicateCoroutinesApi::class)
     override fun startListenForUpdatesThread() {
-        job = GlobalScope.launch {
-            while (isActive) {
-                val theme = getCurrentTheme()
-                if (lastTheme != theme) {
-                    EventOSThemeUpdate(theme).fire()
-                    lastTheme = theme
-                }
-                delay(1000)
+        on<EventScheduleTask> {
+            val theme = getCurrentTheme()
+            if (lastTheme != theme) {
+                EventOSThemeUpdate(theme).fire()
+                lastTheme = theme
             }
-        }
-        on<EventShutdown> {
-            job?.cancel()
         }
     }
 }
