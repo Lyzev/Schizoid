@@ -5,10 +5,8 @@
 
 package dev.lyzev.schizoid
 
+import dev.lyzev.api.events.*
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventShutdown
-import dev.lyzev.api.events.EventStartup
-import dev.lyzev.api.events.on
 import dev.lyzev.api.imgui.ImGuiLoader
 import dev.lyzev.api.setting.SettingInitializer
 import dev.lyzev.api.theme.OSTheme
@@ -22,6 +20,9 @@ import dev.lyzev.schizoid.Schizoid.logger
 import dev.lyzev.schizoid.Schizoid.mc
 import dev.lyzev.schizoid.Schizoid.root
 import dev.lyzev.schizoid.feature.FeatureManager
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import net.fabricmc.loader.api.FabricLoader
 import net.fabricmc.loader.api.metadata.Person
 import net.minecraft.client.MinecraftClient
@@ -29,6 +30,7 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.File
 import java.util.*
+import kotlin.concurrent.thread
 
 /**
  * Elevate your Minecraft gameplay with this free and feature-rich client built with Fabric API and utilizing mixin-based injection techniques.
@@ -106,6 +108,7 @@ object Schizoid : EventListener {
      * Initialize the Schizoid mod.
      */
     fun onInitializeClient() {
+        System.setProperty("java.awt.headless", "false")
         ImGuiLoader // Load ImGui, because of [dev.lyzev.api.events.EventGlfwInit] event.
         on<EventStartup> {
             val init = System.currentTimeMillis()
@@ -121,6 +124,16 @@ object Schizoid : EventListener {
                 OSTheme.startListenForUpdatesThread()
                 Runtime.getRuntime().addShutdownHook(Thread { EventShutdown.fire() })
                 logger.info("Initialized ${FeatureManager.features.size} features!")
+                thread {
+                    runBlocking {
+                        while (true) {
+                            launch {
+                                EventScheduleTask.fire()
+                            }
+                            delay(1000)
+                        }
+                    }
+                }
             }.onSuccess { // Log successful initialization.
                 logger.info("Initialized Schizoid in ${System.currentTimeMillis() - init}ms!")
             }.onFailure { exception -> // Log initialization failure and the associated exception.

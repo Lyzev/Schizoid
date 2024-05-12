@@ -165,3 +165,5 @@ class EventOSThemeUpdate(val theme: OSTheme.Theme): Event
 object EventReload: Event
 
 class EventGetFOV(var fov: Double): Event
+
+object EventScheduleTask: Event
