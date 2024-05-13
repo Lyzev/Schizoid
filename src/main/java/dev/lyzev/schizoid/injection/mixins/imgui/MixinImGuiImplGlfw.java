@@ -7,8 +7,11 @@ package dev.lyzev.schizoid.injection.mixins.imgui;
 
 import dev.lyzev.api.imgui.render.ImGuiRenderer;
 import imgui.ImGui;
+import imgui.ImGuiIO;
 import imgui.glfw.ImGuiImplGlfw;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -19,6 +22,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(value = ImGuiImplGlfw.class, remap = false)
 public class MixinImGuiImplGlfw {
+
+    @Shadow
+    @Final
+    private long[] keyOwnerWindows;
+
+    @Shadow
+    @Final
+    private boolean[] mouseJustPressed;
 
     /**
      * This method is a mixin for the scrollCallback method of the ImGuiImplGlfw class.
@@ -52,8 +63,20 @@ public class MixinImGuiImplGlfw {
      */
     @Inject(method = "keyCallback", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFWKeyCallback;invoke(JIIII)V", shift = At.Shift.AFTER, ordinal = 0), cancellable = true, remap = false)
     private void onKeyCallback(long windowId, int key, int scancode, int action, int mods, CallbackInfo ci) {
-        if (!ImGui.getIO().getWantCaptureKeyboard())
+        if (!ImGui.getIO().getWantCaptureKeyboard()) {
+            final ImGuiIO io = ImGui.getIO();
+
+            if (key >= 0 && key < keyOwnerWindows.length) {
+                io.setKeysDown(key, false);
+                keyOwnerWindows[key] = 0;
+            }
+
+            io.setKeyCtrl(false);
+            io.setKeyShift(false);
+            io.setKeyAlt(false);
+            io.setKeySuper(false);
             ci.cancel();
+        }
     }
 
     /**
@@ -68,7 +91,10 @@ public class MixinImGuiImplGlfw {
      */
     @Inject(method = "mouseButtonCallback", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFWMouseButtonCallback;invoke(JIII)V", shift = At.Shift.AFTER, ordinal = 0), cancellable = true, remap = false)
     private void onMouseButtonCallback(long windowId, int button, int action, int mods, CallbackInfo ci) {
-        if (!ImGui.getIO().getWantCaptureMouse())
+        if (!ImGui.getIO().getWantCaptureMouse()) {
+            if (button >= 0 && button < mouseJustPressed.length)
+                mouseJustPressed[button] = false;
             ci.cancel();
+        }
     }
 }
