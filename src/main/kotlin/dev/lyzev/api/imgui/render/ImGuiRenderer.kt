@@ -237,6 +237,7 @@ object ImGuiRenderer : EventListener {
                 (Schizoid.mc.currentScreen as ImGuiScreen).renderImGui()
             } else
                 getIO().wantCaptureKeyboard = false
+            getIO().wantCaptureMouse = Schizoid.mc.currentScreen != null
             render()
 
             preRenderImGui()
