@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.bundles.imgui)
     implementation(libs.fuzzywuzzy)
     implementation(libs.wrmi)
+   implementation(files("MediaPlayerInfo-0.1.0+1de23c2.jar")) // TODO: Not ready for release, waiting for official release of the library
 
     // Mods (optional)
     modRuntimeOnly(libs.bundles.modrinth)

@@ -24,6 +24,13 @@ class TimeAnimator(var animationLength: Long) {
         return animation
     }
 
+    fun getProgressNotClamped(): Double {
+        val delta = System.currentTimeMillis() - baseTime
+        var animation = delta / animationLength.toDouble()
+        if (reversed) animation = 1.0 - animation
+        return animation
+    }
+
     fun setProgress(progress: Double) {
         baseTime = System.currentTimeMillis() - (animationLength * progress).toLong()
     }
