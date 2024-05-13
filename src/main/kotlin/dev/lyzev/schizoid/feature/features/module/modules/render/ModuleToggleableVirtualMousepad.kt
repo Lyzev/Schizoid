@@ -34,9 +34,8 @@ object ModuleToggleableVirtualMousepad :
         val width = mc.window.framebufferWidth * size / 100f
         val height = mc.window.framebufferHeight * size / 100f
         dummy(width, height)
-        val fg = ImColor.rgba(getStyle().getColor(ImGuiCol.ChildBg))
         val line = ImColor.rgba(getStyle().getColor(ImGuiCol.Text))
-        drawList.addRectFilled(x, y, x + width, y + height, fg)
+        drawList.addRectFilled(x, y, x + width, y + height, getColorU32(ImGuiCol.WindowBg), 5f)
         val center = x + width / 2 to y + height / 2
         if (rotations.isEmpty()) {
             drawList.addCircleFilled(center.first, center.second, 20 * size / 100f, line)
