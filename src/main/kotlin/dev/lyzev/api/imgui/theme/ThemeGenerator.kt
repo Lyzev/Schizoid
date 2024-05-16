@@ -25,9 +25,13 @@ fun adjustSaturation(color: Color, saturation: Int): Color {
  */
 fun main() {
     println("Enter the light color in decimal format (e.g. 255):")
-    val lightColor = Color(println("R:").let { readln().toInt(10) }, println("G:").let { readln().toInt(10) }, println("B:").let { readln().toInt(10) })
+    val lightColor = Color(println("R:").let { readln().toInt(10) },
+        println("G:").let { readln().toInt(10) },
+        println("B:").let { readln().toInt(10) })
     println("Enter the dark color in decimal format (e.g. 255):")
-    val darkColor = Color(println("R:").let { readln().toInt(10) }, println("G:").let { readln().toInt(10) }, println("B:").let { readln().toInt(10) })
+    val darkColor = Color(println("R:").let { readln().toInt(10) },
+        println("G:").let { readln().toInt(10) },
+        println("B:").let { readln().toInt(10) })
 
     // Calculate colors with 60% and 80% saturation
     val light60Sat = adjustSaturation(lightColor, 60)
@@ -40,7 +44,8 @@ fun main() {
     val nameColor = readln()
 
     // Generate the string/class with calculated colors
-    println("""
+    println(
+        """
 import dev.lyzev.api.imgui.theme.ImGuiThemeBaseDark
 import dev.lyzev.api.imgui.theme.ImGuiThemeBaseGlassmorphism
 import dev.lyzev.api.imgui.theme.ImGuiThemeBaseLight
@@ -63,5 +68,6 @@ object ImGuiThemeDark${nameColor} : ImGuiThemeBaseDark(Color(${darkColor.red}, $
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
 object ImGuiThemeGlassmorphism${nameColor} : ImGuiThemeBaseGlassmorphism(Color(${lightColor.red}, ${lightColor.green}, ${lightColor.blue}), Color(${light60Sat.red}, ${light60Sat.green}, ${light60Sat.blue}), Color(${light80Sat.red}, ${light80Sat.green}, ${light80Sat.blue}))
-""".trimIndent())
+""".trimIndent()
+    )
 }

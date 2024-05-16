@@ -26,4 +26,5 @@ object ImGuiThemeDarkTeal : ImGuiThemeBaseDark(Color(64, 200, 224), Color(128, 2
  * Glassmorphism teal ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismTeal : ImGuiThemeBaseGlassmorphism(Color(48, 176, 199), Color(108, 185, 199), Color(78, 181, 199))
+object ImGuiThemeGlassmorphismTeal :
+    ImGuiThemeBaseGlassmorphism(Color(48, 176, 199), Color(108, 185, 199), Color(78, 181, 199))

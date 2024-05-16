@@ -13,9 +13,18 @@ import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.*
 
-object ModuleToggleableModules : ModuleToggleableRenderImGuiContent("Modules", "Shows a list of all enabled modules.", category = IFeature.Category.RENDER) {
+object ModuleToggleableModules : ModuleToggleableRenderImGuiContent(
+    "Modules",
+    "Shows a list of all enabled modules.",
+    category = IFeature.Category.RENDER
+) {
 
-    val showKeybinds by option("Show Keybinds", "Shows the keybinds of the modules.", ShowKeyBinds.FIRST, ShowKeyBinds.entries)
+    val showKeybinds by option(
+        "Show Keybinds",
+        "Shows the keybinds of the modules.",
+        ShowKeyBinds.FIRST,
+        ShowKeyBinds.entries
+    )
 
     override fun renderImGuiContent() {
         dummy(90f, 0f)

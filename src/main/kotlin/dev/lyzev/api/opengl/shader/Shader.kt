@@ -30,7 +30,7 @@ import java.io.FileNotFoundException
  * Abstract class representing a Shader.
  * @param shader The name of the shader.
  */
-abstract class Shader(val shader: String): EventListener {
+abstract class Shader(val shader: String) : EventListener {
 
     var program = glCreateProgram()
     private val uniforms = HashMap<String, Int>()
@@ -281,7 +281,17 @@ abstract class ShaderCompute(
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, Schizoid.mc.window.framebufferWidth, Schizoid.mc.window.framebufferHeight, 0, GL_RGBA, GL_FLOAT, 0)
+        glTexImage2D(
+            GL_TEXTURE_2D,
+            0,
+            GL_RGBA32F,
+            Schizoid.mc.window.framebufferWidth,
+            Schizoid.mc.window.framebufferHeight,
+            0,
+            GL_RGBA,
+            GL_FLOAT,
+            0
+        )
     }
 
     override fun init() {

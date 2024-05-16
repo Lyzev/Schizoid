@@ -16,7 +16,8 @@ import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.entity.effect.StatusEffectInstance
 import net.minecraft.entity.effect.StatusEffects
 
-object ModuleToggleableFullBright : ModuleToggleable("Full Bright", "Makes everything brighter.", category = IFeature.Category.RENDER), EventListener {
+object ModuleToggleableFullBright :
+    ModuleToggleable("Full Bright", "Makes everything brighter.", category = IFeature.Category.RENDER), EventListener {
 
     val mode by option("Mode", "The mode of the full bright.", Mode.GAMMA, Mode.entries) {
         if (isEnabled && it == Mode.GAMMA) {

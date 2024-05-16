@@ -10,7 +10,8 @@ import dev.lyzev.api.setting.settings.option
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
 
-object ModuleRunnableGameMode : ModuleRunnable("Game Mode", "Allows you to change your game mode.", category = IFeature.Category.UTIL) {
+object ModuleRunnableGameMode :
+    ModuleRunnable("Game Mode", "Allows you to change your game mode.", category = IFeature.Category.UTIL) {
 
     val mode by option("Mode", "The game mode to set.", GameMode.CREATIVE, GameMode.entries)
 

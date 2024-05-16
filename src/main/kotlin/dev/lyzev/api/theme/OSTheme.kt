@@ -8,7 +8,7 @@ package dev.lyzev.api.theme
 import com.sun.jna.platform.win32.*
 import com.sun.jna.platform.win32.WinReg.HKEYByReference
 import dev.lyzev.api.events.*
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Job
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.concurrent.thread
@@ -22,7 +22,7 @@ val theme: OSTheme = when {
 
 interface OSTheme : EventListener {
 
-    companion object: OSTheme by theme
+    companion object : OSTheme by theme
 
     enum class Theme {
         Dark, Light
@@ -47,7 +47,13 @@ object WindowsTheme : OSTheme {
     private val listenForUpdatesThread = thread(false) {
         while (true) {
             val handle = Kernel32.INSTANCE.CreateEvent(null, true, false, null)
-            Advapi32.INSTANCE.RegNotifyChangeKeyValue(keyRef.value, true, WinNT.REG_NOTIFY_CHANGE_LAST_SET or WinNT.REG_NOTIFY_CHANGE_NAME, handle, true)
+            Advapi32.INSTANCE.RegNotifyChangeKeyValue(
+                keyRef.value,
+                true,
+                WinNT.REG_NOTIFY_CHANGE_LAST_SET or WinNT.REG_NOTIFY_CHANGE_NAME,
+                handle,
+                true
+            )
             val res = Kernel32.INSTANCE.WaitForSingleObject(handle, 1000)
             if (res == WinBase.WAIT_OBJECT_0 && !isShuttingDown) {
                 EventOSThemeUpdate(getCurrentTheme()).fire()

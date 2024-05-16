@@ -13,9 +13,14 @@ import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.registry.Registries
 
-object ModuleToggleableAntiEffect : ModuleToggleable("Anti Effect", "Makes everything brighter.", category = IFeature.Category.PLAYER), EventListener {
+object ModuleToggleableAntiEffect :
+    ModuleToggleable("Anti Effect", "Makes everything brighter.", category = IFeature.Category.PLAYER), EventListener {
 
-    val effects = multiOption("Effects", "Effects to disable.", Registries.STATUS_EFFECT.map { it.name.string to !it.isBeneficial }.sortedBy { it.first }.toSet()) { options ->
+    val effects = multiOption(
+        "Effects",
+        "Effects to disable.",
+        Registries.STATUS_EFFECT.map { it.name.string to !it.isBeneficial }.sortedBy { it.first }.toSet()
+    ) { options ->
         for (option in options) {
             if (option.second)
                 remove.add(Registries.STATUS_EFFECT.first { it.name.string == option.first })

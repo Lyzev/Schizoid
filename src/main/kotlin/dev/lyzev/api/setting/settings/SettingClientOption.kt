@@ -8,7 +8,6 @@ package dev.lyzev.api.setting.settings
 import com.google.gson.JsonObject
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
-import imgui.ImGui
 import imgui.ImGui.*
 import imgui.flag.ImGuiComboFlags
 import kotlin.reflect.KClass

@@ -67,7 +67,12 @@ object BlurKawase : Blur {
         // Initial iteration
         renderToFBO(if (strength == 1) out else fbos[0], sourceTex, if (strength > 1) .5f else .25f, alpha)
         // Rest of the iterations
-        for (i in 2..strength) renderToFBO(if (i == strength) out else fbos[(i - 1) % 2], fbos[i % 2].colorAttachment, i * .5f, alpha)
+        for (i in 2..strength) renderToFBO(
+            if (i == strength) out else fbos[(i - 1) % 2],
+            fbos[i % 2].colorAttachment,
+            i * .5f,
+            alpha
+        )
     }
 
     override val output: WrappedFramebuffer

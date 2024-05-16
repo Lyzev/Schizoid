@@ -51,7 +51,8 @@ object FeatureManager : EventListener {
     /**
      * Gets a list of features by their categories.
      */
-    operator fun get(vararg category: IFeature.Category): List<IFeature> = features.filter { category.contains(it.category) }
+    operator fun get(vararg category: IFeature.Category): List<IFeature> =
+        features.filter { category.contains(it.category) }
 
     /**
      * Sends a chat message to the player.

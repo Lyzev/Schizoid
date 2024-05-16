@@ -100,7 +100,8 @@ class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event
 /**
  * This event is triggered when the world is rendered.
  */
-class EventRenderWorld(val tickDelta: Float, val limitTime: Long, val modelViewMat: Matrix4f, val projMat: Matrix4f) : Event
+class EventRenderWorld(val tickDelta: Float, val limitTime: Long, val modelViewMat: Matrix4f, val projMat: Matrix4f) :
+    Event
 
 /**
  * This event is triggered when [net.minecraft.client.render.LightmapTextureManager] updates.
@@ -160,10 +161,10 @@ object EventUpdateMouse : Event
 
 class EventAttackEntity(val player: PlayerEntity, val entity: Entity) : Event
 
-class EventOSThemeUpdate(val theme: OSTheme.Theme): Event
+class EventOSThemeUpdate(val theme: OSTheme.Theme) : Event
 
-object EventReload: Event
+object EventReload : Event
 
-class EventGetFOV(var fov: Double): Event
+class EventGetFOV(var fov: Double) : Event
 
-object EventScheduleTask: Event
+object EventScheduleTask : Event

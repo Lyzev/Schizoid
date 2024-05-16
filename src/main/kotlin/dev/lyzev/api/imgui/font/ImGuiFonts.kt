@@ -14,7 +14,8 @@ import imgui.ImGui.*
  * Enum class representing different types of fonts.
  * Each enum constant is a different font.
  */
-enum class ImGuiFonts(override val fontName: String, override val type: ImGuiFont.Type, override val size: Float) : ImGuiFont {
+enum class ImGuiFonts(override val fontName: String, override val type: ImGuiFont.Type, override val size: Float) :
+    ImGuiFont {
     OPEN_SANS_REGULAR("OpenSans-Regular", ImGuiFont.Type.TTF, 17.5f),
     OPEN_SANS_BOLD("OpenSans-Bold", ImGuiFont.Type.TTF, 17.5f),
     OPEN_SANS_BOLD_MEDIUM("OpenSans-Bold", ImGuiFont.Type.TTF, 25f),
@@ -41,7 +42,8 @@ enum class ImGuiFonts(override val fontName: String, override val type: ImGuiFon
 
     init {
         val fontAtlas = getIO().fonts
-        val `is` = ClassLoader.getSystemResourceAsStream("assets/${Schizoid.MOD_ID}/fonts/$fontName.${type.name.lowercase()}")
+        val `is` =
+            ClassLoader.getSystemResourceAsStream("assets/${Schizoid.MOD_ID}/fonts/$fontName.${type.name.lowercase()}")
         requireNotNull(`is`) { "Font file not found: $fontName.${type.name.lowercase()}" }
         font = fontAtlas.addFontFromMemoryTTF(`is`.readAllBytes(), size, glyphRanges)
     }

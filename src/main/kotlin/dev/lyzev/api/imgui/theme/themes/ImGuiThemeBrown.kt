@@ -26,4 +26,5 @@ object ImGuiThemeDarkBrown : ImGuiThemeBaseDark(Color(172, 142, 104), Color(172,
  * Glassmorphism brown ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismBrown : ImGuiThemeBaseGlassmorphism(Color(162, 132, 94), Color(162, 144, 121), Color(162, 138, 108))
+object ImGuiThemeGlassmorphismBrown :
+    ImGuiThemeBaseGlassmorphism(Color(162, 132, 94), Color(162, 144, 121), Color(162, 138, 108))

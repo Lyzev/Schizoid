@@ -42,7 +42,7 @@ class ImGuiRenderableSearch : ImGuiRenderable {
         }
     }
 
-    fun close () {
+    fun close() {
         isSearching.set(false)
         shouldFocus = false
     }
@@ -57,8 +57,11 @@ class ImGuiRenderableSearch : ImGuiRenderable {
         var isFocused = true
         setNextWindowPos(getMainViewport().centerX, getMainViewport().centerY, ImGuiCond.Always, .5f, .5f)
         setNextWindowSize(mc.window.framebufferWidth * .3f, 0f)
-        if (begin("\"SEARCH\"",
-                isSearching, ImGuiWindowFlags.AlwaysAutoResize or ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoMove)) {
+        if (begin(
+                "\"SEARCH\"",
+                isSearching, ImGuiWindowFlags.AlwaysAutoResize or ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoMove
+            )
+        ) {
             isFocused = isWindowFocused(ImGuiFocusedFlags.RootAndChildWindows)
             OPEN_SANS_REGULAR.begin()
             if (beginCombo(
@@ -86,7 +89,10 @@ class ImGuiRenderableSearch : ImGuiRenderable {
             inputTextWithHint("##search", "Search...", input)
             if (GLFWKey.ENTER.isPressed()) {
                 result = FeatureManager.get(*IFeature.Category.values()).maxByOrNull {
-                    FuzzySearch.weightedRatio(if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(), if (input.get().startsWith("@")) it.category.name else it.name)
+                    FuzzySearch.weightedRatio(
+                        if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(),
+                        if (input.get().startsWith("@")) it.category.name else it.name
+                    )
                 }
                 if (result != null) {
                     prevResult.remove(result!!.name)
@@ -95,7 +101,10 @@ class ImGuiRenderableSearch : ImGuiRenderable {
             }
             if (beginListBox("##searchResults", getColumnWidth(), mc.window.framebufferHeight * .15f)) {
                 FeatureManager.get(*IFeature.Category.values()).sortedByDescending {
-                    FuzzySearch.weightedRatio(if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(), if (input.get().startsWith("@")) it.category.name else it.name)
+                    FuzzySearch.weightedRatio(
+                        if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(),
+                        if (input.get().startsWith("@")) it.category.name else it.name
+                    )
                 }.forEach { feature ->
                     if (selectable("[${feature.category}] ${feature.name}", false)) {
                         result = feature

@@ -26,4 +26,5 @@ object ImGuiThemeDarkGreen : ImGuiThemeBaseDark(Color(48, 209, 88), Color(112, 2
  * Glassmorphism purple ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismGreen : ImGuiThemeBaseGlassmorphism(Color(52, 199, 89), Color(111, 199, 133), Color(81, 199, 111))
+object ImGuiThemeGlassmorphismGreen :
+    ImGuiThemeBaseGlassmorphism(Color(52, 199, 89), Color(111, 199, 133), Color(81, 199, 111))

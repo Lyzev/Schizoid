@@ -17,7 +17,9 @@ import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen
 import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.item.ItemGroups
 
-object ModuleToggleableScreenMove : ModuleToggleable("Screen Move", "Allows you to move while in GUI screens.", category = IFeature.Category.MOVEMENT), EventListener {
+object ModuleToggleableScreenMove :
+    ModuleToggleable("Screen Move", "Allows you to move while in GUI screens.", category = IFeature.Category.MOVEMENT),
+    EventListener {
 
     val mouse by switch("Mouse", "Pass through the mouse.", false)
     val weight by slider("Weight", "The weight of the mouse movement.", 20, 1, 100, "%%", hide = ::mouse neq true)

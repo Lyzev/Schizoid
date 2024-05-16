@@ -208,7 +208,7 @@ object ImGuiRenderer : EventListener {
                     sameLine(0f, 0f)
                 }
                 textColored(code.colorValue!! shl 8 or 0xFF, split.substring(1))
-           } else {
+            } else {
                 if (i > 0) {
                     sameLine(0f, 0f)
                 }

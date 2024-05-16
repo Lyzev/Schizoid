@@ -21,7 +21,11 @@ import org.lwjgl.opengl.GL13
 import kotlin.math.ceil
 
 object ModuleToggleableRearView :
-    ModuleToggleableRenderImGuiContent("Rear View", "Shows a rear view of the player.", category = IFeature.Category.RENDER) {
+    ModuleToggleableRenderImGuiContent(
+        "Rear View",
+        "Shows a rear view of the player.",
+        category = IFeature.Category.RENDER
+    ) {
 
     val size by slider("Size", "The size of the rear view.", 15, 5, 100, "%%")
 
