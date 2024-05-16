@@ -5,6 +5,7 @@
 
 package dev.lyzev.api.setting
 
+import dev.lyzev.api.events.EventSettingChange
 import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.settings.Setting
 import dev.lyzev.schizoid.feature.IFeature
@@ -24,12 +25,19 @@ import kotlin.reflect.KClass
  */
 abstract class SettingClient<T>(
     container: KClass<out IFeature>, name: String, desc: String?, value: T, hidden: () -> Boolean, onChange: (T) -> Unit
-) : Setting<T>(container, name, desc, value, hidden, onChange), ImGuiRenderable {
+) : Setting<T>(container, name, desc, value, hidden, {
+    onChange(it)
+    EventSettingChange.fire()
+}), ImGuiRenderable {
 
     val default = value
 
     open fun reset() {
         value = default
+        onChange(value)
+    }
+
+    fun configOnChange() {
         onChange(value)
     }
 

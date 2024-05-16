@@ -6,20 +6,15 @@
 package dev.lyzev.api.setting
 
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventShutdown
+import dev.lyzev.api.events.EventSettingChange
 import dev.lyzev.api.events.on
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encodeToString
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import kotlin.reflect.KClass
+import java.io.File
 import kotlin.reflect.jvm.jvmName
 
 /**
@@ -42,25 +37,63 @@ object SettingInitializer : EventListener {
         val value: JsonElement
     )
 
-    init {
-        // Loads the client settings from a "settings.json" file.
-        val settingsConfigFile = Schizoid.root.resolve("settings.json")
-        if (settingsConfigFile.exists()) {
+    var loaded = Schizoid.configDir.resolve("loaded.txt").let { if (it.exists() && it.isFile) it.readText() else "default" }
+        set(value) {
+            field = value
+            Schizoid.configDir.resolve("loaded.txt").writeText(value)
+        }
+
+    val available: Set<String>
+        get() = Schizoid.configDir.listFiles()
+            ?.filter { it.isFile && it.endsWith(".json") }
+            ?.map { it.name.removeSuffix(".json") }
+            ?.toMutableSet()
+            ?.apply { add("default") }?.toSet() ?: setOf("default")
+
+    private var loading = false
+
+    fun loadDefaults() {
+        SettingManager.settings.filterIsInstance<SettingClient<*>>().forEach { it.reset() }
+    }
+
+    fun reload() {
+        loading = true
+        loadDefaults()
+        val settingsConfigFile = Schizoid.configDir.resolve("$loaded.json")
+        if (settingsConfigFile.canonicalPath.startsWith(Schizoid.configDir.canonicalPath) && settingsConfigFile.exists() && settingsConfigFile.isFile) {
             json.decodeFromString<List<ClientSettingJson>>(settingsConfigFile.readText()).forEach {
                 val setting = SettingManager.settings.firstOrNull { i -> i.container.jvmName == it.`class` && i::class.jvmName == it.type && i.name == it.name }
                 if (setting !is SettingClient<*>) return@forEach
                 setting.load(it.value)
             }
+            loading = false
+            SettingManager.settings.filterIsInstance<SettingClient<*>>().forEach { it.configOnChange() }
         }
+        loading = false
+    }
 
-        /**
-         * Handles the shutdown event by saving the modified client settings into a "settings.json" file.
-         *
-         * @param E The [ShutdownEvent] triggered during application shutdown.
-         */
-        on<EventShutdown> {
+    fun saveCurrentConfig() {
+        val settingsConfigFile = Schizoid.configDir.resolve("$loaded.json")
+        if (settingsConfigFile.canonicalPath.startsWith(Schizoid.configDir.canonicalPath)) {
+            if (!settingsConfigFile.parentFile.exists() || !settingsConfigFile.parentFile.isDirectory) settingsConfigFile.parentFile.mkdirs()
             val data = SettingManager.settings.filterIsInstance<SettingClient<*>>().map { ClientSettingJson(it.container.jvmName, it::class.jvmName, it.name, it.save()) }
-            Schizoid.root.resolve("settings.json").writeText(json.encodeToString(data))
+            Schizoid.configDir.resolve("$loaded.json").writeText(json.encodeToString(data))
+        }
+    }
+
+    fun getConfigFile(name: String): File? {
+        val settingsConfigFile = Schizoid.configDir.resolve("$name.json")
+        return if (settingsConfigFile.canonicalPath.startsWith(Schizoid.configDir.canonicalPath) && settingsConfigFile.exists() && settingsConfigFile.isFile) {
+            settingsConfigFile
+        } else {
+            null
+        }
+    }
+
+    init {
+        on<EventSettingChange> {
+            if (loading) return@on
+            saveCurrentConfig()
         }
     }
 }
