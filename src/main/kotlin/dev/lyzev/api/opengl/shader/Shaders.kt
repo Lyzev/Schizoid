@@ -126,7 +126,11 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
 
         var force = 0.0f
 
-        val dist = 0.1f + sqrt(((xpos[0] - lastMXPos) * (deltaTime / 16.6666)).pow(2.0) + ((ypos[0] - lastMYPos) * (deltaTime / 16.6666)).pow(2.0)).toFloat() / 400.0f
+        val dist = 0.1f + sqrt(
+            ((xpos[0] - lastMXPos) * (deltaTime / 16.6666)).pow(2.0) + ((ypos[0] - lastMYPos) * (deltaTime / 16.6666)).pow(
+                2.0
+            )
+        ).toFloat() / 400.0f
 
         if (left) force += dist
         if (right) force -= dist

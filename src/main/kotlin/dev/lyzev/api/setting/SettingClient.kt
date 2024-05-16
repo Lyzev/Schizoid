@@ -63,6 +63,7 @@ abstract class SettingClient<T>(
         /**
          * Calculate the height of the dropdown list.
          */
-        fun calcHeight(size: Int): Float = (size.coerceAtLeast(1) * (16f + ImGui.getStyle().framePaddingY * 2f) + 1f).coerceAtMost(MAX_HEIGHT)
+        fun calcHeight(size: Int): Float =
+            (size.coerceAtLeast(1) * (16f + ImGui.getStyle().framePaddingY * 2f) + 1f).coerceAtMost(MAX_HEIGHT)
     }
 }

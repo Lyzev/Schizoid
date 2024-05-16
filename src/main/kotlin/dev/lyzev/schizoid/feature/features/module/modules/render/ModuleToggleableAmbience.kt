@@ -15,7 +15,8 @@ import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.network.packet.s2c.play.WorldTimeUpdateS2CPacket
 import net.minecraft.world.World
 
-object ModuleToggleableAmbience : ModuleToggleable("Ambience", "Changes to world time/weather!", category = IFeature.Category.RENDER), EventListener {
+object ModuleToggleableAmbience :
+    ModuleToggleable("Ambience", "Changes to world time/weather!", category = IFeature.Category.RENDER), EventListener {
 
     /**
      * The time of day, in ticks.

@@ -35,7 +35,7 @@ enum class ImGuiThemes(
     INDIGO("Indigo", ImGuiThemeLightIndigo, ImGuiThemeDarkIndigo, ImGuiThemeGlassmorphismIndigo),
     PURPLE("Purple", ImGuiThemeLightPurple, ImGuiThemeDarkPurple, ImGuiThemeGlassmorphismPurple),
     PINK("Pink", ImGuiThemeLightPink, ImGuiThemeDarkPink, ImGuiThemeGlassmorphismPink),
-    BROWN("Brown", ImGuiThemeLightBrown, ImGuiThemeDarkBrown, ImGuiThemeGlassmorphismBrown),;
+    BROWN("Brown", ImGuiThemeLightBrown, ImGuiThemeDarkBrown, ImGuiThemeGlassmorphismBrown), ;
 
     operator fun get(mode: Mode) =
         when (mode) {

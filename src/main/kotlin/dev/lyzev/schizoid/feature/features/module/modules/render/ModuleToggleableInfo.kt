@@ -17,7 +17,11 @@ import java.time.format.DateTimeFormatter
 
 
 object ModuleToggleableInfo :
-    ModuleToggleableRenderImGuiContent("Info", "Shows a water mark on the screen.", category = IFeature.Category.RENDER) {
+    ModuleToggleableRenderImGuiContent(
+        "Info",
+        "Shows a water mark on the screen.",
+        category = IFeature.Category.RENDER
+    ) {
 
     val fps by switch("FPS", "Shows the current FPS.", true)
     val username by switch("Username", "Shows the current username.", true)

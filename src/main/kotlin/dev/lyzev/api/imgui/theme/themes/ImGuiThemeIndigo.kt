@@ -26,4 +26,5 @@ object ImGuiThemeDarkIndigo : ImGuiThemeBaseDark(Color(94, 92, 230), Color(148, 
  * Glassmorphism indigo ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismIndigo : ImGuiThemeBaseGlassmorphism(Color(88, 86, 214), Color(138, 137, 214), Color(113, 112, 214))
+object ImGuiThemeGlassmorphismIndigo :
+    ImGuiThemeBaseGlassmorphism(Color(88, 86, 214), Color(138, 137, 214), Color(113, 112, 214))

@@ -26,4 +26,5 @@ object ImGuiThemeDarkRed : ImGuiThemeBaseDark(Color(255, 69, 58), Color(255, 143
  * Glassmorphism red ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismRed : ImGuiThemeBaseGlassmorphism(Color(255, 59, 48), Color(255, 137, 131), Color(255, 98, 89))
+object ImGuiThemeGlassmorphismRed :
+    ImGuiThemeBaseGlassmorphism(Color(255, 59, 48), Color(255, 137, 131), Color(255, 98, 89))

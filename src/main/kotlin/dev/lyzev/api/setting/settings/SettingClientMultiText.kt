@@ -42,7 +42,13 @@ class SettingClientMultiText(
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
             setNextItemWidth(getColumnWidth())
-            if (inputTextWithHint("##AddText", "Add text...", add, ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0)) {
+            if (inputTextWithHint(
+                    "##AddText",
+                    "Add text...",
+                    add,
+                    ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0
+                )
+            ) {
                 if (add.get().isNotEmpty()) {
                     value = value.plus(add.get())
                     onChange(value)
@@ -59,7 +65,12 @@ class SettingClientMultiText(
                     val text = value.elementAt(i)
                     pushID(text)
                     text(text)
-                    sameLine(max(getWindowContentRegionMaxX() - 17.5f * 2 - getStyle().windowPaddingX,calcTextSize(text).x + getStyle().framePaddingX + 2))
+                    sameLine(
+                        max(
+                            getWindowContentRegionMaxX() - 17.5f * 2 - getStyle().windowPaddingX,
+                            calcTextSize(text).x + getStyle().framePaddingX + 2
+                        )
+                    )
                     if (FontAwesomeIcons.button(FontAwesomeIcons.Edit)) {
                         openPopup("Edit")
                         buffer.set(text)
@@ -76,7 +87,12 @@ class SettingClientMultiText(
                             setKeyboardFocusHere()
                             focus = false
                         }
-                        if (inputText("##EditText", buffer, ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0)) {
+                        if (inputText(
+                                "##EditText",
+                                buffer,
+                                ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0
+                            )
+                        ) {
                             if (buffer.get().isNotEmpty()) {
                                 if (text != buffer.get()) {
                                     edit(text, buffer.get())
@@ -105,6 +121,7 @@ class SettingClientMultiText(
 
     override fun load(value: JsonElement) {
         this.value = value.jsonArray.map { it.jsonPrimitive.content.let { i -> if (upperCase) i.uppercase() else i } }.toSet()
+
     }
 
     override fun save(): JsonElement {

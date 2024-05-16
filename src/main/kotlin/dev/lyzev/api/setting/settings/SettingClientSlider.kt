@@ -63,7 +63,14 @@ class SettingClientSlider<T : Number>(
         } else if (value is Float) {
             f[0] = value as Float
             setNextItemWidth(getColumnWidth())
-            if (sliderFloat("", f, minValue as Float, maxValue as Float, "%.${decimalPlaces}f" + if (unit != null) " $unit" else "")) {
+            if (sliderFloat(
+                    "",
+                    f,
+                    minValue as Float,
+                    maxValue as Float,
+                    "%.${decimalPlaces}f" + if (unit != null) " $unit" else ""
+                )
+            ) {
                 value = if (allowOutOfBounds)
                     f[0] as T
                 else
@@ -158,4 +165,16 @@ fun IFeature.slider(
     allowOutOfBounds: Boolean = false,
     hide: () -> Boolean = { false },
     change: (Float) -> Unit = {}
-) = SettingClientSlider(this::class, name, desc, value, minValue, maxValue, decimalPlaces, unit, allowOutOfBounds, hide, change)
+) = SettingClientSlider(
+    this::class,
+    name,
+    desc,
+    value,
+    minValue,
+    maxValue,
+    decimalPlaces,
+    unit,
+    allowOutOfBounds,
+    hide,
+    change
+)

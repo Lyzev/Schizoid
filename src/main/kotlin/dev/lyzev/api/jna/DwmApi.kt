@@ -13,5 +13,5 @@ interface DwmApi : Library {
 
     fun DwmSetWindowAttribute(hwnd: HWND, dwAttribute: Int, pvAttribute: PointerType, cbAttribute: Int): Int
 
-    companion object: DwmApi by Native.load("dwmapi", DwmApi::class.java)
+    companion object : DwmApi by Native.load("dwmapi", DwmApi::class.java)
 }

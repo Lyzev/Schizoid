@@ -63,7 +63,12 @@ object BlurBox : Blur {
         ShaderBox.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
         RenderSystem.bindTexture(sourceTex)
-        ShaderBox.setUniforms(direction, texelSize.set(1f / targetFBO.textureWidth, 1f / targetFBO.textureHeight), alpha, strength)
+        ShaderBox.setUniforms(
+            direction,
+            texelSize.set(1f / targetFBO.textureWidth, 1f / targetFBO.textureHeight),
+            alpha,
+            strength
+        )
         Shader.drawFullScreen()
         ShaderBox.unbind()
     }

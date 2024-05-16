@@ -14,7 +14,6 @@ import dev.lyzev.api.opengl.shader.ShaderDualKawase
 import dev.lyzev.api.opengl.shader.ShaderDualKawaseDown
 import dev.lyzev.api.opengl.shader.ShaderDualKawaseUp
 import dev.lyzev.api.opengl.shader.blur.Blur
-import net.minecraft.client.gl.Framebuffer
 import org.joml.Vector2f
 
 /**

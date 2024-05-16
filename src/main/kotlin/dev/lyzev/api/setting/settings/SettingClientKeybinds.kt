@@ -15,6 +15,7 @@ import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
 import kotlinx.serialization.json.*
+
 import org.lwjgl.glfw.GLFW
 import kotlin.math.max
 import kotlin.reflect.KClass
@@ -64,7 +65,12 @@ class SettingClientKeybinds(
                 for (key in value) {
                     pushID(key.name)
                     text(key.name)
-                    sameLine(max(getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX, calcTextSize(key.name).x + getStyle().framePaddingX + 2))
+                    sameLine(
+                        max(
+                            getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX,
+                            calcTextSize(key.name).x + getStyle().framePaddingX + 2
+                        )
+                    )
                     if (FontAwesomeIcons.button(FontAwesomeIcons.Trash))
                         itemsToRemove.add(key)
                     if (isItemHovered()) setTooltip("Click to remove.")
@@ -129,7 +135,7 @@ class SettingClientKeybinds(
 fun IFeature.keybinds(
     name: String,
     desc: String? = null,
-    value: Set<GLFWKey>,
+    value: Set<GLFWKey> = emptySet(),
     blacklist: Set<GLFWKey> = emptySet(),
     hide: () -> Boolean = { false },
     change: (Set<GLFWKey>) -> Unit = {}

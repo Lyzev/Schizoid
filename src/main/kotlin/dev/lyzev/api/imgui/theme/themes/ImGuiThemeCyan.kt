@@ -26,4 +26,5 @@ object ImGuiThemeDarkCyan : ImGuiThemeBaseDark(Color(100, 210, 255), Color(162, 
  * Glassmorphism cyan ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismCyan : ImGuiThemeBaseGlassmorphism(Color(50, 173, 230), Color(122, 196, 230), Color(86, 184, 230))
+object ImGuiThemeGlassmorphismCyan :
+    ImGuiThemeBaseGlassmorphism(Color(50, 173, 230), Color(122, 196, 230), Color(86, 184, 230))

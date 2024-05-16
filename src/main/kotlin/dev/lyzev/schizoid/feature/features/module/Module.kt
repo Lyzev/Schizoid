@@ -32,7 +32,12 @@ import imgui.type.ImBoolean
  * @param key The keybind of the module.
  * @property category The category of the module.
  */
-abstract class Module(name: String, desc: String, keys: MutableSet<GLFWKey> = mutableSetOf(), category: IFeature.Category) :
+abstract class Module(
+    name: String,
+    desc: String,
+    keys: MutableSet<GLFWKey> = mutableSetOf(),
+    category: IFeature.Category
+) :
     Feature(name, desc, keys, category)
 
 /**

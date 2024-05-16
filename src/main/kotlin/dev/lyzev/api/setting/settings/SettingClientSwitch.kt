@@ -96,8 +96,19 @@ class Switch {
             v[0] = !v[0]
         val delta = EasingFunction.LINEAR.ease(timeAnimator.getProgress()).toFloat()
         val primary = getStyle().getColor(Button)
-        val hsvTrackColor = ImColor.rgb(MathHelper.lerp(delta, track[0], primary.x), MathHelper.lerp(delta, track[1], primary.y), MathHelper.lerp(delta, track[2], primary.z))
-        drawList.addRectFilled(p.x, p.y + height * 0.15f, p.x + width, p.y + height * 0.85f, hsvTrackColor, height * 0.35f)
+        val hsvTrackColor = ImColor.rgb(
+            MathHelper.lerp(delta, track[0], primary.x),
+            MathHelper.lerp(delta, track[1], primary.y),
+            MathHelper.lerp(delta, track[2], primary.z)
+        )
+        drawList.addRectFilled(
+            p.x,
+            p.y + height * 0.15f,
+            p.x + width,
+            p.y + height * 0.85f,
+            hsvTrackColor,
+            height * 0.35f
+        )
         drawList.addCircleFilled(
             (p.x + radius + (width - height) * EasingFunction.IN_OUT_BACK.ease(timeAnimator.getProgress())).toFloat(),
             p.y + height * 0.5f,

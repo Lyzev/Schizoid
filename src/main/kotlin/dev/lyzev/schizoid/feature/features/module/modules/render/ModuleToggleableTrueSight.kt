@@ -13,7 +13,11 @@ import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.block.Blocks
 
-object ModuleToggleableTrueSight : ModuleToggleable("True Sight", "Makes invisible entities and barriers visible.", category = IFeature.Category.RENDER), EventListener {
+object ModuleToggleableTrueSight : ModuleToggleable(
+    "True Sight",
+    "Makes invisible entities and barriers visible.",
+    category = IFeature.Category.RENDER
+), EventListener {
 
     val entities by switch("Entities", "Makes invisible entities visible.", true)
     val alpha by slider("Alpha", "The alpha of the entities.", 15, 1, 100, "%%", hide = ::entities neq true)

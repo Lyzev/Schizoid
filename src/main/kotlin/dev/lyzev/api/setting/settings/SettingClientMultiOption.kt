@@ -39,10 +39,16 @@ class SettingClientMultiOptionString(
             if (beginListBox("", -1f, calcHeight(value.size))) {
                 for (value in this.value) {
                     text(value.first)
-                    sameLine(max(getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX, calcTextSize(value.first).x + getStyle().framePaddingX + 2))
+                    sameLine(
+                        max(
+                            getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX,
+                            calcTextSize(value.first).x + getStyle().framePaddingX + 2
+                        )
+                    )
                     pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
                     if (checkbox("##${value.first}", value.second)) {
-                        this.value = this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
+                        this.value =
+                            this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
                         onChange(this.value)
                     }
                     popStyleVar()
@@ -89,10 +95,16 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
             if (beginListBox("", -1f, calcHeight(value.size))) {
                 for (value in this.value) {
                     text(value.first.key)
-                    sameLine(max(getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX, calcTextSize(value.first.key).x + getStyle().framePaddingX + 2))
+                    sameLine(
+                        max(
+                            getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX,
+                            calcTextSize(value.first.key).x + getStyle().framePaddingX + 2
+                        )
+                    )
                     pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
                     if (checkbox("##${value.first.key}", value.second)) {
-                        this.value = this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
+                        this.value =
+                            this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
                         onChange(this.value)
                     }
                     popStyleVar()
