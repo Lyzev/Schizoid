@@ -48,13 +48,13 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
     val owner by multiText(
         "Owner",
         "The owner of the media player.\nFor example: SPOTIFY, CHROME, ...\nNote: Sort by priority.",
-        setOf("SPOTIFY", "CHROME", "FIREFOX"),
+        setOf("SPOTIFY", "CHROME"),
         true
     )
     val keybindsInScreen by switch("Keybinds in Screen", "Listen to keybinds in screen.", false)
-    val skip by keybinds("Skip", "Skip the current track.", setOf(GLFWKey.RIGHT))
-    val previous by keybinds("Previous", "Skip to the previous track.", setOf(GLFWKey.LEFT))
-    val playPause by keybinds("Play & Pause", "Play or pause the current track.", setOf(GLFWKey.UP))
+    val skip by keybinds("Skip", "Skip the current track.")
+    val previous by keybinds("Previous", "Skip to the previous track.")
+    val playPause by keybinds("Play & Pause", "Play or pause the current track.")
 
     private val fallbackArtwork =
         WrappedNativeImageBackedTexture(NativeImage.read(javaClass.getResourceAsStream("/assets/${Schizoid.MOD_ID}/textures/vinyl.png"))).apply { upload() }

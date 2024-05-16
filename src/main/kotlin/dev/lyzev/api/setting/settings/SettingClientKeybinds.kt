@@ -132,7 +132,7 @@ class SettingClientKeybinds(
 fun IFeature.keybinds(
     name: String,
     desc: String? = null,
-    value: Set<GLFWKey>,
+    value: Set<GLFWKey> = emptySet(),
     blacklist: Set<GLFWKey> = emptySet(),
     hide: () -> Boolean = { false },
     change: (Set<GLFWKey>) -> Unit = {}
