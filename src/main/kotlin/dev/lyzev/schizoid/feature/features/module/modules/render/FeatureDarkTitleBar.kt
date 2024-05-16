@@ -23,7 +23,7 @@ import dev.lyzev.schizoid.feature.IFeature
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.glfw.GLFWNativeWin32
 
-object FeatureDarkTitleBar: IFeature, EventListener {
+object FeatureDarkTitleBar : IFeature, EventListener {
 
     val mode by option("Mode", "Mode", Mode.System, enumValues<Mode>().toList(), change = ::setTitleBarColor)
 

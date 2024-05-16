@@ -47,7 +47,15 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         ShaderParticle.amount = particleAmount * 1000
         ShaderParticle.reload()
     }
-    val particleAmount by slider("Particle Amount", "The amount of particles.", 100, 1, 1000, "k", hide = ::particles neq true)
+    val particleAmount by slider(
+        "Particle Amount",
+        "The amount of particles.",
+        100,
+        1,
+        1000,
+        "k",
+        hide = ::particles neq true
+    )
 
     private val texturesMario = Array(3) {
         Identifier(Schizoid.MOD_ID, "textures/mario_$it.png")

@@ -66,7 +66,7 @@ object BlurGaussian : Blur {
      */
     private val cache = Array(20) {
         val sigma = it + 1
-        val y = exp(-.5f/ (sigma * sigma))
+        val y = exp(-.5f / (sigma * sigma))
         // vec3 gaussian = vec3(1 / (sqrt(2 * PI) * sigma), exp(-.5 / (sigma * sigma)), gaussian.y * gaussian.y)
         Vector3f(1 / (sqrt2PI * sigma), y, y * y)
     }
@@ -88,7 +88,14 @@ object BlurGaussian : Blur {
         ShaderGaussian.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
         RenderSystem.bindTexture(sourceTex)
-        ShaderGaussian.setUniforms(direction, texelSize.set(1f / targetFBO.textureWidth, 1f / targetFBO.textureHeight), alpha, gaussian, support, ModuleToggleableBlur.useLinearSampling)
+        ShaderGaussian.setUniforms(
+            direction,
+            texelSize.set(1f / targetFBO.textureWidth, 1f / targetFBO.textureHeight),
+            alpha,
+            gaussian,
+            support,
+            ModuleToggleableBlur.useLinearSampling
+        )
         Shader.drawFullScreen()
         ShaderGaussian.unbind()
     }

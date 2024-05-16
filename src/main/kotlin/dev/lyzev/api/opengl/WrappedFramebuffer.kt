@@ -24,7 +24,13 @@ import net.minecraft.client.util.ScreenshotRecorder
  * @see SimpleFramebuffer
  * @see EventListener
  */
-class WrappedFramebuffer(lod: Int = 0, width: Int = MinecraftClient.getInstance().window.framebufferWidth, height: Int = MinecraftClient.getInstance().window.framebufferHeight, useDepth: Boolean = false, fixedSize: Boolean = false) : SimpleFramebuffer(
+class WrappedFramebuffer(
+    lod: Int = 0,
+    width: Int = MinecraftClient.getInstance().window.framebufferWidth,
+    height: Int = MinecraftClient.getInstance().window.framebufferHeight,
+    useDepth: Boolean = false,
+    fixedSize: Boolean = false
+) : SimpleFramebuffer(
     width / IntMath.pow(2, lod),
     height / IntMath.pow(2, lod),
     useDepth,

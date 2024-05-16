@@ -35,9 +35,9 @@ abstract class GLSLSandboxShader(shader: String) : Shader(shader) {
      * Disables culling, enables blending, binds the shader, sets the uniforms, draws fullscreen, unbinds the shader, and enables culling.
      */
     fun draw() {
-        RenderSystem.disableCull();
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        RenderSystem.disableCull()
+        RenderSystem.enableBlend()
+        RenderSystem.defaultBlendFunc()
         bind()
         // Set the time since the shader was initialized.
         this["uTime"] = (System.currentTimeMillis() - initTime) / 1000f

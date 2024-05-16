@@ -58,7 +58,8 @@ interface ImGuiTheme {
      * @param imGuiCol The ImGuiCol to set the color of.
      * @param color The color to set.
      */
-    fun ImGuiStyle.setColor(imGuiCol: Int, color: Color) = this.setColor(imGuiCol, color.red, color.green, color.blue, color.alpha)
+    fun ImGuiStyle.setColor(imGuiCol: Int, color: Color) =
+        this.setColor(imGuiCol, color.red, color.green, color.blue, color.alpha)
 
     /**
      * Sets the color of an ImGuiCol with custom alpha.
@@ -66,7 +67,8 @@ interface ImGuiTheme {
      * @param color The color to set.
      * @param alpha The alpha value of the color.
      */
-    fun ImGuiStyle.setColor(imGuiCol: Int, color: Color, alpha: Float) = this.setColor(imGuiCol, color.red / 255f, color.green / 255f, color.blue / 255f, alpha)
+    fun ImGuiStyle.setColor(imGuiCol: Int, color: Color, alpha: Float) =
+        this.setColor(imGuiCol, color.red / 255f, color.green / 255f, color.blue / 255f, alpha)
 }
 
 /**
@@ -80,7 +82,16 @@ interface ImGuiTheme {
  * @param secondary The secondary color of the theme.
  * @param accent The accent color of the theme.
  */
-abstract class ImGuiThemeBase(val alpha: Float, val text: Color, val textDisabled: Color, val background: Color, val foreground: Color, val primary: Color, val secondary: Color, val accent: Color) : ImGuiTheme {
+abstract class ImGuiThemeBase(
+    val alpha: Float,
+    val text: Color,
+    val textDisabled: Color,
+    val background: Color,
+    val foreground: Color,
+    val primary: Color,
+    val secondary: Color,
+    val accent: Color
+) : ImGuiTheme {
 
     override val particleIdle: Color
         get() = primary
@@ -191,7 +202,8 @@ abstract class ImGuiThemeBaseDark(primary: Color, secondary: Color, accent: Colo
     accent
 ) {
 
-    override fun renderInGameBackground(context: DrawContext, width: Int, height: Int) = context.fillGradient(0, 0, width, height, -1072689136, -804253680)
+    override fun renderInGameBackground(context: DrawContext, width: Int, height: Int) =
+        context.fillGradient(0, 0, width, height, -1072689136, -804253680)
 }
 
 /**
@@ -212,7 +224,8 @@ abstract class ImGuiThemeBaseLight(primary: Color, secondary: Color, accent: Col
     accent
 ) {
 
-    override fun renderInGameBackground(context: DrawContext, width: Int, height: Int) = context.fillGradient(0, 0, width, height, 0x64f0efef, 0x18f0efef)
+    override fun renderInGameBackground(context: DrawContext, width: Int, height: Int) =
+        context.fillGradient(0, 0, width, height, 0x64f0efef, 0x18f0efef)
 }
 
 abstract class ImGuiThemeBaseGlassmorphism(primary: Color, secondary: Color, accent: Color) : ImGuiThemeBase(

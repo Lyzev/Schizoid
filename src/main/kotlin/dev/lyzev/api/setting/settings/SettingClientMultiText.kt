@@ -7,7 +7,6 @@ package dev.lyzev.api.setting.settings
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
@@ -44,7 +43,13 @@ class SettingClientMultiText(
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
             setNextItemWidth(getColumnWidth())
-            if (inputTextWithHint("##AddText", "Add text...", add, ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0)) {
+            if (inputTextWithHint(
+                    "##AddText",
+                    "Add text...",
+                    add,
+                    ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0
+                )
+            ) {
                 if (add.get().isNotEmpty()) {
                     value = value.plus(add.get())
                     onChange(value)
@@ -61,7 +66,12 @@ class SettingClientMultiText(
                     val text = value.elementAt(i)
                     pushID(text)
                     text(text)
-                    sameLine(max(getWindowContentRegionMaxX() - 17.5f * 2 - getStyle().windowPaddingX,calcTextSize(text).x + getStyle().framePaddingX + 2))
+                    sameLine(
+                        max(
+                            getWindowContentRegionMaxX() - 17.5f * 2 - getStyle().windowPaddingX,
+                            calcTextSize(text).x + getStyle().framePaddingX + 2
+                        )
+                    )
                     if (FontAwesomeIcons.button(FontAwesomeIcons.Edit)) {
                         openPopup("Edit")
                         buffer.set(text)
@@ -78,7 +88,12 @@ class SettingClientMultiText(
                             setKeyboardFocusHere()
                             focus = false
                         }
-                        if (inputText("##EditText", buffer, ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0)) {
+                        if (inputText(
+                                "##EditText",
+                                buffer,
+                                ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0
+                            )
+                        ) {
                             if (buffer.get().isNotEmpty()) {
                                 if (text != buffer.get()) {
                                     edit(text, buffer.get())
@@ -106,7 +121,8 @@ class SettingClientMultiText(
     }
 
     override fun load(value: JsonObject) {
-        this.value = value.getAsJsonArray("texts").map { if (upperCase) it.asString.uppercase() else it.asString }.toSet()
+        this.value =
+            value.getAsJsonArray("texts").map { if (upperCase) it.asString.uppercase() else it.asString }.toSet()
     }
 
     override fun save(value: JsonObject) {

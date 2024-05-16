@@ -26,4 +26,5 @@ object ImGuiThemeDarkYellow : ImGuiThemeBaseDark(Color(255, 214, 10), Color(255,
  * Glassmorphism yellow ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismYellow : ImGuiThemeBaseGlassmorphism(Color(255, 204, 0), Color(255, 224, 102), Color(255, 214, 51))
+object ImGuiThemeGlassmorphismYellow :
+    ImGuiThemeBaseGlassmorphism(Color(255, 204, 0), Color(255, 224, 102), Color(255, 214, 51))

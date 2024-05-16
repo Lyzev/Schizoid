@@ -21,7 +21,11 @@ import imgui.extension.implot.flag.ImPlotStyleVar
 import imgui.flag.ImGuiCol
 
 object ModuleToggleableMotionGraph :
-    ModuleToggleableRenderImGuiContent("Motion Graph", "Shows a graph of the player's motion.", category = IFeature.Category.RENDER) {
+    ModuleToggleableRenderImGuiContent(
+        "Motion Graph",
+        "Shows a graph of the player's motion.",
+        category = IFeature.Category.RENDER
+    ) {
 
     private val y = mutableListOf(0.0)
     private val x = mutableListOf(0.0)
@@ -60,16 +64,16 @@ object ModuleToggleableMotionGraph :
             val y = y.toTypedArray()
             val x = x.toTypedArray()
             val primary = ImColor.rgba(ImGui.getStyle().getColor(ImGuiCol.Button)).toLong()
-            ImPlot.pushStyleColor(ImPlotCol.Line, primary)
-            ImPlot.pushStyleColor(ImPlotCol.Fill, primary)
-            ImPlot.pushStyleVar(ImPlotStyleVar.LineWeight, 15f * size / 100f)
+            pushStyleColor(ImPlotCol.Line, primary)
+            pushStyleColor(ImPlotCol.Fill, primary)
+            pushStyleVar(ImPlotStyleVar.LineWeight, 15f * size / 100f)
             val speed = y.lastOrNull() ?: 0.0
             plotLine("%.1f %s".format(speed, unit.short), x, y)
             if (fill) {
                 plotShaded("%.1f %s".format(speed, unit.short), x, y, 0)
             }
-            ImPlot.popStyleVar()
-            ImPlot.popStyleColor(2)
+            popStyleVar()
+            popStyleColor(2)
             endPlot()
         }
     }

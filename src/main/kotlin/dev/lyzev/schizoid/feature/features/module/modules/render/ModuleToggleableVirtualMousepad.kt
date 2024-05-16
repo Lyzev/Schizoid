@@ -17,7 +17,11 @@ import kotlin.math.abs
 import kotlin.math.max
 
 object ModuleToggleableVirtualMousepad :
-    ModuleToggleableRenderImGuiContent("Virtual Mousepad", "Visualizes your rotations.", category = IFeature.Category.RENDER) {
+    ModuleToggleableRenderImGuiContent(
+        "Virtual Mousepad",
+        "Visualizes your rotations.",
+        category = IFeature.Category.RENDER
+    ) {
 
     val size by slider("Size", "The size of the virtual mousepad.", 15, 5, 100, "%%")
     val length by slider("Length", "The length of the graph.", 20, 1, 100, "ticks") {

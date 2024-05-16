@@ -17,10 +17,22 @@ import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiCon
 import imgui.ImGui.*
 
 object ModuleToggleableWaterMark :
-    ModuleToggleableRenderImGuiContent("Water Mark", "Shows a water mark on the screen.", category = IFeature.Category.RENDER) {
+    ModuleToggleableRenderImGuiContent(
+        "Water Mark",
+        "Shows a water mark on the screen.",
+        category = IFeature.Category.RENDER
+    ) {
 
-        val waterMarkMath by switch("Water Mark Math", "Shows a random math function.", false)
-    val interval by slider("Interval", "The interval to switch between math functions.", 300, 0, 5000, "ms", hide = ::waterMarkMath neq true)
+    val waterMarkMath by switch("Water Mark Math", "Shows a random math function.", false)
+    val interval by slider(
+        "Interval",
+        "The interval to switch between math functions.",
+        300,
+        0,
+        5000,
+        "ms",
+        hide = ::waterMarkMath neq true
+    )
     val waterMark by text("Water Mark", "The water mark to display.", "SCHIZOID", ::waterMarkMath eq true)
     val showFPS by switch("Show FPS", "Shows the current FPS.", true)
     val fpsBoost by switch("FPS Boost", "Boosts the FPS.", false)
@@ -48,7 +60,7 @@ object ModuleToggleableWaterMark :
             OPEN_SANS_BOLD.begin()
             var fps = mc.currentFps
             if (fpsBoost) {
-                fps += boost;
+                fps += boost
             }
             text("%d fps".format(fps))
             OPEN_SANS_BOLD.end()

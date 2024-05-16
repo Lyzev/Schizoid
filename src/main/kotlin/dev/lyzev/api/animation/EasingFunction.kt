@@ -34,13 +34,23 @@ enum class EasingFunction(override val key: String, override val ease: (Double) 
     IN_OUT_QUART("In out quart", { x -> if (x < 0.5) 8.0 * x * x * x * x else 1.0 - (-2.0 * x + 2.0).pow(4.0) / 2.0 }),
     IN_QUINT("In quint", { x -> x.pow(5.0) }),
     OUT_QUINT("Out quint", { x -> (1.0 - (1.0 - x).pow(5.0)) }),
-    IN_OUT_QUINT("In out quint", { x -> if (x < 0.5) 16.0 * x * x * x * x * x else 1.0 - (-2.0 * x + 2.0).pow(5.0) / 2.0 }),
+    IN_OUT_QUINT(
+        "In out quint",
+        { x -> if (x < 0.5) 16.0 * x * x * x * x * x else 1.0 - (-2.0 * x + 2.0).pow(5.0) / 2.0 }),
     IN_EXPO("In expo", { x -> if (x == 0.0) 0.0 else 2.0.pow(10.0 * x - 10.0) }),
     OUT_EXPO("Out expo", { x -> if (x == 1.0) 1.0 else 1.0 - 2.0.pow(-10.0 * x) }),
-    IN_OUT_EXPO("In out expo", { x -> if (x == 0.0) 0.0 else if (x == 1.0) 1.0 else if (x < 0.5) 2.0.pow(20.0 * x - 10.0) / 2.0 else (2.0 - 2.0.pow(-20 * x + 10)) / 2 }),
+    IN_OUT_EXPO(
+        "In out expo",
+        { x ->
+            if (x == 0.0) 0.0 else if (x == 1.0) 1.0 else if (x < 0.5) 2.0.pow(20.0 * x - 10.0) / 2.0 else (2.0 - 2.0.pow(
+                -20 * x + 10
+            )) / 2
+        }),
     IN_CIRC("In circ", { x -> 1.0 - sqrt(1.0 - x.pow(2.0)) }),
     OUT_CIRC("Out circ", { x -> sqrt(1.0 - (x - 1.0).pow(2.0)) }),
-    IN_OUT_CIRC("In out circ", { x -> if (x < 0.5) (1.0 - sqrt(1 - (2.0 * x).pow(2.0))) / 2.0 else (sqrt(1.0 - (-2.0 * x + 2.0).pow(2.0)) + 1.0) / 2.0 }),
+    IN_OUT_CIRC(
+        "In out circ",
+        { x -> if (x < 0.5) (1.0 - sqrt(1 - (2.0 * x).pow(2.0))) / 2.0 else (sqrt(1.0 - (-2.0 * x + 2.0).pow(2.0)) + 1.0) / 2.0 }),
     IN_BACK("In back", { x ->
         val c1 = 1.70158
         val c3 = c1 + 1.0
@@ -95,7 +105,9 @@ enum class EasingFunction(override val key: String, override val ease: (Double) 
         }
     }),
     IN_BOUNCE("In bounce", { x -> 1.0 - OUT_BOUNCE.ease(1.0 - x) }),
-    IN_OUT_BOUNCE("In out bounce", { x -> if (x < 0.5) (1.0 - OUT_BOUNCE.ease(1.0 - 2.0 * x)) / 2.0 else (1.0 + OUT_BOUNCE.ease(2.0 * x - 1.0)) / 2.0 });
+    IN_OUT_BOUNCE(
+        "In out bounce",
+        { x -> if (x < 0.5) (1.0 - OUT_BOUNCE.ease(1.0 - 2.0 * x)) / 2.0 else (1.0 + OUT_BOUNCE.ease(2.0 * x - 1.0)) / 2.0 });
 }
 
 interface IEasingFunction {

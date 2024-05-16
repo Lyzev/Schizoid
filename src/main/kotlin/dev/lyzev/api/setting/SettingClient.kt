@@ -7,10 +7,8 @@ package dev.lyzev.api.setting
 
 import com.google.gson.JsonObject
 import dev.lyzev.api.imgui.render.ImGuiRenderable
-import dev.lyzev.api.imgui.render.ImGuiRenderer
 import dev.lyzev.api.settings.Setting
 import dev.lyzev.schizoid.feature.IFeature
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import imgui.ImGui
 import kotlin.reflect.KClass
 
@@ -57,6 +55,7 @@ abstract class SettingClient<T>(
         /**
          * Calculate the height of the dropdown list.
          */
-        fun calcHeight(size: Int): Float = (size.coerceAtLeast(1) * (16f + ImGui.getStyle().framePaddingY * 2f) + 1f).coerceAtMost(MAX_HEIGHT)
+        fun calcHeight(size: Int): Float =
+            (size.coerceAtLeast(1) * (16f + ImGui.getStyle().framePaddingY * 2f) + 1f).coerceAtMost(MAX_HEIGHT)
     }
 }

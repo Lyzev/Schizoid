@@ -17,7 +17,7 @@ object Sha512 {
 
     val md = MessageDigest.getInstance("SHA-512")
 
-    fun hash(input: ByteArray): String{
+    fun hash(input: ByteArray): String {
         val messageDigest = md.digest(input)
 
         // Convert byte array into signum representation

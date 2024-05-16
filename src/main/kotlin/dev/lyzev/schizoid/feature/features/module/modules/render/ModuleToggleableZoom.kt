@@ -15,11 +15,11 @@ import dev.lyzev.api.setting.settings.keybinds
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.util.InputUtil
 import net.minecraft.util.math.MathHelper
-import dev.lyzev.api.settings.Setting.Companion.neq
 
 /**
  * This enum represents the possible units of the timer.
@@ -58,7 +58,16 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
 
     init {
         val timeAnimator = TimeAnimator(100)
-        slider("Animation Speed", "The speed of the animation.", 100, 1, 1000, "ms", true, hide = ::animation neq true) {
+        slider(
+            "Animation Speed",
+            "The speed of the animation.",
+            100,
+            1,
+            1000,
+            "ms",
+            true,
+            hide = ::animation neq true
+        ) {
             timeAnimator.animationLength = it.toLong()
         }
         var originalFov = 0.0

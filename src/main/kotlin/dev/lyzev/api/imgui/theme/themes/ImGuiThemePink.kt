@@ -26,4 +26,5 @@ object ImGuiThemeDarkPink : ImGuiThemeBaseDark(Color(255, 55, 95), Color(255, 13
  * Glassmorphism pink ImGui theme.
  * Using colors from https://developer.apple.com/design/human-interface-guidelines/color#macOS-system-colors
  */
-object ImGuiThemeGlassmorphismPink : ImGuiThemeBaseGlassmorphism(Color(255, 45, 85), Color(255, 129, 153), Color(255, 87, 119))
+object ImGuiThemeGlassmorphismPink :
+    ImGuiThemeBaseGlassmorphism(Color(255, 45, 85), Color(255, 129, 153), Color(255, 87, 119))
