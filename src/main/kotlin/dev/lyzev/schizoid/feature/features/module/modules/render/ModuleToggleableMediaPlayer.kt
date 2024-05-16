@@ -153,8 +153,8 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                     pushStyleVar(ImGuiStyleVar.WindowPadding, 0f, 0f)
                     val title = if (title!!.isNotEmpty()) title else "Unknown Title"
                     val size = calcTextSize(title)
-                    setCursorPosY(50f)
-                    setCursorPosX(105f)
+                    setCursorPosY(getCursorPosY() - 50)
+                    setCursorPosX(getCursorPosX() + 90)
                     if (beginChild(
                             "##Title",
                             getColumnWidth() - 20f,
@@ -196,8 +196,8 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                     pushStyleVar(ImGuiStyleVar.WindowPadding, 0f, 0f)
                     val artist = if (artist!!.isNotEmpty()) artist else "Unknown Artist"
                     val size = calcTextSize(artist)
-                    setCursorPosY(25f)
-                    setCursorPosX(105f)
+                    setCursorPosY(getCursorPosY() - 65)
+                    setCursorPosX(getCursorPosX() + 90)
                     if (beginChild(
                             "##Artist",
                             getColumnWidth() - 20f,
@@ -228,8 +228,8 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
 
             override fun render(cursorPos: ImVec2) {
                 if (session == null) return
-                setCursorPosY(90f - 3f)
-                setCursorPosX(95f)
+                setCursorPosY(getCursorPosY() + 28)
+                setCursorPosX(getCursorPosX() + 80)
                 pushStyleColor(ImGuiCol.PlotHistogram, getColorU32(ImGuiCol.Text, .4f))
                 progressBar(session!!.media.position / session!!.media.duration.toFloat(), 290f, 3f, "##Progress")
                 popStyleColor()
