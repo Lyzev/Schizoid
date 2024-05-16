@@ -81,13 +81,13 @@ object BlurDualKawase : Blur {
      * @param alpha Whether to use alpha blending.
      */
     private fun renderToFBO(
-        targetFBO: WrappedFramebuffer, sourceFBO: Framebuffer, shader: ShaderDualKawase, alpha: Boolean
+        targetFBO: WrappedFramebuffer, sourceTex: Int, shader: ShaderDualKawase, alpha: Boolean
     ) {
         targetFBO.clear()
         targetFBO.beginWrite(true)
         shader.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
-        sourceFBO.beginRead()
+        RenderSystem.bindTexture(sourceTex)
         shader.setUniforms(
             strength.second, halfTexelSize.set(.5f / targetFBO.textureWidth, .5f / targetFBO.textureHeight), alpha
         )
@@ -95,13 +95,13 @@ object BlurDualKawase : Blur {
         shader.unbind()
     }
 
-    override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
+    override fun render(sourceTex: Int, alpha: Boolean) {
         // Initial downsample
-        renderToFBO(fbos[1], sourceFBO, ShaderDualKawaseDown, alpha)
+        renderToFBO(fbos[1], sourceTex, ShaderDualKawaseDown, alpha)
         // Downsample
-        for (i in 1 until strength.first) renderToFBO(fbos[i + 1], fbos[i], ShaderDualKawaseDown, alpha)
+        for (i in 1 until strength.first) renderToFBO(fbos[i + 1], fbos[i].colorAttachment, ShaderDualKawaseDown, alpha)
         // Upsample
-        for (i in strength.first downTo 1) renderToFBO(fbos[i - 1], fbos[i], ShaderDualKawaseUp, alpha)
+        for (i in strength.first downTo 1) renderToFBO(fbos[i - 1], fbos[i].colorAttachment, ShaderDualKawaseUp, alpha)
     }
 
     override val output: WrappedFramebuffer

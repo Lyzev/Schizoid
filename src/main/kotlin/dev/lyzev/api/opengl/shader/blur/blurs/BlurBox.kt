@@ -57,28 +57,25 @@ object BlurBox : Blur {
      * @param sourceFBO The framebuffer to render from.
      * @param alpha Whether to use alpha blending.
      */
-    private fun renderToFBO(targetFBO: Framebuffer, sourceFBO: Framebuffer, alpha: Boolean) {
+    private fun renderToFBO(targetFBO: Framebuffer, sourceTex: Int, alpha: Boolean) {
         targetFBO.clear()
         targetFBO.beginWrite(true)
         ShaderBox.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
-        sourceFBO.beginRead()
-        ShaderBox.setUniforms(direction, texelSize, alpha, strength)
+        RenderSystem.bindTexture(sourceTex)
+        ShaderBox.setUniforms(direction, texelSize.set(1f / targetFBO.textureWidth, 1f / targetFBO.textureHeight), alpha, strength)
         Shader.drawFullScreen()
         ShaderBox.unbind()
     }
 
-    override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        texelSize.set(1f / sourceFBO.textureWidth, 1f / sourceFBO.textureHeight)
+    override fun render(sourceTex: Int, alpha: Boolean) {
         // Initial iteration
         direction.set(1f, 0f)
-        // sourceFBO -> farbe
-        renderToFBO(fbos[0], sourceFBO, alpha)
-        // fbos[0] -> schwarz
+        renderToFBO(fbos[0], sourceTex, alpha)
         // Rest of the iterations
         for (i in 1 until 4) {
             direction.set((i - 1) % 2f, i % 2f)
-            renderToFBO(fbos[i % 2], fbos[(i - 1) % 2], alpha)
+            renderToFBO(fbos[i % 2], fbos[(i - 1) % 2].colorAttachment, alpha)
         }
     }
 

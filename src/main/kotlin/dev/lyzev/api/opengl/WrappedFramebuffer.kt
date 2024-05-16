@@ -24,14 +24,14 @@ import net.minecraft.client.util.ScreenshotRecorder
  * @see SimpleFramebuffer
  * @see EventListener
  */
-class WrappedFramebuffer(lod: Int = 0, useDepth: Boolean = false) : SimpleFramebuffer(
-    MinecraftClient.getInstance().window.framebufferWidth / IntMath.pow(2, lod),
-    MinecraftClient.getInstance().window.framebufferHeight / IntMath.pow(2, lod),
+class WrappedFramebuffer(lod: Int = 0, width: Int = MinecraftClient.getInstance().window.framebufferWidth, height: Int = MinecraftClient.getInstance().window.framebufferHeight, useDepth: Boolean = false, fixedSize: Boolean = false) : SimpleFramebuffer(
+    width / IntMath.pow(2, lod),
+    height / IntMath.pow(2, lod),
     useDepth,
     MinecraftClient.IS_SYSTEM_MAC
 ), EventListener {
 
-    override val shouldHandleEvents = true
+    override val shouldHandleEvents = !fixedSize
 
     /**
      * Initializes the framebuffer.

@@ -32,6 +32,7 @@ class SettingClientMultiText(
     name: String,
     desc: String?,
     value: Set<String>,
+    val upperCase: Boolean,
     hide: () -> Boolean,
     change: (Set<String>) -> Unit
 ) : SettingClient<Set<String>>(container, name, desc, value, hide, change) {
@@ -43,7 +44,7 @@ class SettingClientMultiText(
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
             setNextItemWidth(getColumnWidth())
-            if (inputTextWithHint("##AddText", "Add text...", add, ImGuiInputTextFlags.EnterReturnsTrue)) {
+            if (inputTextWithHint("##AddText", "Add text...", add, ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0)) {
                 if (add.get().isNotEmpty()) {
                     value = value.plus(add.get())
                     onChange(value)
@@ -77,7 +78,7 @@ class SettingClientMultiText(
                             setKeyboardFocusHere()
                             focus = false
                         }
-                        if (inputText("##EditText", buffer, ImGuiInputTextFlags.EnterReturnsTrue)) {
+                        if (inputText("##EditText", buffer, ImGuiInputTextFlags.EnterReturnsTrue or if (upperCase) ImGuiInputTextFlags.CharsUppercase else 0)) {
                             if (buffer.get().isNotEmpty()) {
                                 if (text != buffer.get()) {
                                     edit(text, buffer.get())
@@ -105,7 +106,7 @@ class SettingClientMultiText(
     }
 
     override fun load(value: JsonObject) {
-        this.value = value.getAsJsonArray("texts").map { it.asString }.toSet()
+        this.value = value.getAsJsonArray("texts").map { if (upperCase) it.asString.uppercase() else it.asString }.toSet()
     }
 
     override fun save(value: JsonObject) {
@@ -136,6 +137,7 @@ fun IFeature.multiText(
     name: String,
     desc: String? = null,
     value: Set<String> = mutableSetOf(),
+    upperCase: Boolean = false,
     hide: () -> Boolean = { false },
     change: (Set<String>) -> Unit = {}
-) = SettingClientMultiText(this::class, name, desc, value, hide, change)
+) = SettingClientMultiText(this::class, name, desc, value, upperCase, hide, change)

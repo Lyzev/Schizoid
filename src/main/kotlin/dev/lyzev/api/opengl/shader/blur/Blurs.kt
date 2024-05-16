@@ -30,6 +30,8 @@ enum class Blurs(override val key: String, val blur: Blur) : OptionEnum, Blur {
 
     override fun render(sourceFBO: Framebuffer, alpha: Boolean) = blur.render(sourceFBO, alpha)
 
+    override fun render(sourceTex: Int, alpha: Boolean) = blur.render(sourceTex, alpha)
+
     override val output: WrappedFramebuffer
         get() = blur.output
 }

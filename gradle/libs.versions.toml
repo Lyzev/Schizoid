@@ -26,8 +26,8 @@ reflections = "0.10.2"
 imgui = "1.86.11"
 # https://github.com/xdrop/fuzzywuzzy
 fuzzywuzzy = "1.4.0"
-# https://github.com/Lyzev/WindowsReadMediaInfo
-wrmi = "v0.1.1"
+# https://github.com/Redstonecrafter0/MediaPlayerInfo/
+mpi = "0.1.0"
 
 # https://github.com/TerraformersMC/ModMenu
 modmenu = "10.0.0-beta.1"
@@ -54,7 +54,7 @@ imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", ver
 
 fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
 
-wrmi = { module = "com.github.Lyzev:WindowsReadMediaInfo", version.ref = "wrmi" }
+mpi = { module = "dev.redstones.mediaplayerinfo:media-player-info", version.ref = "mpi" }
 
 modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }

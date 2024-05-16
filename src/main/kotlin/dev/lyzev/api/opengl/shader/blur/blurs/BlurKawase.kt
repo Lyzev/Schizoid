@@ -52,23 +52,22 @@ object BlurKawase : Blur {
      * @param size The size of the blur.
      * @param alpha Whether to use alpha blending.
      */
-    private fun renderToFBO(targetFBO: Framebuffer, sourceFBO: Framebuffer, size: Float, alpha: Boolean) {
+    private fun renderToFBO(targetFBO: Framebuffer, sourceTex: Int, size: Float, alpha: Boolean) {
         targetFBO.clear()
         targetFBO.beginWrite(true)
         ShaderKawase.bind()
         RenderSystem.activeTexture(GlConst.GL_TEXTURE0)
-        sourceFBO.beginRead()
-        ShaderKawase.setUniforms(texelSize, size, alpha)
+        RenderSystem.bindTexture(sourceTex)
+        ShaderKawase.setUniforms(texelSize.set(1f / targetFBO.textureWidth, 1f / targetFBO.textureHeight), size, alpha)
         Shader.drawFullScreen()
         ShaderKawase.unbind()
     }
 
-    override fun render(sourceFBO: Framebuffer, alpha: Boolean) {
-        texelSize.set(1f / sourceFBO.textureWidth, 1f / sourceFBO.textureHeight)
+    override fun render(sourceTex: Int, alpha: Boolean) {
         // Initial iteration
-        renderToFBO(if (strength == 1) out else fbos[0], sourceFBO, if (strength > 1) .5f else .25f, alpha)
+        renderToFBO(if (strength == 1) out else fbos[0], sourceTex, if (strength > 1) .5f else .25f, alpha)
         // Rest of the iterations
-        for (i in 2..strength) renderToFBO(if (i == strength) out else fbos[(i - 1) % 2], fbos[i % 2], i * .5f, alpha)
+        for (i in 2..strength) renderToFBO(if (i == strength) out else fbos[(i - 1) % 2], fbos[i % 2].colorAttachment, i * .5f, alpha)
     }
 
     override val output: WrappedFramebuffer
