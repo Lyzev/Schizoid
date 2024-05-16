@@ -5,22 +5,18 @@
 
 package dev.lyzev.api.setting.settings
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import dev.lyzev.api.events.EventKeybindsRequest
 import dev.lyzev.api.events.EventKeybindsResponse
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
-import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
-import imgui.flag.ImGuiStyleVar
+import kotlinx.serialization.json.*
 import org.lwjgl.glfw.GLFW
 import kotlin.math.max
-import kotlin.math.min
 import kotlin.reflect.KClass
 
 /**
@@ -85,12 +81,13 @@ class SettingClientKeybinds(
         }
     }
 
-    override fun load(value: JsonObject) {
-        this.value = value["keys"].asJsonArray.map { it.asString }.map { GLFWKey.valueOf(it) }.toSet()
+    override fun load(value: JsonElement) {
+        this.value = value.jsonArray.map { GLFWKey.valueOf(it.jsonPrimitive.content) }.toSet()
     }
 
-    override fun save(value: JsonObject) =
-        value.add("keys", JsonArray().apply { this@SettingClientKeybinds.value.map { it.name }.forEach(this::add) })
+    override fun save(): JsonElement {
+        return JsonArray(value.map { JsonPrimitive(it.name) })
+    }
 
     override val shouldHandleEvents: Boolean
         get() = isListening

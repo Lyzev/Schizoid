@@ -5,15 +5,13 @@
 
 package dev.lyzev.api.setting.settings
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
 import imgui.flag.ImGuiInputTextFlags
 import imgui.type.ImString
+import kotlinx.serialization.json.*
 import kotlin.math.max
 import kotlin.reflect.KClass
 
@@ -105,14 +103,12 @@ class SettingClientMultiText(
         onChange(value)
     }
 
-    override fun load(value: JsonObject) {
-        this.value = value.getAsJsonArray("texts").map { if (upperCase) it.asString.uppercase() else it.asString }.toSet()
+    override fun load(value: JsonElement) {
+        this.value = value.jsonArray.map { it.jsonPrimitive.content.let { i -> if (upperCase) i.uppercase() else i } }.toSet()
     }
 
-    override fun save(value: JsonObject) {
-        val array = JsonArray()
-        this.value.forEach { array.add(it) }
-        value.add("texts", array)
+    override fun save(): JsonElement {
+        return JsonArray(value.map { JsonPrimitive(it) })
     }
 
     companion object {

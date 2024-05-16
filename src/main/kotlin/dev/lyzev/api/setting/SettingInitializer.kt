@@ -5,15 +5,21 @@
 
 package dev.lyzev.api.setting
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventShutdown
 import dev.lyzev.api.events.on
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
+import kotlinx.serialization.Contextual
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
+import kotlin.reflect.KClass
 import kotlin.reflect.jvm.jvmName
 
 /**
@@ -24,18 +30,26 @@ object SettingInitializer : EventListener {
     // Indicates whether this event listener should handle events.
     override val shouldHandleEvents = true
 
+    val json = Json {
+        prettyPrint = true
+    }
+
+    @Serializable
+    data class ClientSettingJson(
+        val `class`: String,
+        val type: String,
+        val name: String,
+        val value: JsonElement
+    )
+
     init {
         // Loads the client settings from a "settings.json" file.
         val settingsConfigFile = Schizoid.root.resolve("settings.json")
         if (settingsConfigFile.exists()) {
-            val root = JsonParser.parseString(settingsConfigFile.readText()).asJsonArray
-            root.forEach {
-                if (it.isJsonObject) {
-                    val obj = it.asJsonObject
-                    val setting = SettingManager.get(obj["class"].asString, obj["type"].asString, obj["name"].asString)
-                    if (setting !is SettingClient<*>) return@forEach
-                    setting.load(obj["value"].asJsonObject)
-                }
+            json.decodeFromString<List<ClientSettingJson>>(settingsConfigFile.readText()).forEach {
+                val setting = SettingManager.settings.firstOrNull { i -> i.container.jvmName == it.`class` && i::class.jvmName == it.type && i.name == it.name }
+                if (setting !is SettingClient<*>) return@forEach
+                setting.load(it.value)
             }
         }
 
@@ -45,20 +59,8 @@ object SettingInitializer : EventListener {
          * @param E The [ShutdownEvent] triggered during application shutdown.
          */
         on<EventShutdown> {
-            val root = JsonArray()
-            SettingManager.settings.forEach {
-                if (it !is SettingClient<*>) return@forEach
-                val setting = JsonObject()
-                setting.addProperty("class", it.container.jvmName)
-                setting.addProperty("type", it::class.jvmName)
-                setting.addProperty("name", it.name)
-                setting.add("value", JsonObject().also { value ->
-                    it.save(value)
-                })
-                root.add(setting)
-            }
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            Schizoid.root.resolve("settings.json").writeText(gson.toJson(root))
+            val data = SettingManager.settings.filterIsInstance<SettingClient<*>>().map { ClientSettingJson(it.container.jvmName, it::class.jvmName, it.name, it.save()) }
+            Schizoid.root.resolve("settings.json").writeText(json.encodeToString(data))
         }
     }
 }

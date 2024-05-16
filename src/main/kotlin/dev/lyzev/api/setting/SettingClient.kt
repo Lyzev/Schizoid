@@ -5,13 +5,11 @@
 
 package dev.lyzev.api.setting
 
-import com.google.gson.JsonObject
 import dev.lyzev.api.imgui.render.ImGuiRenderable
-import dev.lyzev.api.imgui.render.ImGuiRenderer
 import dev.lyzev.api.settings.Setting
 import dev.lyzev.schizoid.feature.IFeature
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import imgui.ImGui
+import kotlinx.serialization.json.JsonElement
 import kotlin.reflect.KClass
 
 /**
@@ -39,13 +37,13 @@ abstract class SettingClient<T>(
      * Load the setting value from a JSON object.
      * @param value The JSON object containing the setting value.
      */
-    abstract fun load(value: JsonObject)
+    abstract fun load(value: JsonElement)
 
     /**
      * Save the setting value to a JSON object.
      * @param value The JSON object to store the setting value.
      */
-    abstract fun save(value: JsonObject)
+    abstract fun save(): JsonElement
 
     companion object {
         /**

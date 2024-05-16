@@ -5,11 +5,11 @@
 
 package dev.lyzev.api.setting.settings
 
-import com.google.gson.JsonObject
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
 import imgui.flag.ImGuiColorEditFlags
+import kotlinx.serialization.json.*
 import java.awt.Color
 import kotlin.reflect.KClass
 
@@ -40,17 +40,21 @@ class SettingClientColor(
         }
     }
 
-    override fun load(value: JsonObject) {
-        val red = value["red"].asInt
-        val green = value["green"].asInt
-        val blue = value["blue"].asInt
+    override fun load(value: JsonElement) {
+        val red = value.jsonObject["red"]?.jsonPrimitive?.int ?: this.value.red
+        val green = value.jsonObject["green"]?.jsonPrimitive?.int ?: this.value.green
+        val blue = value.jsonObject["blue"]?.jsonPrimitive?.int ?: this.value.blue
         this.value = Color(red, green, blue)
     }
 
-    override fun save(value: JsonObject) {
-        value.addProperty("red", this.value.red)
-        value.addProperty("green", this.value.green)
-        value.addProperty("blue", this.value.blue)
+    override fun save(): JsonElement {
+        return JsonObject(
+            mapOf(
+                "red" to JsonPrimitive(value.red),
+                "green" to JsonPrimitive(value.green),
+                "blue" to JsonPrimitive(value.blue)
+            )
+        )
     }
 
     companion object {

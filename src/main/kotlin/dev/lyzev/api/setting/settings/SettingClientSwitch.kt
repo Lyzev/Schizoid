@@ -5,7 +5,6 @@
 
 package dev.lyzev.api.setting.settings
 
-import com.google.gson.JsonObject
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
 import dev.lyzev.api.setting.SettingClient
@@ -13,6 +12,10 @@ import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImColor
 import imgui.ImGui.*
 import imgui.flag.ImGuiCol.Button
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.jsonPrimitive
 import net.minecraft.util.math.MathHelper
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -54,11 +57,11 @@ class SettingClientSwitch(
             shadowValue = v[0]
     }
 
-    override fun load(value: JsonObject) {
-        this.shadowValue = value["enabled"].asBoolean
+    override fun load(value: JsonElement) {
+        this.shadowValue = value.jsonPrimitive.boolean
     }
 
-    override fun save(value: JsonObject) = value.addProperty("enabled", this.shadowValue)
+    override fun save(): JsonElement = JsonPrimitive(shadowValue)
 
     override fun setValue(ref: Any, prop: KProperty<*>, value: Boolean) {
         switch.timeAnimator.setReversed(!value)

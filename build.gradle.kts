@@ -14,6 +14,7 @@ import java.util.*
 
 plugins {
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.dokka)
     alias(libs.plugins.shadow)
     alias(libs.plugins.fabric.loom)

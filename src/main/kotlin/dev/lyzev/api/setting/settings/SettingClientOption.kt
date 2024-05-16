@@ -5,12 +5,13 @@
 
 package dev.lyzev.api.setting.settings
 
-import com.google.gson.JsonObject
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
-import imgui.ImGui
 import imgui.ImGui.*
 import imgui.flag.ImGuiComboFlags
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.jsonPrimitive
 import kotlin.reflect.KClass
 
 /**
@@ -49,11 +50,11 @@ class SettingClientOptionString(
         }
     }
 
-    override fun load(value: JsonObject) {
-        this.value = value["selected"].asString
+    override fun load(value: JsonElement) {
+        this.value = value.jsonPrimitive.content
     }
 
-    override fun save(value: JsonObject) = value.addProperty("selected", this.value)
+    override fun save(): JsonElement = JsonPrimitive(value)
 }
 
 /**
@@ -92,11 +93,11 @@ class SettingClientOptionEnum<T : OptionEnum>(
         }
     }
 
-    override fun load(value: JsonObject) {
-        options.firstOrNull { it.key == value["selected"].asString }?.let { this.value = it }
+    override fun load(value: JsonElement) {
+        this.value = options.firstOrNull { it.key == value.jsonPrimitive.content } ?: return
     }
 
-    override fun save(value: JsonObject) = value.addProperty("selected", this.value.key)
+    override fun save(): JsonElement = JsonPrimitive(value.key)
 }
 
 /**
