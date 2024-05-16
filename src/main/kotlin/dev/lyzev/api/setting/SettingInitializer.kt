@@ -10,10 +10,12 @@ import dev.lyzev.api.events.EventSettingChange
 import dev.lyzev.api.events.on
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature.mc
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
+import net.minecraft.text.Text
 import java.io.File
 import kotlin.reflect.jvm.jvmName
 
@@ -45,10 +47,13 @@ object SettingInitializer : EventListener {
 
     val available: Set<String>
         get() = Schizoid.configDir.listFiles()
-            ?.filter { it.isFile && it.endsWith(".json") }
+            ?.filter { it.isFile && it.name.endsWith(".json") }
             ?.map { it.name.removeSuffix(".json") }
             ?.toMutableSet()
-            ?.apply { add("default") }?.toSet() ?: setOf("default")
+            ?.apply {
+                add("default")
+                add(loaded)
+            }?.toSet() ?: setOf("default", loaded)
 
     private var loading = false
 
