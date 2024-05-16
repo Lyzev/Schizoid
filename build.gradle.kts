@@ -67,8 +67,7 @@ dependencies {
     implementation(libs.reflections)
     implementation(libs.bundles.imgui)
     implementation(libs.fuzzywuzzy)
-    implementation(libs.wrmi)
-   implementation(files("MediaPlayerInfo-0.1.0+1de23c2.jar")) // TODO: Not ready for release, waiting for official release of the library
+    implementation(libs.mpi)
 
     // Mods (optional)
     modRuntimeOnly(libs.bundles.modrinth)
@@ -269,7 +268,7 @@ tasks {
             include(dependency(libs.lyzev.settings.get()))
             include(dependency(libs.reflections.get()))
             include(dependency(libs.fuzzywuzzy.get()))
-            include(dependency(libs.wrmi.get()))
+            include(dependency(libs.mpi.get()))
             include(dependency("org.javassist:javassist")) // dependency of reflections
             libs.bundles.imgui.get().forEach { include(dependency(it)) }
         }
