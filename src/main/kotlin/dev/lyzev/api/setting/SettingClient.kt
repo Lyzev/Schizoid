@@ -41,7 +41,7 @@ abstract class SettingClient<T>(
 
     /**
      * Save the setting value to a JSON object.
-     * @param value The JSON object to store the setting value.
+     * @return The JSON object to store the setting value.
      */
     abstract fun save(): JsonElement
 
