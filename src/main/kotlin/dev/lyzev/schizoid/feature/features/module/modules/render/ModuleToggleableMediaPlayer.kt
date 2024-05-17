@@ -58,8 +58,11 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
 
     private val fallbackArtwork =
         WrappedNativeImageBackedTexture(NativeImage.read(javaClass.getResourceAsStream("/assets/${Schizoid.MOD_ID}/textures/vinyl.png"))).apply { upload() }
-    private const val SPOTIFY_NO_ARTWORK =
-        "29dbaf46e36d5f2b46e1d1c3ea46e65c4bfd17ec29e82a5fbfb6d6c47ec3089cf2a54b4ebc7fde3fb5c27c1caa1a24d333b413a98a15858b7622bc7be71e8ce2"
+    private val noArtwork = setOf(
+        "29dbaf46e36d5f2b46e1d1c3ea46e65c4bfd17ec29e82a5fbfb6d6c47ec3089cf2a54b4ebc7fde3fb5c27c1caa1a24d333b413a98a15858b7622bc7be71e8ce2", // Spotify
+        "51ee4a2b0b0a7020bd38ac604030a02c6f0c9c297c73afe80446c3f92ba69399d27e231ab08eeb7204df7cd81e163f57bd12b716083770dc5f745e1654af9329", // Chrome
+        "408b4bbece1ba73dbeb3b46bd31f43002fc775bc21164f4a08dd038133529c736be3fe9c578b8ad3fd74ba1aad9521d9b8b2bbf606971b30e5cfa8e83d27a7b1" // Vivaldi
+    )
     private var session: IMediaSession? = null
     private val blurredArtwork = WrappedFramebuffer(width = 1000, height = 1000, fixedSize = true)
 
@@ -93,7 +96,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                 Info.entries.forEach { it.update(dummy) }
                 this.session = null
             } else {
-                if (this.session == null || this.session!!.media.title != session.media.title || this.session!!.media.artist != session.media.artist) Info.entries.forEach {
+                if (this.session == null || this.session!!.media.title != session.media.title || this.session!!.media.artist != session.media.artist || !this.session!!.media.artworkPng.contentEquals(session.media.artworkPng)) Info.entries.forEach {
                     it.update(
                         session.media
                     )
@@ -250,7 +253,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                 if (media == null) return
                 if (artwork == null) {
                     artwork =
-                        if (media!!.artworkPng.isEmpty() || Sha512.hash(media!!.artworkPng) == SPOTIFY_NO_ARTWORK) fallbackArtwork
+                        if (media!!.artworkPng.isEmpty() || Sha512.hash(media!!.artworkPng) in noArtwork) fallbackArtwork
                         else WrappedNativeImageBackedTexture(NativeImage.read(media!!.artworkPng.inputStream())).apply { upload() }
                     Render.store()
                     RenderSystem.disableCull()
