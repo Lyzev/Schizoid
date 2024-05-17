@@ -60,6 +60,8 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
         WrappedNativeImageBackedTexture(NativeImage.read(javaClass.getResourceAsStream("/assets/${Schizoid.MOD_ID}/textures/vinyl.png"))).apply { upload() }
     private const val SPOTIFY_NO_ARTWORK =
         "29dbaf46e36d5f2b46e1d1c3ea46e65c4bfd17ec29e82a5fbfb6d6c47ec3089cf2a54b4ebc7fde3fb5c27c1caa1a24d333b413a98a15858b7622bc7be71e8ce2"
+    private const val CHROME_NO_ARTWORK =
+        "51ee4a2b0b0a7020bd38ac604030a02c6f0c9c297c73afe80446c3f92ba69399d27e231ab08eeb7204df7cd81e163f57bd12b716083770dc5f745e1654af9329"
     private var session: IMediaSession? = null
     private val blurredArtwork = WrappedFramebuffer(width = 1000, height = 1000, fixedSize = true)
 
@@ -93,7 +95,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                 Info.entries.forEach { it.update(dummy) }
                 this.session = null
             } else {
-                if (this.session == null || this.session!!.media.title != session.media.title || this.session!!.media.artist != session.media.artist) Info.entries.forEach {
+                if (this.session == null || this.session!!.media.title != session.media.title || this.session!!.media.artist != session.media.artist || !this.session!!.media.artworkPng.contentEquals(session.media.artworkPng)) Info.entries.forEach {
                     it.update(
                         session.media
                     )
@@ -250,7 +252,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                 if (media == null) return
                 if (artwork == null) {
                     artwork =
-                        if (media!!.artworkPng.isEmpty() || Sha512.hash(media!!.artworkPng) == SPOTIFY_NO_ARTWORK) fallbackArtwork
+                        if (media!!.artworkPng.isEmpty() || Sha512.hash(media!!.artworkPng) == SPOTIFY_NO_ARTWORK || Sha512.hash(media!!.artworkPng) == CHROME_NO_ARTWORK) fallbackArtwork
                         else WrappedNativeImageBackedTexture(NativeImage.read(media!!.artworkPng.inputStream())).apply { upload() }
                     Render.store()
                     RenderSystem.disableCull()
