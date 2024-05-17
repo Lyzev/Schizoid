@@ -8,6 +8,7 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
 import dev.lyzev.api.events.EventGetFOV
+import dev.lyzev.api.events.EventGetMouseSensitivity
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
@@ -32,6 +33,11 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
      * The fov of the zoom.
      */
     val fov by slider("FOV", "The fov of the zoom.", 10f, 1f, 30f, allowOutOfBounds = true)
+
+    /**
+     * The sensitivity multiplier of the zoom. Changes by default nothing.
+     * */
+    val sensitivityMultiplier by slider("Sentitivity Multiplier", "The sensifivity multiplier applied while zooming.", 1F, 0f, 1f, allowOutOfBounds = true)
 
     val smoothCamera by switch("Smooth Camera", "Enables the smooth camera.", false)
 
@@ -74,6 +80,11 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
         var originalSmoothCamera = false
         var isZooming = false
         timeAnimator.setReversed(true)
+        on<EventGetMouseSensitivity> { event ->
+            if (isZooming) {
+                event.sensitivity *= sensitivityMultiplier
+            }
+        }
         on<EventGetFOV> { event ->
             var isKeyDown = false
             zoomKeys.forEach { key ->

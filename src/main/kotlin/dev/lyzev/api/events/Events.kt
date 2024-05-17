@@ -168,3 +168,5 @@ object EventReload : Event
 class EventGetFOV(var fov: Double) : Event
 
 object EventScheduleTask : Event
+
+class EventGetMouseSensitivity(var sensitivity: Double) : Event
