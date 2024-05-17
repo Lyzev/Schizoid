@@ -96,7 +96,9 @@ object Schizoid : EventListener {
     /**
      * The root directory of the Schizoid mod, used for storing mod-specific data.
      */
-    val root = File(System.getProperty("user.home") + File.separator + MOD_ID).apply { if (!exists()) mkdir() }
+    val root = File(System.getProperty("user.home") + File.separator + MOD_ID).apply { if (!exists() || !isDirectory) mkdirs() }
+
+    val configDir = root.resolve("config").apply { if (!exists() || !isDirectory) mkdirs() }
 
     /**
      * The logger for the Schizoid mod.
@@ -120,7 +122,7 @@ object Schizoid : EventListener {
                 if (DEVELOPER_MODE)
                     logger.warn("Running in developer mode!")
                 FeatureManager
-                SettingInitializer
+                SettingInitializer.reload()
                 OSTheme.startListenForUpdatesThread()
                 Runtime.getRuntime().addShutdownHook(Thread { EventShutdown.fire() })
                 logger.info("Initialized ${FeatureManager.features.size} features!")

@@ -5,15 +5,18 @@
 
 package dev.lyzev.api.setting
 
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventShutdown
+import dev.lyzev.api.events.EventSettingChange
 import dev.lyzev.api.events.on
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
+import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature.mc
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
+import net.minecraft.text.Text
+import java.io.File
 import kotlin.reflect.jvm.jvmName
 
 /**
@@ -24,41 +27,78 @@ object SettingInitializer : EventListener {
     // Indicates whether this event listener should handle events.
     override val shouldHandleEvents = true
 
-    init {
-        // Loads the client settings from a "settings.json" file.
-        val settingsConfigFile = Schizoid.root.resolve("settings.json")
-        if (settingsConfigFile.exists()) {
-            val root = JsonParser.parseString(settingsConfigFile.readText()).asJsonArray
-            root.forEach {
-                if (it.isJsonObject) {
-                    val obj = it.asJsonObject
-                    val setting = SettingManager.get(obj["class"].asString, obj["type"].asString, obj["name"].asString)
-                    if (setting !is SettingClient<*>) return@forEach
-                    setting.load(obj["value"].asJsonObject)
-                }
-            }
+    val json = Json {
+        prettyPrint = true
+    }
+
+    @Serializable
+    data class ClientSettingJson(
+        val `class`: String,
+        val type: String,
+        val name: String,
+        val value: JsonElement
+    )
+
+    var loaded = Schizoid.configDir.resolve("loaded.txt").let { if (it.exists() && it.isFile) it.readText() else "default" }
+        set(value) {
+            field = value
+            Schizoid.configDir.resolve("loaded.txt").writeText(value)
         }
 
-        /**
-         * Handles the shutdown event by saving the modified client settings into a "settings.json" file.
-         *
-         * @param E The [ShutdownEvent] triggered during application shutdown.
-         */
-        on<EventShutdown> {
-            val root = JsonArray()
-            SettingManager.settings.forEach {
-                if (it !is SettingClient<*>) return@forEach
-                val setting = JsonObject()
-                setting.addProperty("class", it.container.jvmName)
-                setting.addProperty("type", it::class.jvmName)
-                setting.addProperty("name", it.name)
-                setting.add("value", JsonObject().also { value ->
-                    it.save(value)
-                })
-                root.add(setting)
+    val available: Set<String>
+        get() = Schizoid.configDir.listFiles()
+            ?.filter { it.isFile && it.name.endsWith(".json") }
+            ?.map { it.name.removeSuffix(".json") }
+            ?.toMutableSet()
+            ?.apply {
+                add("default")
+                add(loaded)
+            }?.toSet() ?: setOf("default", loaded)
+
+    private var loading = false
+
+    fun loadDefaults() {
+        SettingManager.settings.filterIsInstance<SettingClient<*>>().forEach { it.reset() }
+    }
+
+    fun reload() {
+        loading = true
+        loadDefaults()
+        val settingsConfigFile = Schizoid.configDir.resolve("$loaded.json")
+        if (settingsConfigFile.canonicalPath.startsWith(Schizoid.configDir.canonicalPath) && settingsConfigFile.exists() && settingsConfigFile.isFile) {
+            json.decodeFromString<List<ClientSettingJson>>(settingsConfigFile.readText()).forEach {
+                val setting = SettingManager.settings.firstOrNull { i -> i.container.jvmName == it.`class` && i::class.jvmName == it.type && i.name == it.name }
+                if (setting !is SettingClient<*>) return@forEach
+                setting.load(it.value)
             }
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            Schizoid.root.resolve("settings.json").writeText(gson.toJson(root))
+            loading = false
+            SettingManager.settings.filterIsInstance<SettingClient<*>>().forEach { it.configOnChange() }
+        }
+        loading = false
+    }
+
+    fun saveCurrentConfig() {
+        val settingsConfigFile = Schizoid.configDir.resolve("$loaded.json")
+        if (settingsConfigFile.canonicalPath.startsWith(Schizoid.configDir.canonicalPath)) {
+            if (!settingsConfigFile.parentFile.exists() || !settingsConfigFile.parentFile.isDirectory) settingsConfigFile.parentFile.mkdirs()
+            val data = SettingManager.settings.filterIsInstance<SettingClient<*>>().map { ClientSettingJson(it.container.jvmName, it::class.jvmName, it.name, it.save()) }
+            Schizoid.configDir.resolve("$loaded.json").writeText(json.encodeToString(data))
+        }
+    }
+
+    fun getConfigFile(name: String): File? {
+        val settingsConfigFile = Schizoid.configDir.resolve("$name.json")
+        return if (settingsConfigFile.canonicalPath.startsWith(Schizoid.configDir.canonicalPath) && settingsConfigFile.exists() && settingsConfigFile.isFile) {
+            settingsConfigFile
+        } else {
+            null
+        }
+    }
+
+    init {
+        on<EventSettingChange> {
+            if (loading) return@on
+            saveCurrentConfig()
         }
     }
 }

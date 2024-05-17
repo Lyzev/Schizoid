@@ -10,6 +10,7 @@ import dev.lyzev.api.animation.TimeAnimator
 import dev.lyzev.api.events.EventGetFOV
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventUpdateMouse
+import dev.lyzev.api.events.EventMouseScroll
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.setting.settings.keybinds
@@ -20,7 +21,9 @@ import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.util.InputUtil
+import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
+import kotlin.math.sign
 
 /**
  * This enum represents the possible units of the timer.
@@ -40,6 +43,8 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
     val weight by slider("Weight", "The weight of the mouse movement applied while zooming.", 20, 1, 100, "%%")
 
     val smoothCamera by switch("Smooth Camera", "Enables the smooth camera.", false)
+
+    val scrollable by switch("Scrolling", "Enables zooming with the mouse wheel.", true)
 
     /**
      * The keys to zoom.
@@ -79,6 +84,7 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
         var originalFov = 0.0
         var originalSmoothCamera = false
         var isZooming = false
+        var scrollOffset = 0
         timeAnimator.setReversed(true)
         on<EventUpdateMouse> {
             if (!isZooming)
@@ -87,6 +93,12 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
             val weight = weight / 100f
             mouse.cursorDeltaX *= weight
             mouse.cursorDeltaY *= weight
+        }
+        on<EventMouseScroll> { event ->
+            if (isZooming && scrollable) {
+                event.isCancelled = true
+                scrollOffset += sign(event.vertical).toInt()
+            }
         }
         on<EventGetFOV> { event ->
             var isKeyDown = false
@@ -97,9 +109,9 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
                         originalSmoothCamera = mc.options.smoothCameraEnabled
                         mc.options.smoothCameraEnabled = smoothCamera
                     }
-                    if (animation) event.fov =
-                        MathHelper.lerp(animationType(timeAnimator.getProgress()), originalFov, fov.toDouble())
-                    else event.fov = fov.toDouble()
+                    scrollOffset = scrollOffset.coerceIn(fov.toInt() - 70, fov.toInt() - 1)
+                    event.fov = (if (scrollable) -scrollOffset else 0) + if (animation) MathHelper.lerp(animationType(timeAnimator.getProgress()), originalFov, fov.toDouble())
+                    else fov.toDouble()
                     isZooming = true
                     isKeyDown = true
                 }
@@ -107,6 +119,7 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
             if (isZooming && !isKeyDown) {
                 timeAnimator.setReversed(true)
                 isZooming = false
+                scrollOffset = 0
                 mc.options.smoothCameraEnabled = originalSmoothCamera
             }
             if (!isKeyDown) {
