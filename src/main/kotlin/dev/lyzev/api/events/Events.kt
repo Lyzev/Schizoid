@@ -167,4 +167,6 @@ object EventReload : Event
 
 class EventGetFOV(var fov: Double) : Event
 
-object EventScheduleTask : Event
+object EventScheduleTask: Event
+
+object EventSettingChange: Event

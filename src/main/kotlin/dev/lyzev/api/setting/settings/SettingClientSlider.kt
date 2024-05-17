@@ -5,10 +5,10 @@
 
 package dev.lyzev.api.setting.settings
 
-import com.google.gson.JsonObject
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
+import kotlinx.serialization.json.*
 import net.minecraft.util.math.MathHelper
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
@@ -88,25 +88,15 @@ class SettingClientSlider<T : Number>(
             super.setValue(ref, prop, MathHelper.clamp(value.toFloat(), minValue.toFloat(), maxValue.toFloat()) as T)
     }
 
-    override fun load(value: JsonObject) {
-        if (value.has("number")) {
-            if (valueType == Int::class) {
-                if (allowOutOfBounds)
-                    this.value = value["number"].asInt as T
-                else
-                    this.value = MathHelper.clamp(value["number"].asInt, minValue.toInt(), maxValue.toInt()) as T
-            } else if (valueType == Float::class) {
-                if (allowOutOfBounds)
-                    this.value = value["number"].asFloat as T
-                else
-                    this.value = MathHelper.clamp(value["number"].asFloat, minValue.toFloat(), maxValue.toFloat()) as T
-            }
+    override fun load(value: JsonElement) {
+        this.value = when (valueType) {
+            Int::class -> value.jsonPrimitive.int.let { if (allowOutOfBounds) it else it.coerceIn(minValue.toInt(), maxValue.toInt()) } as T
+            Float::class -> value.jsonPrimitive.float.let { if (allowOutOfBounds) it else it.coerceIn(minValue.toFloat(), maxValue.toFloat()) } as T
+            else -> return
         }
     }
 
-    override fun save(value: JsonObject) {
-        value.addProperty("number", this.value)
-    }
+    override fun save(): JsonElement = JsonPrimitive(value)
 
     companion object {
         /**

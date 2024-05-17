@@ -5,12 +5,11 @@
 
 package dev.lyzev.api.setting.settings
 
-import com.google.gson.JsonArray
-import com.google.gson.JsonObject
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
 import imgui.flag.ImGuiStyleVar
+import kotlinx.serialization.json.*
 import kotlin.math.max
 import kotlin.reflect.KClass
 
@@ -60,23 +59,13 @@ class SettingClientMultiOptionString(
         }
     }
 
-    override fun load(value: JsonObject) {
-        val values = value.getAsJsonArray("selected").map { it.asString }
-        val tmp = mutableSetOf<Pair<String, Boolean>>()
-        for (i in this.value.indices) {
-            val selected = this.value.elementAt(i).first
-            tmp.add(selected to values.contains(selected))
-        }
-        this.value = tmp
+    override fun load(value: JsonElement) {
+        val values = value.jsonArray.map { it.jsonPrimitive.content }.toSet()
+        this.value = this.value.map { it.first to (it.first in values) }.toSet()
     }
 
-    override fun save(value: JsonObject) {
-        val selected = JsonArray()
-        for (tmp in this.value) {
-            if (tmp.second)
-                selected.add(tmp.first)
-        }
-        value.add("selected", selected)
+    override fun save(): JsonElement {
+        return JsonArray(value.filter { it.second }.map { JsonPrimitive(it.first) })
     }
 }
 
@@ -126,23 +115,13 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
         }
     }
 
-    override fun load(value: JsonObject) {
-        val values = value.getAsJsonArray("selected").map { it.asString }
-        val tmp = mutableSetOf<Pair<T, Boolean>>()
-        for (i in this.value.indices) {
-            val selected = this.value.elementAt(i).first
-            tmp.add(selected to values.contains(selected.key))
-        }
-        this.value = tmp
+    override fun load(value: JsonElement) {
+        val values = value.jsonArray.map { it.jsonPrimitive.content }.toSet()
+        this.value = this.value.map { it.first to (it.first.key in values) }.toSet()
     }
 
-    override fun save(value: JsonObject) {
-        val selected = JsonArray()
-        for (tmp in this.value) {
-            if (tmp.second)
-                selected.add(tmp.first.key)
-        }
-        value.add("selected", selected)
+    override fun save(): JsonElement {
+        return JsonArray(value.filter { it.second }.map { JsonPrimitive(it.first.key) })
     }
 }
 

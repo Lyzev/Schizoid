@@ -5,11 +5,12 @@
 
 package dev.lyzev.api.setting
 
-import com.google.gson.JsonObject
+import dev.lyzev.api.events.EventSettingChange
 import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.settings.Setting
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui
+import kotlinx.serialization.json.JsonElement
 import kotlin.reflect.KClass
 
 /**
@@ -24,7 +25,10 @@ import kotlin.reflect.KClass
  */
 abstract class SettingClient<T>(
     container: KClass<out IFeature>, name: String, desc: String?, value: T, hidden: () -> Boolean, onChange: (T) -> Unit
-) : Setting<T>(container, name, desc, value, hidden, onChange), ImGuiRenderable {
+) : Setting<T>(container, name, desc, value, hidden, {
+    onChange(it)
+    EventSettingChange.fire()
+}), ImGuiRenderable {
 
     val default = value
 
@@ -33,17 +37,21 @@ abstract class SettingClient<T>(
         onChange(value)
     }
 
+    fun configOnChange() {
+        onChange(value)
+    }
+
     /**
      * Load the setting value from a JSON object.
      * @param value The JSON object containing the setting value.
      */
-    abstract fun load(value: JsonObject)
+    abstract fun load(value: JsonElement)
 
     /**
      * Save the setting value to a JSON object.
-     * @param value The JSON object to store the setting value.
+     * @return The JSON object to store the setting value.
      */
-    abstract fun save(value: JsonObject)
+    abstract fun save(): JsonElement
 
     companion object {
         /**
