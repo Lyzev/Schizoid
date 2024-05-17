@@ -7,7 +7,9 @@ package dev.lyzev.schizoid.injection.mixins.minecraft.client;
 
 import dev.lyzev.api.events.EventIsCursorLocked;
 import dev.lyzev.api.events.EventMouseClick;
+import dev.lyzev.api.events.EventMouseScroll;
 import dev.lyzev.api.events.EventUpdateMouse;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
@@ -63,5 +65,16 @@ public class MixinMouse {
     @Inject(method = "updateMouse", at = @At("HEAD"))
     private void onUpdateMouse2(CallbackInfo ci) {
         EventUpdateMouse.INSTANCE.fire();
+    }
+
+    @Inject(method = "onMouseScroll", at = @At("HEAD"), cancellable = true)
+    private void onScroll(long window, double horizontal, double vertical, CallbackInfo ci) {
+        if (window == MinecraftClient.getInstance().getWindow().getHandle()) {
+            EventMouseScroll event = new EventMouseScroll(horizontal, vertical);
+            event.fire();
+            if (event.isCancelled()) {
+                ci.cancel();
+            }
+        }
     }
 }
