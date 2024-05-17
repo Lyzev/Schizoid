@@ -9,6 +9,7 @@ import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
 import dev.lyzev.api.events.EventGetFOV
 import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.EventUpdateMouse
 import dev.lyzev.api.events.EventMouseScroll
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
@@ -35,6 +36,11 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
      * The fov of the zoom.
      */
     val fov by slider("FOV", "The fov of the zoom.", 10f, 1f, 30f, allowOutOfBounds = true)
+
+    /**
+     * The weight of the mouse movement applied while zooming.
+     */
+    val weight by slider("Weight", "The weight of the mouse movement applied while zooming.", 20, 1, 100, "%%")
 
     val smoothCamera by switch("Smooth Camera", "Enables the smooth camera.", false)
 
@@ -80,6 +86,14 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
         var isZooming = false
         var scrollOffset = 0
         timeAnimator.setReversed(true)
+        on<EventUpdateMouse> {
+            if (!isZooming)
+                return@on
+            val mouse = mc.mouse
+            val weight = weight / 100f
+            mouse.cursorDeltaX *= weight
+            mouse.cursorDeltaY *= weight
+        }
         on<EventMouseScroll> { event ->
             if (isZooming && scrollable) {
                 event.isCancelled = true
