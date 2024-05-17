@@ -5,18 +5,15 @@
 
 package dev.lyzev.api.imgui.render.renderable
 
-import dev.lyzev.api.glfw.GLFWKey
+import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_BOLD
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
+import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.setting.SettingInitializer
-import dev.lyzev.schizoid.feature.FeatureManager
-import dev.lyzev.schizoid.feature.IFeature
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature.mc
 import imgui.ImGui.*
 import imgui.type.ImString
 import me.xdrop.fuzzywuzzy.FuzzySearch
-import net.minecraft.text.Text
 
 class ImGuiRenderableConfigManager : ImGuiRenderable {
 
@@ -30,20 +27,31 @@ class ImGuiRenderableConfigManager : ImGuiRenderable {
             setNextItemWidth(getColumnWidth() - OPEN_SANS_REGULAR.size * 2.2F)
             inputTextWithHint("##name", "Name", input)
             sameLine()
-            if (button("+", OPEN_SANS_REGULAR.size * 1.5F, OPEN_SANS_REGULAR.size * 1.5F)) {
-                SettingInitializer.loaded = input.get()
-                input.set("")
+            ImGuiFonts.FONT_AWESOME_SOLID.begin()
+            if (button(FontAwesomeIcons.Plus, OPEN_SANS_REGULAR.size * 1.5F, OPEN_SANS_REGULAR.size * 1.5F)) {
+                val name = input.get()
+                if (name.isNotEmpty()) {
+                    SettingInitializer.loaded = name
+                    input.set("")
+                }
             }
-            if (beginListBox("##nameResults", getColumnWidth(), mc.window.framebufferHeight * .15f)) {
+            ImGuiFonts.FONT_AWESOME_SOLID.end()
+            if (beginListBox("##nameResults", -1f, -1f)) {
                 SettingInitializer.available.sortedByDescending {
                     FuzzySearch.weightedRatio(input.get(), it)
                 }.forEach {
                     if (selectable(it, it == SettingInitializer.loaded)) {
-                        if (it != SettingInitializer.loaded) {
+                        if (getIO().keyCtrl && it != "default" && it == SettingInitializer.loaded) {
+                            SettingInitializer.loaded = "default"
+                            SettingInitializer.reload()
+                            SettingInitializer.getConfigFile(it)?.delete()
+                        } else if (it != SettingInitializer.loaded) {
                             SettingInitializer.loaded = it
                             SettingInitializer.reload()
                         }
                     }
+                    if (it != SettingInitializer.loaded && isItemHovered())
+                        setTooltip("Click to load this config." + if (it != "default") "\nCTRL + Click to delete this config." else "")
                 }
                 endListBox()
             }
@@ -52,9 +60,5 @@ class ImGuiRenderableConfigManager : ImGuiRenderable {
         end()
         OPEN_SANS_BOLD.end()
         popID()
-    }
-
-    companion object {
-        private const val MAX_TIME_BETWEEN_SHIFT_PRESSES = 300L
     }
 }

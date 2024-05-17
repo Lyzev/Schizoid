@@ -26,8 +26,10 @@ import org.lwjgl.glfw.GLFWNativeWin32
 object FeatureDarkTitleBar : IFeature, EventListener {
 
     val mode by option("Mode", "Mode", Mode.System, enumValues<Mode>().toList(), change = ::setTitleBarColor)
+    private var prevMode: Mode? = null
 
     private fun setTitleBarColor(value: Mode) {
+        if (prevMode == value) return
         if (hide) return
         val dark = when (value) {
             Mode.Light -> false
@@ -37,10 +39,10 @@ object FeatureDarkTitleBar : IFeature, EventListener {
         val win32 = GLFWNativeWin32.glfwGetWin32Window(mc.window.handle)
         val hwnd = HWND(Pointer(win32))
         DwmApi.DwmSetWindowAttribute(hwnd, 20, IntByReference(if (dark) 1 else 0), 4)
-
         // Workaround: Reload window
         GLFW.glfwHideWindow(mc.window.handle)
         GLFW.glfwShowWindow(mc.window.handle)
+        prevMode = value
     }
 
     override val name = "Dark Title Bar"
