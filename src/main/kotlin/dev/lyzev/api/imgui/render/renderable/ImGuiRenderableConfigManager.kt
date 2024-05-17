@@ -5,15 +5,16 @@
 
 package dev.lyzev.api.imgui.render.renderable
 
-import dev.lyzev.api.imgui.font.ImGuiFonts
-import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_BOLD
-import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
+import dev.lyzev.api.imgui.font.ImGuiFonts.*
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.setting.SettingInitializer
+import dev.lyzev.schizoid.Schizoid
 import imgui.ImGui.*
+import imgui.flag.ImGuiStyleVar
 import imgui.type.ImString
 import me.xdrop.fuzzywuzzy.FuzzySearch
+import java.awt.Desktop
 
 class ImGuiRenderableConfigManager : ImGuiRenderable {
 
@@ -24,18 +25,33 @@ class ImGuiRenderableConfigManager : ImGuiRenderable {
         OPEN_SANS_BOLD.begin()
         if (begin("\"CONFIG\"")) {
             OPEN_SANS_REGULAR.begin()
-            setNextItemWidth(getColumnWidth() - OPEN_SANS_REGULAR.size * 2.2F)
+            val style = getStyle()
+            setNextItemWidth(getColumnWidth() - style.framePaddingX * 2 - style.windowPaddingX - OPEN_SANS_REGULAR.size * 3F)
             inputTextWithHint("##name", "Name", input)
             sameLine()
-            ImGuiFonts.FONT_AWESOME_SOLID.begin()
-            if (button(FontAwesomeIcons.Plus, OPEN_SANS_REGULAR.size * 1.5F, OPEN_SANS_REGULAR.size * 1.5F)) {
+            FONT_AWESOME_SOLID.begin()
+            var size = calcTextSize(FontAwesomeIcons.Plus)
+            pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - style.itemInnerSpacingX - size.x, -1f)
+            if (button(FontAwesomeIcons.Plus, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
                 val name = input.get()
-                if (name.isNotEmpty()) {
+                if (name.isNotBlank()) {
                     SettingInitializer.loaded = name
                     input.set("")
                 }
             }
-            ImGuiFonts.FONT_AWESOME_SOLID.end()
+            OPEN_SANS_REGULAR.begin()
+            if (isItemHovered())
+                setTooltip(if (input.get().isBlank()) "Enter a name to create a new config." else "Create a new config.")
+            OPEN_SANS_REGULAR.end()
+            sameLine()
+            size = calcTextSize(FontAwesomeIcons.Plus)
+            pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - style.itemInnerSpacingX - size.x, -1f)
+            if (button(FontAwesomeIcons.Folder, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f))
+                Desktop.getDesktop().open(Schizoid.configDir)
+            popStyleVar(2)
+            FONT_AWESOME_SOLID.end()
+            if (isItemHovered())
+                setTooltip("Open the config directory.")
             if (beginListBox("##nameResults", -1f, -1f)) {
                 SettingInitializer.available.sortedByDescending {
                     FuzzySearch.weightedRatio(input.get(), it)
