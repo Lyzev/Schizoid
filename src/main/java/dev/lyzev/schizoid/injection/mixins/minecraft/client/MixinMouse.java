@@ -5,12 +5,10 @@
 
 package dev.lyzev.schizoid.injection.mixins.minecraft.client;
 
-import dev.lyzev.api.events.EventGetMouseSensitivity;
 import dev.lyzev.api.events.EventIsCursorLocked;
 import dev.lyzev.api.events.EventMouseClick;
 import dev.lyzev.api.events.EventUpdateMouse;
 import net.minecraft.client.Mouse;
-import net.minecraft.client.option.SimpleOption;
 import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -66,18 +64,4 @@ public class MixinMouse {
     private void onUpdateMouse2(CallbackInfo ci) {
         EventUpdateMouse.INSTANCE.fire();
     }
-
-    /**
-     * This method is a mixin for the updateMouse method of the Mouse class.
-     * It creates and fires an EventGetMouseSensitivity event when the mouse is updated.
-     * This event allows for modifying the sensitivity without changing the actual value.
-     * @param instance The Minecraft option instance.
-     */
-    @Redirect(method = "updateMouse", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/SimpleOption;getValue()Ljava/lang/Object;", ordinal = 0))
-    private Object onUpdateMouseGetSensitivity(SimpleOption<Double> instance) {
-        EventGetMouseSensitivity event = new EventGetMouseSensitivity(instance.getValue());
-        event.fire();
-        return event.getSensitivity();
-    }
-
 }
