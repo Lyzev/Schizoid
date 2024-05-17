@@ -108,6 +108,10 @@ $dokka.location:dev.lyzev.api.events/EventMouseClick/action/#/PointingToDeclarat
 $dokka.location:dev.lyzev.api.events/EventMouseClick/button/#/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-mouse-click/button.html
 $dokka.location:dev.lyzev.api.events/EventMouseClick/mods/#/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-mouse-click/mods.html
 $dokka.location:dev.lyzev.api.events/EventMouseClick/window/#/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-mouse-click/window.html
+$dokka.location:dev.lyzev.api.events/EventMouseScroll///PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-mouse-scroll/index.html
+$dokka.location:dev.lyzev.api.events/EventMouseScroll/EventMouseScroll/#kotlin.Double#kotlin.Double/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-mouse-scroll/-event-mouse-scroll.html
+$dokka.location:dev.lyzev.api.events/EventMouseScroll/horizontal/#/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-mouse-scroll/horizontal.html
+$dokka.location:dev.lyzev.api.events/EventMouseScroll/vertical/#/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-mouse-scroll/vertical.html
 $dokka.location:dev.lyzev.api.events/EventOSThemeUpdate///PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-o-s-theme-update/index.html
 $dokka.location:dev.lyzev.api.events/EventOSThemeUpdate/EventOSThemeUpdate/#dev.lyzev.api.theme.OSTheme.Theme/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-o-s-theme-update/-event-o-s-theme-update.html
 $dokka.location:dev.lyzev.api.events/EventOSThemeUpdate/theme/#/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-o-s-theme-update/theme.html
@@ -1987,6 +1991,7 @@ $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/Module
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableZoom/animation/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-zoom/animation.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableZoom/animationType/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-zoom/animation-type.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableZoom/fov/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-zoom/fov.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableZoom/scrollable/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-zoom/scrollable.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableZoom/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-zoom/should-handle-events.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableZoom/smoothCamera/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-zoom/smooth-camera.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableZoom/zoomKeys/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-zoom/zoom-keys.html
