@@ -36,9 +36,9 @@ public class MixinMouse {
      * @param mods   The modifier keys that were held down when the button was clicked.
      * @param ci     The callback information.
      */
-    @Inject(method = "onMouseButton", at = @At("TAIL"))
+    @Inject(method = "onMouseButton", at = @At("HEAD"))
     private void onMouseButton(long window, int button, int action, int mods, CallbackInfo ci) {
-        if (button != GLFW.GLFW_KEY_UNKNOWN)
+        if (button != GLFW.GLFW_KEY_UNKNOWN && window == MinecraftClient.getInstance().getWindow().getHandle())
             new EventMouseClick(window, button, action, mods).fire();
     }
 
