@@ -5,10 +5,13 @@
 
 package dev.lyzev.api.opengl.shader
 
-import dev.lyzev.api.events.EventListener
+import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
+import net.minecraft.client.gl.Framebuffer
+import org.joml.Matrix2f
 import org.joml.Vector2f
+import org.joml.Vector2i
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.opengl.GL15
@@ -90,7 +93,7 @@ object ShaderReflection : ShaderVertexFragment("Reflection")
 
 object ShaderColorGrading : ShaderVertexFragment("ColorGrading")
 
-object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
+object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
 
     var amount = 100_000
     private val xpos = doubleArrayOf(0.0)
@@ -106,11 +109,8 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
     private var lastMYPos = -1.0
 
     override fun draw() {
-        deltaTime = deltaTime.coerceAtMost(100f)
         super.draw()
-        bind()
-        bindImageTexture()
-        this["imgOutput"] = 0
+        deltaTime = deltaTime.coerceAtMost(100f)
 
         GLFW.glfwGetCursorPos(Schizoid.mc.window.handle, xpos, ypos)
         this["mousePos"] =
@@ -163,8 +163,6 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
         drawTexture()
     }
 
-    override val shouldHandleEvents = true
-
     private var positionBuffer: Int = 0
 
     override fun init() {
@@ -185,6 +183,30 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1), EventListener {
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, positionBuffer)
         GL44.glBufferStorage(GL_SHADER_STORAGE_BUFFER, buffer, GL_MAP_WRITE_BIT or GL44.GL_DYNAMIC_STORAGE_BIT)
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, positionBuffer)
+        unbind()
+    }
+
+    init {
+        init()
+    }
+}
+
+object ShaderMovingAveragesBoxH : ShaderCompute("MovingAveragesBox", 32, 1, 1) {
+
+    private val horizontal = Matrix2f(1f, 0f, 0f, 1f)
+    private val vertical = Matrix2f(0f, 1f, 1f, 0f)
+
+    fun render(fbo: Framebuffer, texture: Int, direction: Boolean, alpha: Boolean, strength: Int) {
+        bind()
+        GL44.glBindImageTexture(0, fbo.colorAttachment, 0, false, 0, GL_WRITE_ONLY, GL_RGBA8)
+        this["imgOutput"] = 0
+        GL44.glBindImageTexture(1, texture, 0, false, 0, GL_READ_ONLY, GL_RGBA8)
+        this["uTex0"] = 1
+        this["Direction", false] = if (direction) horizontal else vertical
+        this["Alpha"] = alpha
+        this["Strength"] = strength
+        glDispatchCompute(((if (direction) fbo.textureHeight else fbo.textureWidth) + myGroupSizeX - 1) / myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+        glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
         unbind()
     }
 
