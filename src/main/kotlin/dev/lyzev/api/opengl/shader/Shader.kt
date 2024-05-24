@@ -15,10 +15,7 @@ import net.minecraft.client.gl.GlProgramManager
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
-import org.joml.Matrix4f
-import org.joml.Vector2f
-import org.joml.Vector3f
-import org.joml.Vector4f
+import org.joml.*
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.GL_RGBA32F
 import org.lwjgl.opengl.GL43.GL_COMPUTE_SHADER
@@ -81,6 +78,13 @@ abstract class Shader(val shader: String) : EventListener {
     operator fun set(name: String, value: Vector2f) = glUniform2f(this[name], value.x, value.y)
 
     /**
+     * Sets a uniform [Vector2i] value.
+     * @param name The name of the uniform.
+     * @param value The [Vector2i] value to set.
+     */
+    operator fun set(name: String, value: Vector2i) = glUniform2i(this[name], value.x, value.y)
+
+    /**
      * Sets a uniform [Vector3f] value.
      * @param name The name of the uniform.
      * @param value The [Vector3f] value to set.
@@ -107,7 +111,7 @@ abstract class Shader(val shader: String) : EventListener {
     /**
      * A buffer for matrix values.
      */
-    private val buffer = FloatArray(16)
+    private val mat4buffer = FloatArray(16)
 
     /**
      * Sets a uniform [Matrix4f] value.
@@ -116,7 +120,12 @@ abstract class Shader(val shader: String) : EventListener {
      * @param value The [Matrix4f] value to set.
      */
     operator fun set(name: String, transpose: Boolean, value: Matrix4f) =
-        glUniformMatrix4fv(this[name], transpose, value.get(buffer))
+        glUniformMatrix4fv(this[name], transpose, value.get(mat4buffer))
+
+    private val mat2buffer = FloatArray(4)
+
+    operator fun set(name: String, transpose: Boolean, value: Matrix2f) =
+        glUniformMatrix2fv(this[name], transpose, value.get(mat2buffer))
 
     /**
      * Retrieves the location of a uniform variable.
@@ -257,11 +266,16 @@ abstract class ShaderCompute(
 
     var texture: Int = 0
 
-    open fun draw() = clearTexture()
+    open fun draw() {
+        clearTexture()
+        bind()
+        bindImageTexture()
+        this["imgOutput"] = 0
+    }
 
     fun bindImageTexture() = GL44.glBindImageTexture(0, texture, 0, false, 0, GL_READ_WRITE, GL_RGBA32F)
 
-    private fun clearTexture() = GL44.glClearTexImage(texture, 0, GL_RGBA, GL_FLOAT, transparent)
+    fun clearTexture() = GL44.glClearTexImage(texture, 0, GL_RGBA, GL_FLOAT, transparent)
 
     fun drawTexture() {
         ShaderPassThrough.bind()

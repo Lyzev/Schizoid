@@ -15,7 +15,6 @@ uniform sampler2D uTexture;
 uniform vec2 uDirection;
 uniform vec2 uTexelSize;
 uniform bool uAlpha;
-
 uniform int uSize;
 
 void main() {

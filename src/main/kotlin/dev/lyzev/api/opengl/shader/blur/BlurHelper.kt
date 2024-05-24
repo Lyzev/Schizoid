@@ -11,6 +11,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
+import dev.lyzev.api.opengl.save
 import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.ShaderAcrylic
 import dev.lyzev.api.opengl.shader.ShaderAdd
@@ -18,6 +19,7 @@ import dev.lyzev.api.opengl.shader.ShaderMask
 import dev.lyzev.api.opengl.shader.ShaderTint
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableInfo
 import net.minecraft.client.MinecraftClient
 import org.joml.Vector4f
 import org.lwjgl.opengl.GL13.GL_TEXTURE0
@@ -125,6 +127,7 @@ object BlurHelper {
 
         mode.switchStrength(blurStrength)
         mode.render()
+
         // Acrylic (Luminosity, Noise and Tint)
         if (ModuleToggleableBlur.acrylic) {
             acrylicBlur.beginWrite(true)
@@ -162,6 +165,7 @@ object BlurHelper {
             mode.switchStrength(dropShadowStrength)
             mode.render(mask, true)
 
+            dropShadow.clear()
             dropShadow.beginWrite(true)
             ShaderTint.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
