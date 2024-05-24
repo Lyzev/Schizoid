@@ -5,13 +5,11 @@
 
 package dev.lyzev.api.opengl.shader
 
-import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import net.minecraft.client.gl.Framebuffer
 import org.joml.Matrix2f
 import org.joml.Vector2f
-import org.joml.Vector2i
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
 import org.lwjgl.opengl.GL15
@@ -190,7 +188,7 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
     }
 }
 
-object ShaderMovingAveragesBoxH : ShaderCompute("MovingAveragesBox", 32, 1, 1) {
+object ShaderMovingAveragesBox : ShaderCompute("MovingAveragesBox", 32, 1, 1) {
 
     private val horizontal = Matrix2f(1f, 0f, 0f, 1f)
     private val vertical = Matrix2f(0f, 1f, 1f, 0f)
