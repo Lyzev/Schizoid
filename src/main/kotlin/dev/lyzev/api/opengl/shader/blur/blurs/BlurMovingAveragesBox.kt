@@ -6,15 +6,9 @@
 package dev.lyzev.api.opengl.shader.blur.blurs
 
 import dev.lyzev.api.opengl.WrappedFramebuffer
-import dev.lyzev.api.opengl.clear
-import dev.lyzev.api.opengl.save
-import dev.lyzev.api.opengl.shader.ShaderMovingAveragesBoxH
+import dev.lyzev.api.opengl.shader.ShaderMovingAveragesBox
 import dev.lyzev.api.opengl.shader.blur.Blur
-import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableInfo
 import net.minecraft.client.gl.Framebuffer
-import org.joml.Vector2f
-import kotlin.math.ceil
-import kotlin.math.sqrt
 import kotlin.properties.Delegates
 
 /**
@@ -47,7 +41,7 @@ object BlurMovingAveragesBox : Blur {
      * @param alpha Whether to use alpha blending.
      */
     private fun renderToFBO(targetFBO: Framebuffer, sourceTex: Int, direction: Boolean, alpha: Boolean) {
-        ShaderMovingAveragesBoxH.render(targetFBO, sourceTex, direction, alpha, strength)
+        ShaderMovingAveragesBox.render(targetFBO, sourceTex, direction, alpha, strength)
     }
 
     override fun render(sourceTex: Int, alpha: Boolean) {
