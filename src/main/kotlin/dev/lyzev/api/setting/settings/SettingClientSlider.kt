@@ -87,6 +87,7 @@ class SettingClientSlider<T : Number>(
                     MathHelper.clamp(f[0], minValue.toFloat(), maxValue.toFloat()) as T
             }
         }
+        if (isItemHovered()) setTooltip((if (allowOutOfBounds) "Out of bounds values are allowed, use with caution." else "Range: $minValue $unit - $maxValue $unit") + "\nPress CTRL + click to set a specific value.")
     }
 
     override fun setValue(ref: Any, prop: KProperty<*>, value: T) {
