@@ -1785,6 +1785,8 @@ $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.exploit/Modul
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.exploit/ModuleToggleablePacketManipulator/mode/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.exploit/-module-toggleable-packet-manipulator/mode.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.exploit/ModuleToggleablePacketManipulator/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.exploit/-module-toggleable-packet-manipulator/should-handle-events.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.exploit/ModuleToggleablePacketManipulator/type/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.exploit/-module-toggleable-packet-manipulator/type.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module.modules.misc////PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.misc/index.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module.modules.misc/ModuleToggleableDiscordRichPresence///PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.misc/-module-toggleable-discord-rich-presence/index.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.movement////PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.movement/index.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.movement/ModuleRunnableClip///PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.movement/-module-runnable-clip/index.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.movement/ModuleRunnableClip/horizontal/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.movement/-module-runnable-clip/horizontal.html
@@ -2233,6 +2235,7 @@ dev.lyzev.schizoid.feature.features.gui
 dev.lyzev.schizoid.feature.features.gui.guis
 dev.lyzev.schizoid.feature.features.module
 dev.lyzev.schizoid.feature.features.module.modules.exploit
+dev.lyzev.schizoid.feature.features.module.modules.misc
 dev.lyzev.schizoid.feature.features.module.modules.movement
 dev.lyzev.schizoid.feature.features.module.modules.player
 dev.lyzev.schizoid.feature.features.module.modules.render
