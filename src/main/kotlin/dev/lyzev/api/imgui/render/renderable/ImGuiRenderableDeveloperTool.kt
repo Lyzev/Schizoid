@@ -5,7 +5,7 @@
 
 package dev.lyzev.api.imgui.render.renderable
 
-import dev.lyzev.api.events.EventReload
+import dev.lyzev.api.events.EventReloadShader
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_BOLD
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.imgui.render.ImGuiRenderable
@@ -22,7 +22,7 @@ class ImGuiRenderableDeveloperTool : ImGuiRenderable {
             OPEN_SANS_BOLD.end()
             OPEN_SANS_REGULAR.begin()
             if (button("Reload Shaders", getColumnWidth(), OPEN_SANS_REGULAR.size + getStyle().framePaddingY * 2)) {
-                EventReload.fire()
+                EventReloadShader.fire()
             }
             OPEN_SANS_REGULAR.end()
         }

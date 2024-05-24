@@ -7,7 +7,7 @@ package dev.lyzev.api.opengl.shader
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventReload
+import dev.lyzev.api.events.EventReloadShader
 import dev.lyzev.api.events.EventWindowResize
 import dev.lyzev.api.events.on
 import dev.lyzev.schizoid.Schizoid
@@ -29,7 +29,7 @@ import java.io.FileNotFoundException
  */
 abstract class Shader(val shader: String) : EventListener {
 
-    var program = glCreateProgram()
+    var program = 0
     private val uniforms = HashMap<String, Int>()
 
     /**
@@ -180,10 +180,19 @@ abstract class Shader(val shader: String) : EventListener {
     }
 
     open fun init() {
+        if (program == 0)
+            program = glCreateProgram()
+    }
+
+    open fun delete() {
+        if (program != 0)
+            glDeleteProgram(program)
+        program = 0
+    }
+
+    fun link() {
         glLinkProgram(program)
-
         val isLinked = glGetProgrami(program, GL_LINK_STATUS)
-
         if (isLinked == 0)
             Schizoid.logger.error(
                 glGetProgramInfoLog(
@@ -194,15 +203,14 @@ abstract class Shader(val shader: String) : EventListener {
     }
 
     fun reload() {
-        glDeleteProgram(program)
-        program = glCreateProgram()
+        delete()
         init()
     }
 
     override val shouldHandleEvents = true
 
     init {
-        on<EventReload> {
+        on<EventReloadShader> {
             if (!Schizoid.DEVELOPER_MODE) return@on
             reload()
         }
@@ -235,6 +243,10 @@ abstract class ShaderVertexFragment(
 ) : Shader(shader) {
 
     final override fun init() {
+        val tmp = program
+        super.init()
+        if (tmp == program)
+            return
         val vSource = ClassLoader.getSystemResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
             it.readAllBytes().decodeToString()
         } ?: "null"
@@ -249,7 +261,8 @@ abstract class ShaderVertexFragment(
 
         glDeleteShader(vShader)
         glDeleteShader(fShader)
-        super.init()
+
+        link()
     }
 
     init {
@@ -309,6 +322,10 @@ abstract class ShaderCompute(
     }
 
     override fun init() {
+        val tmp = program
+        super.init()
+        if (tmp == program)
+            return
         ClassLoader.getSystemResourceAsStream("$PATH/core/$shader/${shader}_CP.glsl")
             ?.use {
                 val computeShader = compile(
@@ -319,19 +336,22 @@ abstract class ShaderCompute(
                 glDeleteShader(computeShader)
             }
 
-        if (texture == 0) {
+        link()
+
+        if (texture == 0)
             genTexture()
-        }
-        super.init()
+    }
+
+    final override fun delete() {
+        super.delete()
+        if (texture != 0)
+            glDeleteTextures(texture)
+        texture = 0
     }
 
     init {
         on<EventWindowResize> {
-            // delete old texture and create a new one
-            if (texture != 0) {
-                glDeleteTextures(texture)
-            }
-            genTexture()
+            reload()
         }
     }
 

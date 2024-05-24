@@ -163,7 +163,7 @@ class EventAttackEntity(val player: PlayerEntity, val entity: Entity) : Event
 
 class EventOSThemeUpdate(val theme: OSTheme.Theme) : Event
 
-object EventReload : Event
+object EventReloadShader : Event
 
 class EventGetFOV(var fov: Double) : Event
 

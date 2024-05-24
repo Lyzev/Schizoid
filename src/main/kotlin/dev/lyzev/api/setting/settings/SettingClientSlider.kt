@@ -26,7 +26,7 @@ import kotlin.reflect.KProperty
  * @param unit The unit of the slider setting.
  * @param allowOutOfBounds A flag to determine whether the slider setting allows out of bounds values.
  * @param hide A lambda function that determines whether this setting is hidden or not.
- * @param change A lambda function that will be called when the value of the setting changes.
+ * @param onChange A lambda function that will be called when the value of the setting changes.
  */
 @Suppress("UNCHECKED_CAST")
 class SettingClientSlider<T : Number>(
@@ -39,29 +39,31 @@ class SettingClientSlider<T : Number>(
     private val decimalPlaces: Int,
     private val unit: String?,
     private val allowOutOfBounds: Boolean,
+    private val onlyUpdateOnRelease: Boolean,
     hide: () -> Boolean,
-    change: (T) -> Unit
-) : SettingClient<T>(container, name, desc, value, hide, change) {
-
-    /**
-     * The class of the value type.
-     */
-    private val valueType: KClass<out Number> = value::class
+    onChange: (T) -> Unit
+) : SettingClient<T>(container, name, desc, value, hide, onChange) {
 
     override fun render() {
         text(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (value is Int) {
-            i[0] = value as Int
             setNextItemWidth(getColumnWidth())
             if (sliderInt("", i, minValue as Int, maxValue as Int, "%d" + if (unit != null) " $unit" else "")) {
+                if (!onlyUpdateOnRelease) {
+                    value = if (allowOutOfBounds)
+                        i[0] as T
+                    else
+                        MathHelper.clamp(i[0], minValue.toInt(), maxValue.toInt()) as T
+                }
+            }
+            if (isItemDeactivatedAfterEdit() && onlyUpdateOnRelease) {
                 value = if (allowOutOfBounds)
                     i[0] as T
                 else
                     MathHelper.clamp(i[0], minValue.toInt(), maxValue.toInt()) as T
             }
         } else if (value is Float) {
-            f[0] = value as Float
             setNextItemWidth(getColumnWidth())
             if (sliderFloat(
                     "",
@@ -71,6 +73,14 @@ class SettingClientSlider<T : Number>(
                     "%.${decimalPlaces}f" + if (unit != null) " $unit" else ""
                 )
             ) {
+                if (!onlyUpdateOnRelease) {
+                    value = if (allowOutOfBounds)
+                        f[0] as T
+                    else
+                        MathHelper.clamp(f[0], minValue.toFloat(), maxValue.toFloat()) as T
+                }
+            }
+            if (isItemDeactivatedAfterEdit() && onlyUpdateOnRelease) {
                 value = if (allowOutOfBounds)
                     f[0] as T
                 else
@@ -82,33 +92,35 @@ class SettingClientSlider<T : Number>(
     override fun setValue(ref: Any, prop: KProperty<*>, value: T) {
         if (allowOutOfBounds)
             super.setValue(ref, prop, value)
-        else if (valueType == Int::class)
+        else if (this.value is Int)
             super.setValue(ref, prop, MathHelper.clamp(value.toInt(), minValue.toInt(), maxValue.toInt()) as T)
-        else if (valueType == Float::class)
+        else if (this.value is Float)
             super.setValue(ref, prop, MathHelper.clamp(value.toFloat(), minValue.toFloat(), maxValue.toFloat()) as T)
+        if (this.value is Int)
+            i[0] = this.value as Int
+        else if (this.value is Float)
+            f[0] = this.value as Float
     }
 
     override fun load(value: JsonElement) {
-        this.value = when (valueType) {
-            Int::class -> value.jsonPrimitive.int.let { if (allowOutOfBounds) it else it.coerceIn(minValue.toInt(), maxValue.toInt()) } as T
-            Float::class -> value.jsonPrimitive.float.let { if (allowOutOfBounds) it else it.coerceIn(minValue.toFloat(), maxValue.toFloat()) } as T
+        this.value = when (this.value) {
+            is Int -> (value.jsonPrimitive.int.let { if (allowOutOfBounds) it else it.coerceIn(minValue.toInt(), maxValue.toInt()) } as T).apply { i[0] = this as Int }
+            is Float -> (value.jsonPrimitive.float.let { if (allowOutOfBounds) it else it.coerceIn(minValue.toFloat(), maxValue.toFloat()) } as T).apply { f[0] = this as Float }
             else -> return
         }
     }
 
     override fun save(): JsonElement = JsonPrimitive(value)
 
-    companion object {
-        /**
-         * An array to store the integer value of the slider.
-         */
-        private val i = intArrayOf(0)
+    /**
+     * An array to store the integer value of the slider.
+     */
+    private val i = intArrayOf(0)
 
-        /**
-         * An array to store the float value of the slider.
-         */
-        private val f = floatArrayOf(0f)
-    }
+    /**
+     * An array to store the float value of the slider.
+     */
+    private val f = floatArrayOf(0f)
 }
 
 /**
@@ -121,8 +133,9 @@ class SettingClientSlider<T : Number>(
  * @param maxValue The maximum value of the slider setting.
  * @param unit The unit of the slider setting.
  * @param allowOutOfBounds A flag to determine whether the slider setting allows out of bounds values.
+ * @param onlyUpdateOnRelease A flag to determine whether the slider setting only updates on release.
  * @param hide A lambda function that determines whether this setting is hidden or not.
- * @param change A lambda function that will be called when the value of the setting changes.
+ * @param onChange A lambda function that will be called when the value of the setting changes.
  *
  * @return The created integer slider setting.
  */
@@ -134,9 +147,10 @@ fun IFeature.slider(
     maxValue: Int,
     unit: String? = null,
     allowOutOfBounds: Boolean = false,
+    onlyUpdateOnRelease: Boolean = false,
     hide: () -> Boolean = { false },
-    change: (Int) -> Unit = {}
-) = SettingClientSlider(this::class, name, desc, value, minValue, maxValue, 0, unit, allowOutOfBounds, hide, change)
+    onChange: (Int) -> Unit = {}
+) = SettingClientSlider(this::class, name, desc, value, minValue, maxValue, 0, unit, allowOutOfBounds, onlyUpdateOnRelease, hide, onChange)
 
 /**
  * Creates a new float slider setting.
@@ -149,8 +163,9 @@ fun IFeature.slider(
  * @param decimalPlaces The number of decimal places for the slider setting.
  * @param unit The unit of the slider setting.
  * @param allowOutOfBounds A flag to determine whether the slider setting allows out of bounds values.
+ * @param onlyUpdateOnRelease A flag to determine whether the slider setting only updates on release.
  * @param hide A lambda function that determines whether this setting is hidden or not.
- * @param change A lambda function that will be called when the value of the setting changes.
+ * @param onChange A lambda function that will be called when the value of the setting changes.
  *
  * @return The created float slider setting.
  */
@@ -163,8 +178,9 @@ fun IFeature.slider(
     decimalPlaces: Int = 1,
     unit: String? = null,
     allowOutOfBounds: Boolean = false,
+    onlyUpdateOnRelease: Boolean = false,
     hide: () -> Boolean = { false },
-    change: (Float) -> Unit = {}
+    onChange: (Float) -> Unit = {}
 ) = SettingClientSlider(
     this::class,
     name,
@@ -175,6 +191,7 @@ fun IFeature.slider(
     decimalPlaces,
     unit,
     allowOutOfBounds,
+    onlyUpdateOnRelease,
     hide,
-    change
+    onChange
 )
