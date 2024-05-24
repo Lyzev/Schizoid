@@ -5,7 +5,8 @@
   "name": "${name}",
   "description": "Elevate your Minecraft gameplay with this free and feature-rich client built with Fabric API and utilizing mixin-based injection techniques.",
   "authors": [
-    "Lyzev"
+    "Lyzev",
+    "Redstonecrafter0"
   ],
   "contact": {
     "homepage": "https://lyzev.github.io/",
