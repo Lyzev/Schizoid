@@ -49,6 +49,10 @@ repositories {
     mavenCentral()
     maven("https://api.modrinth.com/maven")
     maven("https://jitpack.io")
+    maven {
+        name = "meteor-maven"
+        url = uri("https://maven.meteordev.org/releases")
+    }
 }
 
 dependencies {
@@ -69,6 +73,7 @@ dependencies {
     implementation(libs.bundles.imgui)
     implementation(libs.fuzzywuzzy)
     implementation(libs.mpi)
+    implementation(libs.discord.ipc)
 
     // Mods (optional)
     modRuntimeOnly(libs.bundles.modrinth)
@@ -270,6 +275,7 @@ tasks {
             include(dependency(libs.reflections.get()))
             include(dependency(libs.fuzzywuzzy.get()))
             include(dependency(libs.mpi.get()))
+            include(dependency(libs.discord.ipc.get()))
             include(dependency("org.javassist:javassist")) // dependency of reflections
             libs.bundles.imgui.get().forEach { include(dependency(it)) }
         }

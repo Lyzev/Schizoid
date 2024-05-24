@@ -28,6 +28,8 @@ imgui = "1.86.11"
 fuzzywuzzy = "1.4.0"
 # https://github.com/Redstonecrafter0/MediaPlayerInfo/
 mpi = "0.1.0"
+# https://github.com/MeteorDevelopment/discord-ipc
+discord_ipc = "1.1"
 
 # https://github.com/TerraformersMC/ModMenu
 modmenu = "10.0.0-beta.1"
@@ -55,6 +57,8 @@ imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", ver
 fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
 
 mpi = { module = "dev.redstones.mediaplayerinfo:media-player-info", version.ref = "mpi" }
+
+discord_ipc = { module = "meteordevelopment:discord-ipc", version.ref = "discord_ipc" }
 
 modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }
