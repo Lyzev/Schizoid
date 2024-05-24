@@ -1491,6 +1491,10 @@ $dokka.location:dev.lyzev.api.opengl.shader.blur.blurs/BlurKawase///PointingToDe
 $dokka.location:dev.lyzev.api.opengl.shader.blur.blurs/BlurKawase/output/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur.blurs/-blur-kawase/output.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur.blurs/BlurKawase/render/#kotlin.Int#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur.blurs/-blur-kawase/render.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur.blurs/BlurKawase/switchStrength/#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur.blurs/-blur-kawase/switch-strength.html
+$dokka.location:dev.lyzev.api.opengl.shader.blur.blurs/BlurMovingAveragesBox///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur.blurs/-blur-moving-averages-box/index.html
+$dokka.location:dev.lyzev.api.opengl.shader.blur.blurs/BlurMovingAveragesBox/output/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur.blurs/-blur-moving-averages-box/output.html
+$dokka.location:dev.lyzev.api.opengl.shader.blur.blurs/BlurMovingAveragesBox/render/#kotlin.Int#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur.blurs/-blur-moving-averages-box/render.html
+$dokka.location:dev.lyzev.api.opengl.shader.blur.blurs/BlurMovingAveragesBox/switchStrength/#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur.blurs/-blur-moving-averages-box/switch-strength.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur////PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/index.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blur///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur/index.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blur/output/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur/output.html
@@ -1508,6 +1512,7 @@ $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs.BOX///PointingToDeclarati
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs.DUAL_KAWASE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.opengl.shader.blur/-blurs/-d-u-a-l_-k-a-w-a-s-e/index.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs.GAUSSIAN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.opengl.shader.blur/-blurs/-g-a-u-s-s-i-a-n/index.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs.KAWASE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.opengl.shader.blur/-blurs/-k-a-w-a-s-e/index.html
+$dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs.MOVING_AVERAGES_BOX///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.opengl.shader.blur/-blurs/-m-o-v-i-n-g_-a-v-e-r-a-g-e-s_-b-o-x/index.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blurs/index.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs/blur/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blurs/blur.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs/entries/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blurs/entries.html
@@ -1534,6 +1539,7 @@ $dokka.location:dev.lyzev.api.opengl.shader/Shader/init/#/PointingToDeclaration/
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/program/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/program.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/reload/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/reload.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#java.awt.Color/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
+$dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Boolean#org.joml.Matrix2f/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Boolean#org.joml.Matrix4f/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Float/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
@@ -1541,6 +1547,7 @@ $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Flo
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.IntArray/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#org.joml.Vector2f/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
+$dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#org.joml.Vector2i/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#org.joml.Vector3f/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#org.joml.Vector4f/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/shader/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/shader.html
@@ -1556,6 +1563,7 @@ $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute.Companion///PointingTo
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/ShaderCompute/#kotlin.String#kotlin.Int#kotlin.Int#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/-shader-compute.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/bindImageTexture/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/bind-image-texture.html
+$dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/clearTexture/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/clear-texture.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/draw/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/draw.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/drawTexture/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/draw-texture.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/init/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/init.html
@@ -1575,11 +1583,12 @@ $dokka.location:dev.lyzev.api.opengl.shader/ShaderGaussian/setUniforms/#org.joml
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderKawase///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-kawase/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderKawase/setUniforms/#org.joml.Vector2f#kotlin.Float#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-kawase/set-uniforms.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderMask///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-mask/index.html
+$dokka.location:dev.lyzev.api.opengl.shader/ShaderMovingAveragesBox///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-moving-averages-box/index.html
+$dokka.location:dev.lyzev.api.opengl.shader/ShaderMovingAveragesBox/render/#net.minecraft.client.gl.Framebuffer#kotlin.Int#kotlin.Boolean#kotlin.Boolean#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-moving-averages-box/render.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderParticle///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-particle/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderParticle/amount/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-particle/amount.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderParticle/draw/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-particle/draw.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderParticle/init/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-particle/init.html
-$dokka.location:dev.lyzev.api.opengl.shader/ShaderParticle/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-particle/should-handle-events.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderPassThrough///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-pass-through/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderReflection///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-reflection/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderThreshold///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-threshold/index.html
