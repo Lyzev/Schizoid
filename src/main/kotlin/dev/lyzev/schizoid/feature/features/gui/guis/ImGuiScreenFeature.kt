@@ -44,19 +44,22 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     }
 
     val particles: Boolean by switch("Particles", "Enables the particle shader.\nToggle to reload.", false) {
-        if (!it) return@switch
-        ShaderParticle.amount = particleAmount * 1000
-        ShaderParticle.reload()
+        if (it) ShaderParticle.init()
+        else ShaderParticle.delete()
     }
     val particleAmount by slider(
         "Particle Amount",
         "The amount of particles.",
         100,
         1,
-        1000,
+        999,
         "k",
+        onlyUpdateOnRelease = true,
         hide = ::particles neq true
-    )
+    ) {
+        ShaderParticle.amount = it * 1_000
+        ShaderParticle.reload()
+    }
 
     private val texturesMario = Array(3) {
         Identifier(Schizoid.MOD_ID, "textures/mario_$it.png")

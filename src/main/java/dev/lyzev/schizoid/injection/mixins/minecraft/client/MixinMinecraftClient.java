@@ -6,12 +6,11 @@
 package dev.lyzev.schizoid.injection.mixins.minecraft.client;
 
 import dev.lyzev.api.events.EventItemUse;
-import dev.lyzev.api.events.EventReload;
+import dev.lyzev.api.events.EventReloadShader;
 import dev.lyzev.api.events.EventStartup;
 import dev.lyzev.api.events.EventWindowResize;
 import dev.lyzev.schizoid.Schizoid;
 import net.minecraft.client.MinecraftClient;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -79,7 +78,7 @@ public class MixinMinecraftClient {
 
     @Inject(method = "reloadResources()Ljava/util/concurrent/CompletableFuture;", at = @At(value = "HEAD"))
     private void onReloadResources(CallbackInfoReturnable<CompletableFuture<Void>> cir) {
-        EventReload.INSTANCE.fire();
+        EventReloadShader.INSTANCE.fire();
     }
 
 }
