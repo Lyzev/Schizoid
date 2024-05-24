@@ -135,8 +135,8 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
         if (left) force += dist
         if (right) force -= dist
         if (left && right) {
-            val time = (System.nanoTime() - beginTime) / 1_000_000.0
-            force = sin(time * 0.003f).toFloat() * 0.55f + 0.5f
+            val time = (System.nanoTime() - beginTime) / 1_000_000f
+            force = sin(time * .01f) * dist + dist / 2f
         }
 
         lastMXPos = xpos[0]
@@ -159,7 +159,6 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
         deltaTime = (time - lastTime).toFloat()
         lastTime = time
 
-        Schizoid.mc.framebuffer.beginWrite(true)
         drawTexture()
     }
 
