@@ -33,7 +33,7 @@
 
 ### Instructions
 
-1. Download the latest release of Schizoid from the [releases page](https://github.com/Lyzev/Schizoid/releases/latest).
+1. Download ` schizoid-${version}+${build}.jar` of the latest release from the [releases page](https://github.com/Lyzev/Schizoid/releases/latest).
 2. Move the downloaded JAR file to the `mods` folder in your Minecraft installation directory.
 3. Launch the game and enjoy the features of Schizoid.
 
