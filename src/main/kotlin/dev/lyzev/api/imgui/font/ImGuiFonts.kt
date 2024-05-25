@@ -42,8 +42,7 @@ enum class ImGuiFonts(override val fontName: String, override val type: ImGuiFon
 
     init {
         val fontAtlas = getIO().fonts
-        val `is` =
-            ClassLoader.getSystemResourceAsStream("assets/${Schizoid.MOD_ID}/fonts/$fontName.${type.name.lowercase()}")
+        val `is` = javaClass.getResourceAsStream("/assets/${Schizoid.MOD_ID}/fonts/$fontName.${type.name.lowercase()}")
         requireNotNull(`is`) { "Font file not found: $fontName.${type.name.lowercase()}" }
         font = fontAtlas.addFontFromMemoryTTF(`is`.readAllBytes(), size, glyphRanges)
     }

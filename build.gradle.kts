@@ -91,7 +91,7 @@ loom {
 tasks.register("fixRunResources") {
     group = project.extra["archives_base_name"] as String
     description = "Fix Run Resources"
-    dependsOn("generateProperties", "processResources")
+    dependsOn("processResources")
     doLast {
         copy {
             from("build/resources/main")

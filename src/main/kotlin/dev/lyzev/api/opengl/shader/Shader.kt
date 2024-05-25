@@ -145,7 +145,7 @@ abstract class Shader(val shader: String) : EventListener {
         var matchResult = includeRegex.find(modifiedSource)
         while (matchResult != null) {
             val includePath = matchResult.groupValues[1]
-            val includeFile = javaClass.classLoader.getResource("$PATH/include/$includePath")
+            val includeFile = javaClass.getResource("$PATH/include/$includePath")
             if (includeFile == null) {
                 Schizoid.logger.error(FileNotFoundException("Could not find include file: $includePath"))
                 return modifiedSource
@@ -221,7 +221,7 @@ abstract class Shader(val shader: String) : EventListener {
         /**
          * The path to the shaders.
          */
-        val PATH = "assets/${Schizoid.MOD_ID}/shaders"
+        val PATH = "/assets/${Schizoid.MOD_ID}/shaders"
 
         /**
          * Draws a full screen quad.
@@ -247,13 +247,13 @@ abstract class ShaderVertexFragment(
         super.init()
         if (tmp == program)
             return
-        val vSource = ClassLoader.getSystemResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
+        val vSource = javaClass.getResourceAsStream("$PATH/core/$shader/${shader}_VP.glsl")?.use {
             it.readAllBytes().decodeToString()
         } ?: "null"
         val vShader = compile(GL_VERTEX_SHADER, vSource)
         glAttachShader(program, vShader)
 
-        val fSource = ClassLoader.getSystemResourceAsStream("$PATH/core/$shader/${shader}_FP.glsl")?.use {
+        val fSource = javaClass.getResourceAsStream("$PATH/core/$shader/${shader}_FP.glsl")?.use {
             it.readAllBytes().decodeToString()
         } ?: "null"
         val fShader = compile(GL_FRAGMENT_SHADER, fSource)
@@ -326,7 +326,7 @@ abstract class ShaderCompute(
         super.init()
         if (tmp == program)
             return
-        ClassLoader.getSystemResourceAsStream("$PATH/core/$shader/${shader}_CP.glsl")
+        javaClass.getResourceAsStream("$PATH/core/$shader/${shader}_CP.glsl")
             ?.use {
                 val computeShader = compile(
                     GL_COMPUTE_SHADER,
