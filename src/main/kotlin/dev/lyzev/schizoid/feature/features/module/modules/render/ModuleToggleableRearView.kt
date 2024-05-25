@@ -14,7 +14,7 @@ import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
-import imgui.ImGui.image
+import imgui.ImGui.*
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Util
 import org.lwjgl.opengl.GL13
@@ -100,7 +100,9 @@ object ModuleToggleableRearView :
         val width = ceil(mc.window.framebufferWidth * size / 100f)
         val height = ceil(mc.window.framebufferHeight * size / 100f)
         renderRearView(width.toInt(), height.toInt())
-        image(flippedRearView.colorAttachment, width, height)
+        val cursorPos = getCursorScreenPos()
+        dummy(width, height)
+        getWindowDrawList().addImageRounded(flippedRearView.colorAttachment, cursorPos.x, cursorPos.y, cursorPos.x + width, cursorPos.y + height, 0f, 0f, 1f, 1f, -1, 5f)
     }
 
     override val shouldHandleEvents: Boolean
