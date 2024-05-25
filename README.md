@@ -9,6 +9,7 @@
 <div align="center">
     <a href="https://lyzev.github.io/discord"><img src="https://img.shields.io/discord/610120595765723137?logo=discord" alt="Discord"/></a>
     <br><br>
+    <img alt="GitHub milestone details" src="https://img.shields.io/github/milestones/progress-percent/Lyzev/Schizoid/1">
     <img src="https://img.shields.io/github/downloads/Lyzev/Schizoid/total" alt="GitHub downloads"/>
     <br><br>
     <img src="https://img.shields.io/github/last-commit/Lyzev/Schizoid" alt="GitHub last commit"/>
