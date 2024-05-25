@@ -82,6 +82,7 @@ object ShaderAdd : ShaderVertexFragment("Add")
 object ShaderPassThrough : ShaderVertexFragment("PassThrough")
 
 object ShaderDepth : ShaderVertexFragment("Depth")
+object ShaderLinearizeDepth : ShaderVertexFragment("LinearizeDepth")
 
 object ShaderThreshold : ShaderVertexFragment("Threshold")
 object ShaderBlend : ShaderVertexFragment("Blend")
