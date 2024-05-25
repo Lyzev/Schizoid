@@ -213,10 +213,6 @@ fun updateTomlVersions(tomlContent: String, versions: Map<String, String>): Stri
 tasks {
     val javaVersion = JavaVersion.toVersion((project.extra["java_version"] as String).toInt())
 
-    build {
-        dependsOn("generateProperties")
-    }
-
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         sourceCompatibility = javaVersion.toString()
@@ -229,6 +225,7 @@ tasks {
     jar { from("LICENSE") { rename { "${it}_${base.archivesName.get()}" } } }
 
     processResources {
+        dependsOn("generateProperties")
         filesMatching("fabric.mod.json") {
             expand(
                 mutableMapOf(
