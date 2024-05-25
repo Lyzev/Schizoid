@@ -42,9 +42,6 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
     "Media Player", "The OS media player visualized with ImGui.", category = IFeature.Category.RENDER
 ) {
 
-    val infos by multiOption(
-        "Infos", "The information to display.", Info.entries.map { it to (it != Info.Progress) }.toSet()
-    )
     val owner by multiText(
         "Owner",
         "The owner of the media player.\nFor example: SPOTIFY, CHROME, ...\nNote: Sort by priority.",
@@ -72,7 +69,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
         drawList.addImageRounded(
             blurredArtwork.colorAttachment, x, y + 5, x + 370, y + 75, 0.2f, 0.31f, .8f, .46f, 0xFFAAAAAA.toInt(), 5f
         )
-        infos.forEach { if (it.second) it.first.render(this) }
+        Info.entries.forEach { it.render(this) }
     }
 
     init {
@@ -141,7 +138,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
         }
     }
 
-    enum class Info : OptionEnum {
+    enum class Info {
         Title {
 
             private var title: String? = null
@@ -297,7 +294,6 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
         },
         PauseIndicator {
 
-            override val key = "Pause Indicator"
             private var time = System.currentTimeMillis()
 
             override fun update(media: MediaInfo) {}
@@ -328,8 +324,6 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                 }
             }
         };
-
-        override val key = name
 
         abstract fun update(media: MediaInfo)
 
