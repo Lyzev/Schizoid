@@ -78,11 +78,14 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
     init {
         on<EventScheduleTask> {
             val session =
-                MediaPlayerInfo.getMediaSessions().sortedBy { owner.indexOf(it.owner.removeSuffix(".exe").uppercase()) }
+                MediaPlayerInfo.getMediaSessions().sortedBy {
+                        owner.forEachIndexed { index, s ->
+                            if (it.owner.uppercase().contains(s)) return@sortedBy index
+                        }
+                        return@sortedBy owner.size
+                    }
                     .firstOrNull {
-                        owner.contains(
-                            it.owner.removeSuffix(".exe").uppercase()
-                        ) && (it.media.artist.isNotEmpty() || it.media.title.isNotEmpty())
+                        it.media.artist.isNotEmpty() || it.media.title.isNotEmpty()
                     }
             if (session == null) {
                 val dummy = MediaInfo(
