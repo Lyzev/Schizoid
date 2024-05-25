@@ -47,11 +47,7 @@ import kotlin.concurrent.thread
  */
 object Schizoid : EventListener {
 
-    private val properties = Properties().apply {
-        ClassLoader.getSystemResourceAsStream("app.properties").use {
-            load(it)
-        }
-    }
+    private val properties = Properties().apply { load(Schizoid::class.java.getResourceAsStream("/app.properties")) }
 
     /**
      * The unique identifier of the mod.
