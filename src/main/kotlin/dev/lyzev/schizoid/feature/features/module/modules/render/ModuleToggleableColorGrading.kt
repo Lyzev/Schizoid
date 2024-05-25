@@ -27,6 +27,7 @@ object ModuleToggleableColorGrading :
     val contrast by slider("Contrast", "The contrast of the color grading effect.", 55, 0, 200, "%%")
     val exposure by slider("Exposure", "The exposure of the color grading effect.", -0, -100, 100, "%%")
     val saturation by slider("Saturation", "The saturation of the color grading effect.", 110, 0, 200, "%%")
+    val hue by slider("Hue", "The hue shift of the color grading effect.", 0, -180, 180, "°")
     val temperature by slider("Temperature", "The temperature of the color grading effect.", 1000, 1000, 40000, "K")
     val lift by color("Lift", value = Color(0, 0, 0))
     val gamma by color("Gamma", value = Color(0, 35, 0))
@@ -51,6 +52,7 @@ object ModuleToggleableColorGrading :
             ShaderColorGrading["Contrast"] = contrast / 100f
             ShaderColorGrading["Exposure"] = exposure / 100f
             ShaderColorGrading["Saturation"] = saturation / 100f
+            ShaderColorGrading["Hue"] = hue
             ShaderColorGrading["Temperature"] = temperature.toFloat()
             ShaderColorGrading["Lift"] = lift
             ShaderColorGrading["Gamma"] = gamma
