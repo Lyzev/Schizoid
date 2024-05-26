@@ -223,6 +223,7 @@ abstract class ModuleToggleableRenderImGuiContent(
 
     enum class WindowFlags(override val key: String, override val flag: Int) : OptionEnum, Flag {
         NO_TITLE_BAR("No Title Bar", ImGuiWindowFlags.NoTitleBar),
+        NO_MOVE("No Move", ImGuiWindowFlags.NoMove),
         NO_BACKGROUND("No Background", ImGuiWindowFlags.NoBackground),
         NO_DOCKING("No Docking", ImGuiWindowFlags.NoDocking);
 
