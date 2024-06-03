@@ -87,7 +87,7 @@ class SettingClientSlider<T : Number>(
                     MathHelper.clamp(f[0], minValue.toFloat(), maxValue.toFloat()) as T
             }
         }
-        if (isItemHovered()) setTooltip((if (allowOutOfBounds) "Out of bounds values are allowed, use with caution." else "Range: $minValue $unit - $maxValue $unit") + "\nPress CTRL + click to set a specific value.")
+        if (isItemHovered()) setTooltip((if (allowOutOfBounds) "Out of bounds values are allowed, use with caution." else "Range: $minValue ${unit ?: ""} - $maxValue ${unit ?: ""}") + "\nPress CTRL + click to set a specific value.")
     }
 
     override fun setValue(ref: Any, prop: KProperty<*>, value: T) {
@@ -116,12 +116,12 @@ class SettingClientSlider<T : Number>(
     /**
      * An array to store the integer value of the slider.
      */
-    private val i = intArrayOf(0)
+    private val i = intArrayOf(0).apply { if (value is Int) this[0] = value as Int }
 
     /**
      * An array to store the float value of the slider.
      */
-    private val f = floatArrayOf(0f)
+    private val f = floatArrayOf(0f).apply { if (value is Float) this[0] = value as Float }
 }
 
 /**

@@ -5,6 +5,9 @@
 
 package dev.lyzev.api.opengl.shader
 
+import com.mojang.blaze3d.systems.RenderSystem
+import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import net.minecraft.client.gl.Framebuffer
@@ -12,9 +15,11 @@ import org.joml.Matrix2f
 import org.joml.Vector2f
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
+import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL43.*
 import org.lwjgl.opengl.GL44
+import org.lwjgl.system.MemoryUtil
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.pow
 import kotlin.math.sin
@@ -116,8 +121,7 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
             mousePos.set(xpos[0].toFloat(), Schizoid.mc.window.framebufferHeight.toFloat() - ypos[0].toFloat())
 
         this["screenSize"] = screenSize.set(
-            Schizoid.mc.window.framebufferWidth.toFloat(),
-            Schizoid.mc.window.framebufferHeight.toFloat()
+            Schizoid.mc.window.framebufferWidth.toFloat(), Schizoid.mc.window.framebufferHeight.toFloat()
         )
 
         val left = GLFW.glfwGetMouseButton(Schizoid.mc.window.handle, GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS
@@ -154,6 +158,8 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
             processed += processing
         }
         glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
+        if (IS_AMD_VENDOR)
+            glFinish()
         val time = (System.nanoTime() - beginTime) / 1_000_000.0
         deltaTime = (time - lastTime).toFloat()
         lastTime = time
@@ -197,16 +203,113 @@ object ShaderMovingAveragesBox : ShaderCompute("MovingAveragesBox", 32, 1, 1) {
     fun render(fbo: Framebuffer, texture: Int, direction: Boolean, alpha: Boolean, strength: Int) {
         bind()
         GL44.glBindImageTexture(0, fbo.colorAttachment, 0, false, 0, GL_WRITE_ONLY, GL_RGBA8)
-        this["imgOutput"] = 0
+        this["Img0"] = 0
         GL44.glBindImageTexture(1, texture, 0, false, 0, GL_READ_ONLY, GL_RGBA8)
-        this["uTex0"] = 1
+        this["Img1"] = 1
         this["Direction", false] = if (direction) horizontal else vertical
         this["Alpha"] = alpha
         this["Strength"] = strength
-        glDispatchCompute(((if (direction) fbo.textureHeight else fbo.textureWidth) + myGroupSizeX - 1) / myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+        glDispatchCompute(
+            ((if (direction) fbo.textureHeight else fbo.textureWidth) + myGroupSizeX - 1) / myGroupSizeX,
+            myGroupSizeY,
+            myGroupSizeZ
+        )
         glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
+        if (IS_AMD_VENDOR)
+            glFinish()
         unbind()
     }
+
+    init {
+        init()
+    }
+}
+
+object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
+
+    private lateinit var before: WrappedFramebuffer
+    private lateinit var after: WrappedFramebuffer
+
+    private var initTime = System.currentTimeMillis()
+    var deltaTime = 1000 / 10
+    var size = 3
+    var b = "3"
+    var s = "23"
+
+    override fun draw() {
+        if (System.currentTimeMillis() - initTime > deltaTime) {
+            initTime = System.currentTimeMillis()
+            after.clear()
+            bind()
+            GL44.glBindImageTexture(0, before.colorAttachment, 0, false, 0, GL_READ_ONLY, GL_RGBA8)
+            this["Img0"] = 0
+            GL44.glBindImageTexture(1, after.colorAttachment, 0, false, 0, GL_WRITE_ONLY, GL_RGBA8)
+            this["Img1"] = 1
+            glDispatchCompute((before.textureHeight + myGroupSizeX - 1) / myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+            glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
+            if (IS_AMD_VENDOR)
+                glFinish()
+            unbind()
+            before.clear()
+            before.beginWrite(true)
+            ShaderPassThrough.bind()
+            RenderSystem.activeTexture(GL_TEXTURE0)
+            after.beginRead()
+            ShaderPassThrough["uTexture"] = 0
+            ShaderPassThrough["uScale"] = 1f
+            drawFullScreen()
+            ShaderPassThrough.unbind()
+        }
+        Schizoid.mc.framebuffer.beginWrite(true)
+        ShaderTint.bind()
+        RenderSystem.activeTexture(GL_TEXTURE0)
+        after.beginRead()
+        ShaderTint["uTexture"] = 0
+        ShaderTint["uColor"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
+        ShaderTint["uOpacity"] = 1f
+        ShaderTint["uRGBPuke"] = false
+        ShaderTint["uTime"] = System.nanoTime() / 1000000000f
+        drawFullScreen()
+        ShaderTint.unbind()
+    }
+
+    fun generateRandomPixels() {
+        val width = before.textureWidth
+        val height = before.textureHeight
+        val pixels = MemoryUtil.memAlloc(width * height * 4)
+        for (i in 0 until width * height) {
+            if (Math.random() < .7) {
+                pixels.put(0)
+                pixels.put(0)
+                pixels.put(0)
+                pixels.put(0.toByte())
+            } else {
+                pixels.put(255.toByte())
+                pixels.put(255.toByte())
+                pixels.put(255.toByte())
+                pixels.put(255.toByte())
+            }
+        }
+        pixels.flip()
+        before.beginRead()
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, pixels)
+        MemoryUtil.memFree(pixels)
+    }
+
+    override fun delete() {
+        super.delete()
+        before.delete()
+        after.delete()
+    }
+
+    override fun init() {
+        super.init()
+        before = WrappedFramebuffer(size, linear = false)
+        after = WrappedFramebuffer(size, linear = false)
+        generateRandomPixels()
+    }
+
+    override fun preprocess(source: String) = processIncludes(source).format(myGroupSizeX, myGroupSizeY, myGroupSizeZ, b.toCharArray().joinToString(", "), s.toCharArray().joinToString(", "))
 
     init {
         init()

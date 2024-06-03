@@ -8,6 +8,7 @@ package dev.lyzev.api.setting.settings
 import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
+import imgui.flag.ImGuiInputTextFlags
 import imgui.type.ImString
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonPrimitive
@@ -31,6 +32,8 @@ class SettingClientText(
     name: String,
     desc: String?,
     value: String,
+    private val enterReturnsTrue: Boolean,
+    private val regex: Regex?,
     hide: () -> Boolean,
     change: (String) -> Unit
 ) : SettingClient<String>(container, name, desc, value, hide, change) {
@@ -40,8 +43,12 @@ class SettingClientText(
         text(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
         v.set(value)
-        if (inputText("", v))
+        if (inputText("", v, if (enterReturnsTrue) ImGuiInputTextFlags.EnterReturnsTrue else ImGuiInputTextFlags.None)) {
+            if (regex != null && !regex.matches(v.get()))
+                return
             value = v.get()
+        }
+        if (enterReturnsTrue && isItemHovered()) setTooltip("Press Enter to apply." + if (regex != null) "\nMust match regex: $regex" else "")
     }
 
     override fun load(value: JsonElement) {
@@ -74,6 +81,8 @@ fun IFeature.text(
     name: String,
     desc: String? = null,
     value: String,
+    enterReturnsTrue: Boolean = false,
+    regex: Regex? = null,
     hide: () -> Boolean = { false },
     change: (String) -> Unit = {}
-) = SettingClientText(this::class, name, desc, value, hide, change)
+) = SettingClientText(this::class, name, desc, value, enterReturnsTrue, regex, hide, change)
