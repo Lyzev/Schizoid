@@ -15,11 +15,13 @@ import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableConfigManager
 import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableDeveloperTool
 import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableSearch
 import dev.lyzev.api.imgui.theme.ImGuiThemes
+import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.shader.ShaderGameOfLife
 import dev.lyzev.api.opengl.shader.ShaderParticle
 import dev.lyzev.api.setting.settings.keybinds
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
-import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.api.setting.settings.text
 import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
@@ -43,10 +45,19 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         colorScheme.applyColors(mode)
     }
 
-    val particles: Boolean by switch("Particles", "Enables the particle shader.\nToggle to reload.", false) {
-        if (it) ShaderParticle.init()
-        else ShaderParticle.delete()
+    val background by option("Background", "The background of the GUI.", "None", arrayOf("None", "Particle", "Game of Life")) {
+        if (it == "Particle") {
+            ShaderParticle.init()
+        } else {
+            ShaderParticle.delete()
+        }
+        if (it == "Game of Life") {
+            ShaderGameOfLife.init()
+        } else {
+            ShaderGameOfLife.delete()
+        }
     }
+
     val particleAmount by slider(
         "Particle Amount",
         "The amount of particles.",
@@ -55,10 +66,47 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         999,
         "k",
         onlyUpdateOnRelease = true,
-        hide = ::particles neq true
+        hide = ::background neq "Particle"
     ) {
         ShaderParticle.amount = it * 1_000
         ShaderParticle.reload()
+    }
+
+    val gameOfLifeTps by slider(
+        "Game of Life TPS",
+        "The ticks per second of the game of life.",
+        10,
+        1,
+        40,
+        "tps",
+        hide = ::background neq "Game of Life"
+    ) {
+        ShaderGameOfLife.deltaTime = 1000 / it
+    }
+    val gameOfLifeSize by slider(
+        "Game of Life Size",
+        "The size of the game of life.",
+        3,
+        1,
+        5,
+        onlyUpdateOnRelease = true,
+        hide = ::background neq "Game of Life"
+    ) {
+        ShaderGameOfLife.size = it
+        ShaderGameOfLife.reload()
+    }
+    val gameOfLifeRulestring by text(
+        "Game of Life Rulestring",
+        "The rulestring of the game of life.",
+        "B3/S23",
+        true,
+        Regex("B[0-8]+/S[0-8]+"),
+        hide = ::background neq "Game of Life"
+    ) {
+        val rulestring = it.uppercase()
+        ShaderGameOfLife.b = rulestring.substringAfter("B").substringBefore("/")
+        ShaderGameOfLife.s = rulestring.substringAfter("S")
+        ShaderGameOfLife.reload()
     }
 
     private val texturesMario = Array(3) {
@@ -92,6 +140,11 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     val search = ImGuiRenderableSearch()
     val devTools = ImGuiRenderableDeveloperTool()
     val configManager = ImGuiRenderableConfigManager()
+    private val fbo = WrappedFramebuffer()
+
+    override fun onDisplayed() {
+        ShaderGameOfLife.generateRandomPixels()
+    }
 
     override fun renderInGameBackground(context: DrawContext) =
         colorScheme.renderInGameBackground(context, this.width, this.height, mode)
@@ -99,11 +152,14 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     override fun render(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {
         super.render(context, mouseX, mouseY, delta)
 
-        if (particles) {
+        if (background != "None") {
             RenderSystem.disableCull()
             RenderSystem.defaultBlendFunc()
             RenderSystem.enableBlend()
-            ShaderParticle.draw()
+            when (background) {
+                "Particle" -> ShaderParticle.draw()
+                "Game of Life" -> ShaderGameOfLife.draw()
+            }
             RenderSystem.enableCull()
         }
 

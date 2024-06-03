@@ -29,7 +29,8 @@ class WrappedFramebuffer(
     width: Int = MinecraftClient.getInstance().window.framebufferWidth,
     height: Int = MinecraftClient.getInstance().window.framebufferHeight,
     useDepth: Boolean = false,
-    fixedSize: Boolean = false
+    fixedSize: Boolean = false,
+    linear: Boolean = true
 ) : SimpleFramebuffer(
     width / IntMath.pow(2, lod),
     height / IntMath.pow(2, lod),
@@ -45,7 +46,7 @@ class WrappedFramebuffer(
     init {
         setClearColor(0f, 0f, 0f, 0f)
         clear()
-        setTexFilter(GlConst.GL_LINEAR)
+        if (linear) setTexFilter(GlConst.GL_LINEAR)
         /**
          * Listens for window resize events and resizes the framebuffer accordingly.
          */
@@ -55,7 +56,7 @@ class WrappedFramebuffer(
                 MinecraftClient.getInstance().window.framebufferHeight / IntMath.pow(2, lod),
                 MinecraftClient.IS_SYSTEM_MAC
             )
-            setTexFilter(GlConst.GL_LINEAR)
+            if (linear) setTexFilter(GlConst.GL_LINEAR)
         }
     }
 }

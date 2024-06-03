@@ -22,6 +22,9 @@ import org.lwjgl.opengl.GL43.GL_COMPUTE_SHADER
 import org.lwjgl.opengl.GL44
 import java.awt.Color
 import java.io.FileNotFoundException
+import org.lwjgl.opengl.GL11
+
+
 
 /**
  * Abstract class representing a Shader.
@@ -139,7 +142,7 @@ abstract class Shader(val shader: String) : EventListener {
      * @param source The shader source code.
      * @return The shader source code with include directives replaced by the included file content.
      */
-    private fun processIncludes(source: String): String {
+    fun processIncludes(source: String): String {
         var modifiedSource = source
         val includeRegex = Regex("#include \"(.*?)\"")
         var matchResult = includeRegex.find(modifiedSource)
@@ -157,6 +160,10 @@ abstract class Shader(val shader: String) : EventListener {
         return modifiedSource
     }
 
+    open fun preprocess(source: String): String {
+        return processIncludes(source)
+    }
+
     /**
      * Compiles a shader.
      * @param type The type of the shader.
@@ -164,7 +171,7 @@ abstract class Shader(val shader: String) : EventListener {
      * @return The shader ID.
      */
     fun compile(type: Int, source: String): Int {
-        val sourceWithIncludes = processIncludes(source)
+        val sourceWithIncludes = preprocess(source)
         val shader = glCreateShader(type)
         glShaderSource(shader, sourceWithIncludes)
         glCompileShader(shader)
@@ -321,6 +328,8 @@ abstract class ShaderCompute(
         )
     }
 
+    override fun preprocess(source: String) = super.preprocess(source).format(myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+
     override fun init() {
         val tmp = program
         super.init()
@@ -330,7 +339,7 @@ abstract class ShaderCompute(
             ?.use {
                 val computeShader = compile(
                     GL_COMPUTE_SHADER,
-                    it.readAllBytes().decodeToString().format(myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+                    it.readAllBytes().decodeToString()
                 )
                 glAttachShader(program, computeShader)
                 glDeleteShader(computeShader)
@@ -342,7 +351,7 @@ abstract class ShaderCompute(
             genTexture()
     }
 
-    final override fun delete() {
+    override fun delete() {
         super.delete()
         if (texture != 0)
             glDeleteTextures(texture)
@@ -357,5 +366,6 @@ abstract class ShaderCompute(
 
     companion object {
         private val transparent = floatArrayOf(0f, 0f, 0f, 0f)
+        val IS_AMD_VENDOR = glGetString(GL_VENDOR)?.lowercase()?.contains("amd") ?: false
     }
 }
