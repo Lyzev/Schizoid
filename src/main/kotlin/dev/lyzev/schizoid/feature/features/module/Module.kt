@@ -174,12 +174,16 @@ abstract class ModuleToggleableRenderImGuiContent(
     override val shouldHandleEvents: Boolean
         get() = isEnabled && isIngame
 
+    open val shouldDrawWindow: Boolean
+        get() = shouldHandleEvents
+
     init {
         /**
          * This block of code is executed when the module is initialized.
          * It sets up an event listener that renders the ImGui content of the module every time the ImGui content is rendered.
          */
         on<EventRenderImGuiContent> {
+            if (!shouldDrawWindow) return@on
             OPEN_SANS_BOLD.begin()
             if (mc.currentScreen == null) {
                 if (begin("\"${name.uppercase()}\"", windowFlags or ImGuiWindowFlags.NoMove)) {
