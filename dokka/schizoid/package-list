@@ -1546,6 +1546,7 @@ $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#java.awt.C
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Boolean#org.joml.Matrix2f/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Boolean#org.joml.Matrix4f/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
+$dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Float#kotlin.Float#kotlin.Float#kotlin.Float/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Float/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.FloatArray/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/set/#kotlin.String#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/set.html
