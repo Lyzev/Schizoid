@@ -12,6 +12,7 @@ import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.*
+import kotlin.math.max
 
 object ModuleToggleableModules : ModuleToggleableRenderImGuiContent(
     "Modules",
@@ -29,6 +30,9 @@ object ModuleToggleableModules : ModuleToggleableRenderImGuiContent(
     override fun renderImGuiContent() {
         dummy(90f, 0f)
         sameLine(getStyle().windowPaddingX)
+        val pos = getWindowPosX()
+        val half = mc.framebuffer.textureWidth / 2
+        val max = getWindowContentRegionMaxX()
         FeatureManager.features.filter { it is ModuleToggleable && it.isEnabled && it.showInArrayList }
             .forEach { module ->
                 val text = StringBuilder(module.name)
@@ -40,7 +44,13 @@ object ModuleToggleableModules : ModuleToggleableRenderImGuiContent(
                         }
                     }
                 }
-                text(text.toString())
+                if (pos < half) {
+                    text(text.toString())
+                } else {
+                    val x = calcTextSize(text.toString()).x
+                    setCursorPosX(max(max - x, getStyle().windowPaddingX))
+                    text(text.toString())
+                }
             }
     }
 
