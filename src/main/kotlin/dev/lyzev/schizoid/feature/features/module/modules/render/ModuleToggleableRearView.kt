@@ -15,6 +15,7 @@ import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.*
+import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.Util
 import org.lwjgl.opengl.GL13
@@ -107,4 +108,6 @@ object ModuleToggleableRearView :
 
     override val shouldHandleEvents: Boolean
         get() = isEnabled && isIngame && mc.interactionManager != null
+
+    override val hide = FabricLoader.getInstance().getModContainer("iris").isPresent
 }
