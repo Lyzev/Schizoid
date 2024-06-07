@@ -17,10 +17,12 @@ import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.feature.Feature
 import dev.lyzev.schizoid.feature.IFeature
+import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import imgui.ImGui.*
 import imgui.extension.implot.flag.ImPlotAxisFlags
 import imgui.extension.implot.flag.ImPlotFlags
+import imgui.flag.ImGuiHoveredFlags
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.ImBoolean
 
@@ -194,6 +196,14 @@ abstract class ModuleToggleableRenderImGuiContent(
             } else {
                 val open = ImBoolean(true)
                 if (begin("\"${name.uppercase()}\"", open, windowFlags)) {
+                    if (isWindowHovered(ImGuiHoveredFlags.AllowWhenBlockedByActiveItem or ImGuiHoveredFlags.RootAndChildWindows)) {
+                        setTooltip("Middle-click to open in Feature Screen.")
+                        if (isMouseClicked(2)) {
+                            ImGuiScreenFeature.search.result = this
+                            if (mc.currentScreen !is ImGuiScreen)
+                                mc.setScreen(ImGuiScreenFeature)
+                        }
+                    }
                     OPEN_SANS_REGULAR.begin()
                     renderImGuiContent()
                     OPEN_SANS_REGULAR.end()
