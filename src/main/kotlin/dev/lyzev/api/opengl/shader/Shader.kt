@@ -104,6 +104,8 @@ abstract class Shader(val shader: String) : EventListener {
      */
     operator fun set(name: String, value: Vector4f) = glUniform4f(this[name], value.x, value.y, value.z, value.w)
 
+    operator fun set(name: String, x: Float, y: Float, z: Float, w: Float) = glUniform4f(this[name], x, y, z, w)
+
     /**
      * Sets a uniform float array value.
      * @param name The name of the uniform.
