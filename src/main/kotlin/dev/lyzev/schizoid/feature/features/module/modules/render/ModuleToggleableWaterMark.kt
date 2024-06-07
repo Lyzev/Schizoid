@@ -15,6 +15,7 @@ import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.*
+import imgui.flag.ImGuiWindowFlags
 
 object ModuleToggleableWaterMark :
     ModuleToggleableRenderImGuiContent(
@@ -44,7 +45,8 @@ object ModuleToggleableWaterMark :
 
     override fun renderImGuiContent() {
         LEAGUE_SPARTAN_EXTRA_BOLD.begin()
-        dummy(115f, 0f)
+        if (windowFlags and ImGuiWindowFlags.NoTitleBar == 0)
+            dummy(115f, 0f)
         sameLine(15f)
         if (waterMarkMath) {
             if (time + interval < System.currentTimeMillis()) {
