@@ -53,9 +53,9 @@ object ModuleToggleableTargetHUD : ModuleToggleableRenderImGuiContent(
             dummy(50f, 50f)
             sameLine()
             val text = """
-            Target: ${target.displayName?.string}
-            Distance: ${mc.player?.distanceTo(target)}
-            """.trimIndent()
+            Target: %s
+            Distance: %.1f
+            """.trimIndent().format(target.displayName?.string, mc.player?.distanceTo(target))
             ImGuiFonts.OPEN_SANS_BOLD.begin()
             if (beginChild(
                     "##Info",
