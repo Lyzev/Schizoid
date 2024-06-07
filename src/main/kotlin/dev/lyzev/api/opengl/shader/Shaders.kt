@@ -265,7 +265,8 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         RenderSystem.activeTexture(GL_TEXTURE0)
         after.beginRead()
         ShaderTint["uTexture"] = 0
-        ShaderTint["uColor"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
+        val col = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
+        ShaderTint.set("uColor", col.red / 255f, col.green / 255f, col.blue / 255f, 1f)
         ShaderTint["uOpacity"] = 1f
         ShaderTint["uRGBPuke"] = false
         ShaderTint["uTime"] = System.nanoTime() / 1000000000f
