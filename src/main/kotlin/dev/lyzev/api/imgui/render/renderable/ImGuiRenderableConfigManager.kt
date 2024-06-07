@@ -54,7 +54,7 @@ class ImGuiRenderableConfigManager : ImGuiRenderable {
                 setTooltip("Open the config directory.")
             if (beginListBox("##nameResults", -1f, -1f)) {
                 SettingInitializer.available.sortedByDescending {
-                    FuzzySearch.weightedRatio(input.get(), it)
+                    if (input.get().isBlank()) (if (it == "default") 1 else 0) else FuzzySearch.weightedRatio(input.get(), it)
                 }.forEach {
                     if (selectable(it, it == SettingInitializer.loaded)) {
                         if (getIO().keyCtrl && it != "default" && it == SettingInitializer.loaded) {
