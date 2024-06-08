@@ -14,6 +14,7 @@ import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import imgui.ImGui.*
+import imgui.flag.ImGuiCond
 import net.minecraft.client.MinecraftClient
 import net.minecraft.text.Text
 
@@ -133,6 +134,10 @@ interface IFeature : ImGuiRenderable {
             OPEN_SANS_BOLD.begin()
             if (ImGuiScreenFeature.search.result != null && ImGuiScreenFeature.search.result!!.category == this)
                 setNextWindowFocus()
+            val width = (Schizoid.mc.window.framebufferWidth - 620) / 3f
+            val height = (Schizoid.mc.window.framebufferHeight - 620) / 3f
+            setNextWindowSize(width, height, ImGuiCond.FirstUseEver)
+            setNextWindowPos(300 + (ordinal % 3) * (width + 10), 300 + (ordinal / 3) * (height + 10), ImGuiCond.FirstUseEver)
             if (begin("\"$name\"")) {
                 OPEN_SANS_REGULAR.begin()
                 FeatureManager[this].forEach(IFeature::render)

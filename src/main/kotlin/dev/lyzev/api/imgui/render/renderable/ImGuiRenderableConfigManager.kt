@@ -11,6 +11,7 @@ import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.setting.SettingInitializer
 import dev.lyzev.schizoid.Schizoid
 import imgui.ImGui.*
+import imgui.flag.ImGuiCond
 import imgui.flag.ImGuiStyleVar
 import imgui.type.ImString
 import me.xdrop.fuzzywuzzy.FuzzySearch
@@ -23,6 +24,10 @@ class ImGuiRenderableConfigManager : ImGuiRenderable {
     override fun render() {
         pushID("##configmanger")
         OPEN_SANS_BOLD.begin()
+        val width = (Schizoid.mc.window.framebufferWidth - 620) / 3f
+        val height = (Schizoid.mc.window.framebufferHeight - 620) / 3f
+        setNextWindowSize(width, height, ImGuiCond.FirstUseEver)
+        setNextWindowPos(300 + 2 * (width + 10), 300 + 2 * (height + 10), ImGuiCond.FirstUseEver)
         if (begin("\"CONFIG\"")) {
             OPEN_SANS_REGULAR.begin()
             val style = getStyle()
