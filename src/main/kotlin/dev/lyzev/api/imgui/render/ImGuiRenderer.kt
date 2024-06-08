@@ -74,7 +74,7 @@ object ImGuiRenderer : EventListener {
     private fun preRenderImGui() {
         if (ModuleToggleableBlur.isEnabled) {
             fbo.clear()
-            fbo.beginWrite(true)
+            fbo.beginWrite(false)
         }
     }
 
@@ -92,8 +92,8 @@ object ImGuiRenderer : EventListener {
             RenderSystem.defaultBlendFunc()
             RenderSystem.enableBlend()
 
-            Schizoid.mc.framebuffer.beginWrite(true)
             GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
+            GlStateManager._viewport(0, 0, Schizoid.mc.framebuffer.viewportWidth, Schizoid.mc.framebuffer.viewportHeight)
             ShaderPassThrough.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             fbo.beginRead()

@@ -307,7 +307,6 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         super.init()
         before = WrappedFramebuffer(size, linear = false)
         after = WrappedFramebuffer(size, linear = false)
-        generateRandomPixels()
     }
 
     override fun preprocess(source: String) = processIncludes(source).format(myGroupSizeX, myGroupSizeY, myGroupSizeZ, b.toCharArray().joinToString(", "), s.toCharArray().joinToString(", "))

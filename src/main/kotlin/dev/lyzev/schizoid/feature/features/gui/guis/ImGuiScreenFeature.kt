@@ -53,6 +53,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         }
         if (it == "Game of Life") {
             ShaderGameOfLife.init()
+            ShaderGameOfLife.generateRandomPixels()
         } else {
             ShaderGameOfLife.delete()
         }
@@ -94,6 +95,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     ) {
         ShaderGameOfLife.size = it
         ShaderGameOfLife.reload()
+        ShaderGameOfLife.generateRandomPixels()
     }
     val gameOfLifeRulestring by text(
         "Game of Life Rulestring",
@@ -107,6 +109,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         ShaderGameOfLife.b = rulestring.substringAfter("B").substringBefore("/")
         ShaderGameOfLife.s = rulestring.substringAfter("S")
         ShaderGameOfLife.reload()
+        ShaderGameOfLife.generateRandomPixels()
     }
 
     private val texturesMario = Array(3) {
@@ -140,7 +143,6 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     val search = ImGuiRenderableSearch()
     val devTools = ImGuiRenderableDeveloperTool()
     val configManager = ImGuiRenderableConfigManager()
-    private val fbo = WrappedFramebuffer()
 
     override fun onDisplayed() {
         ShaderGameOfLife.generateRandomPixels()
