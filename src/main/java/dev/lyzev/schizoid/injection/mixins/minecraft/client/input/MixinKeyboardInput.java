@@ -5,12 +5,13 @@
 
 package dev.lyzev.schizoid.injection.mixins.minecraft.client.input;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.lyzev.api.events.EventIsMovementKeyPressed;
 import net.minecraft.client.input.KeyboardInput;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 /**
  * This class provides a mixin for the KeyboardInput class in the Minecraft client input package.
@@ -27,8 +28,8 @@ public class MixinKeyboardInput {
      * @param instance The key binding that was pressed.
      * @return The return value of the event.
      */
-    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;isPressed()Z"))
-    private boolean onTick(KeyBinding instance) {
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;isPressed()Z"))
+    private boolean onTick(KeyBinding instance, Operation<Boolean> original) {
         EventIsMovementKeyPressed event = new EventIsMovementKeyPressed(instance);
         event.fire();
         return event.isPressed();

@@ -5,6 +5,8 @@
 
 package dev.lyzev.schizoid.injection.mixins.minecraft.client;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.lyzev.api.events.EventIsCursorLocked;
 import dev.lyzev.api.events.EventMouseClick;
 import dev.lyzev.api.events.EventMouseScroll;
@@ -15,7 +17,6 @@ import org.lwjgl.glfw.GLFW;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
@@ -49,9 +50,9 @@ public class MixinMouse {
      * @param instance The Mouse instance.
      * @return The return value of the event.
      */
-    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;isCursorLocked()Z"))
-    private boolean onTick(Mouse instance) {
-        EventIsCursorLocked event = new EventIsCursorLocked(instance.isCursorLocked());
+    @WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Mouse;isCursorLocked()Z"))
+    private boolean onTick(Mouse instance, Operation<Boolean> original) {
+        EventIsCursorLocked event = new EventIsCursorLocked(original.call(instance));
         event.fire();
         return event.isCursorLocked();
     }
