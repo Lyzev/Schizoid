@@ -293,7 +293,7 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         }
         pixels.flip()
         before.beginRead()
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, pixels)
+        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, pixels)
         MemoryUtil.memFree(pixels)
     }
 
