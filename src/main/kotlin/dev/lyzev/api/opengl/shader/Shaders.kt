@@ -195,6 +195,8 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
     }
 }
 
+object ShaderRandom : ShaderVertexFragment("Random")
+
 object ShaderMovingAveragesBox : ShaderCompute("MovingAveragesBox", 32, 1, 1) {
 
     private val horizontal = Matrix2f(1f, 0f, 0f, 1f)
@@ -231,12 +233,17 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
     private lateinit var after: WrappedFramebuffer
 
     private var initTime = System.currentTimeMillis()
+    var queueGenPixels = true
     var deltaTime = 1000 / 10
     var size = 3
     var b = "3"
-    var s = "23"
+    var s = "236"
 
     override fun draw() {
+        if (queueGenPixels) {
+            generateRandomPixels()
+            queueGenPixels = false
+        }
         if (System.currentTimeMillis() - initTime > deltaTime) {
             initTime = System.currentTimeMillis()
             after.clear()
@@ -274,27 +281,13 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         ShaderTint.unbind()
     }
 
-    fun generateRandomPixels() {
-        val width = before.textureWidth
-        val height = before.textureHeight
-        val pixels = MemoryUtil.memAlloc(width * height * 4)
-        for (i in 0 until width * height) {
-            if (Math.random() < .7) {
-                pixels.put(0)
-                pixels.put(0)
-                pixels.put(0)
-                pixels.put(0.toByte())
-            } else {
-                pixels.put(255.toByte())
-                pixels.put(255.toByte())
-                pixels.put(255.toByte())
-                pixels.put(255.toByte())
-            }
-        }
-        pixels.flip()
-        before.beginRead()
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, pixels)
-        MemoryUtil.memFree(pixels)
+    private fun generateRandomPixels() {
+        before.clear()
+        before.beginWrite(true)
+        ShaderRandom.bind()
+        ShaderRandom["Time"] = System.nanoTime() / 1000000000f
+        drawFullScreen()
+        ShaderRandom.unbind()
     }
 
     override fun delete() {
@@ -307,6 +300,7 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         super.init()
         before = WrappedFramebuffer(size, linear = false)
         after = WrappedFramebuffer(size, linear = false)
+        queueGenPixels = true
     }
 
     override fun preprocess(source: String) = processIncludes(source).format(myGroupSizeX, myGroupSizeY, myGroupSizeZ, b.toCharArray().joinToString(", "), s.toCharArray().joinToString(", "))
