@@ -52,7 +52,6 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         }
         if (it == "Game of Life") {
             ShaderGameOfLife.init()
-            ShaderGameOfLife.generateRandomPixels()
         } else {
             ShaderGameOfLife.delete()
         }
@@ -94,12 +93,11 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     ) {
         ShaderGameOfLife.size = it
         ShaderGameOfLife.reload()
-        ShaderGameOfLife.generateRandomPixels()
     }
     val gameOfLifeRulestring by text(
         "Game of Life Rulestring",
         "The rulestring of the game of life.",
-        "B3/S23",
+        "B3/S236",
         true,
         Regex("B[0-8]+/S[0-8]+"),
         hide = ::background neq "Game of Life"
@@ -108,7 +106,6 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         ShaderGameOfLife.b = rulestring.substringAfter("B").substringBefore("/")
         ShaderGameOfLife.s = rulestring.substringAfter("S")
         ShaderGameOfLife.reload()
-        ShaderGameOfLife.generateRandomPixels()
     }
 
     private val texturesMario = Array(3) {
@@ -144,7 +141,7 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
     val configManager = ImGuiRenderableConfigManager()
 
     override fun onDisplayed() {
-        ShaderGameOfLife.generateRandomPixels()
+        ShaderGameOfLife.queueGenPixels = true
     }
 
     override fun renderInGameBackground(context: DrawContext) =
