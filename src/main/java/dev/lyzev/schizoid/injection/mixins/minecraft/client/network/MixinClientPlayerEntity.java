@@ -5,6 +5,8 @@
 
 package dev.lyzev.schizoid.injection.mixins.minecraft.client.network;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.lyzev.api.events.EventClientPlayerEntityTick;
 import dev.lyzev.api.events.EventIsMovementKeyPressed;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -12,7 +14,6 @@ import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
@@ -41,8 +42,8 @@ public class MixinClientPlayerEntity {
      * @param instance The key binding that is checked.
      * @return The return value of the event.
      */
-    @Redirect(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;isPressed()Z"))
-    private boolean onTickMovement(KeyBinding instance) {
+    @WrapOperation(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/KeyBinding;isPressed()Z"))
+    private boolean onTickMovement(KeyBinding instance, Operation<Boolean> original) {
         EventIsMovementKeyPressed event = new EventIsMovementKeyPressed(instance);
         event.fire();
         return event.isPressed();
