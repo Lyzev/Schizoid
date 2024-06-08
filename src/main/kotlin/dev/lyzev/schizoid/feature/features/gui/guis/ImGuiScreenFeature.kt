@@ -15,7 +15,6 @@ import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableConfigManager
 import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableDeveloperTool
 import dev.lyzev.api.imgui.render.renderable.ImGuiRenderableSearch
 import dev.lyzev.api.imgui.theme.ImGuiThemes
-import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.shader.ShaderGameOfLife
 import dev.lyzev.api.opengl.shader.ShaderParticle
 import dev.lyzev.api.setting.settings.keybinds
