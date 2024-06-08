@@ -42,6 +42,7 @@ object ImGuiLoader : EventListener {
         io.iniFilename = Schizoid.root.path + "/imgui.ini"
         io.addConfigFlags(NavEnableKeyboard)
         io.addConfigFlags(DockingEnable)
+        io.addConfigFlags(NoMouseCursorChange)
         initFonts()
         ImGuiScreenFeature.colorScheme.applyStyle(ImGuiScreenFeature.mode)
         ImGuiScreenFeature.colorScheme.applyColors(ImGuiScreenFeature.mode)
