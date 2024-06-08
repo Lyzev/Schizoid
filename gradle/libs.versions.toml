@@ -2,19 +2,19 @@
 # All rights reserved.
 
 [versions]
-kotlin = "2.0.0"
+kotlin = "1.9.24"
 dokka = "1.9.20"
 shadow = "8.1.1"
 
 # https://fabricmc.net/develop
 minecraft = "1.20.6"
-yarn_mappings = "1.20.6+build.3"
-fabric_loader = "0.15.11"
-fabric_api = "0.99.0+1.20.6"
+yarn_mappings = "1.20.6+build.1"
+fabric_loader = "0.15.10"
+fabric_api = "0.98.0+1.20.6"
 # https://github.com/FabricMC/fabric-language-kotlin
-fabric_kl = "1.11.0+kotlin.2.0.0"
+fabric_kl = "1.10.20+kotlin.1.9.24"
 # https://github.com/FabricMC/fabric-loom
-fabric_loom = "1.7.0-alpha.4"
+fabric_loom = "1.6-SNAPSHOT"
 
 # https://github.com/Lyzev
 lyzev_events = "1.0.4"
