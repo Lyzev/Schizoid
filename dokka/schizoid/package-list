@@ -1505,7 +1505,7 @@ $dokka.location:dev.lyzev.api.opengl.shader.blur/BlurHelper///PointingToDeclarat
 $dokka.location:dev.lyzev.api.opengl.shader.blur/BlurHelper/addTmpToMask/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur-helper/add-tmp-to-mask.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/BlurHelper/addTmpToScene/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur-helper/add-tmp-to-scene.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/BlurHelper/begin/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur-helper/begin.html
-$dokka.location:dev.lyzev.api.opengl.shader.blur/BlurHelper/draw/#dev.lyzev.api.opengl.WrappedFramebuffer#kotlin.Boolean#kotlin.Boolean#kotlin.Float#org.joml.Vector4f#kotlin.Int#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur-helper/draw.html
+$dokka.location:dev.lyzev.api.opengl.shader.blur/BlurHelper/draw/#dev.lyzev.api.opengl.WrappedFramebuffer#kotlin.Boolean#kotlin.Boolean#org.joml.Vector3f#kotlin.Int#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur-helper/draw.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/BlurHelper/end/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur-helper/end.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/BlurHelper/mode/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader.blur/-blur-helper/mode.html
 $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs.BOX///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.opengl.shader.blur/-blurs/-b-o-x/index.html
@@ -1559,6 +1559,7 @@ $dokka.location:dev.lyzev.api.opengl.shader/Shader/shader/#/PointingToDeclaratio
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/should-handle-events.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader/unbind/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/unbind.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderAcrylic///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-acrylic/index.html
+$dokka.location:dev.lyzev.api.opengl.shader/ShaderAcrylic/initTime/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-acrylic/init-time.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderAdd///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-add/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderBlend///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-blend/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderBox///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-box/index.html
@@ -1574,9 +1575,9 @@ $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/delete/#/PointingToDec
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/draw/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/draw.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/drawTexture/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/draw-texture.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/init/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/init.html
-$dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/myGroupSizeX/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/my-group-size-x.html
-$dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/myGroupSizeY/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/my-group-size-y.html
-$dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/myGroupSizeZ/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/my-group-size-z.html
+$dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/localSizeX/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/local-size-x.html
+$dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/localSizeY/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/local-size-y.html
+$dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/localSizeZ/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/local-size-z.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/preprocess/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/preprocess.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderCompute/texture/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-compute/texture.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderDepth///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-depth/index.html
@@ -1613,6 +1614,7 @@ $dokka.location:dev.lyzev.api.opengl.shader/ShaderRandom///PointingToDeclaration
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderReflection///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-reflection/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderThreshold///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-threshold/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderTint///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-tint/index.html
+$dokka.location:dev.lyzev.api.opengl.shader/ShaderTint/initTime/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-tint/init-time.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderVertexFragment///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-vertex-fragment/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderVertexFragment/ShaderVertexFragment/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-vertex-fragment/-shader-vertex-fragment.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderVertexFragment/init/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-vertex-fragment/init.html
@@ -1863,6 +1865,7 @@ $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/Module
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableBlur/bloomRGBPuke/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-blur/bloom-r-g-b-puke.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableBlur/bloomStrength/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-blur/bloom-strength.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableBlur/dropShadow/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-blur/drop-shadow.html
+$dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableBlur/dropShadowMultiplier/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-blur/drop-shadow-multiplier.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableBlur/dropShadowRGBPuke/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-blur/drop-shadow-r-g-b-puke.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableBlur/dropShadowStrength/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-blur/drop-shadow-strength.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.render/ModuleToggleableBlur/fog/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.render/-module-toggleable-blur/fog.html
