@@ -8,7 +8,6 @@ package dev.lyzev.api.theme
 import com.sun.jna.platform.win32.*
 import com.sun.jna.platform.win32.WinReg.HKEYByReference
 import dev.lyzev.api.events.*
-import kotlinx.coroutines.Job
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.concurrent.thread
@@ -48,11 +47,7 @@ object WindowsTheme : OSTheme {
         while (true) {
             val handle = Kernel32.INSTANCE.CreateEvent(null, true, false, null)
             Advapi32.INSTANCE.RegNotifyChangeKeyValue(
-                keyRef.value,
-                true,
-                WinNT.REG_NOTIFY_CHANGE_LAST_SET or WinNT.REG_NOTIFY_CHANGE_NAME,
-                handle,
-                true
+                keyRef.value, true, WinNT.REG_NOTIFY_CHANGE_LAST_SET or WinNT.REG_NOTIFY_CHANGE_NAME, handle, true
             )
             val res = Kernel32.INSTANCE.WaitForSingleObject(handle, 1000)
             if (res == WinBase.WAIT_OBJECT_0 && !isShuttingDown) {
@@ -93,14 +88,20 @@ object WindowsTheme : OSTheme {
 // MacOS implementation
 object MacOSTheme : OSTheme {
 
-    private var job: Job? = null
+    private var cantFetch = false
     private var lastTheme = getCurrentTheme()
 
     override fun getCurrentTheme(): OSTheme.Theme {
-        val process = ProcessBuilder("defaults", "read", "-g", "AppleInterfaceStyle").start()
-        val reader = BufferedReader(InputStreamReader(process.inputStream))
-        val theme = reader.readLine()
-        return if (theme == "Dark") OSTheme.Theme.Dark else OSTheme.Theme.Light
+        if (cantFetch) return OSTheme.Theme.Dark
+        try {
+            val process = ProcessBuilder("defaults", "read", "-g", "AppleInterfaceStyle").start()
+            val reader = BufferedReader(InputStreamReader(process.inputStream))
+            val theme = reader.readLine()
+            return if (theme == "Dark") OSTheme.Theme.Dark else OSTheme.Theme.Light
+        } catch (e: Exception) {
+            cantFetch = true
+            return OSTheme.Theme.Dark
+        }
     }
 
     override fun startListenForUpdatesThread() {
@@ -117,14 +118,20 @@ object MacOSTheme : OSTheme {
 // Linux implementation
 object LinuxTheme : OSTheme {
 
-    private var job: Job? = null
-    private var lastTheme = MacOSTheme.getCurrentTheme()
+    private var cantFetch = false
+    private var lastTheme = getCurrentTheme()
 
     override fun getCurrentTheme(): OSTheme.Theme {
-        val process = ProcessBuilder("gsettings", "get", "org.gnome.desktop.interface", "gtk-theme").start()
-        val reader = BufferedReader(InputStreamReader(process.inputStream))
-        val theme = reader.readLine()
-        return if (theme.contains("dark", ignoreCase = true)) OSTheme.Theme.Dark else OSTheme.Theme.Light
+        if (cantFetch) return OSTheme.Theme.Dark
+        try {
+            val process = ProcessBuilder("gsettings", "get", "org.gnome.desktop.interface", "gtk-theme").start()
+            val reader = BufferedReader(InputStreamReader(process.inputStream))
+            val theme = reader.readLine()
+            return if (theme.contains("dark", ignoreCase = true)) OSTheme.Theme.Dark else OSTheme.Theme.Light
+        } catch (e: Exception) {
+            cantFetch = true
+            return OSTheme.Theme.Dark
+        }
     }
 
     override fun startListenForUpdatesThread() {
