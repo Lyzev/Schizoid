@@ -8,16 +8,16 @@
 in vec2 uv;
 out vec4 color;
 
-uniform sampler2D uScene;
-uniform sampler2D uTexture;
-uniform bool uAlpha;
+uniform sampler2D Tex0;
+uniform sampler2D Tex1;
+uniform bool Alpha;
 
 void main() {
-    color = texture(uTexture, uv);
+    color = texture(Tex1, uv);
     if (color.a == 0) {
-        color = texture(uScene, uv);
+        color = texture(Tex0, uv);
     }
-    if (!uAlpha && color.a > 0) {
+    if (!Alpha && color.a > 0) {
         color.a = 1;
     }
 }

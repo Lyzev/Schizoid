@@ -5,10 +5,10 @@
 
 #version 330
 
-in vec2 v_in_f2Position;
-out vec2 v_out_f2Uv;
+in vec2 position;
+out vec2 uv;
 
 void main() {
-    gl_Position = vec4(v_in_f2Position, 0, 1);
-    v_out_f2Uv = v_in_f2Position * .5 + .5;
+    gl_Position = vec4(position, 0.0, 1.0);
+    uv = position * 0.5 + 0.5;
 }

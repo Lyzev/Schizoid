@@ -1,4 +1,4 @@
-//http://gamedev.stackexchange.com/questions/59797/glsl-shader-change-hue-saturation-brightness
+// http://gamedev.stackexchange.com/questions/59797/glsl-shader-change-hue-saturation-brightness
 vec3 rgb2hsv(vec3 c)
 {
     vec4 K = vec4(0.0, -1.0 / 3.0, 2.0 / 3.0, -1.0);

@@ -14,7 +14,7 @@ uniform int Strength;
 void main() {
     int cKernelSize = Strength * 2 + 1;
     int cKernelHalfDist = cKernelSize / 2;
-    float recKernelSize = 1 / float(cKernelSize);
+    float recKernelSize = 1.0 / float(cKernelSize);
 
     int y = int(gl_GlobalInvocationID.x);
 
@@ -24,21 +24,21 @@ void main() {
     // avoid processing pixels that are out of texture dimensions!
     if (y >= (screenSize.y)) return;
 
-    vec4 colourSum = imageLoad(Img1, ivec2((vec2(0, y) / screenSize) * tex0Size * Direction)) * float(cKernelHalfDist);
+    vec4 colourSum = imageLoad(Img1, ivec2((vec2(0.0, y) / screenSize) * tex0Size * Direction)) * float(cKernelHalfDist);
     for (int x = 0; x <= cKernelHalfDist; x++) {
         colourSum += imageLoad(Img1, ivec2((vec2(x, y) / screenSize) * tex0Size * Direction));
     }
 
     for (int x = 0; x < screenSize.x; x++) {
-        vec4 color = clamp(colourSum * recKernelSize, 0, 1);
+        vec4 color = clamp(colourSum * recKernelSize, 0.0, 1.0);
         if (!Alpha) {
-            color.a = 1;
+            color.a = 1.0;
         }
         imageStore(Img0, ivec2(vec2(x, y) * Direction), color);
 
         // move window to the next
-        vec4 leftBorder = imageLoad(Img1, ivec2((vec2(max(x-cKernelHalfDist, 0), y) / screenSize) * tex0Size * Direction));
-        vec4 rightBorder = imageLoad(Img1, ivec2((vec2(min(x+cKernelHalfDist + 1, screenSize.x - 1), y) / screenSize) * tex0Size * Direction));
+        vec4 leftBorder = imageLoad(Img1, ivec2((vec2(max(x-cKernelHalfDist, 0.0), y) / screenSize) * tex0Size * Direction));
+        vec4 rightBorder = imageLoad(Img1, ivec2((vec2(min(x+cKernelHalfDist + 1.0, screenSize.x - 1.0), y) / screenSize) * tex0Size * Direction));
 
         colourSum -= leftBorder;
         colourSum += rightBorder;

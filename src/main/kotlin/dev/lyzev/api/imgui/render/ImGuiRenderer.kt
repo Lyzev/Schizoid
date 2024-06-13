@@ -97,8 +97,8 @@ object ImGuiRenderer : EventListener {
             ShaderPassThrough.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             fbo.beginRead()
-            ShaderPassThrough["uTexture"] = 0
-            ShaderPassThrough["uScale"] = 1f
+            ShaderPassThrough["Tex0"] = 0
+            ShaderPassThrough["Scale"] = 1f
             Shader.drawFullScreen()
             ShaderPassThrough.unbind()
 

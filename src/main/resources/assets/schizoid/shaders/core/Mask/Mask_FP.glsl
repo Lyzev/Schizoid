@@ -5,22 +5,22 @@
 
 #version 330
 
-in vec2 v_out_f2Uv;
-out vec4 f_out_f4Color;
+in vec2 uv;
+out vec4 color;
 
-uniform sampler2D u_s2Texture;
-uniform sampler2D u_s2Mask;
-uniform bool u_bInvert;
+uniform sampler2D Tex0;
+uniform sampler2D Tex1;
+uniform bool Invert;
 
 void main() {
-    f_out_f4Color = vec4(0);
-    if (u_bInvert) {
-        if (texture(u_s2Mask, v_out_f2Uv).a == 0) {
-            f_out_f4Color = texture(u_s2Texture, v_out_f2Uv);
+    color = vec4(0.0);
+    if (Invert) {
+        if (texture(Tex1, uv).a == 0.0) {
+            color = texture(Tex0, uv);
         }
     } else {
-        if (texture(u_s2Mask, v_out_f2Uv).a != 0) {
-            f_out_f4Color = texture(u_s2Texture, v_out_f2Uv);
+        if (texture(Tex1, uv).a != 0.0) {
+            color = texture(Tex0, uv);
         }
     }
 }

@@ -16,10 +16,10 @@ uniform float Far;
 
 void main() {
     // Read in depth value from depth texture
-    float depthValue = texture(Tex0, uv).x;
+    float depth = texture(Tex0, uv).x;
 
     // Convert depth value to distance
-    float distance = linearizeDepth(depthValue, Near, Far) / Far;
+    float distance = linearizeDepth(depth, Near, Far) / Far;
 
-    color = vec4(vec3(distance), 1);
+    color = vec4(vec3(distance), 1.0);
 }

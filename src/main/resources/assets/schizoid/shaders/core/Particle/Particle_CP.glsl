@@ -17,18 +17,18 @@ struct Particle {
 };
 
 layout (std140, binding = 0) buffer ParticleBuffer { Particle particles[]; };
-layout(location = 1) uniform vec2 mousePos;
-layout(location = 2) uniform vec2 screenSize;
-layout(location = 3) uniform float force;
-layout(location = 4) uniform int arrayOffset;
-layout(location = 5) uniform float deltaTime;
-layout(location = 6) uniform vec3 colorIdle;
-layout(location = 7) uniform vec3 colorActive;
+layout(location = 1) uniform vec2 MousePos;
+layout(location = 2) uniform vec2 ScreenSize;
+layout(location = 3) uniform float Force;
+layout(location = 4) uniform int ArrayOffset;
+layout(location = 5) uniform float DeltaTime;
+layout(location = 6) uniform vec3 ColorIdle;
+layout(location = 7) uniform vec3 ColorActive;
 
-layout(rgba32f, binding = 0) uniform image2D imgOutput;
+layout(rgba32f, binding = 0) uniform image2D Img0;
 
-#define SIMULATION_SPEED 1 / (1000 / 60) // 60 fps
-#define AIR_RESISTANCE .98
+#define SIMULATION_SPEED 1.0 / (1000.0 / 60.0) // 60 fps
+#define AIR_RESISTANCE 0.98
 #define GRAVITY 8.91
 #define PI 3.14159265359
 #define MAX_SPEED 8.91
@@ -36,28 +36,28 @@ layout(rgba32f, binding = 0) uniform image2D imgOutput;
 #include "Noise.glsl"
 
 void main() {
-    Particle p = particles[gl_LocalInvocationIndex + arrayOffset];
-    float simulate = deltaTime * SIMULATION_SPEED;
-    p.motion *= AIR_RESISTANCE + .02 * (1 - simulate);
-    if (force != 0) {
-        vec2 dist = normalize(mousePos - p.position);
+    Particle p = particles[gl_LocalInvocationIndex + ArrayOffset];
+    float simulate = DeltaTime * SIMULATION_SPEED;
+    p.motion *= AIR_RESISTANCE + 0.02 * (1.0 - simulate);
+    if (Force != 0.0) {
+        vec2 dist = normalize(MousePos - p.position);
         float speed = min(MAX_SPEED, length(GRAVITY * dist));
         float phi = atan(dist.y, dist.x);
-        phi += (rand(p.position) - .5) * (PI / 4); // -22.5° to 22.5°
+        phi += (rand(p.position) - 0.5) * (PI / 4.0); // -22.5° to 22.5°
         vec2 dir = vec2(cos(phi), sin(phi));
-        p.motion += dir * speed * force * simulate;
+        p.motion += dir * speed * Force * simulate;
     }
     vec2 pre = p.position;
     p.position += p.motion * simulate;
-    if (p.position.x < 0 || p.position.x > screenSize.x) {
+    if (p.position.x < 0.0 || p.position.x > ScreenSize.x) {
         p.position.x = pre.x;
-        p.motion.x *= -1;
+        p.motion.x *= -1.0;
     }
-    if (p.position.y < 0 || p.position.y > screenSize.y) {
+    if (p.position.y < 0.0 || p.position.y > ScreenSize.y) {
         p.position.y = pre.y;
-        p.motion.y *= -1;
+        p.motion.y *= -1.0;
     }
-    vec3 color = mix(colorIdle, colorActive, min(length(p.motion) / 2000, 1));
-    imageStore(imgOutput, ivec2(p.position), vec4(color, 1));
-    particles[gl_LocalInvocationIndex + arrayOffset] = p;
+    vec3 color = mix(ColorIdle, ColorActive, min(length(p.motion) / 2000.0, 1.0));
+    imageStore(Img0, ivec2(p.position), vec4(color, 1.0));
+    particles[gl_LocalInvocationIndex + ArrayOffset] = p;
 }

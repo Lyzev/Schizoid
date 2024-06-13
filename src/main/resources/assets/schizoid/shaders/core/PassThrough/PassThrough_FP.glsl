@@ -8,8 +8,8 @@
 in vec2 uv;
 out vec4 color;
 
-uniform sampler2D uTexture;
+uniform sampler2D Tex0;
 
 void main() {
-    color = texture(uTexture, uv);
+    color = texture(Tex0, uv);
 }

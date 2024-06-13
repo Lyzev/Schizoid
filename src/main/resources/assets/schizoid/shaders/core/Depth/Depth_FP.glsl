@@ -10,22 +10,22 @@
 in vec2 uv;
 out vec4 color;
 
-uniform sampler2D uScene;
-uniform sampler2D uDepth;
-uniform float uNear;
-uniform float uFar;
-uniform float uMinThreshold;
-uniform float uMaxThreshold;
+uniform sampler2D Tex0;
+uniform sampler2D Tex1;
+uniform float Near;
+uniform float Far;
+uniform float MinThreshold;
+uniform float MaxThreshold;
 
 void main() {
     // Read in depth value from depth texture
-    float depthValue = texture(uDepth, uv).x;
+    float depth = texture(Tex1, uv).x;
 
     // Convert depth value to distance
-    float distance = linearizeDepth(depthValue, uNear, uFar) / uFar;
+    float distance = linearizeDepth(depth, Near, Far) / Far;
 
-    color = vec4(0);
-    if (distance > uMinThreshold) {
-        color = vec4(texture(uScene, uv).rgb, min((distance - uMinThreshold) / (uMaxThreshold - uMinThreshold), 1.0));
+    color = vec4(0.0);
+    if (distance > MinThreshold) {
+        color = vec4(texture(Tex0, uv).rgb, min((distance - MinThreshold) / (MaxThreshold - MinThreshold), 1.0));
     }
 }

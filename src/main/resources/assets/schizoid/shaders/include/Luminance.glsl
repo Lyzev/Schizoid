@@ -1,5 +1,5 @@
 float luminance(const vec3 rgb) {
-    const vec3 w = vec3(.2126, .7152, .0722);
+    const vec3 w = vec3(0.2126, 0.7152, 0.0722);
     return dot(rgb, w);
 }
 

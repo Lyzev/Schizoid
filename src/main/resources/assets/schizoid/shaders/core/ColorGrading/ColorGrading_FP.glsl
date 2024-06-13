@@ -5,8 +5,8 @@
 
 #version 330
 
-in vec2 UV;
-out vec4 Color;
+in vec2 uv;
+out vec4 color;
 
 uniform sampler2D Tex0;
 uniform float Brightness;
@@ -25,15 +25,15 @@ uniform vec3 Offset;
 #include "Temperature.glsl"
 #include "FilmicTonemap.glsl"
 
-void main()
-{
-    vec3 color = texture(Tex0, UV).rgb;
-    color += Brightness;
-    color = (color - .5) * Contrast + .5;
-    color = (1 + Exposure) * color;
-    color = luminosity(color, Saturation);
-    color = hsv2rgb(rgb2hsv(color) + vec3(fract(Hue / 360.0), 0, 0));
-    color *= vec3(1) / colorFromKelvin(Temperature);
-    color = pow(max(vec3(0), color * (1 + Gain - Lift) + Lift + Offset), max(vec3(0), 1 - Gamma));
-    Color = vec4(filmic(color), 1);
+void main() {
+    color.rgb = texture(Tex0, uv).rgb;
+    color.rgb += Brightness;
+    color.rgb = (color.rgb - 0.5) * Contrast + 0.5;
+    color.rgb = (1.0 + Exposure) * color.rgb;
+    color.rgb = luminosity(color.rgb, Saturation);
+    color.rgb = hsv2rgb(rgb2hsv(color.rgb) + vec3(fract(Hue / 360.0), 0.0, 0.0));
+    color.rgb *= vec3(1) / colorFromKelvin(Temperature);
+    color.rgb = pow(max(vec3(0.0), color.rgb * (1.0 + Gain - Lift) + Lift + Offset), max(vec3(0.0), 1.0 - Gamma));
+    color.rgb = filmic(color.rgb);
+    color.a = 1;
 }

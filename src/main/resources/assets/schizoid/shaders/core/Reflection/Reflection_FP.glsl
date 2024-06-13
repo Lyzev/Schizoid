@@ -13,7 +13,7 @@ uniform sampler2D Tex0;
 uniform float Freq;
 uniform vec3 CamPos;
 
-#define RECIPROCAL_PI2 .15915494
+#define RECIPROCAL_PI2 0.15915494
 
 #include "SimplexNoise.glsl"
 
@@ -33,9 +33,9 @@ void main() {
     float absY = abs(y);
     float absZ = abs(z);
 
-    bool isXPositive = x > 0;
-    bool isYPositive = y > 0;
-    bool isZPositive = z > 0;
+    bool isXPositive = x > 0.0;
+    bool isYPositive = y > 0.0;
+    bool isZPositive = z > 0.0;
 
     float maxAxis, uc, vc;
 
@@ -98,9 +98,8 @@ void main() {
     }
 
     // Convert range from -1 to 1 to 0 to 1
-    u = .5 * (uc / maxAxis + 1);
-    v = .5 * (vc / maxAxis + 1);
+    vec2 uv = 0.5 * (vec2(uc, vc) / maxAxis + 1.0);
 
-    vec3 reflection = texture(Tex0, vec2(u, v)).rgb;
-    Color = vec4(reflection, 1);
+    vec3 reflection = texture(Tex0, uv).rgb;
+    Color = vec4(reflection, 1.0);
 }

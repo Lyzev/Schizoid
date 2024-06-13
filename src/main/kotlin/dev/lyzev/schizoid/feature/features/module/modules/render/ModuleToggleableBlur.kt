@@ -16,6 +16,7 @@ import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderAcrylic
 import dev.lyzev.api.opengl.shader.ShaderDepth
+import dev.lyzev.api.opengl.shader.ShaderTint
 import dev.lyzev.api.opengl.shader.blur.Blurs
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
@@ -24,6 +25,7 @@ import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.MinecraftClient
+import net.minecraft.util.math.MathHelper
 import org.lwjgl.opengl.GL13
 
 object ModuleToggleableBlur :
@@ -91,6 +93,15 @@ object ModuleToggleableBlur :
         20,
         hide = ::dropShadow neq true
     )
+    val dropShadowMultiplier by slider(
+        "Drop Shadow Multiplier",
+        "The multiplier of the drop shadow effect.",
+        140,
+        100,
+        200,
+        unit = "%%",
+        hide = ::dropShadow neq true
+    )
     val dropShadowRGBPuke by switch(
         "Drop Shadow RGB Puke",
         "Adds an RGB puke effect to the drop shadow.",
@@ -153,19 +164,20 @@ object ModuleToggleableBlur :
             if (fogRGBPuke) {
                 fbo.clear()
                 fbo.beginWrite(true)
-                ShaderAcrylic.bind()
+                ShaderTint.bind()
                 RenderSystem.activeTexture(GL13.GL_TEXTURE0)
                 MinecraftClient.getInstance().framebuffer.beginRead()
-                ShaderAcrylic["uTexture"] = 0
-                ShaderAcrylic["uLuminosity"] = 1f
-                ShaderAcrylic["uNoiseStrength"] = 0f
-                ShaderAcrylic["uNoiseScale"] = 0f
-                ShaderAcrylic["uOpacity"] = 1f
-                ShaderAcrylic["uRGBPuke"] = true
-                ShaderAcrylic["uRGBPukeOpacity"] = fogRGBPukeOpacity / 100f
-                ShaderAcrylic["uTime"] = System.nanoTime() / 1000000000f
+                ShaderTint["Tex0"] = 0
+                ShaderTint["RGBPuke"] = fogRGBPuke
+                ShaderTint["Opacity"] = fogRGBPukeOpacity / 100f
+                ShaderTint["Multiplier"] = 1f
+                ShaderTint["Time"] = (System.nanoTime() - ShaderAcrylic.initTime) / 1000000000f
+                val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
+                ShaderTint["Yaw"] = yaw
+                val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
+                ShaderTint["Pitch"] = pitch
                 Shader.drawFullScreen()
-                ShaderAcrylic.unbind()
+                ShaderTint.unbind()
             }
 
             method.value.switchStrength(fogStrength)
@@ -175,14 +187,14 @@ object ModuleToggleableBlur :
             ShaderDepth.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             method.value.output.beginRead()
-            ShaderDepth["uScene"] = 0
+            ShaderDepth["Tex0"] = 0
             RenderSystem.activeTexture(GL13.GL_TEXTURE1)
             GlStateManager._bindTexture(mc.framebuffer.depthAttachment)
-            ShaderDepth["uDepth"] = 1
-            ShaderDepth["uNear"] = .05f
-            ShaderDepth["uFar"] = mc.gameRenderer.farPlaneDistance
-            ShaderDepth["uMinThreshold"] = .004f * fogDistance / 100f
-            ShaderDepth["uMaxThreshold"] = .28f * fogDistance / 100f
+            ShaderDepth["Tex1"] = 1
+            ShaderDepth["Near"] = .05f
+            ShaderDepth["Far"] = mc.gameRenderer.farPlaneDistance
+            ShaderDepth["MinThreshold"] = .004f * fogDistance / 100f
+            ShaderDepth["MaxThreshold"] = .28f * fogDistance / 100f
             Shader.drawFullScreen()
             ShaderDepth.unbind()
 
