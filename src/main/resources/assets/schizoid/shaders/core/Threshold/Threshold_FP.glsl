@@ -8,20 +8,21 @@
 in vec2 uv;
 out vec4 color;
 
-uniform sampler2D scene;
-uniform vec3 primary;
-uniform vec3 secondary;
-uniform vec3 accent;
+uniform sampler2D Tex0;
+uniform vec3 Primary;
+uniform vec3 Secondary;
+uniform vec3 Accent;
+uniform float Threshold;
 
 void main() {
-    color = texture(scene, uv);
-    if (distance(color.rgb, primary) < .2) {
-        color = vec4(color.rgb, 1);
-    } else if (distance(color.rgb, secondary) < .2) {
-        color = vec4(color.rgb, 1);
-    } else if (distance(color.rgb, accent) < .2) {
-        color = vec4(color.rgb, 1);
+    color = texture(Tex0, uv);
+    if (distance(color.rgb, Primary) < Threshold) {
+        color = vec4(color.rgb, 1.0);
+    } else if (distance(color.rgb, Secondary) < Threshold) {
+        color = vec4(color.rgb, 1.0);
+    } else if (distance(color.rgb, Accent) < Threshold) {
+        color = vec4(color.rgb, 1.0);
     } else {
-        color = vec4(0);
+        color = vec4(0.0);
     }
 }

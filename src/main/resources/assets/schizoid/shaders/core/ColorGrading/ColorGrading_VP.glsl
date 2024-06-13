@@ -5,10 +5,10 @@
 
 #version 330
 
-in vec2 Position;
-out vec2 UV;
+in vec2 position;
+out vec2 uv;
 
 void main() {
-    gl_Position = vec4(Position, 0, 1);
-    UV = Position * .5 + .5;
+    gl_Position = vec4(position, 0.0, 1.0);
+    uv = position * 0.5 + 0.5;
 }

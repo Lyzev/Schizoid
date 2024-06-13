@@ -266,8 +266,8 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                     ShaderPassThrough.bind()
                     RenderSystem.activeTexture(GL13.GL_TEXTURE0)
                     BlurHelper.mode.blur.output.beginRead()
-                    ShaderPassThrough["uTexture"] = 0
-                    ShaderPassThrough["uScale"] = 1f
+                    ShaderPassThrough["Tex0"] = 0
+                    ShaderPassThrough["Scale"] = 1f
                     Shader.drawFullScreen()
                     ShaderPassThrough.unbind()
                     mc.framebuffer.beginWrite(true)

@@ -10,23 +10,29 @@ precision lowp float;
 in vec2 uv;
 out vec4 color;
 
-uniform sampler2D uTexture;
-uniform vec4 uColor;
-uniform float uOpacity;
-uniform bool uRGBPuke;
-uniform float uTime;
+uniform sampler2D Tex0;
+uniform vec3 Color;
+uniform bool RGBPuke;
+uniform float Opacity;
+uniform float Multiplier;
+uniform float Time;
+uniform float Yaw;
+uniform float Pitch;
 
-#include "Acrylic.glsl"
+#include "Color.glsl"
+#include "3DSimplexNoise.glsl"
 
 void main() {
-    color = texture(uTexture, uv);
-    if (color.a > 0) {
-        if (uRGBPuke) {
-            float d = sqrt(pow(uv.x + .2, 2) + pow(uv.y - .2, 2));
-            color.rgb = mix(color.rgb, hsv2rgb(vec3(d * .5 - uTime / 4, 0.7, 1)), uOpacity);
+    color = texture(Tex0, uv);
+    if (color.a > 0.0) {
+        if (RGBPuke) {
+            float time = Time / 8.0;
+            vec2 pos = vec2(uv.x + Yaw / 180.0, uv.y - Pitch / 90.0);
+            float d = snoise(vec3(pos, time));
+            color.rgb = mix(color.rgb, hsv2rgb(vec3(mod(d * 0.5 - time, 1.0), 0.7, 1.0)), Opacity);
         } else {
-            color.rgb = mix(color.rgb, uColor.rgb, uOpacity);
-            color.a *= uColor.a;
+            color.rgb = mix(color.rgb, Color, Opacity);
         }
+        color.a = clamp(color.a * Multiplier, 0.0, 1.0);
     }
 }

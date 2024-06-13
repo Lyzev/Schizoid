@@ -11,7 +11,6 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
-import dev.lyzev.api.opengl.save
 import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.ShaderAcrylic
 import dev.lyzev.api.opengl.shader.ShaderAdd
@@ -19,8 +18,10 @@ import dev.lyzev.api.opengl.shader.ShaderMask
 import dev.lyzev.api.opengl.shader.ShaderTint
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
-import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableInfo
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
 import net.minecraft.client.MinecraftClient
+import net.minecraft.util.math.MathHelper
+import org.joml.Vector3f
 import org.joml.Vector4f
 import org.lwjgl.opengl.GL13.GL_TEXTURE0
 import org.lwjgl.opengl.GL13.GL_TEXTURE1
@@ -103,9 +104,9 @@ object BlurHelper {
         texture1.beginRead()
         RenderSystem.activeTexture(GL_TEXTURE0)
         texture0.beginRead()
-        ShaderAdd["uScene"] = 0
-        ShaderAdd["uTexture"] = 1
-        ShaderAdd["uAlpha"] = alpha
+        ShaderAdd["Tex0"] = 0
+        ShaderAdd["Tex1"] = 1
+        ShaderAdd["Alpha"] = alpha
         drawFullScreen()
         ShaderAdd.unbind()
     }
@@ -117,8 +118,7 @@ object BlurHelper {
         mask: WrappedFramebuffer = BlurHelper.mask,
         clearMask: Boolean = true,
         useDefaultFbo: Boolean = false,
-        opacity: Float = 1f,
-        dropShadowColor: Vector4f = Vector4f(0f, 0f, 0f, 1f),
+        dropShadowColor: Vector3f = Vector3f(0f, 0f, 0f),
         blurStrength: Int = ModuleToggleableBlur.strength,
         dropShadowStrength: Int = ModuleToggleableBlur.dropShadowStrength
     ) {
@@ -134,14 +134,18 @@ object BlurHelper {
             ShaderAcrylic.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
             mode.output.beginRead()
-            ShaderAcrylic["uTexture"] = 0
-            ShaderAcrylic["uLuminosity"] = ModuleToggleableBlur.luminosity / 100f
-            ShaderAcrylic["uNoiseStrength"] = 0.04f * ModuleToggleableBlur.noiseStrength / 100f
-            ShaderAcrylic["uNoiseScale"] = 4000f * ModuleToggleableBlur.noiseSale / 100f
-            ShaderAcrylic["uOpacity"] = -1f
-            ShaderAcrylic["uRGBPuke"] = ModuleToggleableBlur.RGBPuke
-            ShaderAcrylic["uRGBPukeOpacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
-            ShaderAcrylic["uTime"] = System.nanoTime() / 1000000000f
+            ShaderAcrylic["Tex0"] = 0
+            ShaderAcrylic["Luminosity"] = ModuleToggleableBlur.luminosity / 100f
+            ShaderAcrylic["NoiseStrength"] = 0.04f * ModuleToggleableBlur.noiseStrength / 100f
+            ShaderAcrylic["NoiseScale"] = 4000f * ModuleToggleableBlur.noiseSale / 100f
+            ShaderAcrylic["Opacity"] = -1f
+            ShaderAcrylic["RGBPuke"] = ModuleToggleableBlur.RGBPuke
+            ShaderAcrylic["RGBPukeOpacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
+            ShaderAcrylic["Time"] = (System.nanoTime() - ShaderAcrylic.initTime) / 1000000000f
+            val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
+            ShaderAcrylic["Yaw"] = yaw
+            val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
+            ShaderAcrylic["Pitch"] = pitch
             drawFullScreen()
             ShaderAcrylic.unbind()
         }
@@ -155,9 +159,9 @@ object BlurHelper {
         RenderSystem.activeTexture(GL_TEXTURE0)
         if (ModuleToggleableBlur.acrylic) acrylicBlur.beginRead()
         else mode.output.beginRead()
-        ShaderMask["u_s2Texture"] = 0
-        ShaderMask["u_s2Mask"] = 1
-        ShaderMask["u_bInvert"] = false
+        ShaderMask["Tex0"] = 0
+        ShaderMask["Tex1"] = 1
+        ShaderMask["Invert"] = false
         drawFullScreen()
         ShaderMask.unbind()
 
@@ -170,11 +174,16 @@ object BlurHelper {
             ShaderTint.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
             mode.output.beginRead()
-            ShaderTint["uTexture"] = 0
-            ShaderTint["uColor"] = dropShadowColor
-            ShaderTint["uOpacity"] = 1f
-            ShaderTint["uRGBPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
-            ShaderTint["uTime"] = System.nanoTime() / 1000000000f
+            ShaderTint["Tex0"] = 0
+            ShaderTint["Color"] = dropShadowColor
+            ShaderTint["RGBPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
+            ShaderTint["Opacity"] = 1f
+            ShaderTint["Multiplier"] = ModuleToggleableBlur.dropShadowMultiplier / 100f
+            ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
+            val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
+            ShaderTint["Yaw"] = yaw
+            val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
+            ShaderTint["Pitch"] = pitch
             drawFullScreen()
             ShaderTint.unbind()
 
@@ -186,9 +195,9 @@ object BlurHelper {
             mask.beginRead()
             RenderSystem.activeTexture(GL_TEXTURE0)
             dropShadow.beginRead()
-            ShaderMask["u_s2Texture"] = 0
-            ShaderMask["u_s2Mask"] = 1
-            ShaderMask["u_bInvert"] = true
+            ShaderMask["Tex0"] = 0
+            ShaderMask["Tex1"] = 1
+            ShaderMask["Invert"] = true
             drawFullScreen()
             ShaderMask.unbind()
         }

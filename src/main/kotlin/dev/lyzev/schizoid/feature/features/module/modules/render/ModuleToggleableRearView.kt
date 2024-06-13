@@ -76,7 +76,7 @@ object ModuleToggleableRearView :
             ShaderFlip.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             rearView.beginRead()
-            ShaderFlip["scene"] = 0
+            ShaderFlip["Tex0"] = 0
             Shader.drawFullScreen()
             ShaderFlip.unbind()
 

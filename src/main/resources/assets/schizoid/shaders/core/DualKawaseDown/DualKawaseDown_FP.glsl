@@ -11,21 +11,20 @@ precision lowp sampler2D;
 in vec2 uv;
 out vec4 color;
 
-uniform sampler2D uTexture;
-uniform vec2 uHalfTexelSize;
-uniform bool uAlpha;
-
-uniform float uOffset;
+uniform sampler2D Tex0;
+uniform vec2 HalfTexelSize;
+uniform float Offset;
+uniform bool Alpha;
 
 void main() {
     color = (
-        texture(uTexture, uv) * 4 +
-        texture(uTexture, uv - uHalfTexelSize.xy * uOffset) +
-        texture(uTexture, uv + uHalfTexelSize.xy * uOffset) +
-        texture(uTexture, uv + vec2(uHalfTexelSize.x, -uHalfTexelSize.y) * uOffset) +
-        texture(uTexture, uv - vec2(uHalfTexelSize.x, -uHalfTexelSize.y) * uOffset)
-    ) / 8;
-    if (!uAlpha) {
-        color.a = 1;
+        texture(Tex0, uv) * 4.0 +
+        texture(Tex0, uv - HalfTexelSize.xy * Offset) +
+        texture(Tex0, uv + HalfTexelSize.xy * Offset) +
+        texture(Tex0, uv + vec2(HalfTexelSize.x, -HalfTexelSize.y) * Offset) +
+        texture(Tex0, uv - vec2(HalfTexelSize.x, -HalfTexelSize.y) * Offset)
+    ) / 8.0;
+    if (!Alpha) {
+        color.a = 1.0;
     }
 }

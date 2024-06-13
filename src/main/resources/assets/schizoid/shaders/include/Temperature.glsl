@@ -17,5 +17,5 @@ vec3 colorFromKelvin(float temperature) // photographic temperature values are b
         color.g = (288.1221695283  / 255.0) * pow(temperature - 60.0, -0.0755148492);
         color.b = 1.0;
     }
-    return clamp(color, 0, 1);
+    return clamp(color, 0.0, 1.0);
 }

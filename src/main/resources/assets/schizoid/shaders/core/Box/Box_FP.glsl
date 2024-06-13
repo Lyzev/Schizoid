@@ -11,18 +11,18 @@ precision lowp sampler2D;
 in vec2 uv;
 out vec4 color;
 
-uniform sampler2D uTexture;
-uniform vec2 uDirection;
-uniform vec2 uTexelSize;
-uniform bool uAlpha;
-uniform int uSize;
+uniform sampler2D Tex0;
+uniform vec2 Direction;
+uniform vec2 TexelSize;
+uniform int Size;
+uniform bool Alpha;
 
 void main() {
-    int size = uSize * 2 + 1;
-    for (int i = -uSize; i <= uSize; i++) {
-        color += texture(uTexture, uv + uTexelSize * i * uDirection) / size;
+    int size = Size * 2 + 1;
+    for (int i = -Size; i <= Size; i++) {
+        color += texture(Tex0, uv + TexelSize * i * Direction) / size;
     }
-    if (!uAlpha) {
-        color.a = 1;
+    if (!Alpha) {
+        color.a = 1.0;
     }
 }

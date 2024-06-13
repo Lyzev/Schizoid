@@ -13,9 +13,9 @@ uniform float Time;
 #include "Noise.glsl"
 
 void main() {
-    if (rand(uv * (4500 + 2500 * rand(vec2(Time)))) < .7) {
-        color = vec4(0);
+    if (rand(uv * (4500.0 + 2500.0 * rand(vec2(Time)))) < 0.7) {
+        color = vec4(0.0);
     } else {
-        color = vec4(1);
+        color = vec4(1.0);
     }
 }

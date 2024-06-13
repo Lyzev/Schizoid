@@ -10,16 +10,16 @@ import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
 import net.minecraft.client.gl.Framebuffer
+import net.minecraft.util.math.MathHelper
 import org.joml.Matrix2f
 import org.joml.Vector2f
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
-import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL15
 import org.lwjgl.opengl.GL43.*
 import org.lwjgl.opengl.GL44
-import org.lwjgl.system.MemoryUtil
 import java.util.concurrent.ThreadLocalRandom
 import kotlin.math.pow
 import kotlin.math.sin
@@ -31,31 +31,31 @@ object ShaderDualKawaseUp : ShaderDualKawase("Up")
 abstract class ShaderDualKawase(shader: String) : ShaderVertexFragment("DualKawase$shader") {
 
     fun setUniforms(offset: Float, halfPixelSize: Vector2f, alpha: Boolean) {
-        this["uTexture"] = 0
-        this["uHalfTexelSize"] = halfPixelSize
-        this["uAlpha"] = alpha
-        this["uOffset"] = offset
+        this["Tex0"] = 0
+        this["HalfTexelSize"] = halfPixelSize
+        this["Alpha"] = alpha
+        this["Offset"] = offset
     }
 }
 
 object ShaderKawase : ShaderVertexFragment("Kawase") {
 
     fun setUniforms(pixelSize: Vector2f, size: Float, alpha: Boolean) {
-        this["uTexture"] = 0
-        this["uTexelSize"] = pixelSize
-        this["uAlpha"] = alpha
-        this["uSize"] = size
+        this["Texture"] = 0
+        this["TexelSize"] = pixelSize
+        this["Alpha"] = alpha
+        this["Size"] = size
     }
 }
 
 object ShaderBox : ShaderVertexFragment("Box") {
 
     fun setUniforms(direction: Vector2f, pixelSize: Vector2f, alpha: Boolean, size: Int) {
-        this["uTexture"] = 0
-        this["uDirection"] = direction
-        this["uTexelSize"] = pixelSize
-        this["uAlpha"] = alpha
-        this["uSize"] = size
+        this["Tex0"] = 0
+        this["Direction"] = direction
+        this["TexelSize"] = pixelSize
+        this["Alpha"] = alpha
+        this["Size"] = size
     }
 }
 
@@ -69,18 +69,22 @@ object ShaderGaussian : ShaderVertexFragment("Gaussian") {
         support: Int,
         linearSampling: Boolean
     ) {
-        this["texture"] = 0
-        this["direction"] = direction
-        this["texelSize"] = pixelSize
-        this["alpha"] = alpha
-        this["gaussian"] = gaussian
-        this["support"] = support
-        this["linearSampling"] = linearSampling
+        this["Texture"] = 0
+        this["Direction"] = direction
+        this["TexelSize"] = pixelSize
+        this["Alpha"] = alpha
+        this["Gaussian"] = gaussian
+        this["Support"] = support
+        this["LinearSampling"] = linearSampling
     }
 }
 
-object ShaderAcrylic : ShaderVertexFragment("Acrylic")
-object ShaderTint : ShaderVertexFragment("Tint")
+object ShaderAcrylic : ShaderVertexFragment("Acrylic") {
+    val initTime = System.nanoTime()
+}
+object ShaderTint : ShaderVertexFragment("Tint") {
+    val initTime = System.nanoTime()
+}
 
 object ShaderMask : ShaderVertexFragment("Mask")
 object ShaderAdd : ShaderVertexFragment("Add")
@@ -117,10 +121,10 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
         deltaTime = deltaTime.coerceAtMost(100f)
 
         GLFW.glfwGetCursorPos(Schizoid.mc.window.handle, xpos, ypos)
-        this["mousePos"] =
+        this["MousePos"] =
             mousePos.set(xpos[0].toFloat(), Schizoid.mc.window.framebufferHeight.toFloat() - ypos[0].toFloat())
 
-        this["screenSize"] = screenSize.set(
+        this["ScreenSize"] = screenSize.set(
             Schizoid.mc.window.framebufferWidth.toFloat(), Schizoid.mc.window.framebufferHeight.toFloat()
         )
 
@@ -145,16 +149,16 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
         lastMXPos = xpos[0]
         lastMYPos = ypos[0]
 
-        this["force"] = force
-        this["deltaTime"] = deltaTime
-        this["colorIdle"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
-        this["colorActive"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleActive
+        this["Force"] = force
+        this["DeltaTime"] = deltaTime
+        this["ColorIdle"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
+        this["ColorActive"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleActive
 
         var processed = 0
         while (processed < amount) {
-            val processing = myGroupSizeX * myGroupSizeY * myGroupSizeZ
-            this["arrayOffset"] = processed
-            glDispatchCompute(myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+            val processing = localSizeX * localSizeY * localSizeZ
+            this["ArrayOffset"] = processed
+            glDispatchCompute(localSizeX, localSizeY, localSizeZ)
             processed += processing
         }
         glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
@@ -212,9 +216,9 @@ object ShaderMovingAveragesBox : ShaderCompute("MovingAveragesBox", 32, 1, 1) {
         this["Alpha"] = alpha
         this["Strength"] = strength
         glDispatchCompute(
-            ((if (direction) fbo.textureHeight else fbo.textureWidth) + myGroupSizeX - 1) / myGroupSizeX,
-            myGroupSizeY,
-            myGroupSizeZ
+            ((if (direction) fbo.textureHeight else fbo.textureWidth) + localSizeX - 1) / localSizeX,
+            localSizeY,
+            localSizeZ
         )
         glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
         if (IS_AMD_VENDOR)
@@ -252,7 +256,7 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
             this["Img0"] = 0
             GL44.glBindImageTexture(1, after.colorAttachment, 0, false, 0, GL_WRITE_ONLY, GL_RGBA8)
             this["Img1"] = 1
-            glDispatchCompute((before.textureHeight + myGroupSizeX - 1) / myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+            glDispatchCompute((before.textureHeight + localSizeX - 1) / localSizeX, localSizeY, localSizeZ)
             glMemoryBarrier(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
             if (IS_AMD_VENDOR)
                 glFinish()
@@ -262,8 +266,8 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
             ShaderPassThrough.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
             after.beginRead()
-            ShaderPassThrough["uTexture"] = 0
-            ShaderPassThrough["uScale"] = 1f
+            ShaderPassThrough["Tex0"] = 0
+            ShaderPassThrough["Scale"] = 1f
             drawFullScreen()
             ShaderPassThrough.unbind()
         }
@@ -271,12 +275,16 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         ShaderTint.bind()
         RenderSystem.activeTexture(GL_TEXTURE0)
         after.beginRead()
-        ShaderTint["uTexture"] = 0
-        val col = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
-        ShaderTint.set("uColor", col.red / 255f, col.green / 255f, col.blue / 255f, 1f)
-        ShaderTint["uOpacity"] = 1f
-        ShaderTint["uRGBPuke"] = false
-        ShaderTint["uTime"] = System.nanoTime() / 1000000000f
+        ShaderTint["Tex0"] = 0
+        ShaderTint["Color"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
+        ShaderTint["RGBPuke"] = false
+        ShaderTint["Opacity"] = 1f
+        ShaderTint["Multiplier"] = 1f
+        ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
+        val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
+        ShaderTint["Yaw"] = yaw
+        val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
+        ShaderTint["Pitch"] = pitch
         drawFullScreen()
         ShaderTint.unbind()
     }
@@ -303,7 +311,7 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         queueGenPixels = true
     }
 
-    override fun preprocess(source: String) = processIncludes(source).format(myGroupSizeX, myGroupSizeY, myGroupSizeZ, b.toCharArray().joinToString(", "), s.toCharArray().joinToString(", "))
+    override fun preprocess(source: String) = processIncludes(source).format(localSizeX, localSizeY, localSizeZ, b.toCharArray().joinToString(", "), s.toCharArray().joinToString(", "))
 
     init {
         init()

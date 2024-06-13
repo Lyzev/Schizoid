@@ -22,8 +22,6 @@ import org.lwjgl.opengl.GL43.GL_COMPUTE_SHADER
 import org.lwjgl.opengl.GL44
 import java.awt.Color
 import java.io.FileNotFoundException
-import org.lwjgl.opengl.GL11
-
 
 
 /**
@@ -281,9 +279,9 @@ abstract class ShaderVertexFragment(
 
 abstract class ShaderCompute(
     shader: String,
-    val myGroupSizeX: Int,
-    val myGroupSizeY: Int,
-    val myGroupSizeZ: Int
+    val localSizeX: Int,
+    val localSizeY: Int,
+    val localSizeZ: Int
 ) : Shader(shader) {
 
     var texture: Int = 0
@@ -303,8 +301,8 @@ abstract class ShaderCompute(
         ShaderPassThrough.bind()
         RenderSystem.activeTexture(GL_TEXTURE0)
         RenderSystem.bindTexture(texture)
-        ShaderPassThrough["uTexture"] = 0
-        ShaderPassThrough["uScale"] = 1f
+        ShaderPassThrough["Tex0"] = 0
+        ShaderPassThrough["Scale"] = 1f
         drawFullScreen()
         ShaderPassThrough.unbind()
     }
@@ -330,7 +328,7 @@ abstract class ShaderCompute(
         )
     }
 
-    override fun preprocess(source: String) = super.preprocess(source).format(myGroupSizeX, myGroupSizeY, myGroupSizeZ)
+    override fun preprocess(source: String) = super.preprocess(source).format(localSizeX, localSizeY, localSizeZ)
 
     override fun init() {
         val tmp = program
