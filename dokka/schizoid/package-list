@@ -1341,6 +1341,7 @@ $dokka.location:dev.lyzev.api.imgui.render.renderable/ImGuiRenderableConfigManag
 $dokka.location:dev.lyzev.api.imgui.render.renderable/ImGuiRenderableDeveloperTool///PointingToDeclaration/schizoid/dev.lyzev.api.imgui.render.renderable/-im-gui-renderable-developer-tool/index.html
 $dokka.location:dev.lyzev.api.imgui.render.renderable/ImGuiRenderableDeveloperTool/ImGuiRenderableDeveloperTool/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.render.renderable/-im-gui-renderable-developer-tool/-im-gui-renderable-developer-tool.html
 $dokka.location:dev.lyzev.api.imgui.render.renderable/ImGuiRenderableDeveloperTool/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.render.renderable/-im-gui-renderable-developer-tool/render.html
+$dokka.location:dev.lyzev.api.imgui.render.renderable/ImGuiRenderableDeveloperTool/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.render.renderable/-im-gui-renderable-developer-tool/should-handle-events.html
 $dokka.location:dev.lyzev.api.imgui.render.renderable/ImGuiRenderableSearch.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.imgui.render.renderable/-im-gui-renderable-search/-companion/index.html
 $dokka.location:dev.lyzev.api.imgui.render.renderable/ImGuiRenderableSearch///PointingToDeclaration/schizoid/dev.lyzev.api.imgui.render.renderable/-im-gui-renderable-search/index.html
 $dokka.location:dev.lyzev.api.imgui.render.renderable/ImGuiRenderableSearch/ImGuiRenderableSearch/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.render.renderable/-im-gui-renderable-search/-im-gui-renderable-search.html
@@ -1628,6 +1629,8 @@ $dokka.location:dev.lyzev.api.opengl/Render/store/#/PointingToDeclaration/schiz
 $dokka.location:dev.lyzev.api.opengl/Render/texture/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-render/texture.html
 $dokka.location:dev.lyzev.api.opengl/Render/texture0/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-render/texture0.html
 $dokka.location:dev.lyzev.api.opengl/Render/texture1/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-render/texture1.html
+$dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/-companion/index.html
+$dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer.Companion/fbos/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/-companion/fbos.html
 $dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer///PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/index.html
 $dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer/WrappedFramebuffer/#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/-wrapped-framebuffer.html
 $dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/should-handle-events.html
