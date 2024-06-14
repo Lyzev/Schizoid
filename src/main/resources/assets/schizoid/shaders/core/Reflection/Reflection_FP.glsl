@@ -15,13 +15,13 @@ uniform vec3 CamPos;
 
 #define RECIPROCAL_PI2 0.15915494
 
-#include "SimplexNoise.glsl"
+#include "3DSimplexNoise.glsl"
 
 // Credit to https://en.wikipedia.org/wiki/Cube_mapping
 void main() {
     vec3 normal = normalize(Normal - CamPos);
-    vec3 I = normalize(FragPos + snoise(FragPos.yz) * Freq);
-    vec3 R = reflect(I, normal + snoise(FragPos.yz) * Freq);
+    vec3 I = normalize(FragPos + snoise(FragPos) * Freq);
+    vec3 R = reflect(I, normal + snoise(FragPos) * Freq);
     vec3 cubeDirection = normalize(R);
 
     // -- CUBE MAPPING
@@ -39,7 +39,6 @@ void main() {
 
     float maxAxis, uc, vc;
 
-    int index;
     float u, v;
 
     // POSITIVE X
@@ -49,7 +48,6 @@ void main() {
         maxAxis = absX;
         uc = -z;
         vc = y;
-        index = 0;
     }
     // NEGATIVE X
     if (!isXPositive && absX >= absY && absX >= absZ) {
@@ -58,7 +56,6 @@ void main() {
         maxAxis = absX;
         uc = z;
         vc = y;
-        index = 1;
     }
     // POSITIVE Y
     if (isYPositive && absY >= absX && absY >= absZ) {
@@ -67,7 +64,6 @@ void main() {
         maxAxis = absY;
         uc = x;
         vc = -z;
-        index = 2;
     }
     // NEGATIVE Y
     if (!isYPositive && absY >= absX && absY >= absZ) {
@@ -76,7 +72,6 @@ void main() {
         maxAxis = absY;
         uc = x;
         vc = z;
-        index = 3;
     }
     // POSITIVE Z
     if (isZPositive && absZ >= absX && absZ >= absY) {
@@ -85,7 +80,6 @@ void main() {
         maxAxis = absZ;
         uc = x;
         vc = y;
-        index = 4;
     }
     // NEGATIVE Z
     if (!isZPositive && absZ >= absX && absZ >= absY) {
@@ -94,7 +88,6 @@ void main() {
         maxAxis = absZ;
         uc = -x;
         vc = y;
-        index = 5;
     }
 
     // Convert range from -1 to 1 to 0 to 1
