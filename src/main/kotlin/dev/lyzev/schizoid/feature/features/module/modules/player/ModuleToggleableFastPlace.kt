@@ -18,8 +18,7 @@ object ModuleToggleableFastPlace :
 
     val delay by slider("Delay", "The delay between block placements.", 0, 0, 4, "ticks", true)
 
-    override val shouldHandleEvents: Boolean
-        get() = isEnabled
+    override val shouldHandleEvents by ::isEnabled
 
     init {
         on<EventItemUse> { it.itemUseCooldown = delay }
