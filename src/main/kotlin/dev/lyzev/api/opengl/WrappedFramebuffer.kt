@@ -44,6 +44,7 @@ class WrappedFramebuffer(
      * Initializes the framebuffer.
      */
     init {
+        fbos[this.hashCode().toString()] = this
         setClearColor(0f, 0f, 0f, 0f)
         clear()
         if (linear) setTexFilter(GlConst.GL_LINEAR)
@@ -58,6 +59,10 @@ class WrappedFramebuffer(
             )
             if (linear) setTexFilter(GlConst.GL_LINEAR)
         }
+    }
+
+    companion object {
+        val fbos = mutableMapOf<String, WrappedFramebuffer>()
     }
 }
 
