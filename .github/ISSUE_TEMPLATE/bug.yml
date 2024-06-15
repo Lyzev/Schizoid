@@ -44,8 +44,8 @@ body:
     attributes:
       label: Operating System
       options:
-        - macOS
         - Windows
+        - macOS
         - Linux
     validations:
       required: true
