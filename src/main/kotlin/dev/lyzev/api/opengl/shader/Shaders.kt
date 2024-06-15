@@ -95,7 +95,6 @@ object ShaderLinearizeDepth : ShaderVertexFragment("LinearizeDepth")
 
 object ShaderThreshold : ShaderVertexFragment("Threshold")
 object ShaderBlend : ShaderVertexFragment("Blend")
-object ShaderFlip : ShaderVertexFragment("Flip")
 
 object ShaderReflection : ShaderVertexFragment("Reflection")
 
@@ -268,6 +267,7 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
             after.beginRead()
             ShaderPassThrough["Tex0"] = 0
             ShaderPassThrough["Scale"] = 1f
+            ShaderPassThrough["Alpha"] = true
             drawFullScreen()
             ShaderPassThrough.unbind()
         }
@@ -307,8 +307,8 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
 
     override fun init() {
         super.init()
-        before = WrappedFramebuffer(size, linear = false)
-        after = WrappedFramebuffer(size, linear = false)
+        before = WrappedFramebuffer("GameOfLife+Before", size, linear = false)
+        after = WrappedFramebuffer("GameOfLife+After", size, linear = false)
         queueGenPixels = true
     }
 
