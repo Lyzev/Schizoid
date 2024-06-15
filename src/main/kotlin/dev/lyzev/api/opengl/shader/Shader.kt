@@ -303,6 +303,7 @@ abstract class ShaderCompute(
         RenderSystem.bindTexture(texture)
         ShaderPassThrough["Tex0"] = 0
         ShaderPassThrough["Scale"] = 1f
+        ShaderPassThrough["Alpha"] = true
         drawFullScreen()
         ShaderPassThrough.unbind()
     }

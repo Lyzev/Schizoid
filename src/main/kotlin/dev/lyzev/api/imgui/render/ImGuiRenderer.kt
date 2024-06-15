@@ -49,8 +49,8 @@ object ImGuiRenderer : EventListener {
     /**
      * The framebuffer used for rendering the blur.
      */
-    private val fbo = WrappedFramebuffer()
-    private val bloom = WrappedFramebuffer()
+    private val fbo = WrappedFramebuffer("ImGuiRendererFBO")
+    private val mask = WrappedFramebuffer("ImGuiRendererMask")
 
     /**
      * Renders ImGui.
@@ -86,7 +86,21 @@ object ImGuiRenderer : EventListener {
         if (ModuleToggleableBlur.isEnabled) {
             fbo.endWrite()
 
-            BlurHelper.draw(fbo, false, true)
+            RenderSystem.disableCull()
+            RenderSystem.defaultBlendFunc()
+            RenderSystem.enableBlend()
+            mask.clear()
+            mask.beginWrite(false)
+            ShaderPassThrough.bind()
+            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+            fbo.beginRead()
+            ShaderPassThrough["Tex0"] = 0
+            ShaderPassThrough["Scale"] = 1f
+            ShaderPassThrough["Alpha"] = false
+            Shader.drawFullScreen()
+            ShaderPassThrough.unbind()
+
+            BlurHelper.draw(mask, useDefaultFbo = true)
 
             RenderSystem.disableCull()
             RenderSystem.defaultBlendFunc()
@@ -99,6 +113,7 @@ object ImGuiRenderer : EventListener {
             fbo.beginRead()
             ShaderPassThrough["Tex0"] = 0
             ShaderPassThrough["Scale"] = 1f
+            ShaderPassThrough["Alpha"] = true
             Shader.drawFullScreen()
             ShaderPassThrough.unbind()
 

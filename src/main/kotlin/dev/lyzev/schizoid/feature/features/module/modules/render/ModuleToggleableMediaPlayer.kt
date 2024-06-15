@@ -268,6 +268,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                     BlurHelper.mode.blur.output.beginRead()
                     ShaderPassThrough["Tex0"] = 0
                     ShaderPassThrough["Scale"] = 1f
+                    ShaderPassThrough["Alpha"] = true
                     Shader.drawFullScreen()
                     ShaderPassThrough.unbind()
                     mc.framebuffer.beginWrite(true)
