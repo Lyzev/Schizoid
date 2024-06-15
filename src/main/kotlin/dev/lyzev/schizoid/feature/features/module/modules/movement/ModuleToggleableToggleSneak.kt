@@ -11,19 +11,21 @@ import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
+import dev.lyzev.api.settings.Setting.Companion.neq
+import net.minecraft.client.gui.screen.ingame.HandledScreen
 
 object ModuleToggleableToggleSneak :
     ModuleToggleable("Toggle Sneak", "Automatically toggles sneak when riding a boat.", category = IFeature.Category.MOVEMENT), EventListener {
 
     val screen by switch("Screen", "Whether to sneak in screen.", true)
+    val handledScreen by switch("Handled Screen", "Whether to sneak in a handled screen.", false, hide = ::screen neq true)
 
     init {
         on<EventClientPlayerEntityTick> {
-            if (mc.currentScreen == null || screen)
-                mc.options.sneakKey.isPressed = true
+            mc.options.sneakKey.isPressed = true
         }
     }
 
     override val shouldHandleEvents: Boolean
-        get() = isEnabled
+        get() = isEnabled && (mc.currentScreen == null || ((screen && mc.currentScreen !is HandledScreen<*>) || handledScreen))
 }
