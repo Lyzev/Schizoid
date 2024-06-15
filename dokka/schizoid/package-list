@@ -1631,7 +1631,10 @@ $dokka.location:dev.lyzev.api.opengl/Render/texture1/#/PointingToDeclaration/sc
 $dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/-companion/index.html
 $dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer.Companion/fbos/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/-companion/fbos.html
 $dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer///PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/index.html
-$dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer/WrappedFramebuffer/#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/-wrapped-framebuffer.html
+$dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer/WrappedFramebuffer/#kotlin.String#kotlin.Int#kotlin.Int#kotlin.Int#kotlin.Boolean#kotlin.Boolean#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/-wrapped-framebuffer.html
+$dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer/delete/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/delete.html
+$dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer/initFbo/#kotlin.Int#kotlin.Int#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/init-fbo.html
+$dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer/name/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/name.html
 $dokka.location:dev.lyzev.api.opengl/WrappedFramebuffer/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-framebuffer/should-handle-events.html
 $dokka.location:dev.lyzev.api.opengl/WrappedNativeImageBackedTexture///PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-native-image-backed-texture/index.html
 $dokka.location:dev.lyzev.api.opengl/WrappedNativeImageBackedTexture/WrappedNativeImageBackedTexture/#net.minecraft.client.texture.NativeImage/PointingToDeclaration/schizoid/dev.lyzev.api.opengl/-wrapped-native-image-backed-texture/-wrapped-native-image-backed-texture.html
