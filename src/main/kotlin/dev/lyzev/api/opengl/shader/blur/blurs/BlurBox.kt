@@ -34,7 +34,7 @@ object BlurBox : Blur {
      * Each framebuffer is wrapped in a WrappedFramebuffer object.
      */
     private val fbos = Array(2) {
-        WrappedFramebuffer(2)
+        WrappedFramebuffer("BlurBox+$it", 2)
     }
 
     /**

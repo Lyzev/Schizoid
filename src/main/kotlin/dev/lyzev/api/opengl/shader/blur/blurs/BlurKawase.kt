@@ -32,9 +32,9 @@ object BlurKawase : Blur {
      * Each framebuffer is wrapped in a WrappedFramebuffer object.
      */
     private val fbos = Array(2) {
-        WrappedFramebuffer(2)
+        WrappedFramebuffer("BlurKawase+$it", 2)
     }
-    private val out = WrappedFramebuffer(2)
+    private val out = WrappedFramebuffer("BlurKawase+Output", 2)
 
     /**
      * Vector representing the size of a texel.
