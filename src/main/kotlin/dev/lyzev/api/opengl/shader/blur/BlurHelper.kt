@@ -178,6 +178,7 @@ object BlurHelper {
             ShaderTint["Color"] = dropShadowColor
             ShaderTint["RGBPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
             ShaderTint["Opacity"] = 1f
+            ShaderTint["Alpha"] = true
             ShaderTint["Multiplier"] = ModuleToggleableBlur.dropShadowMultiplier / 100f
             ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
             val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)

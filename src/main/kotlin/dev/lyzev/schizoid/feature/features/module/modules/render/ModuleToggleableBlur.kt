@@ -170,6 +170,7 @@ object ModuleToggleableBlur :
                 ShaderTint["Tex0"] = 0
                 ShaderTint["RGBPuke"] = fogRGBPuke
                 ShaderTint["Opacity"] = fogRGBPukeOpacity / 100f
+                ShaderTint["Alpha"] = false
                 ShaderTint["Multiplier"] = 1f
                 ShaderTint["Time"] = (System.nanoTime() - ShaderAcrylic.initTime) / 1000000000f
                 val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)

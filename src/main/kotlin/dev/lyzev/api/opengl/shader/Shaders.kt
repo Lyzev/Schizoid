@@ -279,6 +279,7 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         ShaderTint["Color"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
         ShaderTint["RGBPuke"] = false
         ShaderTint["Opacity"] = 1f
+        ShaderTint["Alpha"] = true
         ShaderTint["Multiplier"] = 1f
         ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
         val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
