@@ -10,10 +10,12 @@ import com.mojang.blaze3d.platform.GlConst
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventWindowResize
 import dev.lyzev.api.events.on
+import dev.lyzev.schizoid.Schizoid
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.Framebuffer
 import net.minecraft.client.gl.SimpleFramebuffer
 import net.minecraft.client.util.ScreenshotRecorder
+import java.util.UUID
 
 /**
  * A simple wrapper around the [SimpleFramebuffer] class.
@@ -25,6 +27,7 @@ import net.minecraft.client.util.ScreenshotRecorder
  * @see EventListener
  */
 class WrappedFramebuffer(
+    val name: String = UUID.randomUUID().toString(),
     lod: Int = 0,
     width: Int = MinecraftClient.getInstance().window.framebufferWidth,
     height: Int = MinecraftClient.getInstance().window.framebufferHeight,
@@ -44,7 +47,8 @@ class WrappedFramebuffer(
      * Initializes the framebuffer.
      */
     init {
-        fbos[this.hashCode().toString()] = this
+        Schizoid.logger.info("Initialize framebuffer $name")
+        fbos.putIfAbsent(name, this)
         setClearColor(0f, 0f, 0f, 0f)
         clear()
         if (linear) setTexFilter(GlConst.GL_LINEAR)
@@ -59,6 +63,18 @@ class WrappedFramebuffer(
             )
             if (linear) setTexFilter(GlConst.GL_LINEAR)
         }
+    }
+
+    override fun initFbo(width: Int, height: Int, getError: Boolean) {
+        super.initFbo(width, height, getError)
+        @Suppress("SENSELESS_COMPARISON") // false detection since the method is called from the constructor and the parameters are still null
+        if (name != null)
+            fbos.putIfAbsent(name, this)
+    }
+
+    override fun delete() {
+        super.delete()
+        fbos.remove(name)
     }
 
     companion object {

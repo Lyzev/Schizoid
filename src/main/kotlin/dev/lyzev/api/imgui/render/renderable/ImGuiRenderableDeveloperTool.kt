@@ -21,7 +21,7 @@ import imgui.flag.ImGuiComboFlags
 class ImGuiRenderableDeveloperTool : ImGuiRenderable, EventListener {
 
     private var mediaSessions = MediaPlayerInfo.getMediaSessions()
-    private var fbo = WrappedFramebuffer.fbos.keys.firstOrNull() ?: "No FBOs found."
+    private var fbo = WrappedFramebuffer.fbos.keys.firstOrNull() ?: "No FBO selected."
     private var flip = false
 
     override fun render() {
@@ -38,23 +38,20 @@ class ImGuiRenderableDeveloperTool : ImGuiRenderable, EventListener {
             OPEN_SANS_REGULAR.end()
             separator()
             OPEN_SANS_BOLD.begin()
-            text("\"MEDIA PLAYER\"")
+            text("\"MEDIA SESSIONS\"")
             OPEN_SANS_BOLD.end()
             OPEN_SANS_REGULAR.begin()
-            if (treeNode("Audio Input")) {
-                if (beginTable("##audioInput", 2)) {
-                    tableSetupColumn("Owner")
-                    tableSetupColumn("Title")
-                    tableHeadersRow()
-                    mediaSessions.forEach {
-                        tableNextColumn()
-                        text(it.owner)
-                        tableNextColumn()
-                        text(it.media.title)
-                    }
-                    endTable()
+            if (beginTable("##mediasessions", 2)) {
+                tableSetupColumn("Owner")
+                tableSetupColumn("Title")
+                tableHeadersRow()
+                mediaSessions.forEach {
+                    tableNextColumn()
+                    text(it.owner)
+                    tableNextColumn()
+                    text(it.media.title)
                 }
-                treePop()
+                endTable()
             }
             OPEN_SANS_REGULAR.end()
             separator()

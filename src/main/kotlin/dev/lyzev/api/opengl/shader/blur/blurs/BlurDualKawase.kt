@@ -55,7 +55,7 @@ object BlurDualKawase : Blur {
      * Array of framebuffers used for the blur process.
      * Each framebuffer is wrapped in a WrappedFramebuffer object.
      */
-    private val fbos = Array(6) { WrappedFramebuffer(it) }
+    private val fbos = Array(6) { WrappedFramebuffer("BlurDualKawase+$it", it) }
 
     /**
      * Pair representing the current strength of the blur.
