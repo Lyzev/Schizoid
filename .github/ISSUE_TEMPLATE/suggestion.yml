@@ -4,22 +4,51 @@ title: '[Suggestion] '
 labels: enhancement
 body:
   - type: textarea
-    id: description
+    id: feature-description
     attributes:
-      label: Describe the feature
-      description: A clear and concise description of what the feature/change is.
+      label: Describe the Feature
+      description: |
+        Provide a clear and concise description of the feature or change you are suggesting.
+        Explain what the feature is and why it would be useful.
     validations:
       required: true
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Benefits of the Feature
+      description: |
+        Describe the benefits of this feature.
+        How will it improve the user experience or functionality of Schizoid?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: |
+        Have you considered any alternative solutions or features?
+        If so, please describe them and explain why you believe your suggestion is the best option.
+    validations:
+      required: false
   - type: checkboxes
     id: prerequisites
     attributes:
-      label: Before submitting a suggestion
+      label: Before Submitting a Suggestion
       options:
         - label: |
-            This feature doesn't already exist.
+            I have checked that this feature does not already exist.
             (I have checked the source on the **latest build**)
           required: true
         - label: |
-            This wasn't already suggested.
-            (I have checked every suggestion on github)
+            I have checked that this suggestion was not already made.
+            (I have reviewed all existing suggestions on GitHub)
           required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: |
+        Add any other context or details about the suggestion here.
+        Include any relevant information such as related features, mockups, or use cases.
+    validations:
+      required: false

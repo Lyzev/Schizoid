@@ -1,28 +1,46 @@
-name: Bug
-description: Report a bug to help us improve Schizoid.
+name: Bug Report
+description: Help us improve Schizoid by reporting bugs.
 title: '[Bug] '
 labels: bug
 body:
-
   - type: textarea
     id: description
     attributes:
-      label: Describe the bug
+      label: Describe the Bug
       description: |
-        A clear and concise description of what the issue is.
-        Provide as much information as possible, videos, crash reports, etc.
+        Provide a clear and concise description of the issue.
+        Include any relevant information such as error messages, screenshots, or crash reports.
     validations:
       required: true
   - type: textarea
-    id: reproducing
+    id: steps-to-reproduce
     attributes:
-      label: Steps to reproduce
-      description: How do you trigger this bug?
-      render: bash
+      label: Steps to Reproduce
+      description: |
+        Outline the steps to reproduce the bug.
+        Include detailed instructions so we can replicate the issue.
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: |
+        Describe what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: |
+        Describe what actually happened.
+        If applicable, include error messages or logs.
     validations:
       required: true
   - type: dropdown
-    id: operating-systems
+    id: operating-system
     attributes:
       label: Operating System
       options:
@@ -34,13 +52,18 @@ body:
   - type: checkboxes
     id: prerequisites
     attributes:
-      label: Before submitting a bug report
+      label: Before Submitting a Bug Report
       options:
         - label: |
-            This bug wasn't already reported.
-            (I have checked every bug report on github)
+            I have checked that this bug was not already reported.
           required: true
         - label: |
-            This is a valid bug.
-            (I am able to reproduce this on the latest dev build)
+            I am able to reproduce this bug on the latest development build.
           required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: |
+        Add any other context about the problem here.
+        Include any relevant details such as mods used, configuration settings, etc.
