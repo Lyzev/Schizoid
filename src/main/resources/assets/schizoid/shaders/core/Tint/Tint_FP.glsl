@@ -14,6 +14,7 @@ uniform sampler2D Tex0;
 uniform vec3 Color;
 uniform bool RGBPuke;
 uniform float Opacity;
+uniform bool Alpha;
 uniform float Multiplier;
 uniform float Time;
 uniform float Yaw;
@@ -32,5 +33,9 @@ void main() {
     } else {
         color.rgb = mix(color.rgb, Color, Opacity);
     }
-    color.a = clamp(color.a * Multiplier, 0.0, 1.0);
+    if (Alpha) {
+        color.a = clamp(color.a * Multiplier, 0.0, 1.0);
+    } else {
+        color.a = 1.0;
+    }
 }
