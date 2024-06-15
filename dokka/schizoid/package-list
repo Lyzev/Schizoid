@@ -1587,7 +1587,6 @@ $dokka.location:dev.lyzev.api.opengl.shader/ShaderDualKawase/ShaderDualKawase/#k
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderDualKawase/setUniforms/#kotlin.Float#org.joml.Vector2f#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-dual-kawase/set-uniforms.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderDualKawaseDown///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-dual-kawase-down/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderDualKawaseUp///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-dual-kawase-up/index.html
-$dokka.location:dev.lyzev.api.opengl.shader/ShaderFlip///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-flip/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderGameOfLife///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-game-of-life/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderGameOfLife/b/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-game-of-life/b.html
 $dokka.location:dev.lyzev.api.opengl.shader/ShaderGameOfLife/delete/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader-game-of-life/delete.html
