@@ -13,7 +13,7 @@ import org.joml.Vector2f
  * Abstract class for GLSL Sandbox Shaders.
  * @param shader The shader to be used.
  */
-abstract class GLSLSandboxShader(shader: String) : Shader(shader) {
+class GLSLSandboxShader(shader: String) : ShaderVertexFragment(shader) {
 
     /**
      * The time the shader was initialized.
@@ -26,23 +26,18 @@ abstract class GLSLSandboxShader(shader: String) : Shader(shader) {
     private val resolution = Vector2f()
 
     /**
-     * Method to set uniforms. Can be overridden by subclasses.
-     */
-    open fun setUniforms() {}
-
-    /**
      * Method to draw the shader.
      * Disables culling, enables blending, binds the shader, sets the uniforms, draws fullscreen, unbinds the shader, and enables culling.
      */
-    fun draw() {
+    fun draw(setUniforms: Shader.() -> Unit = { }) {
         RenderSystem.disableCull()
         RenderSystem.enableBlend()
         RenderSystem.defaultBlendFunc()
         bind()
         // Set the time since the shader was initialized.
-        this["uTime"] = (System.currentTimeMillis() - initTime) / 1000f
+        this["time"] = (System.currentTimeMillis() - initTime) / 1000f
         // Set the resolution to the current framebuffer's texture width and height.
-        this["uResolution"] = resolution.set(
+        this["resolution"] = resolution.set(
             MinecraftClient.getInstance().framebuffer.textureWidth.toFloat(),
             MinecraftClient.getInstance().framebuffer.textureHeight.toFloat()
         )

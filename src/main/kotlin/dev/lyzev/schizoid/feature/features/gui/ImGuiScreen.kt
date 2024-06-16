@@ -22,4 +22,7 @@ abstract class ImGuiScreen(title: String) : Screen(Text.of(title)), IFeature {
         if (MinecraftClient.getInstance().currentScreen == this) close()
         else MinecraftClient.getInstance().setScreen(this)
     }
+
+    override val name = title
+    override val category = IFeature.Category.RENDER
 }

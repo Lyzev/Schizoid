@@ -1,29 +1,36 @@
 {
   "required": true,
-  "package": "dev.lyzev.schizoid.injection.mixins",
+  "package": "dev.lyzev.schizoid.injection",
   "compatibilityLevel": "JAVA_${java}",
   "client": [
-    "imgui.MixinImGuiImplGlfw",
-    "minecraft.client.MixinKeyboard",
-    "minecraft.client.MixinMinecraftClient",
-    "minecraft.client.MixinMouse",
-    "minecraft.client.input.MixinKeyboardInput",
-    "minecraft.client.network.MixinClientPlayerEntity",
-    "minecraft.client.network.MixinClientPlayerInteractionManager",
-    "minecraft.client.render.MixinCamera",
-    "minecraft.client.render.MixinGameRenderer",
-    "minecraft.client.render.MixinLightmapTextureManager",
-    "minecraft.client.render.MixinWorldRenderer",
-    "minecraft.client.render.entity.MixinLivingEntityRenderer",
-    "minecraft.client.util.MixinWindow",
-    "minecraft.client.world.MixinClientWorld",
-    "minecraft.entity.MixinEntity",
-    "minecraft.entity.MixinLivingEntity",
-    "minecraft.network.MixinClientConnection"
+    "accessor.AbuseReportContextAccessor",
+    "accessor.FileCacheAccessor",
+    "accessor.MinecraftClientAccessor",
+    "accessor.PlayerSkinProviderAccessor",
+    "accessor.RealmsAvailabilityAccessor",
+    "accessor.SplashTextResourceSupplierAccessor",
+    "mixin.imgui.MixinImGuiImplGlfw",
+    "mixin.minecraft.client.MixinKeyboard",
+    "mixin.minecraft.client.MixinMinecraftClient",
+    "mixin.minecraft.client.MixinMouse",
+    "mixin.minecraft.client.input.MixinKeyboardInput",
+    "mixin.minecraft.client.network.MixinClientPlayerEntity",
+    "mixin.minecraft.client.network.MixinClientPlayerInteractionManager",
+    "mixin.minecraft.client.render.MixinCamera",
+    "mixin.minecraft.client.render.MixinGameRenderer",
+    "mixin.minecraft.client.render.MixinLightmapTextureManager",
+    "mixin.minecraft.client.render.MixinWorldRenderer",
+    "mixin.minecraft.client.render.entity.MixinLivingEntityRenderer",
+    "mixin.minecraft.client.util.MixinWindow",
+    "mixin.minecraft.client.world.MixinClientWorld",
+    "mixin.minecraft.entity.MixinEntity",
+    "mixin.minecraft.entity.MixinLivingEntity",
+    "mixin.minecraft.network.MixinClientConnection"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
+    "accessor.YggdrasilMinecraftSessionServiceAccessor"
   ]
 }

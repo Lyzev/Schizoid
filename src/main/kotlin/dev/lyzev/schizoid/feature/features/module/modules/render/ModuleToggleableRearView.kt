@@ -39,7 +39,7 @@ object ModuleToggleableRearView :
         val prevPitch = mc.player!!.prevPitch
         val prevYaw = mc.player!!.prevYaw
         mc.gameRenderer.setBlockOutlineEnabled(false)
-        try {
+        runCatching {
             mc.gameRenderer.isRenderingPanorama = true
             mc.window.framebufferWidth = width
             mc.window.framebufferHeight = height
@@ -59,20 +59,19 @@ object ModuleToggleableRearView :
                 if (mc.paused) mc.pausedTickDelta else mc.renderTickCounter.tickDelta,
                 Util.getMeasuringTimeNano()
             )
-        } catch (e: Exception) {
-            Schizoid.logger.error(e)
-        } finally {
-            mc.player!!.pitch = pitch
-            mc.player!!.yaw = yaw
-            mc.player!!.prevPitch = prevPitch
-            mc.player!!.prevYaw = prevYaw
-            mc.gameRenderer.setBlockOutlineEnabled(true)
-            mc.gameRenderer.isRenderingPanorama = false
-            mc.window.framebufferWidth = framebufferWidth
-            mc.window.framebufferHeight = framebufferHeight
-            mc.worldRenderer.reloadTransparencyPostProcessor()
-            mc.framebuffer.beginWrite(true)
+        }.onFailure {
+            Schizoid.logger.error("Failed rendering rear view: ${it.message}")
         }
+        mc.player!!.pitch = pitch
+        mc.player!!.yaw = yaw
+        mc.player!!.prevPitch = prevPitch
+        mc.player!!.prevYaw = prevYaw
+        mc.gameRenderer.setBlockOutlineEnabled(true)
+        mc.gameRenderer.isRenderingPanorama = false
+        mc.window.framebufferWidth = framebufferWidth
+        mc.window.framebufferHeight = framebufferHeight
+        mc.worldRenderer.reloadTransparencyPostProcessor()
+        mc.framebuffer.beginWrite(true)
     }
 
     override fun renderImGuiContent() {

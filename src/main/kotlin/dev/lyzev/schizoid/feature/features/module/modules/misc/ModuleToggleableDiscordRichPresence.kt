@@ -5,44 +5,98 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.misc
 
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.jagrosh.discordipc.IPCClient
+import com.jagrosh.discordipc.IPCListener
+import com.jagrosh.discordipc.entities.Packet
+import com.jagrosh.discordipc.entities.RichPresence
+import com.jagrosh.discordipc.entities.User
+import com.jagrosh.discordipc.entities.pipe.PipeStatus
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
-import meteordevelopment.discordipc.DiscordIPC
-import meteordevelopment.discordipc.RichPresence
-import kotlin.concurrent.thread
 
 
 object ModuleToggleableDiscordRichPresence : ModuleToggleable(
-    "Discord Rich Presence",
-    "Show on Discord that you're using Schizoid.",
-    category = IFeature.Category.MISC
+    "Discord Rich Presence", "Show on Discord that you're using Schizoid.", category = IFeature.Category.MISC
 ) {
 
+    private var client: IPCClient? = null
+    private val timeStamp = System.currentTimeMillis()
+
     override fun onEnable() {
-        if (!DiscordIPC.isConnected() && !DiscordIPC.start(1243687298126843954) {
-                Schizoid.logger.info("[$name] Logged in account: " + DiscordIPC.getUser().username)
-                val rpc = RichPresence()
-                rpc.setStart(System.currentTimeMillis() / 1000L)
-                rpc.setLargeImage("client", "Schizoid v" + Schizoid.MOD_VERSION + " by " + Schizoid.MOD_AUTHORS.joinToString(
-                    " & "
-                ) { it.name })
-                rpc.setState("Elevating my Minecraft gameplay with Schizoid.")
-                DiscordIPC.setActivity(rpc);
-                Schizoid.logger.info("[$name] Finished setting up Discord Rich Presence")
-            }) {
-            Schizoid.logger.error("[$name] Failed to start Discord IPC")
-            thread {
-                Schizoid.logger.info("[$name] Retrying in 5 seconds...")
-                Thread.sleep(5000)
-                Schizoid.logger.info("[$name] Retrying now...")
-                if (isEnabled)
-                    onEnable()
-            }
+        runCatching {
+            client = IPCClient(1243687298126843954L)
+            client!!.setListener(object : IPCListener {
+
+                override fun onPacketSent(client: IPCClient?, packet: Packet?) {
+                    Schizoid.logger.info("Discord Rich Presence sent a packet.")
+                }
+
+                override fun onPacketReceived(client: IPCClient?, packet: Packet?) {
+                    Schizoid.logger.info("Discord Rich Presence received a packet.")
+                }
+
+                override fun onActivityJoin(client: IPCClient?, secret: String?) {
+                    Schizoid.logger.info("Discord Rich Presence is joining.")
+                }
+
+                override fun onActivitySpectate(client: IPCClient?, secret: String?) {
+                    Schizoid.logger.info("Discord Rich Presence is spectating.")
+                }
+
+                override fun onActivityJoinRequest(client: IPCClient?, secret: String?, user: User?) {
+                    Schizoid.logger.info("Discord Rich Presence is requesting to join.")
+                }
+
+                override fun onReady(client: IPCClient) {
+                    val builder = RichPresence.Builder()
+                    builder.setState("Elevating my Minecraft gameplay with ${Schizoid.MOD_NAME}.")
+                        .setDetails("${Schizoid.MOD_NAME} v${Schizoid.MOD_VERSION}")
+                        .setStartTimestamp(timeStamp).setLargeImage("client",
+                            "${Schizoid.MOD_NAME} v${Schizoid.MOD_VERSION} by ${Schizoid.MOD_AUTHORS.joinToString(" & ") { it.name }}")
+                        .setButtons(JsonArray().apply {
+                            add(JsonObject().apply {
+                                addProperty("label", "Download")
+                                addProperty("url", "https://github.com/Lyzev/Schizoid")
+                            })
+                            add(JsonObject().apply {
+                                addProperty("label", "Discord")
+                                addProperty("url", "https://lyzev.dev/discord")
+                            })
+                        })
+                    client.sendRichPresence(builder.build())
+                    Schizoid.logger.info("Discord Rich Presence is ready.")
+                }
+
+                override fun onClose(client: IPCClient?, json: JsonObject?) {
+                    Schizoid.logger.info("Discord Rich Presence is closed.")
+                }
+
+                override fun onDisconnect(client: IPCClient?, t: Throwable?) {
+                    Schizoid.logger.info("Discord Rich Presence is disconnected.")
+                }
+            })
+            client?.connect()
+        }.onFailure {
+            Schizoid.logger.error("Failed to enable Discord Rich Presence.", it)
+        }.onSuccess {
+            Schizoid.logger.info("Discord Rich Presence enabled.")
         }
     }
 
     override fun onDisable() {
-        DiscordIPC.stop();
+        if (client == null || client!!.status != PipeStatus.CONNECTED) {
+            return
+        }
+        runCatching {
+            client!!.close()
+            client = null
+        }.onFailure {
+            Schizoid.logger.error("Failed to close Discord Rich Presence.", it)
+        }.onSuccess {
+            Schizoid.logger.info("Discord Rich Presence closed.")
+        }
     }
 }

@@ -8,6 +8,7 @@ package dev.lyzev.api.theme
 import com.sun.jna.platform.win32.*
 import com.sun.jna.platform.win32.WinReg.HKEYByReference
 import dev.lyzev.api.events.*
+import dev.lyzev.schizoid.Schizoid
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import kotlin.concurrent.thread
@@ -93,15 +94,16 @@ object MacOSTheme : OSTheme {
 
     override fun getCurrentTheme(): OSTheme.Theme {
         if (cantFetch) return OSTheme.Theme.Dark
-        try {
+        runCatching {
             val process = ProcessBuilder("defaults", "read", "-g", "AppleInterfaceStyle").start()
             val reader = BufferedReader(InputStreamReader(process.inputStream))
             val theme = reader.readLine()
             return if (theme == "Dark") OSTheme.Theme.Dark else OSTheme.Theme.Light
-        } catch (e: Exception) {
+        }.onFailure {
+            Schizoid.logger.error("Failed to fetch the current theme.", it)
             cantFetch = true
-            return OSTheme.Theme.Dark
         }
+        return OSTheme.Theme.Dark
     }
 
     override fun startListenForUpdatesThread() {
@@ -123,15 +125,16 @@ object LinuxTheme : OSTheme {
 
     override fun getCurrentTheme(): OSTheme.Theme {
         if (cantFetch) return OSTheme.Theme.Dark
-        try {
+        runCatching {
             val process = ProcessBuilder("gsettings", "get", "org.gnome.desktop.interface", "gtk-theme").start()
             val reader = BufferedReader(InputStreamReader(process.inputStream))
             val theme = reader.readLine()
             return if (theme.contains("dark", ignoreCase = true)) OSTheme.Theme.Dark else OSTheme.Theme.Light
-        } catch (e: Exception) {
+        }.onFailure {
+            Schizoid.logger.error("Failed to fetch the current theme.", it)
             cantFetch = true
-            return OSTheme.Theme.Dark
         }
+        return OSTheme.Theme.Dark
     }
 
     override fun startListenForUpdatesThread() {

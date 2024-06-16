@@ -52,11 +52,13 @@ object ImGuiLoader : EventListener {
      * Initializes fonts.
      */
     private fun initFonts() {
-        try {
+        runCatching {
             for (font in ImGuiFonts.entries)
                 requireNotNull(font.font) { "Failed loading font: ${font.fontName}.${font.type.name.lowercase()}" }
-        } catch (e: IOException) {
-            Schizoid.logger.error("Failed to load fonts", e)
+        }.onFailure {
+            Schizoid.logger.error("Failed loading fonts: ${it.message}")
+        }.onSuccess {
+            Schizoid.logger.info("Successfully loaded fonts.")
         }
     }
 

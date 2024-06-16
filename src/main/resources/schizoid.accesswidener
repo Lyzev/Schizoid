@@ -15,3 +15,4 @@ accessible field net/minecraft/client/Mouse cursorDeltaY D
 accessible field net/minecraft/client/network/ClientPlayerEntity lastYaw F
 accessible field net/minecraft/client/network/ClientPlayerEntity lastPitch F
 accessible method net/minecraft/client/network/PlayerListEntry texturesSupplier (Lcom/mojang/authlib/GameProfile;)Ljava/util/function/Supplier;
+accessible class net/minecraft/client/texture/PlayerSkinProvider$FileCache

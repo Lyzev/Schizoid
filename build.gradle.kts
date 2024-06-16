@@ -68,12 +68,15 @@ dependencies {
     // Libraries (required)
     implementation(libs.lyzev.events)
     implementation(libs.lyzev.settings)
+    implementation(libs.lyzev.network)
 
     implementation(libs.reflections)
     implementation(libs.bundles.imgui)
     implementation(libs.fuzzywuzzy)
     implementation(libs.mpi)
-    implementation(libs.discord.ipc)
+    implementation(libs.discordipc)
+    implementation(libs.waybackauthlib)
+    implementation(libs.minecraftauth)
 
     // Mods (optional)
     modRuntimeOnly(libs.bundles.modrinth)
@@ -269,10 +272,13 @@ tasks {
         dependencies {
             include(dependency(libs.lyzev.events.get()))
             include(dependency(libs.lyzev.settings.get()))
+            include(dependency(libs.lyzev.network.get()))
             include(dependency(libs.reflections.get()))
             include(dependency(libs.fuzzywuzzy.get()))
             include(dependency(libs.mpi.get()))
-            include(dependency(libs.discord.ipc.get()))
+            include(dependency(libs.discordipc.get()))
+            include(dependency(libs.waybackauthlib.get()))
+            include(dependency(libs.minecraftauth.get()))
             include(dependency("org.javassist:javassist")) // dependency of reflections
             libs.bundles.imgui.get().forEach { include(dependency(it)) }
         }
