@@ -13,6 +13,7 @@ import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.shader.ShaderReflection
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.render.BufferRenderer
@@ -28,6 +29,7 @@ import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL13
+import java.util.concurrent.CopyOnWriteArrayList
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -39,7 +41,7 @@ object ModuleToggleableTorus :
     val frequency by slider("Noise frequency", "The strength of the noise effect.", 50, 0, 100, "%%")
     val lifetime by slider("Lifetime", "The lifetime of the torus.", 1000, 1, 5000, "ms")
 
-    private val toruses = mutableListOf<Torus>()
+    private val toruses = CopyOnWriteArrayList<Torus>()
 
     override val shouldHandleEvents: Boolean
         get() = isEnabled && !mc.gameRenderer.isRenderingPanorama && mc.player?.eyePos != null
@@ -67,11 +69,8 @@ object ModuleToggleableTorus :
             if (depth) RenderSystem.enableDepthTest()
             else RenderSystem.disableDepthTest()
             RenderSystem.disableCull()
-            try {
-                toruses.forEach { torus ->
-                    torus.render(event.modelViewMat, event.projMat)
-                }
-            } catch (ignored: Exception) {
+            toruses.forEach { torus ->
+                torus.render(event.modelViewMat, event.projMat)
             }
             RenderSystem.disableDepthTest()
             Render.restore()

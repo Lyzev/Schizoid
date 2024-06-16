@@ -12,6 +12,7 @@ import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.setting.settings.text
 import dev.lyzev.api.settings.Setting.Companion.eq
 import dev.lyzev.api.settings.Setting.Companion.neq
+import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.*
@@ -34,7 +35,7 @@ object ModuleToggleableWaterMark :
         "ms",
         hide = ::waterMarkMath neq true
     )
-    val waterMark by text("Water Mark", "The water mark to display.", "SCHIZOID", hide = ::waterMarkMath eq true)
+    val waterMark by text("Water Mark", "The water mark to display.", Schizoid.MOD_NAME, hide = ::waterMarkMath eq true)
     val showFPS by switch("Show FPS", "Shows the current FPS.", true)
     val fpsBoost by switch("FPS Boost", "Boosts the FPS.", false)
     val boost by slider("Boost", "The amount to boost the FPS by.", 1000, 0, 1000, "fps", true, hide = ::fpsBoost neq true)

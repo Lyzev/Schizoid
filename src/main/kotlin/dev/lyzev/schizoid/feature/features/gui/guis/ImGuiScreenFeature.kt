@@ -243,7 +243,6 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
 
     override fun shouldPause(): Boolean = false
 
-    override val name = "Feature Screen"
     override val desc = "Displays all features and their respective settings."
     override var keybinds by keybinds(
         "Keybinds",
@@ -251,6 +250,4 @@ object ImGuiScreenFeature : ImGuiScreen("Feature Screen"), EventListener {
         setOf(GLFWKey.INSERT, GLFWKey.RIGHT_SHIFT),
         setOf(GLFWKey.MOUSE_BUTTON_LEFT, GLFWKey.MOUSE_BUTTON_RIGHT, GLFWKey.MOUSE_BUTTON_MIDDLE)
     )
-
-    override val category = IFeature.Category.RENDER
 }

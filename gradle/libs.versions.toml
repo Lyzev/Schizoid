@@ -19,6 +19,7 @@ fabric_loom = "1.6-SNAPSHOT"
 # https://github.com/Lyzev
 lyzev_events = "1.0.4"
 lyzev_settings = "1.0.1"
+lyzev_network = "1.3"
 
 # https://github.com/ronmamo/reflections
 reflections = "0.10.2"
@@ -28,8 +29,12 @@ imgui = "1.86.11"
 fuzzywuzzy = "1.4.0"
 # https://github.com/Redstonecrafter0/MediaPlayerInfo/
 mpi = "0.1.0"
-# https://github.com/MeteorDevelopment/discord-ipc
-discord_ipc = "1.1"
+# https://github.com/CDAGaming/DiscordIPC
+discordipc = "0.9.1"
+# https://github.com/FlorianMichael/WaybackAuthLib
+waybackauthlib = "1.0.1"
+# https://github.com/RaphiMC/MinecraftAuth
+minecraftauth = "4.0.2"
 
 # https://github.com/TerraformersMC/ModMenu
 modmenu = "10.0.0-beta.1"
@@ -45,6 +50,7 @@ fabric_kl = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fab
 
 lyzev_events = { module = "com.github.Lyzev:Events", version.ref = "lyzev_events" }
 lyzev_settings = { module = "com.github.Lyzev:Settings", version.ref = "lyzev_settings" }
+lyzev_network = { module = "com.github.Lyzev:Network4K", version.ref = "lyzev_network" }
 
 reflections = { module = "org.reflections:reflections", version.ref = "reflections" }
 
@@ -58,7 +64,11 @@ fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
 
 mpi = { module = "dev.redstones.mediaplayerinfo:media-player-info", version.ref = "mpi" }
 
-discord_ipc = { module = "meteordevelopment:discord-ipc", version.ref = "discord_ipc" }
+discordipc = { module = "io.github.CDAGaming:DiscordIPC", version.ref = "discordipc" }
+
+waybackauthlib = { module = "de.florianmichael:WaybackAuthLib", version.ref = "waybackauthlib" }
+
+minecraftauth = { module = "net.raphimc:MinecraftAuth", version.ref = "minecraftauth" }
 
 modmenu = { module = "maven.modrinth:modmenu", version.ref = "modmenu" }
 sodium = { module = "maven.modrinth:sodium", version.ref = "sodium" }

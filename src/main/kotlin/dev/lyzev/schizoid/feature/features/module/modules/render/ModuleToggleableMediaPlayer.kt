@@ -13,7 +13,8 @@ import dev.lyzev.api.events.EventMouseClick
 import dev.lyzev.api.events.EventScheduleTask
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
-import dev.lyzev.api.hash.Sha512
+import dev.lyzev.api.cryptography.hash.Sha512
+import dev.lyzev.api.cryptography.hash.Sha512.hashToString
 import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.opengl.Render
@@ -253,7 +254,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                 if (media == null) return
                 if (artwork == null) {
                     artwork =
-                        if (media!!.artworkPng.isEmpty() || Sha512.hash(media!!.artworkPng) in noArtwork) fallbackArtwork
+                        if (media!!.artworkPng.isEmpty() || Sha512.hash(media!!.artworkPng).hashToString() in noArtwork) fallbackArtwork
                         else WrappedNativeImageBackedTexture(NativeImage.read(media!!.artworkPng.inputStream())).apply { upload() }
                     Render.store()
                     RenderSystem.disableCull()

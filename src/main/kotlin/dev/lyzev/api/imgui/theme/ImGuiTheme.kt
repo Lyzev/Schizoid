@@ -21,6 +21,10 @@ interface ImGuiTheme {
     val particleIdle: Color
     val particleActive: Color
 
+    val primary: Color
+    val secondary: Color
+    val accent: Color
+
     /**
      * The style of the ImGui.
      */
@@ -88,9 +92,9 @@ abstract class ImGuiThemeBase(
     val textDisabled: Color,
     val background: Color,
     val foreground: Color,
-    val primary: Color,
-    val secondary: Color,
-    val accent: Color
+    override val primary: Color,
+    override val secondary: Color,
+    override val accent: Color
 ) : ImGuiTheme {
 
     override val particleIdle: Color
