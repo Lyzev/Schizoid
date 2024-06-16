@@ -1,5 +1,73 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:dev.lyzev.api.account.accounts////PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-companion/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked.Companion/create/#kotlinx.serialization.json.JsonElement/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-companion/create.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked.Companion/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-companion/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked.MinecraftResponse///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-minecraft-response/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked.MinecraftResponse/MinecraftResponse/#kotlin.String#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-minecraft-response/-minecraft-response.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked.MinecraftResponse/id/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-minecraft-response/id.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked.MinecraftResponse/name/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-minecraft-response/name.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked/AccountCracked/#kotlin.String#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-account-cracked.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked/getSession/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/get-session.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked/save/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/save.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked/type/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/type.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked/username/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/username.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked/uuid/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/uuid.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/create/#kotlinx.serialization.json.JsonElement/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/create.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/environment/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/environment.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/service/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/service.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/EasyMCResponse/#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.Boolean#kotlin.String#kotlin.String?/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/-easy-m-c-response.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/mcName/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/mc-name.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/message/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/message.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/microsoft/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/microsoft.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/msaCredentials/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/msa-credentials.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/session/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/session.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/userId/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/user-id.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/uuid/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/uuid.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC/AccountEasyMC/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-account-easy-m-c.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC/getSession/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/get-session.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC/save/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/save.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC/token/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/token.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC/type/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/type.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-companion/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft.Companion/create/#kotlinx.serialization.json.JsonElement/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-companion/create.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft.Companion/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-companion/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft/AccountMicrosoft/#net.raphimc.minecraftauth.step.java.session.StepFullJavaSession.FullJavaSession/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-account-microsoft.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft/getSession/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/get-session.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft/save/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/save.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft/session/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/session.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft/type/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/type.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/create/#kotlinx.serialization.json.JsonElement/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/create.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/environment/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/environment.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/service/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/service.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/index.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening/AccountTheAltening/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-account-the-altening.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening/getSession/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/get-session.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening/save/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/save.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening/token/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/token.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening/type/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/type.html
+$dokka.location:dev.lyzev.api.account////PointingToDeclaration/schizoid/dev.lyzev.api.account/index.html
+$dokka.location:dev.lyzev.api.account/Account.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-companion/index.html
+$dokka.location:dev.lyzev.api.account/Account.Companion/applyLoginEnvironment/#com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService#com.mojang.authlib.minecraft.MinecraftSessionService?/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-companion/apply-login-environment.html
+$dokka.location:dev.lyzev.api.account/Account.Companion/setSession/#net.minecraft.client.session.Session/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-companion/set-session.html
+$dokka.location:dev.lyzev.api.account/Account///PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/index.html
+$dokka.location:dev.lyzev.api.account/Account/getSession/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/get-session.html
+$dokka.location:dev.lyzev.api.account/Account/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/render.html
+$dokka.location:dev.lyzev.api.account/Account/save/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/save.html
+$dokka.location:dev.lyzev.api.account/Account/type/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/type.html
 $dokka.location:dev.lyzev.api.animation////PointingToDeclaration/schizoid/dev.lyzev.api.animation/index.html
 $dokka.location:dev.lyzev.api.animation/EasingFunction.IN_BACK///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.animation/-easing-function/-i-n_-b-a-c-k/index.html
 $dokka.location:dev.lyzev.api.animation/EasingFunction.IN_BOUNCE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.animation/-easing-function/-i-n_-b-o-u-n-c-e/index.html
@@ -50,6 +118,23 @@ $dokka.location:dev.lyzev.api.animation/TimeAnimator/isCompleted/#/PointingToDec
 $dokka.location:dev.lyzev.api.animation/TimeAnimator/reversed/#/PointingToDeclaration/schizoid/dev.lyzev.api.animation/-time-animator/reversed.html
 $dokka.location:dev.lyzev.api.animation/TimeAnimator/setProgress/#kotlin.Double/PointingToDeclaration/schizoid/dev.lyzev.api.animation/-time-animator/set-progress.html
 $dokka.location:dev.lyzev.api.animation/TimeAnimator/setReversed/#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.api.animation/-time-animator/set-reversed.html
+$dokka.location:dev.lyzev.api.cryptography.cipher////PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.cipher/index.html
+$dokka.location:dev.lyzev.api.cryptography.cipher/AES.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.cipher/-a-e-s/-companion/index.html
+$dokka.location:dev.lyzev.api.cryptography.cipher/AES///PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.cipher/-a-e-s/index.html
+$dokka.location:dev.lyzev.api.cryptography.cipher/AES/AES/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.cipher/-a-e-s/-a-e-s.html
+$dokka.location:dev.lyzev.api.cryptography.cipher/AES/decrypt/#kotlin.ByteArray/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.cipher/-a-e-s/decrypt.html
+$dokka.location:dev.lyzev.api.cryptography.cipher/AES/encrypt/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.cipher/-a-e-s/encrypt.html
+$dokka.location:dev.lyzev.api.cryptography.hash////PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/index.html
+$dokka.location:dev.lyzev.api.cryptography.hash/Sha256///PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/-sha256/index.html
+$dokka.location:dev.lyzev.api.cryptography.hash/Sha256/hash/#kotlin.ByteArray/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/-sha256/hash.html
+$dokka.location:dev.lyzev.api.cryptography.hash/Sha256/hashToString/kotlin.ByteArray#/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/-sha256/hash-to-string.html
+$dokka.location:dev.lyzev.api.cryptography.hash/Sha256/md/#/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/-sha256/md.html
+$dokka.location:dev.lyzev.api.cryptography.hash/Sha512///PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/-sha512/index.html
+$dokka.location:dev.lyzev.api.cryptography.hash/Sha512/hash/#kotlin.ByteArray/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/-sha512/hash.html
+$dokka.location:dev.lyzev.api.cryptography.hash/Sha512/hashToString/kotlin.ByteArray#/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/-sha512/hash-to-string.html
+$dokka.location:dev.lyzev.api.cryptography.hash/Sha512/md/#/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hash/-sha512/md.html
+$dokka.location:dev.lyzev.api.cryptography.hwid////PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hwid/index.html
+$dokka.location:dev.lyzev.api.cryptography.hwid//HWID/#/PointingToDeclaration/schizoid/dev.lyzev.api.cryptography.hwid/-h-w-i-d.html
 $dokka.location:dev.lyzev.api.events////PointingToDeclaration/schizoid/dev.lyzev.api.events/index.html
 $dokka.location:dev.lyzev.api.events/EventAttackEntity///PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-attack-entity/index.html
 $dokka.location:dev.lyzev.api.events/EventAttackEntity/EventAttackEntity/#net.minecraft.entity.player.PlayerEntity#net.minecraft.entity.Entity/PointingToDeclaration/schizoid/dev.lyzev.api.events/-event-attack-entity/-event-attack-entity.html
@@ -289,10 +374,6 @@ $dokka.location:dev.lyzev.api.glfw/GLFWKey/entries/#/PointingToDeclaration/schi
 $dokka.location:dev.lyzev.api.glfw/GLFWKey/isPressed/#/PointingToDeclaration/schizoid/dev.lyzev.api.glfw/-g-l-f-w-key/is-pressed.html
 $dokka.location:dev.lyzev.api.glfw/GLFWKey/valueOf/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.glfw/-g-l-f-w-key/value-of.html
 $dokka.location:dev.lyzev.api.glfw/GLFWKey/values/#/PointingToDeclaration/schizoid/dev.lyzev.api.glfw/-g-l-f-w-key/values.html
-$dokka.location:dev.lyzev.api.hash////PointingToDeclaration/schizoid/dev.lyzev.api.hash/index.html
-$dokka.location:dev.lyzev.api.hash/Sha512///PointingToDeclaration/schizoid/dev.lyzev.api.hash/-sha512/index.html
-$dokka.location:dev.lyzev.api.hash/Sha512/hash/#kotlin.ByteArray/PointingToDeclaration/schizoid/dev.lyzev.api.hash/-sha512/hash.html
-$dokka.location:dev.lyzev.api.hash/Sha512/md/#/PointingToDeclaration/schizoid/dev.lyzev.api.hash/-sha512/md.html
 $dokka.location:dev.lyzev.api.imgui.font.icon////PointingToDeclaration/schizoid/dev.lyzev.api.imgui.font.icon/index.html
 $dokka.location:dev.lyzev.api.imgui.font.icon/FontAwesomeIcons///PointingToDeclaration/schizoid/dev.lyzev.api.imgui.font.icon/-font-awesome-icons/index.html
 $dokka.location:dev.lyzev.api.imgui.font.icon/FontAwesomeIcons/Ad/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.font.icon/-font-awesome-icons/-ad.html
@@ -1398,12 +1479,15 @@ $dokka.location:dev.lyzev.api.imgui.theme////PointingToDeclaration/schizoid/dev
 $dokka.location:dev.lyzev.api.imgui.theme//adjustSaturation/#java.awt.Color#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/adjust-saturation.html
 $dokka.location:dev.lyzev.api.imgui.theme//main/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/main.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme///PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/index.html
+$dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/accent/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/accent.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/apply/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/apply.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/applyColors/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/apply-colors.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/applyStyle/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/apply-style.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/particleActive/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/particle-active.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/particleIdle/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/particle-idle.html
+$dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/primary/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/primary.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/renderInGameBackground/#net.minecraft.client.gui.DrawContext#kotlin.Int#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/render-in-game-background.html
+$dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/secondary/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/secondary.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/setColor/imgui.ImGuiStyle#kotlin.Int#java.awt.Color#kotlin.Float/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/set-color.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/setColor/imgui.ImGuiStyle#kotlin.Int#java.awt.Color/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/set-color.html
 $dokka.location:dev.lyzev.api.imgui.theme/ImGuiTheme/style/#/PointingToDeclaration/schizoid/dev.lyzev.api.imgui.theme/-im-gui-theme/style.html
@@ -1527,8 +1611,7 @@ $dokka.location:dev.lyzev.api.opengl.shader.blur/Blurs/values/#/PointingToDeclar
 $dokka.location:dev.lyzev.api.opengl.shader////PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/GLSLSandboxShader///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-g-l-s-l-sandbox-shader/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/GLSLSandboxShader/GLSLSandboxShader/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-g-l-s-l-sandbox-shader/-g-l-s-l-sandbox-shader.html
-$dokka.location:dev.lyzev.api.opengl.shader/GLSLSandboxShader/draw/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-g-l-s-l-sandbox-shader/draw.html
-$dokka.location:dev.lyzev.api.opengl.shader/GLSLSandboxShader/setUniforms/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-g-l-s-l-sandbox-shader/set-uniforms.html
+$dokka.location:dev.lyzev.api.opengl.shader/GLSLSandboxShader/draw/#kotlin.Function1[dev.lyzev.api.opengl.shader.Shader,kotlin.Unit]/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-g-l-s-l-sandbox-shader/draw.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/-companion/index.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader.Companion/PATH/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/-companion/-p-a-t-h.html
 $dokka.location:dev.lyzev.api.opengl.shader/Shader.Companion/drawFullScreen/#/PointingToDeclaration/schizoid/dev.lyzev.api.opengl.shader/-shader/-companion/draw-full-screen.html
@@ -1768,10 +1851,17 @@ $dokka.location:dev.lyzev.api.theme/WindowsTheme///PointingToDeclaration/schizo
 $dokka.location:dev.lyzev.api.theme/WindowsTheme/getCurrentTheme/#/PointingToDeclaration/schizoid/dev.lyzev.api.theme/-windows-theme/get-current-theme.html
 $dokka.location:dev.lyzev.api.theme/WindowsTheme/startListenForUpdatesThread/#/PointingToDeclaration/schizoid/dev.lyzev.api.theme/-windows-theme/start-listen-for-updates-thread.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis////PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/index.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager///PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/index.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/WINDOW_FLAGS/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/-w-i-n-d-o-w_-f-l-a-g-s.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/accounts/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/accounts.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/desc/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/desc.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/keybinds/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/keybinds.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/renderBackground/#net.minecraft.client.gui.DrawContext?#kotlin.Int#kotlin.Int#kotlin.Float/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/render-background.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/renderImGui/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/render-im-gui.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/should-handle-events.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature///PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/index.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/animationMario/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/animation-mario.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/background/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/background.html
-$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/category/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/category.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/colorScheme/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/color-scheme.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/configManager/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/config-manager.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/desc/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/desc.html
@@ -1783,7 +1873,6 @@ $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/keybinds/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/keybinds.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/mode/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/mode.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/mouseClicked/#kotlin.Double#kotlin.Double#kotlin.Int/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/mouse-clicked.html
-$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/name/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/name.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/onDisplayed/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/on-displayed.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/particleAmount/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/particle-amount.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/render/#net.minecraft.client.gui.DrawContext?#kotlin.Int#kotlin.Int#kotlin.Float/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-feature/render.html
@@ -1796,7 +1885,9 @@ $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenFeature/
 $dokka.location:dev.lyzev.schizoid.feature.features.gui////PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui/index.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui/ImGuiScreen///PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui/-im-gui-screen/index.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui/ImGuiScreen/ImGuiScreen/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui/-im-gui-screen/-im-gui-screen.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui/ImGuiScreen/category/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui/-im-gui-screen/category.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui/ImGuiScreen/keybindReleased/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui/-im-gui-screen/keybind-released.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui/ImGuiScreen/name/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui/-im-gui-screen/name.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui/ImGuiScreen/renderImGui/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui/-im-gui-screen/render-im-gui.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.exploit////PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.module.modules.exploit/index.html
 $dokka.location:dev.lyzev.schizoid.feature.features.module.modules.exploit/ModuleToggleablePacketManipulator.Mode.Delay///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.schizoid.feature.features.module.modules.exploit/-module-toggleable-packet-manipulator/-mode/-delay/index.html
@@ -2199,52 +2290,78 @@ $dokka.location:dev.lyzev.schizoid.feature/IFeature/mc/#/PointingToDeclaration/
 $dokka.location:dev.lyzev.schizoid.feature/IFeature/name/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature/-i-feature/name.html
 $dokka.location:dev.lyzev.schizoid.feature/IFeature/render/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature/-i-feature/render.html
 $dokka.location:dev.lyzev.schizoid.feature/IFeature/sendChatMessage/#net.minecraft.text.Text/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature/-i-feature/send-chat-message.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.imgui////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.imgui/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.imgui/MixinImGuiImplGlfw///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.imgui/-mixin-im-gui-impl-glfw/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.imgui/MixinImGuiImplGlfw/MixinImGuiImplGlfw/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.imgui/-mixin-im-gui-impl-glfw/-mixin-im-gui-impl-glfw.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.input////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.input/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.input/MixinKeyboardInput///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.input/-mixin-keyboard-input/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.input/MixinKeyboardInput/MixinKeyboardInput/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.input/-mixin-keyboard-input/-mixin-keyboard-input.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.network////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.network/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.network/MixinClientPlayerEntity///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.network/-mixin-client-player-entity/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.network/MixinClientPlayerEntity/MixinClientPlayerEntity/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.network/-mixin-client-player-entity/-mixin-client-player-entity.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.network/MixinClientPlayerInteractionManager///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.network/-mixin-client-player-interaction-manager/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.network/MixinClientPlayerInteractionManager/MixinClientPlayerInteractionManager/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.network/-mixin-client-player-interaction-manager/-mixin-client-player-interaction-manager.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render.entity////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render.entity/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render.entity/MixinLivingEntityRenderer///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render.entity/-mixin-living-entity-renderer/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render.entity/MixinLivingEntityRenderer/MixinLivingEntityRenderer/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render.entity/-mixin-living-entity-renderer/-mixin-living-entity-renderer.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render/MixinCamera///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/-mixin-camera/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render/MixinCamera/MixinCamera/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/-mixin-camera/-mixin-camera.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render/MixinGameRenderer///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/-mixin-game-renderer/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render/MixinGameRenderer/MixinGameRenderer/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/-mixin-game-renderer/-mixin-game-renderer.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render/MixinLightmapTextureManager///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/-mixin-lightmap-texture-manager/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render/MixinLightmapTextureManager/MixinLightmapTextureManager/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/-mixin-lightmap-texture-manager/-mixin-lightmap-texture-manager.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render/MixinWorldRenderer///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/-mixin-world-renderer/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.render/MixinWorldRenderer/MixinWorldRenderer/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.render/-mixin-world-renderer/-mixin-world-renderer.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.util////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.util/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.util/MixinWindow///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.util/-mixin-window/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.util/MixinWindow/MixinWindow/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.util/-mixin-window/-mixin-window.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.world////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.world/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.world/MixinClientWorld///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.world/-mixin-client-world/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client.world/MixinClientWorld/MixinClientWorld/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client.world/-mixin-client-world/-mixin-client-world.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client/MixinKeyboard///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client/-mixin-keyboard/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client/MixinKeyboard/MixinKeyboard/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client/-mixin-keyboard/-mixin-keyboard.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client/MixinMinecraftClient///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client/-mixin-minecraft-client/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client/MixinMinecraftClient/MixinMinecraftClient/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client/-mixin-minecraft-client/-mixin-minecraft-client.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client/MixinMinecraftClient/itemUseCooldown/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client/-mixin-minecraft-client/item-use-cooldown.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client/MixinMouse///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client/-mixin-mouse/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.client/MixinMouse/MixinMouse/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.client/-mixin-mouse/-mixin-mouse.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.entity////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.entity/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.entity/MixinEntity///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.entity/-mixin-entity/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.entity/MixinEntity/MixinEntity/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.entity/-mixin-entity/-mixin-entity.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.entity/MixinLivingEntity///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.entity/-mixin-living-entity/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.entity/MixinLivingEntity/MixinLivingEntity/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.entity/-mixin-living-entity/-mixin-living-entity.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.entity/MixinLivingEntity/onHasStatusEffect/#net.minecraft.registry.entry.RegistryEntry<net.minecraft.entity.effect.StatusEffect>#org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<java.lang.Boolean>/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.entity/-mixin-living-entity/on-has-status-effect.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.network////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.network/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.network/MixinClientConnection///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.network/-mixin-client-connection/index.html
-$dokka.location:dev.lyzev.schizoid.injection.mixins.minecraft.network/MixinClientConnection/MixinClientConnection/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixins.minecraft.network/-mixin-client-connection/-mixin-client-connection.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/index.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/AbuseReportContextAccessor///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-abuse-report-context-accessor/index.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/AbuseReportContextAccessor/getEnvironment/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-abuse-report-context-accessor/get-environment.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/FileCacheAccessor///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-file-cache-accessor/index.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/FileCacheAccessor/getDirectory/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-file-cache-accessor/get-directory.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/index.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/getAuthenticationService/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/get-authentication-service.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/getNetworkProxy/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/get-network-proxy.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setAbuseReportContext/#net.minecraft.client.session.report.AbuseReportContext/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-abuse-report-context.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setAuthenticationService/#com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-authentication-service.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setGameProfileFuture/#java.util.concurrent.CompletableFuture<com.mojang.authlib.yggdrasil.ProfileResult>/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-game-profile-future.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setProfileKeys/#net.minecraft.client.session.ProfileKeys/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-profile-keys.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setRealmsPeriodicCheckers/#net.minecraft.client.realms.RealmsPeriodicCheckers/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-realms-periodic-checkers.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setSession/#net.minecraft.client.session.Session/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-session.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setSessionService/#com.mojang.authlib.minecraft.MinecraftSessionService/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-session-service.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setSkinProvider/#net.minecraft.client.texture.PlayerSkinProvider/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-skin-provider.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setSocialInteractionsManager/#net.minecraft.client.network.SocialInteractionsManager/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-social-interactions-manager.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor/setUserApiService/#com.mojang.authlib.minecraft.UserApiService/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-minecraft-client-accessor/set-user-api-service.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/PlayerSkinProviderAccessor///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-player-skin-provider-accessor/index.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/PlayerSkinProviderAccessor/getSkinCache/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-player-skin-provider-accessor/get-skin-cache.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/RealmsAvailabilityAccessor///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-realms-availability-accessor/index.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/RealmsAvailabilityAccessor/setCurrentFuture/#java.util.concurrent.CompletableFuture<net.minecraft.client.realms.RealmsAvailability.Info>/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-realms-availability-accessor/set-current-future.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/SplashTextResourceSupplierAccessor///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-splash-text-resource-supplier-accessor/index.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/SplashTextResourceSupplierAccessor/setSession/#net.minecraft.client.session.Session/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-splash-text-resource-supplier-accessor/set-session.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/YggdrasilMinecraftSessionServiceAccessor///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-yggdrasil-minecraft-session-service-accessor/index.html
+$dokka.location:dev.lyzev.schizoid.injection.accessor/YggdrasilMinecraftSessionServiceAccessor/createYggdrasilMinecraftSessionService/#com.mojang.authlib.yggdrasil.ServicesKeySet#java.net.Proxy#com.mojang.authlib.Environment/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.accessor/-yggdrasil-minecraft-session-service-accessor/create-yggdrasil-minecraft-session-service.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.imgui////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.imgui/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.imgui/MixinImGuiImplGlfw///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.imgui/-mixin-im-gui-impl-glfw/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.imgui/MixinImGuiImplGlfw/MixinImGuiImplGlfw/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.imgui/-mixin-im-gui-impl-glfw/-mixin-im-gui-impl-glfw.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.input////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.input/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.input/MixinKeyboardInput///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.input/-mixin-keyboard-input/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.input/MixinKeyboardInput/MixinKeyboardInput/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.input/-mixin-keyboard-input/-mixin-keyboard-input.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.network////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.network/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.network/MixinClientPlayerEntity///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.network/-mixin-client-player-entity/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.network/MixinClientPlayerEntity/MixinClientPlayerEntity/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.network/-mixin-client-player-entity/-mixin-client-player-entity.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.network/MixinClientPlayerInteractionManager///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.network/-mixin-client-player-interaction-manager/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.network/MixinClientPlayerInteractionManager/MixinClientPlayerInteractionManager/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.network/-mixin-client-player-interaction-manager/-mixin-client-player-interaction-manager.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render.entity////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render.entity/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render.entity/MixinLivingEntityRenderer///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render.entity/-mixin-living-entity-renderer/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render.entity/MixinLivingEntityRenderer/MixinLivingEntityRenderer/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render.entity/-mixin-living-entity-renderer/-mixin-living-entity-renderer.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render/MixinCamera///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/-mixin-camera/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render/MixinCamera/MixinCamera/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/-mixin-camera/-mixin-camera.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render/MixinGameRenderer///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/-mixin-game-renderer/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render/MixinGameRenderer/MixinGameRenderer/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/-mixin-game-renderer/-mixin-game-renderer.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render/MixinLightmapTextureManager///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/-mixin-lightmap-texture-manager/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render/MixinLightmapTextureManager/MixinLightmapTextureManager/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/-mixin-lightmap-texture-manager/-mixin-lightmap-texture-manager.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render/MixinWorldRenderer///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/-mixin-world-renderer/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.render/MixinWorldRenderer/MixinWorldRenderer/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.render/-mixin-world-renderer/-mixin-world-renderer.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.util////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.util/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.util/MixinWindow///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.util/-mixin-window/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.util/MixinWindow/MixinWindow/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.util/-mixin-window/-mixin-window.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.world////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.world/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.world/MixinClientWorld///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.world/-mixin-client-world/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client.world/MixinClientWorld/MixinClientWorld/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client.world/-mixin-client-world/-mixin-client-world.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client/MixinKeyboard///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client/-mixin-keyboard/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client/MixinKeyboard/MixinKeyboard/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client/-mixin-keyboard/-mixin-keyboard.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client/MixinMinecraftClient///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client/-mixin-minecraft-client/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client/MixinMinecraftClient/MixinMinecraftClient/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client/-mixin-minecraft-client/-mixin-minecraft-client.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client/MixinMinecraftClient/itemUseCooldown/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client/-mixin-minecraft-client/item-use-cooldown.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client/MixinMouse///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client/-mixin-mouse/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.client/MixinMouse/MixinMouse/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.client/-mixin-mouse/-mixin-mouse.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.entity////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.entity/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.entity/MixinEntity///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.entity/-mixin-entity/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.entity/MixinEntity/MixinEntity/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.entity/-mixin-entity/-mixin-entity.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.entity/MixinLivingEntity///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.entity/-mixin-living-entity/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.entity/MixinLivingEntity/MixinLivingEntity/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.entity/-mixin-living-entity/-mixin-living-entity.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.entity/MixinLivingEntity/onHasStatusEffect/#net.minecraft.registry.entry.RegistryEntry<net.minecraft.entity.effect.StatusEffect>#org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable<java.lang.Boolean>/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.entity/-mixin-living-entity/on-has-status-effect.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.network////PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.network/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.network/MixinClientConnection///PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.network/-mixin-client-connection/index.html
+$dokka.location:dev.lyzev.schizoid.injection.mixin.minecraft.network/MixinClientConnection/MixinClientConnection/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.injection.mixin.minecraft.network/-mixin-client-connection/-mixin-client-connection.html
 $dokka.location:dev.lyzev.schizoid////PointingToDeclaration/schizoid/dev.lyzev.schizoid/index.html
 $dokka.location:dev.lyzev.schizoid/Schizoid///PointingToDeclaration/schizoid/dev.lyzev.schizoid/-schizoid/index.html
 $dokka.location:dev.lyzev.schizoid/Schizoid/CI/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid/-schizoid/-c-i.html
@@ -2260,10 +2377,14 @@ $dokka.location:dev.lyzev.schizoid/Schizoid/mc/#/PointingToDeclaration/schizoid
 $dokka.location:dev.lyzev.schizoid/Schizoid/onInitializeClient/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid/-schizoid/on-initialize-client.html
 $dokka.location:dev.lyzev.schizoid/Schizoid/root/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid/-schizoid/root.html
 $dokka.location:dev.lyzev.schizoid/Schizoid/shouldHandleEvents/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid/-schizoid/should-handle-events.html
+dev.lyzev.api.account
+dev.lyzev.api.account.accounts
 dev.lyzev.api.animation
+dev.lyzev.api.cryptography.cipher
+dev.lyzev.api.cryptography.hash
+dev.lyzev.api.cryptography.hwid
 dev.lyzev.api.events
 dev.lyzev.api.glfw
-dev.lyzev.api.hash
 dev.lyzev.api.imgui
 dev.lyzev.api.imgui.font
 dev.lyzev.api.imgui.font.icon
@@ -2291,14 +2412,15 @@ dev.lyzev.schizoid.feature.features.module.modules.movement
 dev.lyzev.schizoid.feature.features.module.modules.player
 dev.lyzev.schizoid.feature.features.module.modules.render
 dev.lyzev.schizoid.feature.features.module.modules.util
-dev.lyzev.schizoid.injection.mixins.imgui
-dev.lyzev.schizoid.injection.mixins.minecraft.client
-dev.lyzev.schizoid.injection.mixins.minecraft.client.input
-dev.lyzev.schizoid.injection.mixins.minecraft.client.network
-dev.lyzev.schizoid.injection.mixins.minecraft.client.render
-dev.lyzev.schizoid.injection.mixins.minecraft.client.render.entity
-dev.lyzev.schizoid.injection.mixins.minecraft.client.util
-dev.lyzev.schizoid.injection.mixins.minecraft.client.world
-dev.lyzev.schizoid.injection.mixins.minecraft.entity
-dev.lyzev.schizoid.injection.mixins.minecraft.network
+dev.lyzev.schizoid.injection.accessor
+dev.lyzev.schizoid.injection.mixin.imgui
+dev.lyzev.schizoid.injection.mixin.minecraft.client
+dev.lyzev.schizoid.injection.mixin.minecraft.client.input
+dev.lyzev.schizoid.injection.mixin.minecraft.client.network
+dev.lyzev.schizoid.injection.mixin.minecraft.client.render
+dev.lyzev.schizoid.injection.mixin.minecraft.client.render.entity
+dev.lyzev.schizoid.injection.mixin.minecraft.client.util
+dev.lyzev.schizoid.injection.mixin.minecraft.client.world
+dev.lyzev.schizoid.injection.mixin.minecraft.entity
+dev.lyzev.schizoid.injection.mixin.minecraft.network
 

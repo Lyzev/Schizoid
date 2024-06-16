@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>MinecraftClientAccessor</title>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            schizoid
+                    </a>
+            </div>
+            <div class="library-version">
+0.1.0+84b2976            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":dokkaHtml/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="schizoid::dev.lyzev.schizoid.injection.accessor/MinecraftClientAccessor///PointingToDeclaration//769193423">
+  <div class="breadcrumbs"><a href="../../../index.html">schizoid</a><span class="delimiter">/</span><a href="../index.html">dev.lyzev.schizoid.injection.accessor</a><span class="delimiter">/</span><span class="current">MinecraftClientAccessor</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Minecraft</span><wbr></wbr><span>Client</span><wbr></wbr><span><span>Accessor</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">MinecraftClientAccessor</a></div><p class="paragraph">Provides the means to access protected members of the Minecraft client.</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1047208857%2FFunctions%2F769193423" anchor-label="getAuthenticationService" id="1047208857%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-authentication-service.html"><span>get</span><wbr></wbr><span>Authentication</span><wbr></wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1047208857%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-authentication-service.html"><span class="token function">getAuthenticationService</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="com.mojang.authlib.yggdrasil/YggdrasilAuthenticationService///PointingToDeclaration/">YggdrasilAuthenticationService</span></div><div class="brief ">Returns the Minecraft authentication service.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="567525476%2FFunctions%2F769193423" anchor-label="getNetworkProxy" id="567525476%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-network-proxy.html"><span>get</span><wbr></wbr><span>Network</span><wbr></wbr><span><span>Proxy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="567525476%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-network-proxy.html"><span class="token function">getNetworkProxy</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/net/Proxy.html">Proxy</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-741787139%2FFunctions%2F769193423" anchor-label="setAbuseReportContext" id="-741787139%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-abuse-report-context.html"><span>set</span><wbr></wbr><span>Abuse</span><wbr></wbr><span>Report</span><wbr></wbr><span><span>Context</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-741787139%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-abuse-report-context.html"><span class="token function">setAbuseReportContext</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">abuseReportContext<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.session.report/AbuseReportContext///PointingToDeclaration/">AbuseReportContext</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft abuse report context.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-261213398%2FFunctions%2F769193423" anchor-label="setAuthenticationService" id="-261213398%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-authentication-service.html"><span>set</span><wbr></wbr><span>Authentication</span><wbr></wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-261213398%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-authentication-service.html"><span class="token function">setAuthenticationService</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">authenticationService<span class="token operator">: </span><span data-unresolved-link="com.mojang.authlib.yggdrasil/YggdrasilAuthenticationService///PointingToDeclaration/">YggdrasilAuthenticationService</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft authentication service.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1964231448%2FFunctions%2F769193423" anchor-label="setGameProfileFuture" id="-1964231448%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-game-profile-future.html"><span>set</span><wbr></wbr><span>Game</span><wbr></wbr><span>Profile</span><wbr></wbr><span><span>Future</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1964231448%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-game-profile-future.html"><span class="token function">setGameProfileFuture</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">future<span class="token operator">: </span><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/CompletableFuture.html">CompletableFuture</a><span class="token operator">&lt;</span><span data-unresolved-link="com.mojang.authlib.yggdrasil/ProfileResult///PointingToDeclaration/">ProfileResult</span><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the game profile.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1388527215%2FFunctions%2F769193423" anchor-label="setProfileKeys" id="-1388527215%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-profile-keys.html"><span>set</span><wbr></wbr><span>Profile</span><wbr></wbr><span><span>Keys</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1388527215%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-profile-keys.html"><span class="token function">setProfileKeys</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">profileKeys<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.session/ProfileKeys///PointingToDeclaration/">ProfileKeys</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft profile keys.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1664247643%2FFunctions%2F769193423" anchor-label="setRealmsPeriodicCheckers" id="-1664247643%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-realms-periodic-checkers.html"><span>set</span><wbr></wbr><span>Realms</span><wbr></wbr><span>Periodic</span><wbr></wbr><span><span>Checkers</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1664247643%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-realms-periodic-checkers.html"><span class="token function">setRealmsPeriodicCheckers</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">realmsPeriodicCheckers<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.realms/RealmsPeriodicCheckers///PointingToDeclaration/">RealmsPeriodicCheckers</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft Realms periodic checkers.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-340580769%2FFunctions%2F769193423" anchor-label="setSession" id="-340580769%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-session.html"><span>set</span><wbr></wbr><span><span>Session</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-340580769%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-session.html"><span class="token function">setSession</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">session<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.session/Session///PointingToDeclaration/">Session</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft session.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-939251858%2FFunctions%2F769193423" anchor-label="setSessionService" id="-939251858%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-session-service.html"><span>set</span><wbr></wbr><span>Session</span><wbr></wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-939251858%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-session-service.html"><span class="token function">setSessionService</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">sessionService<span class="token operator">: </span><span data-unresolved-link="com.mojang.authlib.minecraft/MinecraftSessionService///PointingToDeclaration/">MinecraftSessionService</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft session service.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1242842203%2FFunctions%2F769193423" anchor-label="setSkinProvider" id="-1242842203%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-skin-provider.html"><span>set</span><wbr></wbr><span>Skin</span><wbr></wbr><span><span>Provider</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1242842203%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-skin-provider.html"><span class="token function">setSkinProvider</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">skinProvider<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.texture/PlayerSkinProvider///PointingToDeclaration/">PlayerSkinProvider</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft skin provider.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1643936565%2FFunctions%2F769193423" anchor-label="setSocialInteractionsManager" id="1643936565%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-social-interactions-manager.html"><span>set</span><wbr></wbr><span>Social</span><wbr></wbr><span>Interactions</span><wbr></wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1643936565%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-social-interactions-manager.html"><span class="token function">setSocialInteractionsManager</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">socialInteractionsManager<span class="token operator">: </span><span data-unresolved-link="net.minecraft.client.network/SocialInteractionsManager///PointingToDeclaration/">SocialInteractionsManager</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft social interactions manager.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1130076489%2FFunctions%2F769193423" anchor-label="setUserApiService" id="1130076489%2FFunctions%2F769193423" data-filterable-set=":dokkaHtml/main"></a>
+          <div class="table-row" data-filterable-current=":dokkaHtml/main" data-filterable-set=":dokkaHtml/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-user-api-service.html"><span>set</span><wbr></wbr><span>User</span><wbr></wbr><span>Api</span><wbr></wbr><span><span>Service</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1130076489%2FFunctions%2F769193423"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":dokkaHtml/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="set-user-api-service.html"><span class="token function">setUserApiService</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">userApiService<span class="token operator">: </span><span data-unresolved-link="com.mojang.authlib.minecraft/UserApiService///PointingToDeclaration/">UserApiService</span></span></span><span class="token punctuation">)</span></div><div class="brief ">Sets the Minecraft user API service.</div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
