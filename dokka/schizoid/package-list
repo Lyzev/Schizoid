@@ -4,6 +4,7 @@ $dokka.location:dev.lyzev.api.account.accounts////PointingToDeclaration/schizoi
 $dokka.location:dev.lyzev.api.account.accounts/AccountCracked.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-companion/index.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountCracked.Companion/create/#kotlinx.serialization.json.JsonElement/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-companion/create.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountCracked.Companion/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-companion/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountCracked.Companion/sessionType/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-companion/session-type.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountCracked.MinecraftResponse///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-minecraft-response/index.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountCracked.MinecraftResponse/MinecraftResponse/#kotlin.String#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-minecraft-response/-minecraft-response.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountCracked.MinecraftResponse/id/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-cracked/-minecraft-response/id.html
@@ -21,6 +22,7 @@ $dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/create/#k
 $dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/environment/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/environment.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/render.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/service/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/service.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.Companion/sessionType/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-companion/session-type.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/index.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/EasyMCResponse/#kotlin.String#kotlin.String#kotlin.String#kotlin.String#kotlin.Boolean#kotlin.String#kotlin.String?/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/-easy-m-c-response.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC.EasyMCResponse/mcName/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-easy-m-c/-easy-m-c-response/mc-name.html
@@ -40,6 +42,7 @@ $dokka.location:dev.lyzev.api.account.accounts/AccountEasyMC/type/#/PointingToDe
 $dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-companion/index.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft.Companion/create/#kotlinx.serialization.json.JsonElement/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-companion/create.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft.Companion/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-companion/render.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft.Companion/sessionType/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-companion/session-type.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/index.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft/AccountMicrosoft/#net.raphimc.minecraftauth.step.java.session.StepFullJavaSession.FullJavaSession/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/-account-microsoft.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountMicrosoft/getSession/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-microsoft/get-session.html
@@ -52,6 +55,7 @@ $dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/crea
 $dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/environment/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/environment.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/render.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/service/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/service.html
+$dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening.Companion/sessionType/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-companion/session-type.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening///PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/index.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening/AccountTheAltening/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/-account-the-altening.html
 $dokka.location:dev.lyzev.api.account.accounts/AccountTheAltening/getSession/#/PointingToDeclaration/schizoid/dev.lyzev.api.account.accounts/-account-the-altening/get-session.html
@@ -63,6 +67,20 @@ $dokka.location:dev.lyzev.api.account////PointingToDeclaration/schizoid/dev.lyz
 $dokka.location:dev.lyzev.api.account/Account.Companion///PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-companion/index.html
 $dokka.location:dev.lyzev.api.account/Account.Companion/applyLoginEnvironment/#com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService#com.mojang.authlib.minecraft.MinecraftSessionService?/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-companion/apply-login-environment.html
 $dokka.location:dev.lyzev.api.account/Account.Companion/setSession/#net.minecraft.client.session.Session/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-companion/set-session.html
+$dokka.location:dev.lyzev.api.account/Account.Type///PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-type/index.html
+$dokka.location:dev.lyzev.api.account/Account.Type/create/#kotlinx.serialization.json.JsonElement/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-type/create.html
+$dokka.location:dev.lyzev.api.account/Account.Type/sessionType/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-type/session-type.html
+$dokka.location:dev.lyzev.api.account/Account.Types.CRACKED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.account/-account/-types/-c-r-a-c-k-e-d/index.html
+$dokka.location:dev.lyzev.api.account/Account.Types.EASY_MC///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.account/-account/-types/-e-a-s-y_-m-c/index.html
+$dokka.location:dev.lyzev.api.account/Account.Types.MICROSOFT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.account/-account/-types/-m-i-c-r-o-s-o-f-t/index.html
+$dokka.location:dev.lyzev.api.account/Account.Types.THE_ALTENING///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}schizoid/dev.lyzev.api.account/-account/-types/-t-h-e_-a-l-t-e-n-i-n-g/index.html
+$dokka.location:dev.lyzev.api.account/Account.Types///PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-types/index.html
+$dokka.location:dev.lyzev.api.account/Account.Types/create/#kotlinx.serialization.json.JsonElement/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-types/create.html
+$dokka.location:dev.lyzev.api.account/Account.Types/entries/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-types/entries.html
+$dokka.location:dev.lyzev.api.account/Account.Types/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-types/render.html
+$dokka.location:dev.lyzev.api.account/Account.Types/sessionType/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-types/session-type.html
+$dokka.location:dev.lyzev.api.account/Account.Types/valueOf/#kotlin.String/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-types/value-of.html
+$dokka.location:dev.lyzev.api.account/Account.Types/values/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/-types/values.html
 $dokka.location:dev.lyzev.api.account/Account///PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/index.html
 $dokka.location:dev.lyzev.api.account/Account/getSession/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/get-session.html
 $dokka.location:dev.lyzev.api.account/Account/render/#/PointingToDeclaration/schizoid/dev.lyzev.api.account/-account/render.html
@@ -1854,6 +1872,8 @@ $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis////PointingToDeclar
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager///PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/index.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/WINDOW_FLAGS/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/-w-i-n-d-o-w_-f-l-a-g-s.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/accounts/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/accounts.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/button/#kotlin.String#kotlin.String?#kotlin.Boolean/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/button.html
+$dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/buttonSize/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/button-size.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/desc/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/desc.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/keybinds/#/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/keybinds.html
 $dokka.location:dev.lyzev.schizoid.feature.features.gui.guis/ImGuiScreenAccountManager/renderBackground/#net.minecraft.client.gui.DrawContext?#kotlin.Int#kotlin.Int#kotlin.Float/PointingToDeclaration/schizoid/dev.lyzev.schizoid.feature.features.gui.guis/-im-gui-screen-account-manager/render-background.html
