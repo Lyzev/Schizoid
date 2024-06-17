@@ -12,7 +12,6 @@ import de.florianmichael.waybackauthlib.WaybackAuthLib
 import dev.lyzev.api.account.Account
 import dev.lyzev.api.account.Account.Companion.applyLoginEnvironment
 import dev.lyzev.api.account.Account.Companion.setSession
-import dev.lyzev.api.account.accounts.AccountMicrosoft.Companion
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
 import dev.lyzev.api.imgui.font.ImGuiFonts
@@ -41,35 +40,54 @@ class AccountTheAltening(val token: String) : Account {
     private var isHidden = true
     private val hidden = "*".repeat(token.length)
 
-    override val type = Session.AccountType.MOJANG
+    override val type = Account.Types.THE_ALTENING
 
     override fun getSession(): Session? {
-        applyLoginEnvironment(service, YggdrasilMinecraftSessionServiceAccessor.createYggdrasilMinecraftSessionService(service.servicesKeySet, service.proxy, environment));
+        applyLoginEnvironment(
+            service,
+            YggdrasilMinecraftSessionServiceAccessor.createYggdrasilMinecraftSessionService(
+                service.servicesKeySet,
+                service.proxy,
+                environment
+            )
+        )
         val auth = WaybackAuthLib(environment.servicesHost)
         auth.username = token
         auth.password = "Elevating my Minecraft gameplay with ${Schizoid.MOD_NAME}."
         runCatching {
             auth.logIn()
             msg = null
-            return Session(auth.currentProfile.name, auth.currentProfile.id, auth.accessToken, Optional.empty(), Optional.empty(), Session.AccountType.MOJANG)
+            return Session(
+                auth.currentProfile.name,
+                auth.currentProfile.id,
+                auth.accessToken,
+                Optional.empty(),
+                Optional.empty(),
+                sessionType
+            )
         }.onFailure {
-            msg = if (it is InvalidCredentialsException) "The token is invalid." else "An error occurred while logging in."
+            msg =
+                if (it is InvalidCredentialsException) "The token is invalid." else "An error occurred while logging in."
             Schizoid.logger.error(msg, it)
         }
         return null
     }
 
+    override fun save() = JsonPrimitive(token)
+
     override fun render() {
-        ImGuiFonts.OPEN_SANS_BOLD.begin()
-        text("The Altening")
-        ImGuiFonts.OPEN_SANS_BOLD.end()
+        super.render()
         text(if (isHidden) hidden else token)
         sameLine(getColumnWidth() - OPEN_SANS_REGULAR.size * 3f - getStyle().framePaddingX * 3)
         FONT_AWESOME_SOLID.begin()
         val icon = if (isHidden) FontAwesomeIcons.EyeSlash else FontAwesomeIcons.Eye
         val size = calcTextSize(icon)
-        pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-        if (button(icon, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+        pushStyleVar(
+            ImGuiStyleVar.FramePadding,
+            ImGuiScreenAccountManager.buttonSize / 2f - size.x / 2f,
+            -1f
+        )
+        if (button(icon, ImGuiScreenAccountManager.buttonSize, ImGuiScreenAccountManager.buttonSize)) {
             isHidden = !isHidden
         }
         OPEN_SANS_REGULAR.begin()
@@ -80,9 +98,8 @@ class AccountTheAltening(val token: String) : Account {
         popStyleVar()
     }
 
-    override fun save() = JsonPrimitive(token)
+    companion object : Account.Type<AccountTheAltening> {
 
-    companion object {
         private const val AUTH = "http://authserver.thealtening.com"
         private const val SESSION = "http://sessionserver.thealtening.com"
 
@@ -94,66 +111,50 @@ class AccountTheAltening(val token: String) : Account {
         private var msg: String? = null
         private val timeAnimator = TimeAnimator(4000)
 
-        fun create(json: JsonElement) = AccountEasyMC(json.jsonPrimitive.content)
+        override val sessionType = Session.AccountType.MOJANG
 
-        fun render() {
+        override fun create(json: JsonElement) = AccountTheAltening(json.jsonPrimitive.content)
+
+        override fun render() {
             pushID("thealtening")
             setNextWindowPos(getMainViewport().centerX + 270f, getMainViewport().centerY - 330f)
             setNextWindowSize(250f, 0f)
             if (begin("\"THE ALTENING\"", WINDOW_FLAGS)) {
                 OPEN_SANS_REGULAR.begin()
-                setNextItemWidth(getColumnWidth() - OPEN_SANS_REGULAR.size * 1.5f - getStyle().framePaddingX)
-                inputTextWithHint("##thealtening-token", "Token", token, if (isHidden) ImGuiInputTextFlags.Password else ImGuiInputTextFlags.None)
+                setNextItemWidth(getWindowWidth() - ImGuiScreenAccountManager.buttonSize - getStyle().itemSpacingX - getStyle().windowPaddingX * 2)
+                inputTextWithHint(
+                    "##thealtening-token",
+                    "Token",
+                    token,
+                    if (isHidden) ImGuiInputTextFlags.Password else ImGuiInputTextFlags.None
+                )
                 sameLine()
-                FONT_AWESOME_SOLID.begin()
                 val icon = if (isHidden) FontAwesomeIcons.EyeSlash else FontAwesomeIcons.Eye
-                var size = calcTextSize(icon)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(icon, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                if (ImGuiScreenAccountManager.button(icon, "Toggle visibility of the token.")) {
                     isHidden = !isHidden
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered())
-                    setTooltip("Toggle visibility of the token.")
-                OPEN_SANS_REGULAR.end()
-                size = calcTextSize(FontAwesomeIcons.SignInAlt)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(FontAwesomeIcons.SignInAlt, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.SignInAlt, "Login to the account.")) {
                     if (token.get().isNotBlank()) {
                         val session = AccountTheAltening(token.get()).getSession()
                         if (session != null) {
                             setSession(session)
                         }
                     } else {
-                        msg = "The token is empty."
+                        msg = "The provided token is empty."
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered()) {
-                    setTooltip("Login to the account.")
-                }
-                OPEN_SANS_REGULAR.end()
                 sameLine()
-                size = calcTextSize(FontAwesomeIcons.Plus)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(FontAwesomeIcons.Plus, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.Plus, "Add the account.")) {
                     if (token.get().isNotBlank()) {
                         ImGuiScreenAccountManager.accounts += AccountTheAltening(token.get())
                     } else {
-                        msg = "The token is empty."
+                        msg = "The provided token is empty."
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered()) {
-                    setTooltip("Add the account.")
-                }
-                OPEN_SANS_REGULAR.end()
-                FONT_AWESOME_SOLID.end()
-                popStyleVar(3)
                 sameLine()
                 if (msg != null) {
                     pushStyleVar(ImGuiStyleVar.WindowPadding, 0f, 0f)
-                    size = calcTextSize(msg)
+                    val size = calcTextSize(msg)
                     if (beginChild(
                             "##Msg",
                             getColumnWidth(),
