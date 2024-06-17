@@ -9,12 +9,16 @@ import com.mojang.authlib.minecraft.MinecraftSessionService
 import com.mojang.authlib.minecraft.UserApiService
 import com.mojang.authlib.yggdrasil.ServicesKeyType
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService
-import com.mojang.authlib.yggdrasil.YggdrasilEnvironment
-import com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService
-import dev.lyzev.schizoid.injection.accessor.FileCacheAccessor
+import dev.lyzev.api.account.accounts.AccountCracked
+import dev.lyzev.api.account.accounts.AccountEasyMC
+import dev.lyzev.api.account.accounts.AccountMicrosoft
+import dev.lyzev.api.account.accounts.AccountTheAltening
+import dev.lyzev.api.imgui.font.ImGuiFonts
+import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenAccountManager.mc
 import dev.lyzev.schizoid.injection.accessor.*
+import imgui.ImGui.text
 import kotlinx.serialization.json.JsonElement
 import net.minecraft.client.network.SocialInteractionsManager
 import net.minecraft.client.realms.RealmsClient
@@ -23,22 +27,24 @@ import net.minecraft.client.session.ProfileKeys
 import net.minecraft.client.session.Session
 import net.minecraft.client.session.Session.AccountType
 import net.minecraft.client.session.report.AbuseReportContext
-import net.minecraft.client.texture.AbstractTexture
 import net.minecraft.client.texture.PlayerSkinProvider
 import net.minecraft.network.encryption.SignatureVerifier
-import java.net.URI
 import java.util.concurrent.CompletableFuture
 
 
-interface Account {
+interface Account : ImGuiRenderable {
 
-    val type: AccountType
+    val type: Types
 
     fun getSession(): Session?
 
-    fun render()
-
     fun save(): JsonElement
+
+    override fun render() {
+        ImGuiFonts.OPEN_SANS_BOLD.begin()
+        text(type.name)
+        ImGuiFonts.OPEN_SANS_BOLD.end()
+    }
 
     companion object {
 
@@ -100,5 +106,25 @@ interface Account {
             val skinCachePath = (skinCache as FileCacheAccessor).getDirectory()
             mca.setSkinProvider(PlayerSkinProvider(mc.textureManager, skinCachePath, sessService, mc))
         }
+    }
+
+    interface Type<T : Account> : ImGuiRenderable {
+
+        val sessionType: AccountType
+
+        fun create(json: JsonElement): T
+    }
+
+    enum class Types(private val type: Type<*>) : Type<Account> {
+        CRACKED(AccountCracked.Companion),
+        EASY_MC(AccountEasyMC.Companion),
+        THE_ALTENING(AccountTheAltening.Companion),
+        MICROSOFT(AccountMicrosoft.Companion);
+
+        override val sessionType = type.sessionType
+
+        override fun create(json: JsonElement) = type.create(json)
+
+        override fun render() = type.render()
     }
 }

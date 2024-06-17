@@ -29,6 +29,8 @@ imgui = "1.86.11"
 fuzzywuzzy = "1.4.0"
 # https://github.com/Redstonecrafter0/MediaPlayerInfo/
 mpi = "0.1.0"
+# https://github.com/hypfvieh/dbus-java
+dbus = "5.0.0"
 # https://github.com/CDAGaming/DiscordIPC
 discordipc = "0.9.1"
 # https://github.com/FlorianMichael/WaybackAuthLib
@@ -63,6 +65,9 @@ imgui_natives_macos = { module = "io.github.spair:imgui-java-natives-macos", ver
 fuzzywuzzy = { module = "me.xdrop:fuzzywuzzy", version.ref = "fuzzywuzzy" }
 
 mpi = { module = "dev.redstones.mediaplayerinfo:media-player-info", version.ref = "mpi" }
+
+dbus_core = { module = "com.github.hypfvieh:dbus-java-core", version.ref = "dbus" }
+dbus_transport_jnr_unixsocket = { module = "com.github.hypfvieh:dbus-java-transport-jnr-unixsocket", version.ref = "dbus" }
 
 discordipc = { module = "io.github.CDAGaming:DiscordIPC", version.ref = "discordipc" }
 

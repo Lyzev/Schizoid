@@ -8,10 +8,6 @@ package dev.lyzev.schizoid.feature.features.gui.guis
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.account.Account
 import dev.lyzev.api.account.Account.Companion.setSession
-import dev.lyzev.api.account.accounts.AccountCracked
-import dev.lyzev.api.account.accounts.AccountEasyMC
-import dev.lyzev.api.account.accounts.AccountMicrosoft
-import dev.lyzev.api.account.accounts.AccountTheAltening
 import dev.lyzev.api.cryptography.cipher.AES
 import dev.lyzev.api.cryptography.hwid.HWID
 import dev.lyzev.api.events.*
@@ -39,6 +35,7 @@ import kotlin.concurrent.thread
 object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener {
 
     const val WINDOW_FLAGS = ImGuiWindowFlags.NoResize or ImGuiWindowFlags.NoMove or ImGuiWindowFlags.NoCollapse
+    val buttonSize = OPEN_SANS_REGULAR.size * 1.5f
     val accounts = mutableSetOf<Account>()
     private var mainAccount: Account? = null
     private var skin = mc.textureManager.getTexture(mc.skinProvider.getSkinTextures(mc.gameProfile).texture)
@@ -64,6 +61,28 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
         }
     }
 
+    fun button(icon: String, tooltip: String? = null, solid: Boolean = true): Boolean {
+        if (solid) {
+            FONT_AWESOME_SOLID.begin()
+        } else {
+            FONT_AWESOME_REGULAR.begin()
+        }
+        val size = calcTextSize(icon)
+        pushStyleVar(ImGuiStyleVar.FramePadding, buttonSize - getStyle().itemInnerSpacingX - size.x, -1f)
+        val result = button(icon, buttonSize, buttonSize)
+        popStyleVar()
+        OPEN_SANS_REGULAR.begin()
+        if (tooltip != null && isItemHovered())
+            setTooltip(tooltip)
+        OPEN_SANS_REGULAR.end()
+        if (solid) {
+            FONT_AWESOME_SOLID.end()
+        } else {
+            FONT_AWESOME_REGULAR.end()
+        }
+        return result
+    }
+
     override fun renderImGui() {
         setNextWindowPos(getMainViewport().centerX, getMainViewport().centerY, ImGuiCond.Always, .5f, .6f)
         setNextWindowSize(500f, 780f)
@@ -74,68 +93,24 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
             for (account in accounts) {
                 pushID(account.hashCode())
                 account.render()
-                val framePaddingX = getStyle().framePaddingX
-                sameLine(getColumnWidth() - OPEN_SANS_REGULAR.size * 3f - framePaddingX * 4)
-                if (mainAccount == account) {
-                    FONT_AWESOME_SOLID.begin()
-                } else {
-                    FONT_AWESOME_REGULAR.begin()
-                }
-                var size = calcTextSize(FontAwesomeIcons.Star)
-                pushStyleVar(
-                    ImGuiStyleVar.FramePadding,
-                    OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x,
-                    -1f
-                )
-                if (button(FontAwesomeIcons.Star, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                sameLine(getWindowWidth() - buttonSize * 3  - getStyle().itemSpacingX * 2 - getStyle().windowPaddingX)
+                if (button(FontAwesomeIcons.Star, "Set as main account.", mainAccount == account)) {
                     mainAccount = if (mainAccount == account) {
                         null
                     } else {
                         account
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered())
-                    setTooltip("Set as main account.")
-                OPEN_SANS_REGULAR.end()
-                if (mainAccount == account) {
-                    FONT_AWESOME_SOLID.end()
-                } else {
-                    FONT_AWESOME_REGULAR.end()
-                }
-                sameLine(getColumnWidth() - OPEN_SANS_REGULAR.size * 1.5f - framePaddingX * 2)
-                FONT_AWESOME_SOLID.begin()
-                size = calcTextSize(FontAwesomeIcons.SignInAlt)
-                pushStyleVar(
-                    ImGuiStyleVar.FramePadding,
-                    OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x,
-                    -1f
-                )
-                if (button(FontAwesomeIcons.SignInAlt, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                sameLine(getWindowWidth() - buttonSize * 2  - getStyle().itemSpacingX - getStyle().windowPaddingX)
+                if (button(FontAwesomeIcons.SignInAlt, "Login to the account.")) {
                     thread {
                         account.getSession()?.let { setSession(it) }
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered())
-                    setTooltip("Login to the account.")
-                OPEN_SANS_REGULAR.end()
-                sameLine(getColumnWidth() - framePaddingX)
-                size = calcTextSize(FontAwesomeIcons.Trash)
-                pushStyleVar(
-                    ImGuiStyleVar.FramePadding,
-                    OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x,
-                    -1f
-                )
-                if (button(FontAwesomeIcons.Trash, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                sameLine(getWindowWidth() - buttonSize - getStyle().windowPaddingX)
+                if (button(FontAwesomeIcons.Trash, "Delete the account.")) {
                     remove += account
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered())
-                    setTooltip("Delete the account.")
-                OPEN_SANS_REGULAR.end()
-                FONT_AWESOME_SOLID.end()
-                popStyleVar(3)
                 popID()
                 separator()
             }
@@ -167,7 +142,7 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
             sameLine()
             if (beginChild(
                     "##Msg",
-                    getColumnWidth(),
+                    getColumnWidth() - buttonSize - getStyle().itemSpacingX,
                     -1f,
                     false,
                     ImGuiWindowFlags.NoScrollbar or ImGuiWindowFlags.NoBackground
@@ -183,15 +158,8 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
                 }
             }
             endChild()
-            sameLine(getWindowWidth() - OPEN_SANS_REGULAR.size * 1.5f - getStyle().framePaddingY * 2)
-            FONT_AWESOME_SOLID.begin()
-            val size = calcTextSize(FontAwesomeIcons.Copy)
-            pushStyleVar(
-                ImGuiStyleVar.FramePadding,
-                OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x,
-                -1f
-            )
-            if (button(FontAwesomeIcons.Copy, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+            sameLine(getWindowWidth() - buttonSize - getStyle().windowPaddingX)
+            if (button(FontAwesomeIcons.Copy, "Copy the session data.")) {
                 copy(
                     JsonObject(
                         mapOf(
@@ -202,12 +170,6 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
                     ).toString()
                 )
             }
-            OPEN_SANS_REGULAR.begin()
-            if (isItemHovered())
-                setTooltip("Copy the session data.")
-            OPEN_SANS_REGULAR.end()
-            FONT_AWESOME_SOLID.end()
-            popStyleVar()
             OPEN_SANS_REGULAR.end()
         }
         end()
@@ -224,10 +186,7 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
             OPEN_SANS_REGULAR.end()
         }
         end()
-        AccountMicrosoft.render()
-        AccountCracked.render()
-        AccountEasyMC.render()
-        AccountTheAltening.render()
+        Account.Types.entries.forEach(Account.Type<*>::render)
         OPEN_SANS_BOLD.end()
     }
 
@@ -242,19 +201,15 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
                 json.jsonArray.forEach { entry ->
                     val obj = entry.jsonObject
                     val type = obj["type"]!!.jsonPrimitive.content
-                    val account = when (type) {
-                        "Cracked" -> AccountCracked.create(obj["data"]!!)
-                        "EasyMC" -> AccountEasyMC.create(obj["data"]!!)
-                        "TheAltening" -> AccountTheAltening.create(obj["data"]!!)
-                        "Microsoft" -> AccountMicrosoft.create(obj["data"]!!)
-                        else -> null
-                    }
-                    if (account != null) {
+                    runCatching {
+                        val account = Account.Types.valueOf(type).create(obj["data"]!!)
                         if (obj["main"]?.jsonPrimitive?.boolean == true) {
                             mainAccount = account
                             account.getSession()?.let { setSession(it) }
                         }
                         accounts += account
+                    }.onFailure {
+                        Schizoid.logger.error("Failed to load account.", it)
                     }
                 }
             }
@@ -265,26 +220,7 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
         }
         on<EventShutdown> {
             runCatching {
-                val json = JsonArray(accounts.mapNotNull {
-                    val type = when (it) {
-                        is AccountCracked -> "Cracked"
-                        is AccountEasyMC -> "EasyMC"
-                        is AccountTheAltening -> "TheAltening"
-                        is AccountMicrosoft -> "Microsoft"
-                        else -> null
-                    }
-                    if (type != null) {
-                        JsonObject(
-                            mapOf(
-                                "type" to JsonPrimitive(type),
-                                "data" to it.save(),
-                                "main" to JsonPrimitive(mainAccount == it)
-                            )
-                        )
-                    } else {
-                        null
-                    }
-                })
+                val json = JsonArray(accounts.map { JsonObject(mapOf("type" to JsonPrimitive(it.type.name), "data" to it.save(), "main" to JsonPrimitive(mainAccount == it))) })
                 val encrypted = aes.encrypt(json.toString())
                 file.writeBytes(encrypted)
             }.onFailure {

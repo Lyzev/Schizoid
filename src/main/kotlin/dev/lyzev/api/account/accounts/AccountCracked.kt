@@ -29,37 +29,33 @@ import me.lyzev.network.http.HttpMethod
 import net.minecraft.client.session.Session
 import java.util.*
 
-class AccountCracked(val username: String, val uuid: String) : Account {
+class AccountCracked(val username: String, var uuid: String) : Account {
 
-    override val type = Session.AccountType.LEGACY
+    override val type = Account.Types.CRACKED
 
     override fun getSession(): Session {
         if (uuid.isBlank()) {
             runCatching {
-                val response = HttpClient.request(HttpMethod.GET, "https://api.mojang.com/users/profiles/minecraft/$username")
+                val response =
+                    HttpClient.request(HttpMethod.GET, "https://api.mojang.com/users/profiles/minecraft/$username")
                 val minecraftResponse = Json.decodeFromString<MinecraftResponse>(response.toString())
-                return Session(username, UndashedUuid.fromStringLenient(minecraftResponse.id), "", Optional.empty(), Optional.empty(), type)
+                uuid = UndashedUuid.fromStringLenient(minecraftResponse.id).toString()
             }.onFailure {
                 Schizoid.logger.error("Failed to get cracked account session.", it)
-                return Session(username, UUID.randomUUID(), "", Optional.empty(), Optional.empty(), type)
+                uuid = UUID.randomUUID().toString()
             }
         }
-        return Session(username, UUID.fromString(uuid), "", Optional.empty(), Optional.empty(), type)
-    }
-
-    override fun render() {
-        ImGuiFonts.OPEN_SANS_BOLD.begin()
-        text("Cracked")
-        ImGuiFonts.OPEN_SANS_BOLD.end()
-        text(username)
+        return Session(username, UUID.fromString(uuid), "", Optional.empty(), Optional.empty(), sessionType)
     }
 
     override fun save() = JsonObject(mapOf("username" to JsonPrimitive(username), "uuid" to JsonPrimitive(uuid)))
 
-    @Serializable
-    data class MinecraftResponse(val id: String, val name: String)
+    override fun render() {
+        super.render()
+        text(username)
+    }
 
-    companion object {
+    companion object : Account.Type<AccountCracked> {
 
         private val username = ImString("", 16)
         private val uuid = ImString("", 36)
@@ -69,9 +65,14 @@ class AccountCracked(val username: String, val uuid: String) : Account {
         private var msg: String? = null
         private val timeAnimator = TimeAnimator(4000)
 
-        fun create(json: JsonElement) = AccountCracked(json.jsonObject["username"]!!.jsonPrimitive.content, json.jsonObject["uuid"]!!.jsonPrimitive.content)
+        override val sessionType = Session.AccountType.LEGACY
 
-        fun render() {
+        override fun create(json: JsonElement) = AccountCracked(
+            json.jsonObject["username"]!!.jsonPrimitive.content,
+            json.jsonObject["uuid"]!!.jsonPrimitive.content
+        )
+
+        override fun render() {
             pushID("cracked")
             setNextWindowPos(getMainViewport().centerX - 520f, getMainViewport().centerY - 170f)
             setNextWindowSize(250f, 0f)
@@ -90,42 +91,28 @@ class AccountCracked(val username: String, val uuid: String) : Account {
                     setNextItemWidth(getColumnWidth())
                     inputTextWithHint("##cracked-uuid", "UUID", uuid)
                 }
-                FONT_AWESOME_SOLID.begin()
-                var size = calcTextSize(FontAwesomeIcons.SignInAlt)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(FontAwesomeIcons.SignInAlt, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.SignInAlt, "Login to the account.")) {
                     if (username.get().isNotBlank() && (useOnlineUuid || uuid.get().isNotBlank())) {
                         setSession(AccountCracked(username.get(), if (useOnlineUuid) "" else uuid.get()).getSession())
                     } else {
                         msg = "The username or UUID is empty."
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered()) {
-                    setTooltip("Login to the account.")
-                }
-                OPEN_SANS_REGULAR.end()
                 sameLine()
-                size = calcTextSize(FontAwesomeIcons.Plus)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(FontAwesomeIcons.Plus, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.Plus, "Add the account.")) {
                     if (username.get().isNotBlank() && (useOnlineUuid || uuid.get().isNotBlank())) {
-                        ImGuiScreenAccountManager.accounts += AccountCracked(username.get(), if (useOnlineUuid) "" else uuid.get())
+                        ImGuiScreenAccountManager.accounts += AccountCracked(
+                            username.get(),
+                            if (useOnlineUuid) "" else uuid.get()
+                        )
                     } else {
                         msg = "The username or UUID is empty."
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered()) {
-                    setTooltip("Add the account.")
-                }
-                OPEN_SANS_REGULAR.end()
-                FONT_AWESOME_SOLID.end()
-                popStyleVar(2)
                 sameLine()
                 if (msg != null) {
                     pushStyleVar(ImGuiStyleVar.WindowPadding, 0f, 0f)
-                    size = calcTextSize(msg)
+                    val size = calcTextSize(msg)
                     if (beginChild(
                             "##Msg",
                             getColumnWidth(),
@@ -150,4 +137,8 @@ class AccountCracked(val username: String, val uuid: String) : Account {
             popID()
         }
     }
+
+    @Serializable
+    data class MinecraftResponse(val id: String, val name: String)
+
 }

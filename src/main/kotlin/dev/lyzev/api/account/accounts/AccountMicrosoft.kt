@@ -27,7 +27,6 @@ import imgui.flag.ImGuiWindowFlags
 import imgui.type.ImString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import net.lenni0451.commons.httpclient.HttpClient
 import net.minecraft.client.session.Session
 import net.raphimc.minecraftauth.MinecraftAuth
 import net.raphimc.minecraftauth.step.java.session.StepFullJavaSession
@@ -42,7 +41,7 @@ import kotlin.concurrent.thread
 
 class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Account {
 
-    override val type = Session.AccountType.MSA
+    override val type = Account.Types.MICROSOFT
 
     override fun getSession(): Session {
         msg = null
@@ -58,33 +57,40 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
             session.mcProfile.mcToken.accessToken,
             Optional.empty(),
             Optional.empty(),
-            type
+            sessionType
         )
     }
 
+    override fun save(): JsonElement =
+        MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.toJson(session).let { Json.parseToJsonElement(it.toString()) }
+
     override fun render() {
-        ImGuiFonts.OPEN_SANS_BOLD.begin()
-        text("Microsoft")
-        ImGuiFonts.OPEN_SANS_BOLD.end()
+        super.render()
         text(session.mcProfile.name)
     }
 
-    override fun save(): JsonElement = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.toJson(session).let { Json.parseToJsonElement(it.toString()) }
-
-    companion object {
+    companion object : Account.Type<AccountMicrosoft> {
 
         private val email = ImString("", 64)
+        private val emailRegex = Regex("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
         private val password = ImString("", 64)
         private var isHidden = true
         private var canUseDeviceCode = true
         private var msg: String? = null
         private val timeAnimator = TimeAnimator(4000)
 
-        fun create(json: JsonElement) = AccountMicrosoft(MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.fromJson(JsonParser.parseString(json.toString()).asJsonObject))
+        override val sessionType = Session.AccountType.MSA
 
-        private fun login(email: String, password: String): StepFullJavaSession.FullJavaSession = MinecraftAuth.JAVA_CREDENTIALS_LOGIN.getFromInput(MinecraftAuth.createHttpClient(), MsaCredentials(email, password))
+        override fun create(json: JsonElement) =
+            AccountMicrosoft(MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.fromJson(JsonParser.parseString(json.toString()).asJsonObject))
 
-        fun render() {
+        private fun login(email: String, password: String): StepFullJavaSession.FullJavaSession =
+            MinecraftAuth.JAVA_CREDENTIALS_LOGIN.getFromInput(
+                MinecraftAuth.createHttpClient(),
+                MsaCredentials(email, password)
+            )
+
+        override fun render() {
             pushID("microsoft")
             setNextWindowPos(getMainViewport().centerX - 520f, getMainViewport().centerY - 345f)
             setNextWindowSize(250f, 0f)
@@ -92,24 +98,22 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
                 OPEN_SANS_REGULAR.begin()
                 setNextItemWidth(getColumnWidth())
                 inputTextWithHint("##microsoft-email", "E-Mail", email)
-                setNextItemWidth(getColumnWidth() - OPEN_SANS_REGULAR.size * 1.5f - getStyle().framePaddingX)
-                inputTextWithHint("##microsoft-password", "Password", password, if (isHidden) ImGuiInputTextFlags.Password else ImGuiInputTextFlags.None)
+                setNextItemWidth(getWindowWidth() - ImGuiScreenAccountManager.buttonSize - getStyle().itemSpacingX - getStyle().windowPaddingX * 2)
+                inputTextWithHint(
+                    "##microsoft-password",
+                    "Password",
+                    password,
+                    if (isHidden) ImGuiInputTextFlags.Password else ImGuiInputTextFlags.None
+                )
                 sameLine()
-                FONT_AWESOME_SOLID.begin()
                 val icon = if (isHidden) FontAwesomeIcons.EyeSlash else FontAwesomeIcons.Eye
-                var size = calcTextSize(icon)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(icon, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                if (ImGuiScreenAccountManager.button(icon, "Toggle visibility of the password.")) {
                     isHidden = !isHidden
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered())
-                    setTooltip("Toggle visibility of the password.")
-                OPEN_SANS_REGULAR.end()
-                size = calcTextSize(FontAwesomeIcons.SignInAlt)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(FontAwesomeIcons.SignInAlt, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
-                    if (email.get().matches(Regex("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) && password.get().isNotBlank()) {
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.SignInAlt, "Login to the account.")) {
+                    if (email.get().matches(emailRegex) && password.get()
+                            .isNotBlank()
+                    ) {
                         thread {
                             runCatching {
                                 val session = login(email.get(), password.get())
@@ -120,19 +124,14 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
                             }
                         }
                     } else {
-                       msg = "An input is not valid."
+                        msg = "An input is not valid."
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered()) {
-                    setTooltip("Login to the account.")
-                }
-                OPEN_SANS_REGULAR.end()
                 sameLine()
-                size = calcTextSize(FontAwesomeIcons.Plus)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(FontAwesomeIcons.Plus, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
-                    if (email.get().matches(Regex("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) && password.get().isNotBlank()) {
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.Plus, "Add the account.")) {
+                    if (email.get().matches(emailRegex) && password.get()
+                            .isNotBlank()
+                    ) {
                         thread {
                             runCatching {
                                 val session = login(email.get(), password.get())
@@ -146,15 +145,8 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
                         msg = "An input is not valid."
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered()) {
-                    setTooltip("Add the account.")
-                }
-                OPEN_SANS_REGULAR.end()
                 sameLine()
-                size = calcTextSize(FontAwesomeIcons.Globe)
-                pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - getStyle().itemInnerSpacingX - size.x, -1f)
-                if (button(FontAwesomeIcons.Globe, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.Globe, "Add the account using a device code.")) {
                     if (canUseDeviceCode) {
                         thread {
                             canUseDeviceCode = false
@@ -171,17 +163,10 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
                         }
                     }
                 }
-                OPEN_SANS_REGULAR.begin()
-                if (isItemHovered()) {
-                    setTooltip("Login to the account using a device code.")
-                }
-                OPEN_SANS_REGULAR.end()
-                FONT_AWESOME_SOLID.end()
-                popStyleVar(4)
                 sameLine()
                 if (msg != null) {
                     pushStyleVar(ImGuiStyleVar.WindowPadding, 0f, 0f)
-                    size = calcTextSize(msg)
+                    val size = calcTextSize(msg)
                     if (beginChild(
                             "##Msg",
                             getColumnWidth(),
