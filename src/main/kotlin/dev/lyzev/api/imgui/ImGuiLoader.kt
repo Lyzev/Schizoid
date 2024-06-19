@@ -9,7 +9,7 @@ import dev.lyzev.api.events.*
 import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.render.ImGuiRenderer
 import dev.lyzev.schizoid.Schizoid
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
+import dev.lyzev.schizoid.feature.features.gui.FeatureImGui
 import imgui.*
 import imgui.ImGui.*
 import imgui.extension.implot.ImPlot
@@ -18,7 +18,6 @@ import imgui.flag.ImGuiConfigFlags.*
 import imgui.gl3.ImGuiImplGl3
 import imgui.glfw.ImGuiImplGlfw
 import org.lwjgl.glfw.GLFW.*
-import java.io.IOException
 
 
 /**
@@ -44,8 +43,8 @@ object ImGuiLoader : EventListener {
         io.addConfigFlags(DockingEnable)
         io.addConfigFlags(NoMouseCursorChange)
         initFonts()
-        ImGuiScreenFeature.colorScheme.applyStyle(ImGuiScreenFeature.mode)
-        ImGuiScreenFeature.colorScheme.applyColors(ImGuiScreenFeature.mode)
+        FeatureImGui.colorScheme.applyStyle(FeatureImGui.mode)
+        FeatureImGui.colorScheme.applyColors(FeatureImGui.mode)
     }
 
     /**

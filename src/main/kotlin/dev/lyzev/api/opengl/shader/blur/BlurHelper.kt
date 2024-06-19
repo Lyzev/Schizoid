@@ -22,7 +22,6 @@ import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleabl
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.math.MathHelper
 import org.joml.Vector3f
-import org.joml.Vector4f
 import org.lwjgl.opengl.GL13.GL_TEXTURE0
 import org.lwjgl.opengl.GL13.GL_TEXTURE1
 

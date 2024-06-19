@@ -24,26 +24,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinClientConnection {
 
     /**
-     * This method is a mixin for the sendImmediately method of the ClientConnection class.
-     * It creates and fires an EventSendPacket event before the packet is sent.
-     * If the event is cancelled, it cancels the sending of the packet.
-     *
-     * @param packet     The packet to be sent.
-     * @param callbacks  The callbacks to be used when the packet is sent.
-     * @param flush      Whether to flush the packet immediately.
-     * @param ci         The callback information.
-     */
-    @Inject(method = "sendImmediately", at = @At("HEAD"), cancellable = true)
-    private void onSendImmediately(Packet<?> packet, @Nullable PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
-        if (EventPacket.Companion.getAllowTrigger()) {
-            EventPacket event = new EventPacket(packet, EventPacket.Type.C2S);
-            event.fire();
-            if (event.isCancelled())
-                ci.cancel();
-        }
-    }
-
-    /**
      * This method is a mixin for the handlePacket method of the ClientConnection class.
      * It creates and fires an EventReceivePacket event before the packet is handled.
      * If the event is cancelled, it cancels the handling of the packet.
@@ -56,6 +36,26 @@ public class MixinClientConnection {
     private static void onHandlePacket(Packet<?> packet, PacketListener listener, CallbackInfo ci) {
         if (EventPacket.Companion.getAllowTrigger()) {
             EventPacket event = new EventPacket(packet, EventPacket.Type.S2C);
+            event.fire();
+            if (event.isCancelled())
+                ci.cancel();
+        }
+    }
+
+    /**
+     * This method is a mixin for the sendImmediately method of the ClientConnection class.
+     * It creates and fires an EventSendPacket event before the packet is sent.
+     * If the event is cancelled, it cancels the sending of the packet.
+     *
+     * @param packet    The packet to be sent.
+     * @param callbacks The callbacks to be used when the packet is sent.
+     * @param flush     Whether to flush the packet immediately.
+     * @param ci        The callback information.
+     */
+    @Inject(method = "sendImmediately", at = @At("HEAD"), cancellable = true)
+    private void onSendImmediately(Packet<?> packet, @Nullable PacketCallbacks callbacks, boolean flush, CallbackInfo ci) {
+        if (EventPacket.Companion.getAllowTrigger()) {
+            EventPacket event = new EventPacket(packet, EventPacket.Type.C2S);
             event.fire();
             if (event.isCancelled())
                 ci.cancel();

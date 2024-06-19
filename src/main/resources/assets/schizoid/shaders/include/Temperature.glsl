@@ -2,11 +2,11 @@
 vec3 colorFromKelvin(float temperature) // photographic temperature values are between 15 to 150
 {
     vec3 color;
-    if(temperature <= 66.0)
+    if (temperature <= 66.0)
     {
         color.r = 1.0;
         color.g = (99.4708025861 * log(temperature) - 161.1195681661) / 255.0;
-        if(temperature < 19.0)
+        if (temperature < 19.0)
         color.b = 0.0;
         else
         color.b = (138.5177312231 * log(temperature - 10.0) - 305.0447927307) / 255.0;

@@ -107,7 +107,12 @@ object ImGuiRenderer : EventListener {
             RenderSystem.enableBlend()
 
             GlStateManager._glBindFramebuffer(GlConst.GL_FRAMEBUFFER, 0)
-            GlStateManager._viewport(0, 0, Schizoid.mc.framebuffer.viewportWidth, Schizoid.mc.framebuffer.viewportHeight)
+            GlStateManager._viewport(
+                0,
+                0,
+                Schizoid.mc.framebuffer.viewportWidth,
+                Schizoid.mc.framebuffer.viewportHeight
+            )
             ShaderPassThrough.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             fbo.beginRead()

@@ -5,61 +5,32 @@
 
 package dev.lyzev.schizoid.feature.features.gui.guis
 
-import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.account.Account
 import dev.lyzev.api.account.Account.Companion.setSession
 import dev.lyzev.api.cryptography.cipher.AES
 import dev.lyzev.api.cryptography.hwid.HWID
 import dev.lyzev.api.events.*
-import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.imgui.font.ImGuiFonts.*
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
-import dev.lyzev.api.opengl.shader.GLSLSandboxShader
-import dev.lyzev.api.opengl.shader.ShaderGameOfLife
-import dev.lyzev.api.opengl.shader.ShaderParticle
-import dev.lyzev.api.setting.settings.keybinds
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature.background
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.*
 import imgui.flag.ImGuiCond
 import imgui.flag.ImGuiStyleVar
 import imgui.flag.ImGuiWindowFlags
 import kotlinx.serialization.json.*
-import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen
 import java.io.File
 import kotlin.concurrent.thread
 
-object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener {
+object ImGuiScreenAccountManager : ImGuiScreen("Account Manager", "A screen for managing accounts."), EventListener {
 
     const val WINDOW_FLAGS = ImGuiWindowFlags.NoResize or ImGuiWindowFlags.NoMove or ImGuiWindowFlags.NoCollapse
     val buttonSize = OPEN_SANS_REGULAR.size * 1.5f
     val accounts = mutableSetOf<Account>()
     private var mainAccount: Account? = null
     private var skin = mc.textureManager.getTexture(mc.skinProvider.getSkinTextures(mc.gameProfile).texture)
-    private val backgroundShader = GLSLSandboxShader("BackgroundNoise")
-
-    override fun renderBackground(context: DrawContext?, mouseX: Int, mouseY: Int, delta: Float) {
-        if (!isIngame) {
-            backgroundShader.draw {
-                this["primary"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].primary
-                this["secondary"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].secondary
-                this["accent"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].accent
-            }
-        }
-        if (background != "None") {
-            RenderSystem.disableCull()
-            RenderSystem.defaultBlendFunc()
-            RenderSystem.enableBlend()
-            when (background) {
-                "Particle" -> ShaderParticle.draw()
-                "Game of Life" -> ShaderGameOfLife.draw()
-            }
-            RenderSystem.enableCull()
-        }
-    }
 
     fun button(icon: String, tooltip: String? = null, solid: Boolean = true): Boolean {
         if (solid) {
@@ -93,7 +64,7 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
             for (account in accounts) {
                 pushID(account.hashCode())
                 account.render()
-                sameLine(getWindowWidth() - buttonSize * 3  - getStyle().itemSpacingX * 2 - getStyle().windowPaddingX)
+                sameLine(getWindowWidth() - buttonSize * 3 - getStyle().itemSpacingX * 2 - getStyle().windowPaddingX)
                 if (button(FontAwesomeIcons.Star, "Set as main account.", mainAccount == account)) {
                     mainAccount = if (mainAccount == account) {
                         null
@@ -101,7 +72,7 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
                         account
                     }
                 }
-                sameLine(getWindowWidth() - buttonSize * 2  - getStyle().itemSpacingX - getStyle().windowPaddingX)
+                sameLine(getWindowWidth() - buttonSize * 2 - getStyle().itemSpacingX - getStyle().windowPaddingX)
                 if (button(FontAwesomeIcons.SignInAlt, "Login to the account.")) {
                     thread {
                         account.getSession()?.let { setSession(it) }
@@ -190,6 +161,8 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
         OPEN_SANS_BOLD.end()
     }
 
+    override val shouldHandleEvents = true
+
     init {
         val file = File(Schizoid.root, "accounts.json")
         val aes = AES(HWID.toString())
@@ -220,7 +193,15 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
         }
         on<EventShutdown> {
             runCatching {
-                val json = JsonArray(accounts.map { JsonObject(mapOf("type" to JsonPrimitive(it.type.name), "data" to it.save(), "main" to JsonPrimitive(mainAccount == it))) })
+                val json = JsonArray(accounts.map {
+                    JsonObject(
+                        mapOf(
+                            "type" to JsonPrimitive(it.type.name),
+                            "data" to it.save(),
+                            "main" to JsonPrimitive(mainAccount == it)
+                        )
+                    )
+                })
                 val encrypted = aes.encrypt(json.toString())
                 file.writeBytes(encrypted)
             }.onFailure {
@@ -248,14 +229,4 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager"), EventListener
             }
         }
     }
-
-    override val desc = "A screen for managing accounts."
-    override var keybinds by keybinds(
-        "Keybinds",
-        "All keys used to control the feature.",
-        setOf(),
-        setOf(GLFWKey.MOUSE_BUTTON_LEFT, GLFWKey.MOUSE_BUTTON_RIGHT, GLFWKey.MOUSE_BUTTON_MIDDLE)
-    )
-
-    override val shouldHandleEvents = true
 }

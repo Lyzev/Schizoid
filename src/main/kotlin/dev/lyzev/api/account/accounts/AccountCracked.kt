@@ -10,8 +10,6 @@ import dev.lyzev.api.account.Account
 import dev.lyzev.api.account.Account.Companion.setSession
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
-import dev.lyzev.api.imgui.font.ImGuiFonts
-import dev.lyzev.api.imgui.font.ImGuiFonts.FONT_AWESOME_SOLID
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.setting.settings.Switch
@@ -29,6 +27,9 @@ import me.lyzev.network.http.HttpMethod
 import net.minecraft.client.session.Session
 import java.util.*
 
+/**
+ * Represents a cracked account.
+ */
 class AccountCracked(val username: String, var uuid: String) : Account {
 
     override val type = Account.Types.CRACKED
@@ -138,6 +139,9 @@ class AccountCracked(val username: String, var uuid: String) : Account {
         }
     }
 
+    /**
+     * Represents a response from the Minecraft API.
+     */
     @Serializable
     data class MinecraftResponse(val id: String, val name: String)
 

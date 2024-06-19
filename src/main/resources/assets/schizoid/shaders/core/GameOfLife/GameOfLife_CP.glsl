@@ -13,13 +13,13 @@ layout(rgba8, binding = 0) uniform image2D Img0;
 layout(rgba8, binding = 1) uniform image2D Img1;
 
 const ivec2 neighborOffsets[] = {
-    ivec2(-1), ivec2(0, -1), ivec2(1, -1),
-    ivec2(-1, 0), ivec2(1, 0),
-    ivec2(-1, 1), ivec2(0, 1), ivec2(1)
+ivec2(-1), ivec2(0, -1), ivec2(1, -1),
+ivec2(-1, 0), ivec2(1, 0),
+ivec2(-1, 1), ivec2(0, 1), ivec2(1)
 };
 
-const int b[] = {%s};
-const int s[] = {%s};
+const int b[] = { %s };
+const int s[] = { %s };
 
 void main() {
     int y = int(gl_GlobalInvocationID.x);

@@ -120,8 +120,8 @@ class SettingClientMultiText(
     }
 
     override fun load(value: JsonElement) {
-        this.value = value.jsonArray.map { it.jsonPrimitive.content.let { i -> if (upperCase) i.uppercase() else i } }.toSet()
-
+        this.value =
+            value.jsonArray.map { it.jsonPrimitive.content.let { i -> if (upperCase) i.uppercase() else i } }.toSet()
     }
 
     override fun save(): JsonElement {

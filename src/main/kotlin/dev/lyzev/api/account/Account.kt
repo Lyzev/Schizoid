@@ -31,13 +31,26 @@ import net.minecraft.client.texture.PlayerSkinProvider
 import net.minecraft.network.encryption.SignatureVerifier
 import java.util.concurrent.CompletableFuture
 
-
+/**
+ * Represents an account.
+ */
 interface Account : ImGuiRenderable {
 
+    /**
+     * The type of the account.
+     */
     val type: Types
 
+    /**
+     * Returns the session of the account.
+     */
     fun getSession(): Session?
 
+    /**
+     * Saves the account to a JSON element.
+     *
+     * @return the JSON element
+     */
     fun save(): JsonElement
 
     override fun render() {
@@ -48,7 +61,13 @@ interface Account : ImGuiRenderable {
 
     companion object {
 
-        // Credit to https://github.com/axieum/authme
+        /**
+         * Sets the Minecraft session to the specified session.
+         * Credit to [Auth Me](https://github.com/axieum/authme) for the original [code](https://github.com/axieum/authme/blob/799718b2ed7986139e480131b8e0827f80e0307e/src/main/java/me/axieum/mcmod/authme/api/util/SessionUtils.java#L58).
+         * This code is licensed under the MIT license.
+         *
+         * @param session the session to set
+         */
         fun setSession(session: Session) {
             // Use an accessor mixin to update the 'private final' Minecraft session
             (mc as MinecraftClientAccessor).setSession(session)
@@ -96,7 +115,14 @@ interface Account : ImGuiRenderable {
             )
         }
 
-        // Credit to https://github.com/MeteorDevelopment/meteor-client
+        /**
+         * Applies the login environment to the Minecraft client.
+         * Credit to [Meteor Client](https://github.com/MeteorDevelopment/meteor-client) for the original [code](https://github.com/MeteorDevelopment/meteor-client/blob/546d0b945a98c61cafd4cd9330db3936eee286d1/src/main/java/meteordevelopment/meteorclient/systems/accounts/Account.java#L78).
+         * This code is licensed under the GPL-3.0 license.
+         *
+         * @param authService the authentication service
+         * @param sessService the session service
+         */
         fun applyLoginEnvironment(authService: YggdrasilAuthenticationService, sessService: MinecraftSessionService?) {
             val mca = mc as MinecraftClientAccessor
             mca.setAuthenticationService(authService)
@@ -108,13 +134,25 @@ interface Account : ImGuiRenderable {
         }
     }
 
+    /**
+     * Represents a type of account.
+     */
     interface Type<T : Account> : ImGuiRenderable {
 
+        /**
+         * The session type of the account.
+         */
         val sessionType: AccountType
 
+        /**
+         * Creates an account from a JSON element.
+         */
         fun create(json: JsonElement): T
     }
 
+    /**
+     * Contains all types of accounts.
+     */
     enum class Types(private val type: Type<*>) : Type<Account> {
         CRACKED(AccountCracked.Companion),
         EASY_MC(AccountEasyMC.Companion),

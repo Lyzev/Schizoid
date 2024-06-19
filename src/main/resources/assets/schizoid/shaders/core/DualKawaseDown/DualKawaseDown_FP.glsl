@@ -18,11 +18,11 @@ uniform bool Alpha;
 
 void main() {
     color = (
-        texture(Tex0, uv) * 4.0 +
-        texture(Tex0, uv - HalfTexelSize.xy * Offset) +
-        texture(Tex0, uv + HalfTexelSize.xy * Offset) +
-        texture(Tex0, uv + vec2(HalfTexelSize.x, -HalfTexelSize.y) * Offset) +
-        texture(Tex0, uv - vec2(HalfTexelSize.x, -HalfTexelSize.y) * Offset)
+    texture(Tex0, uv) * 4.0 +
+    texture(Tex0, uv - HalfTexelSize.xy * Offset) +
+    texture(Tex0, uv + HalfTexelSize.xy * Offset) +
+    texture(Tex0, uv + vec2(HalfTexelSize.x, -HalfTexelSize.y) * Offset) +
+    texture(Tex0, uv - vec2(HalfTexelSize.x, -HalfTexelSize.y) * Offset)
     ) / 8.0;
     if (!Alpha) {
         color.a = 1.0;

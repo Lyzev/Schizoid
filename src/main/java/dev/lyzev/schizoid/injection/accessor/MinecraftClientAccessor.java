@@ -5,26 +5,23 @@
 
 package dev.lyzev.schizoid.injection.accessor;
 
-import java.net.Proxy;
-import java.util.concurrent.CompletableFuture;
-
 import com.mojang.authlib.minecraft.MinecraftSessionService;
-import net.minecraft.client.texture.PlayerSkinProvider;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.gen.Accessor;
-
 import com.mojang.authlib.minecraft.UserApiService;
 import com.mojang.authlib.yggdrasil.ProfileResult;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.SocialInteractionsManager;
 import net.minecraft.client.realms.RealmsPeriodicCheckers;
 import net.minecraft.client.session.ProfileKeys;
 import net.minecraft.client.session.Session;
 import net.minecraft.client.session.report.AbuseReportContext;
+import net.minecraft.client.texture.PlayerSkinProvider;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.gen.Accessor;
+
+import java.net.Proxy;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * Provides the means to access protected members of the Minecraft client.

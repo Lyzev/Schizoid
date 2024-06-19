@@ -9,9 +9,9 @@ import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_BOLD
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.imgui.render.ImGuiRenderable
+import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.FeatureManager
 import dev.lyzev.schizoid.feature.IFeature
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature.mc
 import imgui.ImGui.*
 import imgui.flag.ImGuiComboFlags
 import imgui.flag.ImGuiCond
@@ -56,7 +56,7 @@ class ImGuiRenderableSearch : ImGuiRenderable {
             setNextWindowFocus()
         var isFocused = true
         setNextWindowPos(getMainViewport().centerX, getMainViewport().centerY, ImGuiCond.Always, .5f, .5f)
-        setNextWindowSize(mc.window.framebufferWidth * .3f, 0f)
+        setNextWindowSize(Schizoid.mc.window.framebufferWidth * .3f, 0f)
         if (begin(
                 "\"SEARCH\"",
                 isSearching, ImGuiWindowFlags.AlwaysAutoResize or ImGuiWindowFlags.NoCollapse or ImGuiWindowFlags.NoMove
@@ -99,7 +99,7 @@ class ImGuiRenderableSearch : ImGuiRenderable {
                     prevResult.add(0, result!!.name)
                 }
             }
-            if (beginListBox("##searchResults", getColumnWidth(), mc.window.framebufferHeight * .15f)) {
+            if (beginListBox("##searchResults", getColumnWidth(), Schizoid.mc.window.framebufferHeight * .15f)) {
                 FeatureManager.get(*IFeature.Category.values()).sortedByDescending {
                     FuzzySearch.weightedRatio(
                         if (input.get().startsWith("@")) input.get().uppercase().substring(1) else input.get(),

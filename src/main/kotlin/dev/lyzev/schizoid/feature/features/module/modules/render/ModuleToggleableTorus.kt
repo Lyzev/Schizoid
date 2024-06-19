@@ -13,7 +13,6 @@ import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.shader.ShaderReflection
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
-import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.render.BufferRenderer

@@ -7,11 +7,7 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
-import dev.lyzev.api.events.EventGetFOV
-import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventUpdateMouse
-import dev.lyzev.api.events.EventMouseScroll
-import dev.lyzev.api.events.on
+import dev.lyzev.api.events.*
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.api.setting.settings.keybinds
 import dev.lyzev.api.setting.settings.option
@@ -21,7 +17,6 @@ import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.util.InputUtil
-import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
 import kotlin.math.sign
 
@@ -110,7 +105,9 @@ object ModuleToggleableZoom : ModuleToggleable("Zoom", "Allows you to zoom.", ca
                         mc.options.smoothCameraEnabled = smoothCamera
                     }
                     scrollOffset = scrollOffset.coerceIn(fov.toInt() - 70, fov.toInt() - 1)
-                    event.fov = (if (scrollable) -scrollOffset else 0) + if (animation) MathHelper.lerp(animationType(timeAnimator.getProgress()), originalFov, fov.toDouble())
+                    event.fov = (if (scrollable) -scrollOffset else 0) + if (animation) MathHelper.lerp(
+                        animationType(timeAnimator.getProgress()), originalFov, fov.toDouble()
+                    )
                     else fov.toDouble()
                     isZooming = true
                     isKeyDown = true

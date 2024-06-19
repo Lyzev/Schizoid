@@ -14,13 +14,14 @@ import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.imgui.render.ImGuiRenderable
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.save
+import dev.redstones.mediaplayerinfo.IMediaSession
 import dev.redstones.mediaplayerinfo.MediaPlayerInfo
 import imgui.ImGui.*
 import imgui.flag.ImGuiComboFlags
 
 class ImGuiRenderableDeveloperTool : ImGuiRenderable, EventListener {
 
-    private var mediaSessions = MediaPlayerInfo.getMediaSessions()
+    private var mediaSessions = listOf<IMediaSession>()
     private var fbo = WrappedFramebuffer.fbos.keys.firstOrNull() ?: "No FBO selected."
     private var flip = false
 
@@ -79,7 +80,15 @@ class ImGuiRenderableDeveloperTool : ImGuiRenderable, EventListener {
                     flip = !flip
                 val width = getColumnWidth()
                 if (flip)
-                    image(fbo.colorAttachment, width, (fbo.textureHeight.toFloat() / fbo.textureWidth) * width, 0f, 1f, 1f, 0f)
+                    image(
+                        fbo.colorAttachment,
+                        width,
+                        (fbo.textureHeight.toFloat() / fbo.textureWidth) * width,
+                        0f,
+                        1f,
+                        1f,
+                        0f
+                    )
                 else
                     image(fbo.colorAttachment, width, (fbo.textureHeight.toFloat() / fbo.textureWidth) * width)
                 if (button("Save", width, OPEN_SANS_REGULAR.size + getStyle().framePaddingY * 2))

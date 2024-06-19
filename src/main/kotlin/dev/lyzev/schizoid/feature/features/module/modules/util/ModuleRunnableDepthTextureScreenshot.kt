@@ -16,7 +16,6 @@ import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.save
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderLinearizeDepth
-import dev.lyzev.api.setting.settings.text
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
 import net.minecraft.client.render.GameRenderer

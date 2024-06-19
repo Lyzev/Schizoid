@@ -36,7 +36,11 @@ class ImGuiRenderableConfigManager : ImGuiRenderable {
             sameLine()
             FONT_AWESOME_SOLID.begin()
             var size = calcTextSize(FontAwesomeIcons.Plus)
-            pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - style.itemInnerSpacingX - size.x, -1f)
+            pushStyleVar(
+                ImGuiStyleVar.FramePadding,
+                OPEN_SANS_REGULAR.size * 1.5f - style.itemInnerSpacingX - size.x,
+                -1f
+            )
             if (button(FontAwesomeIcons.Plus, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f)) {
                 val name = input.get()
                 if (name.isNotBlank()) {
@@ -46,11 +50,17 @@ class ImGuiRenderableConfigManager : ImGuiRenderable {
             }
             OPEN_SANS_REGULAR.begin()
             if (isItemHovered())
-                setTooltip(if (input.get().isBlank()) "Enter a name to create a new config." else "Create a new config.")
+                setTooltip(
+                    if (input.get().isBlank()) "Enter a name to create a new config." else "Create a new config."
+                )
             OPEN_SANS_REGULAR.end()
             sameLine()
             size = calcTextSize(FontAwesomeIcons.Plus)
-            pushStyleVar(ImGuiStyleVar.FramePadding, OPEN_SANS_REGULAR.size * 1.5f - style.itemInnerSpacingX - size.x, -1f)
+            pushStyleVar(
+                ImGuiStyleVar.FramePadding,
+                OPEN_SANS_REGULAR.size * 1.5f - style.itemInnerSpacingX - size.x,
+                -1f
+            )
             if (button(FontAwesomeIcons.Folder, OPEN_SANS_REGULAR.size * 1.5f, OPEN_SANS_REGULAR.size * 1.5f))
                 Desktop.getDesktop().open(Schizoid.configDir)
             popStyleVar(2)
@@ -59,7 +69,9 @@ class ImGuiRenderableConfigManager : ImGuiRenderable {
                 setTooltip("Open the config directory.")
             if (beginListBox("##nameResults", -1f, -1f)) {
                 SettingInitializer.available.sortedByDescending {
-                    if (input.get().isBlank()) (if (it == "default") 1 else 0) else FuzzySearch.weightedRatio(input.get(), it)
+                    if (input.get()
+                            .isBlank()
+                    ) (if (it == "default") 1 else 0) else FuzzySearch.weightedRatio(input.get(), it)
                 }.forEach {
                     if (selectable(it, it == SettingInitializer.loaded)) {
                         if (getIO().keyCtrl && it != "default" && it == SettingInitializer.loaded) {

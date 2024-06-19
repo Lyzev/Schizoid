@@ -15,7 +15,7 @@ import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.Framebuffer
 import net.minecraft.client.gl.SimpleFramebuffer
 import net.minecraft.client.util.ScreenshotRecorder
-import java.util.UUID
+import java.util.*
 
 /**
  * A simple wrapper around the [SimpleFramebuffer] class.
