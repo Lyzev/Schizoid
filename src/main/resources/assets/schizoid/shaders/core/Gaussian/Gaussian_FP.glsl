@@ -16,8 +16,8 @@ uniform vec2 Direction;
 uniform vec2 TexelSize;
 uniform bool Alpha;
 
-uniform vec3 Gaussian; // "Incremental Computation of the Gaussian" by Ken Turkowski
-uniform int Support; // ceil(sigma * 3)
+uniform vec3 Gaussian;// "Incremental Computation of the Gaussian" by Ken Turkowski
+uniform int Support;// ceil(sigma * 3)
 uniform bool LinearSampling;
 
 void main() {

@@ -38,9 +38,9 @@ public class MixinImGuiImplGlfw {
      * The method is cancelled after the target scroll position is updated.
      *
      * @param windowId The ID of the window.
-     * @param xOffset The offset in the x direction.
-     * @param yOffset The offset in the y direction.
-     * @param ci The callback information.
+     * @param xOffset  The offset in the x direction.
+     * @param yOffset  The offset in the y direction.
+     * @param ci       The callback information.
      */
     @Inject(method = "scrollCallback", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFWScrollCallback;invoke(JDD)V", shift = At.Shift.AFTER, ordinal = 0), cancellable = true, remap = false)
     private void onScrollCallback(long windowId, double xOffset, double yOffset, CallbackInfo ci) {
@@ -55,11 +55,11 @@ public class MixinImGuiImplGlfw {
      * It cancels the method if the ImGui IO does not want to capture the keyboard.
      *
      * @param windowId The ID of the window.
-     * @param key The key.
+     * @param key      The key.
      * @param scancode The scancode.
-     * @param action The action.
-     * @param mods The mods.
-     * @param ci The callback information.
+     * @param action   The action.
+     * @param mods     The mods.
+     * @param ci       The callback information.
      */
     @Inject(method = "keyCallback", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFWKeyCallback;invoke(JIIII)V", shift = At.Shift.AFTER, ordinal = 0), cancellable = true, remap = false)
     private void onKeyCallback(long windowId, int key, int scancode, int action, int mods, CallbackInfo ci) {
@@ -84,10 +84,10 @@ public class MixinImGuiImplGlfw {
      * It cancels the method if the ImGui IO does not want to capture the mouse buttons.
      *
      * @param windowId The ID of the window.
-     * @param button The button.
-     * @param action The action.
-     * @param mods The mods.
-     * @param ci The callback information.
+     * @param button   The button.
+     * @param action   The action.
+     * @param mods     The mods.
+     * @param ci       The callback information.
      */
     @Inject(method = "mouseButtonCallback", at = @At(value = "INVOKE", target = "Lorg/lwjgl/glfw/GLFWMouseButtonCallback;invoke(JIII)V", shift = At.Shift.AFTER, ordinal = 0), cancellable = true, remap = false)
     private void onMouseButtonCallback(long windowId, int button, int action, int mods, CallbackInfo ci) {

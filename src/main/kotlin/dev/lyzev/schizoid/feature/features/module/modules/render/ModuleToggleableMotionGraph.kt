@@ -13,7 +13,6 @@ import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiCon
 import imgui.ImColor
 import imgui.ImGui
 import imgui.ImVec2
-import imgui.extension.implot.ImPlot
 import imgui.extension.implot.ImPlot.*
 import imgui.extension.implot.flag.ImPlotAxisFlags
 import imgui.extension.implot.flag.ImPlotCol

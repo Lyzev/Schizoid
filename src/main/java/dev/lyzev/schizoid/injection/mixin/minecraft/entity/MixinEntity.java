@@ -27,7 +27,7 @@ public class MixinEntity {
      *
      * @param player The player that the Entity is being checked for invisibility against.
      * @param cir    The callback information.
-     * @return       The invisibility status of the Entity, as determined by the EventIsInvisibleTo event.
+     * @return The invisibility status of the Entity, as determined by the EventIsInvisibleTo event.
      */
     @Inject(method = "isInvisibleTo", at = @At("RETURN"), cancellable = true)
     private void onIsInvisibleTo(PlayerEntity player, CallbackInfoReturnable<Boolean> cir) {

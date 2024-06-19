@@ -47,6 +47,7 @@ public class MixinMouse {
      * This method is a redirect for the isCursorLocked method of the Mouse class.
      * It creates and fires an EventIsCursorLocked event when it is checked if the cursor is locked.
      * The return value of the isCursorLocked method is then replaced by the return value of the event.
+     *
      * @param instance The Mouse instance.
      * @return The return value of the event.
      */
@@ -61,6 +62,7 @@ public class MixinMouse {
      * This method is a mixin for the updateMouse method of the Mouse class.
      * It creates and fires an EventUpdateMouse event when the mouse is updated.
      * The event is fired at the start of the method.
+     *
      * @param ci The callback information.
      */
     @Inject(method = "updateMouse", at = @At("HEAD"))

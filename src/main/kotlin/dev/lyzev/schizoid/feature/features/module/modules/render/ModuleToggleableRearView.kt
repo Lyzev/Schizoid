@@ -80,7 +80,19 @@ object ModuleToggleableRearView :
         renderRearView(width.toInt(), height.toInt())
         val cursorPos = getCursorScreenPos()
         dummy(width, height)
-        getWindowDrawList().addImageRounded(rearView.colorAttachment, cursorPos.x, cursorPos.y, cursorPos.x + width, cursorPos.y + height, 0f, 1f, 1f, 0f, -1, 5f)
+        getWindowDrawList().addImageRounded(
+            rearView.colorAttachment,
+            cursorPos.x,
+            cursorPos.y,
+            cursorPos.x + width,
+            cursorPos.y + height,
+            0f,
+            1f,
+            1f,
+            0f,
+            -1,
+            5f
+        )
     }
 
     override val shouldHandleEvents: Boolean

@@ -33,6 +33,7 @@ public class MixinMinecraftClient {
     /**
      * This method is a mixin for the constructor of the MinecraftClient class.
      * It calls the onInitializeClient method of the Schizoid instance.
+     *
      * @param ci The callback information.
      */
     @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/MinecraftClient;runDirectory:Ljava/io/File;", shift = At.Shift.AFTER, ordinal = 0))

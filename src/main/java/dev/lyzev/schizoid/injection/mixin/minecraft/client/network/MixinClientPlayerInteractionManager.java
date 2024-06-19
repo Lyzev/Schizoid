@@ -27,7 +27,7 @@ public class MixinClientPlayerInteractionManager {
      *
      * @param player The player entity.
      * @param target The target entity.
-     * @param ci The callback information.
+     * @param ci     The callback information.
      */
     @Inject(method = "attackEntity", at = @At("HEAD"))
     private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {

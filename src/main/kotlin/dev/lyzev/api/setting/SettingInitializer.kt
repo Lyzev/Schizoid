@@ -10,12 +10,10 @@ import dev.lyzev.api.events.EventSettingChange
 import dev.lyzev.api.events.on
 import dev.lyzev.api.settings.SettingManager
 import dev.lyzev.schizoid.Schizoid
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature.mc
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
-import net.minecraft.text.Text
 import java.io.File
 import kotlin.reflect.jvm.jvmName
 
@@ -39,7 +37,8 @@ object SettingInitializer : EventListener {
         val value: JsonElement
     )
 
-    var loaded = Schizoid.configDir.resolve("loaded.txt").let { if (it.exists() && it.isFile) it.readText() else "default" }
+    var loaded =
+        Schizoid.configDir.resolve("loaded.txt").let { if (it.exists() && it.isFile) it.readText() else "default" }
         set(value) {
             field = value
             Schizoid.configDir.resolve("loaded.txt").writeText(value)
@@ -67,7 +66,8 @@ object SettingInitializer : EventListener {
         val settingsConfigFile = Schizoid.configDir.resolve("$loaded.json")
         if (settingsConfigFile.canonicalPath.startsWith(Schizoid.configDir.canonicalPath) && settingsConfigFile.exists() && settingsConfigFile.isFile) {
             json.decodeFromString<List<ClientSettingJson>>(settingsConfigFile.readText()).forEach {
-                val setting = SettingManager.settings.firstOrNull { i -> i.container.jvmName == it.`class` && i::class.jvmName == it.type && i.name == it.name }
+                val setting =
+                    SettingManager.settings.firstOrNull { i -> i.container.jvmName == it.`class` && i::class.jvmName == it.type && i.name == it.name }
                 if (setting !is SettingClient<*>) return@forEach
                 setting.load(it.value)
             }
@@ -81,7 +81,8 @@ object SettingInitializer : EventListener {
         val settingsConfigFile = Schizoid.configDir.resolve("$loaded.json")
         if (settingsConfigFile.canonicalPath.startsWith(Schizoid.configDir.canonicalPath)) {
             if (!settingsConfigFile.parentFile.exists() || !settingsConfigFile.parentFile.isDirectory) settingsConfigFile.parentFile.mkdirs()
-            val data = SettingManager.settings.filterIsInstance<SettingClient<*>>().map { ClientSettingJson(it.container.jvmName, it::class.jvmName, it.name, it.save()) }
+            val data = SettingManager.settings.filterIsInstance<SettingClient<*>>()
+                .map { ClientSettingJson(it.container.jvmName, it::class.jvmName, it.name, it.save()) }
             Schizoid.configDir.resolve("$loaded.json").writeText(json.encodeToString(data))
         }
     }

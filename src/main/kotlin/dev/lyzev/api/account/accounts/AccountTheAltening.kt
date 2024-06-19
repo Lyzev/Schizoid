@@ -14,7 +14,6 @@ import dev.lyzev.api.account.Account.Companion.applyLoginEnvironment
 import dev.lyzev.api.account.Account.Companion.setSession
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
-import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.ImGuiFonts.FONT_AWESOME_SOLID
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
@@ -34,7 +33,9 @@ import net.minecraft.client.session.Session
 import java.net.Proxy
 import java.util.*
 
-
+/**
+ * Represents a TheAltening account.
+ */
 class AccountTheAltening(val token: String) : Account {
 
     private var isHidden = true
@@ -51,6 +52,7 @@ class AccountTheAltening(val token: String) : Account {
                 environment
             )
         )
+        // Using WaybackAuthLib to log in to TheAltening, because it requires Yggdrasil authentication.
         val auth = WaybackAuthLib(environment.servicesHost)
         auth.username = token
         auth.password = "Elevating my Minecraft gameplay with ${Schizoid.MOD_NAME}."

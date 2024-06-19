@@ -39,6 +39,7 @@ public class MixinClientPlayerEntity {
      * This method is a redirect for the isPressed method of the KeyBinding class.
      * It creates and fires an EventIsMovementKeyPressed event when it is checked if a keybinding is pressed.
      * The return value of the isPressed method is then replaced by the return value of the event.
+     *
      * @param instance The key binding that is checked.
      * @return The return value of the event.
      */

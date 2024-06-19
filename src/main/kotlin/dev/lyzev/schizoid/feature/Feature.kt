@@ -137,7 +137,11 @@ interface IFeature : ImGuiRenderable {
             val width = (Schizoid.mc.window.framebufferWidth - 620) / 3f
             val height = (Schizoid.mc.window.framebufferHeight - 620) / 3f
             setNextWindowSize(width, height, ImGuiCond.FirstUseEver)
-            setNextWindowPos(300 + (ordinal % 3) * (width + 10), 300 + (ordinal / 3) * (height + 10), ImGuiCond.FirstUseEver)
+            setNextWindowPos(
+                300 + (ordinal % 3) * (width + 10),
+                300 + (ordinal / 3) * (height + 10),
+                ImGuiCond.FirstUseEver
+            )
             if (begin("\"$name\"")) {
                 OPEN_SANS_REGULAR.begin()
                 FeatureManager[this].forEach(IFeature::render)

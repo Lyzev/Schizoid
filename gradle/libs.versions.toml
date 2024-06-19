@@ -31,6 +31,8 @@ fuzzywuzzy = "1.4.0"
 mpi = "0.1.0"
 # https://github.com/hypfvieh/dbus-java
 dbus = "5.0.0"
+# https://github.com/jnr/jnr-unixsocket
+jnr_unixsocket = "0.38.22"
 # https://github.com/CDAGaming/DiscordIPC
 discordipc = "0.9.1"
 # https://github.com/FlorianMichael/WaybackAuthLib
@@ -68,6 +70,7 @@ mpi = { module = "dev.redstones.mediaplayerinfo:media-player-info", version.ref 
 
 dbus_core = { module = "com.github.hypfvieh:dbus-java-core", version.ref = "dbus" }
 dbus_transport_jnr_unixsocket = { module = "com.github.hypfvieh:dbus-java-transport-jnr-unixsocket", version.ref = "dbus" }
+jnr_unixsocket = { module = "com.github.jnr:jnr-unixsocket", version.ref = "jnr_unixsocket" }
 
 discordipc = { module = "io.github.CDAGaming:DiscordIPC", version.ref = "discordipc" }
 

@@ -24,5 +24,6 @@ public interface RealmsAvailabilityAccessor {
      */
     @Accessor
     @Mutable
-    static void setCurrentFuture(CompletableFuture<RealmsAvailability.Info> availabilityInfo) {}
+    static void setCurrentFuture(CompletableFuture<RealmsAvailability.Info> availabilityInfo) {
+    }
 }

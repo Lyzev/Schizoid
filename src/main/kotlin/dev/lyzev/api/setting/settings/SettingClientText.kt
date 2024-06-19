@@ -43,7 +43,12 @@ class SettingClientText(
         text(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
         v.set(value)
-        if (inputText("", v, if (enterReturnsTrue) ImGuiInputTextFlags.EnterReturnsTrue else ImGuiInputTextFlags.None)) {
+        if (inputText(
+                "",
+                v,
+                if (enterReturnsTrue) ImGuiInputTextFlags.EnterReturnsTrue else ImGuiInputTextFlags.None
+            )
+        ) {
             if (regex != null && !regex.matches(v.get()))
                 return
             value = v.get()

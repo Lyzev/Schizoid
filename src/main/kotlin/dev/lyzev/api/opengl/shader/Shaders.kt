@@ -9,7 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.schizoid.Schizoid
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
+import dev.lyzev.schizoid.feature.features.gui.FeatureImGui
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
 import net.minecraft.client.gl.Framebuffer
 import net.minecraft.util.math.MathHelper
@@ -82,6 +82,7 @@ object ShaderGaussian : ShaderVertexFragment("Gaussian") {
 object ShaderAcrylic : ShaderVertexFragment("Acrylic") {
     val initTime = System.nanoTime()
 }
+
 object ShaderTint : ShaderVertexFragment("Tint") {
     val initTime = System.nanoTime()
 }
@@ -150,8 +151,8 @@ object ShaderParticle : ShaderCompute("Particle", 64, 1, 1) {
 
         this["Force"] = force
         this["DeltaTime"] = deltaTime
-        this["ColorIdle"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
-        this["ColorActive"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleActive
+        this["ColorIdle"] = FeatureImGui.colorScheme[FeatureImGui.mode].particleIdle
+        this["ColorActive"] = FeatureImGui.colorScheme[FeatureImGui.mode].particleActive
 
         var processed = 0
         while (processed < amount) {
@@ -276,7 +277,7 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         RenderSystem.activeTexture(GL_TEXTURE0)
         after.beginRead()
         ShaderTint["Tex0"] = 0
-        ShaderTint["Color"] = ImGuiScreenFeature.colorScheme[ImGuiScreenFeature.mode].particleIdle
+        ShaderTint["Color"] = FeatureImGui.colorScheme[FeatureImGui.mode].particleIdle
         ShaderTint["RGBPuke"] = false
         ShaderTint["Opacity"] = 1f
         ShaderTint["Alpha"] = true
@@ -312,7 +313,13 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         queueGenPixels = true
     }
 
-    override fun preprocess(source: String) = processIncludes(source).format(localSizeX, localSizeY, localSizeZ, b.toCharArray().joinToString(", "), s.toCharArray().joinToString(", "))
+    override fun preprocess(source: String) = processIncludes(source).format(
+        localSizeX,
+        localSizeY,
+        localSizeZ,
+        b.toCharArray().joinToString(", "),
+        s.toCharArray().joinToString(", ")
+    )
 
     init {
         init()

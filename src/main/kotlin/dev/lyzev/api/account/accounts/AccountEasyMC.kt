@@ -14,7 +14,6 @@ import dev.lyzev.api.account.Account.Companion.applyLoginEnvironment
 import dev.lyzev.api.account.Account.Companion.setSession
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
-import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.ImGuiFonts.FONT_AWESOME_SOLID
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
@@ -36,6 +35,9 @@ import java.net.Proxy
 import java.util.*
 
 
+/**
+ * Represents an EasyMC account.
+ */
 class AccountEasyMC(val token: String) : Account {
 
     private var isHidden = true
@@ -59,6 +61,7 @@ class AccountEasyMC(val token: String) : Account {
         )
         runCatching {
             if (easyMCResponse == null) {
+                // Redeem the token.
                 val response = HttpClient.requestPOST(
                     "https://api.easymc.io/v1/token/redeem",
                     JsonObject(mapOf("token" to JsonPrimitive(token))).toString(),
@@ -89,7 +92,7 @@ class AccountEasyMC(val token: String) : Account {
     override fun render() {
         super.render()
         text(if (isHidden) hidden else token)
-        sameLine(getWindowWidth() - ImGuiScreenAccountManager.buttonSize * 4  - getStyle().itemSpacingX * 3 - getStyle().windowPaddingX)
+        sameLine(getWindowWidth() - ImGuiScreenAccountManager.buttonSize * 4 - getStyle().itemSpacingX * 3 - getStyle().windowPaddingX)
         FONT_AWESOME_SOLID.begin()
         val icon = if (isHidden) FontAwesomeIcons.EyeSlash else FontAwesomeIcons.Eye
         val size = calcTextSize(icon)
@@ -191,6 +194,9 @@ class AccountEasyMC(val token: String) : Account {
         }
     }
 
+    /**
+     * Represents an EasyMC response.
+     */
     @Serializable
     data class EasyMCResponse(
         val session: String,

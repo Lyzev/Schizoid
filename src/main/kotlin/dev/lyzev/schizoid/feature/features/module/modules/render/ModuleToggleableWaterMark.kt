@@ -38,7 +38,16 @@ object ModuleToggleableWaterMark :
     val waterMark by text("Water Mark", "The water mark to display.", Schizoid.MOD_NAME, hide = ::waterMarkMath eq true)
     val showFPS by switch("Show FPS", "Shows the current FPS.", true)
     val fpsBoost by switch("FPS Boost", "Boosts the FPS.", false)
-    val boost by slider("Boost", "The amount to boost the FPS by.", 1000, 0, 1000, "fps", true, hide = ::fpsBoost neq true)
+    val boost by slider(
+        "Boost",
+        "The amount to boost the FPS by.",
+        1000,
+        0,
+        1000,
+        "fps",
+        true,
+        hide = ::fpsBoost neq true
+    )
 
     private val functions = Math::class.members.map { it.name }.toMutableList()
     private var time = System.currentTimeMillis()

@@ -66,23 +66,21 @@ object FeatureManager : EventListener {
     init {
         // Initialize features.
         Reflections("${javaClass.packageName}.features").getSubTypesOf(IFeature::class.java)
-            .filter { !Modifier.isInterface(it.modifiers) && !Modifier.isAbstract(it.modifiers) }
-            .forEach {
+            .filter { !Modifier.isInterface(it.modifiers) && !Modifier.isAbstract(it.modifiers) }.forEach {
                 val feature = Reflection.getOrCreateKotlinClass(it).objectInstance as IFeature
-                if (!feature.hide)
-                    features += feature
+                if (!feature.hide) features += feature
                 Schizoid.logger.info("Initialized feature: ${feature.name}.")
             }
         features.sortBy { it.name }
 
         on<EventKeystroke> { event ->
-            if (mc.currentScreen == null && event.action == 1)
-                features.filter { it.keybinds.contains(GLFWKey[event.key]) }.forEach { it.keybindReleased() }
+            if (mc.currentScreen == null && event.action == 1) features.filter { it.keybinds.contains(GLFWKey[event.key]) }
+                .forEach { it.keybindReleased() }
         }
 
         on<EventMouseClick> { event ->
-            if (mc.currentScreen == null && event.action == 1)
-                features.filter { it.keybinds.contains(GLFWKey[event.button]) }.forEach { it.keybindReleased() }
+            if (mc.currentScreen == null && event.action == 1) features.filter { it.keybinds.contains(GLFWKey[event.button]) }
+                .forEach { it.keybindReleased() }
         }
     }
 }

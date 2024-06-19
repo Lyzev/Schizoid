@@ -105,8 +105,20 @@ class SettingClientSlider<T : Number>(
 
     override fun load(value: JsonElement) {
         this.value = when (this.value) {
-            is Int -> (value.jsonPrimitive.int.let { if (allowOutOfBounds) it else it.coerceIn(minValue.toInt(), maxValue.toInt()) } as T).apply { i[0] = this as Int }
-            is Float -> (value.jsonPrimitive.float.let { if (allowOutOfBounds) it else it.coerceIn(minValue.toFloat(), maxValue.toFloat()) } as T).apply { f[0] = this as Float }
+            is Int -> (value.jsonPrimitive.int.let {
+                if (allowOutOfBounds) it else it.coerceIn(
+                    minValue.toInt(),
+                    maxValue.toInt()
+                )
+            } as T).apply { i[0] = this as Int }
+
+            is Float -> (value.jsonPrimitive.float.let {
+                if (allowOutOfBounds) it else it.coerceIn(
+                    minValue.toFloat(),
+                    maxValue.toFloat()
+                )
+            } as T).apply { f[0] = this as Float }
+
             else -> return
         }
     }
@@ -151,7 +163,20 @@ fun IFeature.slider(
     onlyUpdateOnRelease: Boolean = false,
     hide: () -> Boolean = { false },
     onChange: (Int) -> Unit = {}
-) = SettingClientSlider(this::class, name, desc, value, minValue, maxValue, 0, unit, allowOutOfBounds, onlyUpdateOnRelease, hide, onChange)
+) = SettingClientSlider(
+    this::class,
+    name,
+    desc,
+    value,
+    minValue,
+    maxValue,
+    0,
+    unit,
+    allowOutOfBounds,
+    onlyUpdateOnRelease,
+    hide,
+    onChange
+)
 
 /**
  * Creates a new float slider setting.

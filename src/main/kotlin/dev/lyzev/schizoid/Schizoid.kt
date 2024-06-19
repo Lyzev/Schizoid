@@ -92,7 +92,8 @@ object Schizoid : EventListener {
     /**
      * The root directory of the Schizoid mod, used for storing mod-specific data.
      */
-    val root = File(System.getProperty("user.home") + File.separator + MOD_ID).apply { if (!exists() || !isDirectory) mkdirs() }
+    val root =
+        File(System.getProperty("user.home") + File.separator + MOD_ID).apply { if (!exists() || !isDirectory) mkdirs() }
 
     val configDir = root.resolve("config").apply { if (!exists() || !isDirectory) mkdirs() }
 

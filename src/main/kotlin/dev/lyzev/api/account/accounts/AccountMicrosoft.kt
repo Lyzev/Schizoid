@@ -12,8 +12,6 @@ import dev.lyzev.api.account.Account.Companion.applyLoginEnvironment
 import dev.lyzev.api.account.Account.Companion.setSession
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
-import dev.lyzev.api.imgui.font.ImGuiFonts
-import dev.lyzev.api.imgui.font.ImGuiFonts.FONT_AWESOME_SOLID
 import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.schizoid.Schizoid
@@ -38,7 +36,9 @@ import java.net.URI
 import java.util.*
 import kotlin.concurrent.thread
 
-
+/**
+ * Represents a Microsoft account.
+ */
 class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Account {
 
     override val type = Account.Types.MICROSOFT

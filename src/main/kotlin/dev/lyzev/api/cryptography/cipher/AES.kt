@@ -19,7 +19,8 @@ class AES(password: String) {
         private const val GCM_IV_LENGTH = 12
         private const val GCM_TAG_LENGTH = 128
 
-        private fun deriveKeyFromPassword(password: String) = SecretKeySpec(Sha256.hash(password.encodeToByteArray()).copyOf(KEY_SIZE / 8), "AES")
+        private fun deriveKeyFromPassword(password: String) =
+            SecretKeySpec(Sha256.hash(password.encodeToByteArray()).copyOf(KEY_SIZE / 8), "AES")
     }
 
     private val key = deriveKeyFromPassword(password)

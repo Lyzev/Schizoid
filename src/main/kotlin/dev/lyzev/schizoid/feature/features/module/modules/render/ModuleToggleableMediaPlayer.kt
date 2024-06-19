@@ -8,13 +8,13 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
+import dev.lyzev.api.cryptography.hash.Sha512
+import dev.lyzev.api.cryptography.hash.Sha512.hashToString
 import dev.lyzev.api.events.EventKeystroke
 import dev.lyzev.api.events.EventMouseClick
 import dev.lyzev.api.events.EventScheduleTask
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
-import dev.lyzev.api.cryptography.hash.Sha512
-import dev.lyzev.api.cryptography.hash.Sha512.hashToString
 import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.imgui.font.icon.FontAwesomeIcons
 import dev.lyzev.api.opengl.Render
@@ -24,7 +24,9 @@ import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderPassThrough
 import dev.lyzev.api.opengl.shader.blur.BlurHelper
-import dev.lyzev.api.setting.settings.*
+import dev.lyzev.api.setting.settings.keybinds
+import dev.lyzev.api.setting.settings.multiText
+import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
@@ -77,11 +79,11 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
         on<EventScheduleTask> {
             val session =
                 MediaPlayerInfo.getMediaSessions().sortedBy {
-                        owner.forEachIndexed { index, s ->
-                            if (it.owner.uppercase().contains(s)) return@sortedBy index
-                        }
-                        return@sortedBy owner.size
+                    owner.forEachIndexed { index, s ->
+                        if (it.owner.uppercase().contains(s)) return@sortedBy index
                     }
+                    return@sortedBy owner.size
+                }
                     .firstOrNull {
                         it.media.artist.isNotEmpty() || it.media.title.isNotEmpty()
                     }
@@ -97,7 +99,10 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                 Info.entries.forEach { it.update(dummy) }
                 this.session = null
             } else {
-                if (this.session == null || this.session!!.media.title != session.media.title || this.session!!.media.artist != session.media.artist || !this.session!!.media.artworkPng.contentEquals(session.media.artworkPng)) Info.entries.forEach {
+                if (this.session == null || this.session!!.media.title != session.media.title || this.session!!.media.artist != session.media.artist || !this.session!!.media.artworkPng.contentEquals(
+                        session.media.artworkPng
+                    )
+                ) Info.entries.forEach {
                     it.update(
                         session.media
                     )
@@ -254,7 +259,9 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
                 if (media == null) return
                 if (artwork == null) {
                     artwork =
-                        if (media!!.artworkPng.isEmpty() || Sha512.hash(media!!.artworkPng).hashToString() in noArtwork) fallbackArtwork
+                        if (media!!.artworkPng.isEmpty() || Sha512.hash(media!!.artworkPng)
+                                .hashToString() in noArtwork
+                        ) fallbackArtwork
                         else WrappedNativeImageBackedTexture(NativeImage.read(media!!.artworkPng.inputStream())).apply { upload() }
                     Render.store()
                     RenderSystem.disableCull()

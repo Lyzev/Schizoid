@@ -55,7 +55,8 @@ object ModuleToggleableDiscordRichPresence : ModuleToggleable(
                     builder.setState("Elevating my Minecraft gameplay with ${Schizoid.MOD_NAME}.")
                         .setDetails("${Schizoid.MOD_NAME} v${Schizoid.MOD_VERSION}")
                         .setStartTimestamp(timeStamp).setLargeImage("client",
-                            "${Schizoid.MOD_NAME} v${Schizoid.MOD_VERSION} by ${Schizoid.MOD_AUTHORS.joinToString(" & ") { it.name }}")
+                            "${Schizoid.MOD_NAME} v${Schizoid.MOD_VERSION} by ${Schizoid.MOD_AUTHORS.joinToString(" & ") { it.name }}"
+                        )
                         .setButtons(JsonArray().apply {
                             add(JsonObject().apply {
                                 addProperty("label", "Download")
