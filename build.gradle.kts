@@ -39,10 +39,8 @@ val ci = System.getenv("CI")?.toBooleanStrictOrNull() ?: false
 
 version = project.extra["mod_version"] as String
 if (ci)
-    version = "$version+$lastCommitHash"
-else
-    version = "$version+${libs.minecraft.get().version}"
-println("$version+${libs.minecraft.get().version}")
+    version = "$version-$lastCommitHash"
+version = "$version+${libs.minecraft.get().version}"
 group = project.extra["maven_group"] as String
 
 repositories {
