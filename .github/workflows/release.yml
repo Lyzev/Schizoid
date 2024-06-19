@@ -38,10 +38,13 @@ jobs:
       - name: Create Release Assets
         run: |
           echo "Running shell script with version: ${{ steps.get_version.outputs.mod_version }}"
-          echo "Using archives_base_name: ${{ steps.get_archives_base_name.outputs.archives_base_name }}"
           mkdir release
           
-          cp build/libs/*.jar release
+          for file in build/libs/*.jar; do
+            if [[ $file != *"-shadow.jar" ]]; then
+              cp $file release
+            fi
+          done
           
           for asset in release/*; do
             md5sum $asset >> $asset.md5

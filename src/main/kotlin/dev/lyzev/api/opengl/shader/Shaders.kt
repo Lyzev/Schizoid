@@ -8,6 +8,7 @@ package dev.lyzev.api.opengl.shader
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
+import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.FeatureImGui
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
@@ -84,7 +85,27 @@ object ShaderAcrylic : ShaderVertexFragment("Acrylic") {
 }
 
 object ShaderTint : ShaderVertexFragment("Tint") {
+
+    var rgbPukeMode = "Noise"
+        set(value) {
+            field = value
+            reload()
+        }
+
+    override fun preprocess(source: String) = super.preprocess(source.replace("\${RGBPukeMode}", "RGBPuke$rgbPukeMode"))
+
     val initTime = System.nanoTime()
+
+    init {
+        rgbPukeMode = "Noise"
+    }
+
+    enum class RGBPukeMode : OptionEnum {
+        Noise,
+        Circle;
+
+        override val key = name
+    }
 }
 
 object ShaderMask : ShaderVertexFragment("Mask")
