@@ -42,11 +42,6 @@ object ModuleRunnableDepthTextureScreenshot : ModuleRunnable(
     init {
         on<EventRenderWorld>(Event.Priority.HIGHEST) {
             isTakingScreenshot = false
-            Render.store()
-            RenderSystem.disableCull()
-            RenderSystem.defaultBlendFunc()
-            RenderSystem.enableBlend()
-
             fbo.clear()
             fbo.beginWrite(true)
 
@@ -58,9 +53,6 @@ object ModuleRunnableDepthTextureScreenshot : ModuleRunnable(
             ShaderLinearizeDepth["Far"] = mc.gameRenderer.farPlaneDistance
             Shader.drawFullScreen()
             ShaderLinearizeDepth.unbind()
-
-            RenderSystem.enableCull()
-            Render.restore()
 
             fbo.save()
         }

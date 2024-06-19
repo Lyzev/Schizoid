@@ -64,15 +64,11 @@ object ModuleToggleableTorus :
         on<EventRenderWorld>(Event.Priority.LOW) { event ->
             toruses.removeIf { System.currentTimeMillis() - it.spawn > lifetime }
             if (toruses.isEmpty()) return@on
-            Render.store()
             if (depth) RenderSystem.enableDepthTest()
             else RenderSystem.disableDepthTest()
-            RenderSystem.disableCull()
             toruses.forEach { torus ->
                 torus.render(event.modelViewMat, event.projMat)
             }
-            RenderSystem.disableDepthTest()
-            Render.restore()
         }
     }
 

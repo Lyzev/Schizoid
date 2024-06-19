@@ -39,11 +39,6 @@ object ModuleToggleableColorGrading :
 
     init {
         on<EventRenderWorld> {
-            Render.store()
-            RenderSystem.disableCull()
-            RenderSystem.disableDepthTest()
-            RenderSystem.defaultBlendFunc()
-            RenderSystem.enableBlend()
             ShaderColorGrading.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
             mc.framebuffer.beginRead()
@@ -60,7 +55,6 @@ object ModuleToggleableColorGrading :
             ShaderColorGrading["Offset"] = offset
             Shader.drawFullScreen()
             ShaderColorGrading.unbind()
-            Render.restore()
         }
     }
 }

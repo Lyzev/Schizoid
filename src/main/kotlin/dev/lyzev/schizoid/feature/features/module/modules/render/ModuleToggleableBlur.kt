@@ -72,6 +72,14 @@ object ModuleToggleableBlur :
         hide = {
             !acrylic || noiseStrength == 0
         })
+    val rgbPukeMode by option(
+        "RGB Puke Mode",
+        "The mode of the RGB puke effect.",
+        ShaderTint.RGBPukeMode.Noise,
+        ShaderTint.RGBPukeMode.entries
+    ) {
+        ShaderTint.rgbPukeMode = it.key
+    }
     val RGBPuke by switch("RGB Puke", "Adds an RGB puke effect to the blur.", false)
     val RGBPukeOpacity by slider(
         "RGB Puke Opacity",
@@ -80,9 +88,26 @@ object ModuleToggleableBlur :
         1,
         100,
         unit = "%%",
-        hide = {
-            !RGBPuke || !acrylic
-        })
+        hide = ::RGBPuke neq true
+    )
+    val RGBPukeSaturation by slider(
+        "RGB Puke Saturation",
+        "The saturation of the RGB puke effect.",
+        70,
+        0,
+        100,
+        unit = "%%",
+        hide = ::RGBPuke neq true
+    )
+    val RGBPukeBrightness by slider(
+        "RGB Puke Brightness",
+        "The brightness of the RGB puke effect.",
+        100,
+        0,
+        100,
+        unit = "%%",
+        hide = ::RGBPuke neq true
+    )
 
     val dropShadow by switch("Drop Shadow", "Adds a drop shadow to the gui.", true)
     val dropShadowStrength by slider(
@@ -107,6 +132,28 @@ object ModuleToggleableBlur :
         "Adds an RGB puke effect to the drop shadow.",
         false,
         hide = ::dropShadow neq true
+    )
+    val dropShadowRGBPukeSaturation by slider(
+        "Drop Shadow RGB Puke Saturation",
+        "The saturation of the RGB puke effect.",
+        70,
+        0,
+        100,
+        unit = "%%",
+        hide = {
+            !dropShadowRGBPuke || !dropShadow
+        }
+    )
+    val dropShadowRGBPukeBrightness by slider(
+        "Drop Shadow RGB Puke Brightness",
+        "The brightness of the RGB puke effect.",
+        100,
+        0,
+        100,
+        unit = "%%",
+        hide = {
+            !dropShadowRGBPuke || !dropShadow
+        }
     )
 
     val bloom by switch("Bloom", "Adds a bloom to the gui.", true)
@@ -146,6 +193,28 @@ object ModuleToggleableBlur :
         hide = {
             !fogRGBPuke || !fog
         })
+    val fogRGBPukeSaturation by slider(
+        "Fog RGB Puke Saturation",
+        "The saturation of the RGB puke effect.",
+        70,
+        0,
+        100,
+        unit = "%%",
+        hide = {
+            !fogRGBPuke || !fog
+        }
+    )
+    val fogRGBPukeBrightness by slider(
+        "Fog RGB Puke Brightness",
+        "The brightness of the RGB puke effect.",
+        100,
+        0,
+        100,
+        unit = "%%",
+        hide = {
+            !fogRGBPuke || !fog
+        }
+    )
 
     private val fbo = WrappedFramebuffer()
 
@@ -154,13 +223,6 @@ object ModuleToggleableBlur :
 
     init {
         on<EventRenderWorld> {
-            Render.store()
-            RenderSystem.disableCull()
-            RenderSystem.disableDepthTest()
-            RenderSystem.defaultBlendFunc()
-            RenderSystem.enableBlend()
-            RenderSystem.depthMask(false)
-
             if (fogRGBPuke) {
                 fbo.clear()
                 fbo.beginWrite(true)
@@ -169,10 +231,11 @@ object ModuleToggleableBlur :
                 MinecraftClient.getInstance().framebuffer.beginRead()
                 ShaderTint["Tex0"] = 0
                 ShaderTint["RGBPuke"] = fogRGBPuke
+                ShaderTint.set("SV", fogRGBPukeSaturation / 100f, fogRGBPukeBrightness / 100f)
                 ShaderTint["Opacity"] = fogRGBPukeOpacity / 100f
                 ShaderTint["Alpha"] = false
                 ShaderTint["Multiplier"] = 1f
-                ShaderTint["Time"] = (System.nanoTime() - ShaderAcrylic.initTime) / 1000000000f
+                ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
                 val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
                 ShaderTint["Yaw"] = yaw
                 val pitch =
@@ -195,13 +258,10 @@ object ModuleToggleableBlur :
             ShaderDepth["Tex1"] = 1
             ShaderDepth["Near"] = .05f
             ShaderDepth["Far"] = mc.gameRenderer.farPlaneDistance
-            ShaderDepth["MinThreshold"] = .004f * fogDistance / 100f
+            ShaderDepth["MinThreshold"] = .10f * fogDistance / 100f
             ShaderDepth["MaxThreshold"] = .28f * fogDistance / 100f
             Shader.drawFullScreen()
             ShaderDepth.unbind()
-
-            RenderSystem.depthMask(true)
-            Render.restore()
         }
     }
 }

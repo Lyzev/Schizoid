@@ -49,10 +49,6 @@ repositories {
     mavenCentral()
     maven("https://api.modrinth.com/maven")
     maven("https://jitpack.io")
-    maven {
-        name = "meteor-maven"
-        url = uri("https://maven.meteordev.org/releases")
-    }
 }
 
 dependencies {
@@ -74,9 +70,6 @@ dependencies {
     implementation(libs.bundles.imgui)
     implementation(libs.fuzzywuzzy)
     implementation(libs.mpi)
-    implementation(libs.dbus.core)
-    implementation(libs.dbus.transport.jnr.unixsocket)
-    implementation(libs.jnr.unixsocket)
     implementation(libs.discordipc)
     implementation(libs.waybackauthlib)
     implementation(libs.minecraftauth)
@@ -279,9 +272,14 @@ tasks {
             include(dependency(libs.reflections.get()))
             include(dependency(libs.fuzzywuzzy.get()))
             include(dependency(libs.mpi.get()))
+            include(dependency("com.github.hypfvieh:dbus-java-core")) // dependency of mpi
+            include(dependency("com.github.hypfvieh:dbus-java-transport-jnr-unixsocket")) // dependency of mpi
+            include(dependency("com.github.jnr:jnr-unixsocket")) // dependency of mpi
+            include(dependency("com.github.jnr:jnr-enxio")) // dependency of mpi
+            include(dependency("com.github.jnr:jnr-ffi")) // dependency of mpi
+            include(dependency("com.github.jnr:ffi")) // dependency of mpi
             include(dependency(libs.dbus.core.get()))
             include(dependency(libs.dbus.transport.jnr.unixsocket.get()))
-            include(dependency(libs.jnr.unixsocket.get()))
             include(dependency(libs.discordipc.get()))
             include(dependency(libs.waybackauthlib.get()))
             include(dependency(libs.minecraftauth.get()))

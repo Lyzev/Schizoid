@@ -33,4 +33,27 @@ object Render {
         RenderSystem.activeTexture(active)
         GlStateManager._bindTexture(texture)
     }
+
+    var cull = false
+    var depth = false
+    var blend = false
+
+    fun prepare() {
+        cull = GlStateManager._getInteger(GL_CULL_FACE_MODE) != GL_NONE
+        depth = GlStateManager._getInteger(GL_DEPTH_FUNC) != GL_ALWAYS
+        blend = GlStateManager._getInteger(GL_BLEND_SRC) != GL_ONE || GlStateManager._getInteger(GL_BLEND_DST) != GL_ZERO
+        RenderSystem.disableCull()
+        RenderSystem.disableDepthTest()
+        RenderSystem.defaultBlendFunc()
+        RenderSystem.enableBlend()
+    }
+
+    fun post() {
+        if (cull) RenderSystem.enableCull()
+        else RenderSystem.disableCull()
+        if (depth) RenderSystem.enableDepthTest()
+        else RenderSystem.disableDepthTest()
+        if (blend) RenderSystem.enableBlend()
+        else RenderSystem.disableBlend()
+    }
 }

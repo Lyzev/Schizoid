@@ -6,6 +6,7 @@
 package dev.lyzev.schizoid.injection.mixin.minecraft.client.render;
 
 import dev.lyzev.api.events.EventRenderWorld;
+import dev.lyzev.api.opengl.Render;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.LightmapTextureManager;
@@ -21,6 +22,10 @@ public class MixinWorldRenderer {
 
     @Inject(method = "render", at = @At("RETURN"))
     private void onRender(float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, Matrix4f matrix4f2, CallbackInfo ci) {
+        Render.INSTANCE.store();
+        Render.INSTANCE.prepare();
         new EventRenderWorld(tickDelta, limitTime, matrix4f, matrix4f2).fire();
+        Render.INSTANCE.post();
+        Render.INSTANCE.restore();
     }
 }

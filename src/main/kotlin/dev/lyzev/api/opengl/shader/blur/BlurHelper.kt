@@ -18,6 +18,8 @@ import dev.lyzev.api.opengl.shader.ShaderMask
 import dev.lyzev.api.opengl.shader.ShaderTint
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.fogRGBPuke
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.fogRGBPukeOpacity
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.math.MathHelper
@@ -39,6 +41,7 @@ object BlurHelper {
     private val mask = WrappedFramebuffer()
     private val tmp = WrappedFramebuffer()
 
+    private val fbos = arrayOf(WrappedFramebuffer(), WrappedFramebuffer())
     private val acrylicBlur = WrappedFramebuffer()
     private val dropShadow = WrappedFramebuffer()
 
@@ -127,9 +130,11 @@ object BlurHelper {
         mode.switchStrength(blurStrength)
         mode.render()
 
+        var i = 0
+
         // Acrylic (Luminosity, Noise and Tint)
         if (ModuleToggleableBlur.acrylic) {
-            acrylicBlur.beginWrite(true)
+            fbos[i].beginWrite(true)
             ShaderAcrylic.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
             mode.output.beginRead()
@@ -137,16 +142,31 @@ object BlurHelper {
             ShaderAcrylic["Luminosity"] = ModuleToggleableBlur.luminosity / 100f
             ShaderAcrylic["NoiseStrength"] = 0.04f * ModuleToggleableBlur.noiseStrength / 100f
             ShaderAcrylic["NoiseScale"] = 4000f * ModuleToggleableBlur.noiseSale / 100f
-            ShaderAcrylic["Opacity"] = -1f
-            ShaderAcrylic["RGBPuke"] = ModuleToggleableBlur.RGBPuke
-            ShaderAcrylic["RGBPukeOpacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
-            ShaderAcrylic["Time"] = (System.nanoTime() - ShaderAcrylic.initTime) / 1000000000f
-            val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
-            ShaderAcrylic["Yaw"] = yaw
-            val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
-            ShaderAcrylic["Pitch"] = pitch
             drawFullScreen()
             ShaderAcrylic.unbind()
+            i++
+        }
+
+        if (ModuleToggleableBlur.RGBPuke) {
+            fbos[i].beginWrite(true)
+            ShaderTint.bind()
+            RenderSystem.activeTexture(GL_TEXTURE0)
+            if (i == 0) mode.output.beginRead()
+            else fbos[i - 1].beginRead()
+            ShaderTint["Tex0"] = 0
+            ShaderTint["RGBPuke"] = ModuleToggleableBlur.RGBPuke
+            ShaderTint.set("SV", ModuleToggleableBlur.RGBPukeSaturation / 100f, ModuleToggleableBlur.RGBPukeBrightness / 100f)
+            ShaderTint["Opacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
+            ShaderTint["Alpha"] = false
+            ShaderTint["Multiplier"] = 1f
+            ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
+            val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
+            ShaderTint["Yaw"] = yaw
+            val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
+            ShaderTint["Pitch"] = pitch
+            drawFullScreen()
+            ShaderTint.unbind()
+            i++
         }
 
         Schizoid.mc.framebuffer.beginWrite(true)
@@ -156,8 +176,8 @@ object BlurHelper {
         RenderSystem.activeTexture(GL_TEXTURE1)
         mask.beginRead()
         RenderSystem.activeTexture(GL_TEXTURE0)
-        if (ModuleToggleableBlur.acrylic) acrylicBlur.beginRead()
-        else mode.output.beginRead()
+        if (i == 0) mode.output.beginRead()
+        else fbos[i - 1].beginRead()
         ShaderMask["Tex0"] = 0
         ShaderMask["Tex1"] = 1
         ShaderMask["Invert"] = false
@@ -176,6 +196,7 @@ object BlurHelper {
             ShaderTint["Tex0"] = 0
             ShaderTint["Color"] = dropShadowColor
             ShaderTint["RGBPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
+            ShaderTint.set("SV", ModuleToggleableBlur.dropShadowRGBPukeSaturation / 100f, ModuleToggleableBlur.dropShadowRGBPukeBrightness / 100f)
             ShaderTint["Opacity"] = 1f
             ShaderTint["Alpha"] = true
             ShaderTint["Multiplier"] = ModuleToggleableBlur.dropShadowMultiplier / 100f
