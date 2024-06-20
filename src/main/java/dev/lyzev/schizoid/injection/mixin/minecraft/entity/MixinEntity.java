@@ -5,12 +5,17 @@
 
 package dev.lyzev.schizoid.injection.mixin.minecraft.entity;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.lyzev.api.events.EventIsInvisibleTo;
+import dev.lyzev.api.events.EventUpdateVelocity;
+import dev.lyzev.schizoid.Schizoid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -34,5 +39,15 @@ public class MixinEntity {
         EventIsInvisibleTo event = new EventIsInvisibleTo(cir.getReturnValueZ());
         event.fire();
         cir.setReturnValue(event.isInvisible());
+    }
+
+    @WrapOperation(method = "updateVelocity", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getYaw()F"))
+    private float onUpdateVelocity(Entity instance, Operation<Float> original) {
+        if (!instance.equals(Schizoid.INSTANCE.getMc().player)) {
+            return original.call(instance);
+        }
+        EventUpdateVelocity event = new EventUpdateVelocity(original.call(instance));
+        event.fire();
+        return event.getYaw();
     }
 }

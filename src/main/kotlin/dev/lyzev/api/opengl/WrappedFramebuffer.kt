@@ -47,7 +47,6 @@ class WrappedFramebuffer(
      * Initializes the framebuffer.
      */
     init {
-        Schizoid.logger.info("Initialize framebuffer $name")
         fbos.putIfAbsent(name, this)
         setClearColor(0f, 0f, 0f, 0f)
         clear()

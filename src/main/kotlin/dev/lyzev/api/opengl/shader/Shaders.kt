@@ -92,13 +92,10 @@ object ShaderTint : ShaderVertexFragment("Tint") {
             reload()
         }
 
-    override fun preprocess(source: String) = super.preprocess(source.replace("\${RGBPukeMode}", "RGBPuke$rgbPukeMode"))
+    @Suppress("USELESS_ELVIS") // False positive
+    override fun preprocess(source: String) = super.preprocess(source.replace("\${RGBPukeMode}", "RGBPuke${rgbPukeMode ?: RGBPukeMode.Noise.key}"))
 
     val initTime = System.nanoTime()
-
-    init {
-        rgbPukeMode = "Noise"
-    }
 
     enum class RGBPukeMode : OptionEnum {
         Noise,

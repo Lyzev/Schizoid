@@ -9,6 +9,7 @@ import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.theme.OSTheme
 import dev.lyzev.schizoid.Schizoid
 import net.minecraft.block.Block
+import net.minecraft.client.input.KeyboardInput
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.render.VertexConsumer
@@ -19,7 +20,9 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.packet.Packet
+import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
+import org.joml.Vector3d
 
 /**
  * This event is triggered during the startup phase of the application.
@@ -172,3 +175,17 @@ object EventScheduleTask : Event
 class EventMouseScroll(val horizontal: Double, val vertical: Double) : CancellableEvent()
 
 object EventSettingChange : Event
+
+class EventClientPlayerEntityRender(var headYaw: Float, var prevHeadYaw: Float, var pitch: Float, var prevPitch: Float) : Event
+
+class EventKeyboardInputTick(val input: KeyboardInput) : Event
+
+class EventUpdateVelocity(var yaw: Float) : Event
+
+class EventRotationGoal : Event {
+
+    var goal: Vec3d? = null
+    var weight = 1f
+}
+
+class EventUpdateCrosshairTarget(val camera: Entity) : Event
