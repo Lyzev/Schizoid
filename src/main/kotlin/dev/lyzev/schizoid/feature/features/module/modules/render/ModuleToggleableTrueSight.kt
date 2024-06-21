@@ -28,18 +28,22 @@ object ModuleToggleableTrueSight : ModuleToggleable(
 
     init {
         on<EventIsInvisibleTo> { event ->
-            if (entities)
+            if (entities) {
                 event.isInvisible = false
+            }
         }
 
         on<EventRenderModel> { event ->
-            if (entities && event.alpha < 1f)
-                event.alpha = alpha / 100f
+            val alpha = event.argb shr 24 and 0xFF
+            if (entities && alpha < 0xFF) {
+                event.argb = event.argb and 0xFFFFFF or (this.alpha / 100f * 255).toInt() shl 24
+            }
         }
 
         on<EventBlockParticle> { event ->
-            if (barriers)
+            if (barriers) {
                 event.block = Blocks.BARRIER
+            }
         }
     }
 }

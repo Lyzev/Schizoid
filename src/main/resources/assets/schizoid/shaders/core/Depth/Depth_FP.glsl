@@ -26,6 +26,6 @@ void main() {
 
     color = vec4(0.0);
     if (distance > MinThreshold) {
-        color = vec4(texture(Tex0, uv).rgb, min((distance - MinThreshold) / (MaxThreshold - MinThreshold), 1.0));
+        color = clamp(vec4(texture(Tex0, uv).rgb, (distance - MinThreshold) / (MaxThreshold - MinThreshold)), 0.0, 1.0);
     }
 }
