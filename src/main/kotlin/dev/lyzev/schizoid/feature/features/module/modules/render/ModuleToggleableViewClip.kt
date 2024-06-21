@@ -32,7 +32,7 @@ object ModuleToggleableViewClip :
 
     init {
         on<EventClipToSpace> { event ->
-            event.desiredCameraDistance = desiredCameraDistance.toDouble()
+            event.desiredCameraDistance = desiredCameraDistance
         }
     }
 }

@@ -32,7 +32,7 @@ object ImGuiScreenFeature : ImGuiScreen(
 ), EventListener {
 
     private val texturesMario = Array(3) {
-        Identifier(Schizoid.MOD_ID, "textures/mario_$it.png")
+        Identifier.of(Schizoid.MOD_ID, "textures/mario_$it.png")
     }
     private var isMarioRunning = false
     private val timeAnimatorMario = TimeAnimator(8000)

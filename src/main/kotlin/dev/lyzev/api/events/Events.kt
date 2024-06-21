@@ -11,6 +11,7 @@ import dev.lyzev.schizoid.Schizoid
 import net.minecraft.block.Block
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.option.KeyBinding
+import net.minecraft.client.render.RenderTickCounter
 import net.minecraft.client.render.VertexConsumer
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
@@ -100,7 +101,7 @@ class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event
 /**
  * This event is triggered when the world is rendered.
  */
-class EventRenderWorld(val tickDelta: Float, val limitTime: Long, val modelViewMat: Matrix4f, val projMat: Matrix4f) :
+class EventRenderWorld(val tickCounter: RenderTickCounter, val modelViewMat: Matrix4f, val projMat: Matrix4f) :
     Event
 
 /**
@@ -111,7 +112,7 @@ class EventGamma(var gamma: Float) : Event
 /**
  * This event is triggered when the camera clips to space.
  */
-class EventClipToSpace(var desiredCameraDistance: Double) : Event
+class EventClipToSpace(var desiredCameraDistance: Float) : Event
 
 /**
  * This event is triggered when [net.minecraft.entity.Entity.isInvisibleTo] is called.
@@ -127,10 +128,7 @@ class EventRenderModel(
     val vertexConsumer: VertexConsumer,
     var light: Int,
     var overlay: Int,
-    var red: Float,
-    var green: Float,
-    var blue: Float,
-    var alpha: Float
+    var argb: Int
 ) : Event
 
 /**

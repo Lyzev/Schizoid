@@ -18,8 +18,6 @@ import dev.lyzev.api.opengl.shader.ShaderMask
 import dev.lyzev.api.opengl.shader.ShaderTint
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
-import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.fogRGBPuke
-import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.fogRGBPukeOpacity
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
 import net.minecraft.client.MinecraftClient
 import net.minecraft.util.math.MathHelper
@@ -160,9 +158,10 @@ object BlurHelper {
             ShaderTint["Alpha"] = false
             ShaderTint["Multiplier"] = 1f
             ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
-            val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
+            val tickDelta = Render.tickDelta
+            val yaw = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
             ShaderTint["Yaw"] = yaw
-            val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
+            val pitch = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
             ShaderTint["Pitch"] = pitch
             drawFullScreen()
             ShaderTint.unbind()
@@ -201,9 +200,10 @@ object BlurHelper {
             ShaderTint["Alpha"] = true
             ShaderTint["Multiplier"] = ModuleToggleableBlur.dropShadowMultiplier / 100f
             ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
-            val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
+            val tickDelta = Render.tickDelta
+            val yaw = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
             ShaderTint["Yaw"] = yaw
-            val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
+            val pitch = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
             ShaderTint["Pitch"] = pitch
             drawFullScreen()
             ShaderTint.unbind()

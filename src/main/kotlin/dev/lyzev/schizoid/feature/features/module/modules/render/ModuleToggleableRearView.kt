@@ -55,10 +55,8 @@ object ModuleToggleableRearView :
 
             rearView.clear()
             rearView.beginWrite(true)
-            mc.gameRenderer.renderWorld(
-                if (mc.paused) mc.pausedTickDelta else mc.renderTickCounter.tickDelta,
-                Util.getMeasuringTimeNano()
-            )
+
+            mc.gameRenderer.renderWorld(mc.renderTickCounter)
         }.onFailure {
             Schizoid.logger.error("Failed rendering rear view: ${it.message}")
         }

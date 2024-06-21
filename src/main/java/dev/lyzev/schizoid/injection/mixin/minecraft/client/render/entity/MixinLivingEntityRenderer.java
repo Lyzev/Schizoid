@@ -37,11 +37,11 @@ public class MixinLivingEntityRenderer {
      * @param alpha          The alpha component for the render.
      * @return
      */
-    @WrapWithCondition(method = "render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;IIFFFF)V"))
-    private boolean onRenderModel(EntityModel instance, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, float red, float green, float blue, float alpha) {
-        EventRenderModel event = new EventRenderModel(instance, matrixStack, vertexConsumer, light, overlay, red, green, blue, alpha);
+    @WrapWithCondition(method = "render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V"))
+    private boolean onRenderModel(EntityModel instance, MatrixStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, int argb) {
+        EventRenderModel event = new EventRenderModel(instance, matrixStack, vertexConsumer, light, overlay, argb);
         event.fire();
-        instance.render(event.getMatrixStack(), event.getVertexConsumer(), event.getLight(), event.getOverlay(), event.getRed(), event.getGreen(), event.getBlue(), event.getAlpha());
+        instance.render(event.getMatrixStack(), event.getVertexConsumer(), event.getLight(), event.getOverlay(), event.getArgb());
         return false;
     }
 }

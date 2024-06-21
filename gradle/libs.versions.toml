@@ -2,19 +2,20 @@
 # All rights reserved.
 
 [versions]
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 dokka = "1.9.20"
 shadow = "8.1.1"
 
 # https://fabricmc.net/develop
-minecraft = "1.20.6"
-yarn_mappings = "1.20.6+build.1"
-fabric_loader = "0.15.10"
-fabric_api = "0.98.0+1.20.6"
+minecraft = "1.21"
+yarn_mappings = "1.21+build.2"
+fabric_loader = "0.15.11"
+fabric_loader_min = "0.15.10"
+fabric_api = "0.100.3+1.21"
 # https://github.com/FabricMC/fabric-language-kotlin
-fabric_kl = "1.10.20+kotlin.1.9.24"
+fabric_kl = "1.11.0+kotlin.2.0.0"
 # https://github.com/FabricMC/fabric-loom
-fabric_loom = "1.6-SNAPSHOT"
+fabric_loom = "1.7-SNAPSHOT"
 
 # https://github.com/Lyzev
 lyzev_events = "1.0.4"
@@ -41,9 +42,9 @@ waybackauthlib = "1.0.1"
 minecraftauth = "4.0.2"
 
 # https://github.com/TerraformersMC/ModMenu
-modmenu = "10.0.0-beta.1"
+modmenu = "11.0.1"
 # https://github.com/CaffeineMC/sodium-fabric
-sodium = "mc1.20.6-0.5.8"
+sodium = "mc1.21-0.5.9"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }

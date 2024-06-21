@@ -23,14 +23,14 @@ import net.minecraft.entity.Entity
 import net.minecraft.network.packet.s2c.play.DamageTiltS2CPacket
 import net.minecraft.network.packet.s2c.play.EntityDamageS2CPacket
 import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.util.math.MathHelper.sin
+import net.minecraft.util.math.MathHelper.cos
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL13
 import java.util.concurrent.CopyOnWriteArrayList
-import kotlin.math.cos
-import kotlin.math.sin
 
 object ModuleToggleableTorus :
     ModuleToggleable("Torus", "Renders a Torus with reflection effect.", category = IFeature.Category.RENDER),
@@ -92,20 +92,19 @@ object ModuleToggleableTorus :
             ShaderReflection["CamPos"] = cam.toVector3f()
 
             val delta = System.currentTimeMillis() - spawn
-            val bufferBuilder = Tessellator.getInstance().buffer
 
             val slices = 10
             val loops = 30
-            val outerRad = .6 + 2 * EasingFunction.OUT_CUBIC(delta / lifetime.toDouble())
-            val innerRad = .4 - .4 * EasingFunction.IN_CUBIC(delta / lifetime.toDouble())
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION)
+            val outerRad = .6f + 2f * EasingFunction.OUT_CUBIC(delta / lifetime.toDouble()).toFloat()
+            val innerRad = .4f - .4f * EasingFunction.IN_CUBIC(delta / lifetime.toDouble()).toFloat()
+            val bufferBuilder = Tessellator.getInstance().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION)
             for (i in 0 until slices) {
-                val theta = 2 * Math.PI * i / slices
-                val nextTheta = 2 * Math.PI * (i + 1) / slices
+                val theta = 2 * Math.PI.toFloat() * i / slices
+                val nextTheta = 2 * Math.PI.toFloat() * (i + 1) / slices
 
                 for (j in 0 until loops) {
-                    val phi = 2 * Math.PI * j / loops
-                    val nextPhi = 2 * Math.PI * (j + 1) / loops
+                    val phi = 2 * Math.PI.toFloat() * j / loops
+                    val nextPhi = 2 * Math.PI.toFloat() * (j + 1) / loops
 
                     val x1 = (outerRad + innerRad * cos(theta)) * cos(phi)
                     val y1 = (outerRad + innerRad * cos(theta)) * sin(phi)
@@ -136,10 +135,10 @@ object ModuleToggleableTorus :
 
                     val normal = t1.cross(t2).normalize()
 
-                    bufferBuilder.vertex(x1, y1, z1).normal(normal.x, normal.y, normal.z).next()
-                    bufferBuilder.vertex(x2, y2, z2).normal(normal.x, normal.y, normal.z).next()
-                    bufferBuilder.vertex(x3, y3, z3).normal(normal.x, normal.y, normal.z).next()
-                    bufferBuilder.vertex(x4, y4, z4).normal(normal.x, normal.y, normal.z).next()
+                    bufferBuilder.vertex(x1, y1, z1).normal(normal.x, normal.y, normal.z)
+                    bufferBuilder.vertex(x2, y2, z2).normal(normal.x, normal.y, normal.z)
+                    bufferBuilder.vertex(x3, y3, z3).normal(normal.x, normal.y, normal.z)
+                    bufferBuilder.vertex(x4, y4, z4).normal(normal.x, normal.y, normal.z)
                 }
             }
             BufferRenderer.draw(bufferBuilder.end())
