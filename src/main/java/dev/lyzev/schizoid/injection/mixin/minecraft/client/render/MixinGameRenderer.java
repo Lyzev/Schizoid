@@ -5,12 +5,17 @@
 
 package dev.lyzev.schizoid.injection.mixin.minecraft.client.render;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.lyzev.api.events.EventDistanceToBlockHitResult;
+import dev.lyzev.api.events.EventDistanceToEntityHitResult;
 import dev.lyzev.api.events.EventGetFOV;
 import dev.lyzev.api.events.EventUpdateCrosshairTarget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -46,6 +51,7 @@ public class MixinGameRenderer {
     @Inject(method = "updateCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;push(Ljava/lang/String;)V", shift = At.Shift.BEFORE, ordinal = 0))
     private void onUpdateCrosshairTargetPre(float tickDelta, CallbackInfo ci) {
         Entity camera = client.getCameraEntity();
+        if (camera == null) return;
         cachedYaw = camera.getYaw();
         cachedPitch = camera.getPitch();
         cachedPrevYaw = camera.prevYaw;
@@ -57,9 +63,24 @@ public class MixinGameRenderer {
     @Inject(method = "updateCrosshairTarget", at = @At("RETURN"))
     private void onUpdateCrosshairTargetPost(float tickDelta, CallbackInfo ci) {
         Entity camera = client.getCameraEntity();
+        if (camera == null) return;
         camera.setYaw(cachedYaw);
         camera.setPitch(cachedPitch);
         camera.prevYaw = cachedPrevYaw;
         camera.prevPitch = cachedPrevPitch;
+    }
+
+    @WrapOperation(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;squaredDistanceTo(Lnet/minecraft/util/math/Vec3d;)D", ordinal = 0))
+    private double onFindCrosshairTargetCalculateBlockDistance(Vec3d instance, Vec3d vec, Operation<Double> original) {
+        EventDistanceToBlockHitResult event = new EventDistanceToBlockHitResult(original.call(instance, vec));
+        event.fire();
+        return event.getDistance();
+    }
+
+    @WrapOperation(method = "findCrosshairTarget", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;squaredDistanceTo(Lnet/minecraft/util/math/Vec3d;)D", ordinal = 1))
+    private double onFindCrosshairTargetCheckEntityDistance(Vec3d instance, Vec3d vec, Operation<Double> original) {
+        EventDistanceToEntityHitResult event = new EventDistanceToEntityHitResult(original.call(instance, vec));
+        event.fire();
+        return event.getDistance();
     }
 }

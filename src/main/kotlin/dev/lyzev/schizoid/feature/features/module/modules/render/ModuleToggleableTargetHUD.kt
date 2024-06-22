@@ -81,7 +81,7 @@ object ModuleToggleableTargetHUD : ModuleToggleableRenderImGuiContent(
     }
 
     override val shouldDrawWindow: Boolean
-        get() = shouldHandleEvents && mc.currentScreen !is HandledScreen<*> && (target != null || mc.currentScreen != null)
+        get() = shouldHandleEvents && mc.currentScreen !is HandledScreen<*> && (target != null || mc.currentScreen != null) && mc.player != null
 
     init {
         on<EventAttackEntity> {

@@ -14,6 +14,7 @@ import dev.lyzev.schizoid.Schizoid;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,7 +25,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  * It modifies the behavior of the isInvisibleTo method of the Entity class.
  */
 @Mixin(Entity.class)
-public class MixinEntity {
+public abstract class MixinEntity {
+
+    @Shadow
+    public abstract boolean equals(Object o);
 
     /**
      * This method is a redirect for the isInvisibleTo method of the Entity class.
@@ -55,7 +59,7 @@ public class MixinEntity {
     @SuppressWarnings("RedundantCast") // false positive, because the precision error when casting to double is necessary
     @Inject(method = "lerpPosAndRotation", at = @At("RETURN"))
     private void onLerpPosAndRotation(int step, double x, double y, double z, double yaw, double pitch, CallbackInfo ci) {
-        if (!Schizoid.INSTANCE.getMc().player.equals((Entity) (Object) this)) {
+        if (!this.equals(Schizoid.INSTANCE.getMc().player)) {
             return;
         }
         new EventLerpPosAndRotation(step, x, y, z, yaw, pitch).fire();

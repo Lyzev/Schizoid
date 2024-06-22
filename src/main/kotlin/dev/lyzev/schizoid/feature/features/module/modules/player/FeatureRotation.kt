@@ -151,13 +151,13 @@ object FeatureRotation : IFeature, EventListener {
             var input = Vec3d(event.input.movementSideways.toDouble(), 0.0, event.input.movementForward.toDouble())
             val actual = Entity.movementInputToVelocity(input, speed, cachedYaw)
             var nearest: Vec3d? = null
-            var minDiff = Double.MAX_VALUE
+            var minDistance = Double.MAX_VALUE
             for (x in -1..1) {
                 for (z in -1..1) {
                     input = Vec3d(x.toDouble(), 0.0, z.toDouble())
-                    val diff = actual.distanceTo(Entity.movementInputToVelocity(input, speed, current.x))
-                    if (diff <= minDiff || nearest == null) {
-                        minDiff = diff
+                    val distance = actual.squaredDistanceTo(Entity.movementInputToVelocity(input, speed, current.x)) // use squared distance to avoid unnecessary sqrt computation
+                    if (distance <= minDistance || nearest == null) {
+                        minDistance = distance
                         nearest = input
                     }
                 }
