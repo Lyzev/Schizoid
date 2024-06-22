@@ -32,7 +32,7 @@ public class MixinKeyboard {
      * @param modifiers The modifier keys that were held down when the key was pressed.
      * @param ci        The callback information.
      */
-    @Inject(method = "onKey", at = @At("TAIL"))
+    @Inject(method = "onKey", at = @At("RETURN"))
     private void onKey(long window, int key, int scancode, int action, int modifiers, CallbackInfo ci) {
         if (key != GLFW.GLFW_KEY_UNKNOWN)
             new EventKeystroke(window, key, scancode, action, modifiers).fire();

@@ -58,7 +58,7 @@ public class MixinMinecraftClient {
      *
      * @param ci The callback information.
      */
-    @Inject(method = "onResolutionChanged", at = @At("TAIL"))
+    @Inject(method = "onResolutionChanged", at = @At("RETURN"))
     private void onResolutionChanged(CallbackInfo ci) {
         EventWindowResize.INSTANCE.fire();
     }

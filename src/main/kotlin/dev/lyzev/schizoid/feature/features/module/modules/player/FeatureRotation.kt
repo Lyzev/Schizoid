@@ -15,12 +15,17 @@ import net.minecraft.entity.Entity
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import org.joml.Vector2f
+import kotlin.math.pow
+import kotlin.math.roundToInt
+import kotlin.math.sqrt
+import net.minecraft.client.Mouse
 
 object FeatureRotation : IFeature, EventListener {
 
     private val current = Vector2f()
     private val last = Vector2f()
 
+    val silent by switch("Silent", "Silent rotation", true)
     val clientSide by switch("Client Side", "Visualize rotation client side.", true)
     val revert by switch("Revert", "Revert smooth to the actual yaw and pitch", true)
     val revertWeight by slider("Revert Weight", "Revert smooth to the actual yaw and pitch", 80, 1, 100, "%%", hide = ::revert neq true)
@@ -36,23 +41,80 @@ object FeatureRotation : IFeature, EventListener {
     override fun keybindReleased() {}
     override val shouldHandleEvents = true
 
+    /**
+     * Corrects the mouse sensitivity.
+     *
+     * @see [Mouse.updateMouse]
+     *
+     * @param correct The correct vector.
+     * @param incorrect The incorrect vector.
+     */
+    fun correctMouseSensitivity(correct: Vector2f, incorrect: Vector2f) {
+        incorrect.set(MathHelper.wrapDegrees(incorrect.x), MathHelper.clamp(incorrect.y, -90f, 90f))
+        val mouseSensitivity = (mc.options.mouseSensitivity.value * 0.6f.toDouble() + 0.2f.toDouble()).pow(3.0) * 8.0
+        var cursorDeltaX = (MathHelper.wrapDegrees(incorrect.x - correct.x) / 0.15f / mouseSensitivity).roundToInt().toDouble()
+        var cursorDeltaY = ((incorrect.y - correct.y) / 0.15f / mouseSensitivity).roundToInt().toDouble()
+        cursorDeltaX *= mouseSensitivity
+        cursorDeltaY *= mouseSensitivity
+        incorrect.set(correct.x + cursorDeltaX * 0.15f, MathHelper.clamp(correct.y + cursorDeltaY * 0.15, -90.0, 90.0))
+        // Fixes the actual yaw and pitch
+        cursorDeltaX = (MathHelper.wrapDegrees(mc.player!!.yaw - correct.x) / 0.15f / mouseSensitivity).roundToInt().toDouble()
+        cursorDeltaY = ((mc.player!!.pitch - correct.y) / 0.15f / mouseSensitivity).roundToInt().toDouble()
+        cursorDeltaX *= mouseSensitivity
+        cursorDeltaY *= mouseSensitivity
+        mc.player!!.yaw = correct.x + cursorDeltaX.toFloat() * 0.15f
+        mc.player!!.pitch = MathHelper.clamp(correct.y + cursorDeltaY.toFloat() * 0.15f, -90f, 90f)
+    }
+
+    /**
+     * Gets the rotation from the current vector to the target vector.
+     *
+     * @see [Entity.lookAt]
+     *
+     * @param target The target vector.
+     * @return The rotation.
+     */
+    fun Vec3d.getRotation(target: Vec3d): Vector2f {
+        val x = target.x - x
+        val y = target.y - y
+        val z = target.z - z
+        val yaw = MathHelper.wrapDegrees(Math.toDegrees(MathHelper.atan2(z, x)).toFloat() - 90f)
+        val pitch = MathHelper.wrapDegrees(-Math.toDegrees(MathHelper.atan2(y, sqrt(x.pow(2) + z.pow(2)))).toFloat())
+        return Vector2f(yaw, pitch)
+    }
+
     init {
         // Rotate on frame
+        var requireRevert = false // revert to actual yaw and pitch
         on<EventSwapBuffers> {
             if (!isIngame || mc.player == null) {
                 return@on
             }
             val event = EventRotationGoal()
             event.fire()
-            if (event.goal == null && MathHelper.wrapDegrees(current.distance(mc.player!!.yaw, mc.player!!.pitch)) > 5 && revert) {
+            if (event.goal == null && requireRevert && revert) {
                 event.weight = revertWeight / 100f
                 event.goal = mc.player!!.rotationVecClient
             }
             if (event.goal != null) {
-                val goal = event.goal!!
-                // TODO: Implement rotation to goal
+                requireRevert = true
+                val goal = mc.cameraEntity!!.eyePos.getRotation(event.goal!!)
+                // Calculate the delta yaw and pitch
+                val deltaYaw = MathHelper.wrapDegrees(goal.x - current.x)
+                val deltaPitch = MathHelper.wrapDegrees(goal.y - current.y)
+                // Calculate the new yaw and pitch
+                val new = Vector2f(current.x + deltaYaw, MathHelper.clamp(current.y + deltaPitch, -90f, 90f))
+                correctMouseSensitivity(current, new)
+                current.set(new)
+                if (MathHelper.wrapDegrees(current.distance(mc.player!!.yaw, mc.player!!.pitch)) > 5f) {
+                    requireRevert = false
+                }
             } else {
-                // TODO: Go back to actual yaw and pitch and correct GCD if needed
+                current.set(mc.player!!.yaw, mc.player!!.pitch)
+            }
+            if (!silent) {
+                mc.player!!.yaw = current.x
+                mc.player!!.pitch = current.y
             }
         }
         var cachedYaw = 0f // actual yaw for silent movement correction

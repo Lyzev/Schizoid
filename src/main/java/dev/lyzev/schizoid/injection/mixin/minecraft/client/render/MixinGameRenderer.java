@@ -54,7 +54,7 @@ public class MixinGameRenderer {
         event.fire();
     }
 
-    @Inject(method = "updateCrosshairTarget", at = @At("TAIL"))
+    @Inject(method = "updateCrosshairTarget", at = @At("RETURN"))
     private void onUpdateCrosshairTargetPost(float tickDelta, CallbackInfo ci) {
         Entity camera = client.getCameraEntity();
         camera.setYaw(cachedYaw);

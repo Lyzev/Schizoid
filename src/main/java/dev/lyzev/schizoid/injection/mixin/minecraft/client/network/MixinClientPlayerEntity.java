@@ -44,7 +44,7 @@ public class MixinClientPlayerEntity {
         new EventClientPlayerEntityTick(player).fire();
     }
 
-    @Inject(method = "tick", at = @At("TAIL"))
+    @Inject(method = "tick", at = @At("RETURN"))
     private void onTickPost(CallbackInfo ci) {
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
         player.setYaw(cachedYaw);
