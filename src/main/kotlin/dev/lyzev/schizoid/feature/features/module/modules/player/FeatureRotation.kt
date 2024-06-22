@@ -11,6 +11,7 @@ import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.IFeature
+import net.minecraft.client.Mouse
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -18,7 +19,6 @@ import org.joml.Vector2f
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
-import net.minecraft.client.Mouse
 
 object FeatureRotation : IFeature, EventListener {
 
@@ -166,6 +166,17 @@ object FeatureRotation : IFeature, EventListener {
                 event.input.movementSideways = nearest.x.toFloat()
                 event.input.movementForward = nearest.z.toFloat()
             }
+        }
+        /**
+         * Correct rotation on lerp pos and rotation
+         *
+         * @see [net.minecraft.entity.Entity.lerpPosAndRotation]
+         */
+        on<EventLerpPosAndRotation> { event ->
+            val delta = 1.0 / event.step.toDouble()
+            val newYaw = MathHelper.lerpAngleDegrees(delta, current.x.toDouble(), event.yaw).toFloat()
+            val newPitch = MathHelper.lerp(delta, current.y.toDouble(), event.pitch).toFloat()
+            current.set(newYaw % 360.0f, newPitch % 360.0f);
         }
         // Visualize rotation client side (TODO: Fix first person hand)
         on<EventClientPlayerEntityRender> {

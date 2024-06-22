@@ -8,6 +8,7 @@ package dev.lyzev.schizoid.injection.mixin.minecraft.entity;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.lyzev.api.events.EventIsInvisibleTo;
+import dev.lyzev.api.events.EventLerpPosAndRotation;
 import dev.lyzev.api.events.EventUpdateVelocity;
 import dev.lyzev.schizoid.Schizoid;
 import net.minecraft.entity.Entity;
@@ -49,5 +50,14 @@ public class MixinEntity {
         EventUpdateVelocity event = new EventUpdateVelocity(original.call(instance));
         event.fire();
         return event.getYaw();
+    }
+
+    @SuppressWarnings("RedundantCast") // false positive, because the precision error when casting to double is necessary
+    @Inject(method = "lerpPosAndRotation", at = @At("RETURN"))
+    private void onLerpPosAndRotation(int step, double x, double y, double z, double yaw, double pitch, CallbackInfo ci) {
+        if (!Schizoid.INSTANCE.getMc().player.equals((Entity) (Object) this)) {
+            return;
+        }
+        new EventLerpPosAndRotation(step, x, y, z, yaw, pitch).fire();
     }
 }

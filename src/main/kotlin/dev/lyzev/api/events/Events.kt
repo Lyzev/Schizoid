@@ -187,3 +187,5 @@ class EventRotationGoal : Event {
 }
 
 class EventUpdateCrosshairTarget(val camera: Entity) : Event
+
+class EventLerpPosAndRotation(val step: Int, val x: Double, val y: Double, val z: Double, val yaw: Double, val pitch: Double) : Event
