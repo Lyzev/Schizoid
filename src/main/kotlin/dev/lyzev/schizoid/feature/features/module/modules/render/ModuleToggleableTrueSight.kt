@@ -20,7 +20,7 @@ object ModuleToggleableTrueSight : ModuleToggleable(
 ), EventListener {
 
     val entities by switch("Entities", "Makes invisible entities visible.", true)
-    val alpha by slider("Alpha", "The alpha of the entities.", 15, 1, 100, "%%", hide = ::entities neq true)
+    val alpha by slider("Alpha", "The alpha of the entities.", 20, 1, 100, "%%", hide = ::entities neq true)
     val barriers by switch("Barriers", "Makes barriers visible.", true)
 
     override val shouldHandleEvents: Boolean
@@ -36,7 +36,8 @@ object ModuleToggleableTrueSight : ModuleToggleable(
         on<EventRenderModel> { event ->
             val alpha = event.argb shr 24 and 0xFF
             if (entities && alpha < 0xFF) {
-                event.argb = event.argb and 0xFFFFFF or (this.alpha / 100f * 255).toInt() shl 24
+                val newAlpha = ((11f + this.alpha) / 111f * 0xFF).toInt() // 12% is the minimum alpha of an entity otherwise it's invisible
+                event.argb = (event.argb and 0x00FFFFFF) or (newAlpha shl 24)
             }
         }
 
