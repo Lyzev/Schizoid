@@ -7,9 +7,17 @@ package dev.lyzev.api.opengl
 
 import com.mojang.blaze3d.platform.GlStateManager
 import com.mojang.blaze3d.systems.RenderSystem
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
 import org.lwjgl.opengl.GL13.*
 
 object Render {
+
+    val tickDelta: Float
+        get() = if (mc.world == null || mc.player == null) 1f else mc.renderTickCounter.getTickDelta(
+            !mc.world!!.tickManager.shouldSkipTick(
+                mc.player
+            )
+        )
 
     var active = -1
     var texture = -1
@@ -41,7 +49,8 @@ object Render {
     fun prepare() {
         cull = GlStateManager._getInteger(GL_CULL_FACE_MODE) != GL_NONE
         depth = GlStateManager._getInteger(GL_DEPTH_FUNC) != GL_ALWAYS
-        blend = GlStateManager._getInteger(GL_BLEND_SRC) != GL_ONE || GlStateManager._getInteger(GL_BLEND_DST) != GL_ZERO
+        blend =
+            GlStateManager._getInteger(GL_BLEND_SRC) != GL_ONE || GlStateManager._getInteger(GL_BLEND_DST) != GL_ZERO
         RenderSystem.disableCull()
         RenderSystem.disableDepthTest()
         RenderSystem.defaultBlendFunc()

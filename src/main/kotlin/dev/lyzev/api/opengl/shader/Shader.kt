@@ -236,12 +236,11 @@ abstract class Shader(val shader: String) : EventListener {
          * Draws a full screen quad.
          */
         fun drawFullScreen() {
-            val bufferBuilder = RenderSystem.renderThreadTesselator().buffer
-            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION)
-            bufferBuilder.vertex(1.0, 1.0, .0).next()
-            bufferBuilder.vertex(1.0, -1.0, .0).next()
-            bufferBuilder.vertex(-1.0, -1.0, .0).next()
-            bufferBuilder.vertex(-1.0, 1.0, .0).next()
+            val bufferBuilder = RenderSystem.renderThreadTesselator().begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION)
+            bufferBuilder.vertex(1f, 1f, 0f)
+            bufferBuilder.vertex(1f, -1f, 0f)
+            bufferBuilder.vertex(-1f, -1f, 0f)
+            bufferBuilder.vertex(-1f, 1f, 0f)
             BufferRenderer.draw(bufferBuilder.end())
         }
     }

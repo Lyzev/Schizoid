@@ -6,6 +6,7 @@
 package dev.lyzev.api.opengl.shader
 
 import com.mojang.blaze3d.systems.RenderSystem
+import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.setting.settings.OptionEnum
@@ -92,8 +93,8 @@ object ShaderTint : ShaderVertexFragment("Tint") {
             reload()
         }
 
-    @Suppress("USELESS_ELVIS") // False positive
-    override fun preprocess(source: String) = super.preprocess(source.replace("\${RGBPukeMode}", "RGBPuke${rgbPukeMode ?: RGBPukeMode.Noise.key}"))
+    @Suppress("USELESS_ELVIS")
+    override fun preprocess(source: String) = super.preprocess(source.replace("\${RGBPukeMode}", "RGBPuke${rgbPukeMode ?: "Noise"}"))
 
     val initTime = System.nanoTime()
 
@@ -301,9 +302,10 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         ShaderTint["Alpha"] = true
         ShaderTint["Multiplier"] = 1f
         ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
-        val yaw = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
+        val tickDelta = Render.tickDelta
+        val yaw = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
         ShaderTint["Yaw"] = yaw
-        val pitch = MathHelper.lerpAngleDegrees(mc.tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
+        val pitch = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
         ShaderTint["Pitch"] = pitch
         drawFullScreen()
         ShaderTint.unbind()

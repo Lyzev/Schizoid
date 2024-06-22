@@ -231,7 +231,7 @@ tasks {
                     "version" to project.version.toString(),
                     "name" to project.extra["mod_name"] as String,
                     "minecraft" to libs.versions.minecraft.get(),
-                    "fabricloader" to libs.versions.fabric.loader.get(),
+                    "fabricloader" to libs.versions.fabric.loader.min.get(), // use min version for compatibility
                     "fabric_api" to libs.versions.fabric.api.get(),
                     "fabric_language_kotlin" to libs.versions.fabric.kl.get(),
                 )

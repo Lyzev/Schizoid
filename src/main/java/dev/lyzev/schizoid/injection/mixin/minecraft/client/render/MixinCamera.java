@@ -28,7 +28,7 @@ public class MixinCamera {
      * @param cir                   The callback information, which includes the return value of the desired camera distance calculation.
      */
     @Inject(method = "clipToSpace", at = @At("RETURN"), cancellable = true)
-    private void onClipToSpace(double desiredCameraDistance, CallbackInfoReturnable<Double> cir) {
+    private void onClipToSpace(float desiredCameraDistance, CallbackInfoReturnable<Float> cir) {
         EventClipToSpace event = new EventClipToSpace(desiredCameraDistance);
         event.fire();
         cir.setReturnValue(event.getDesiredCameraDistance());
