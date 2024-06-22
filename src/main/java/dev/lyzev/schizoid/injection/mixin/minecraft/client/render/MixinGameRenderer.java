@@ -7,10 +7,7 @@ package dev.lyzev.schizoid.injection.mixin.minecraft.client.render;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.lyzev.api.events.EventDistanceToBlockHitResult;
-import dev.lyzev.api.events.EventDistanceToEntityHitResult;
-import dev.lyzev.api.events.EventGetFOV;
-import dev.lyzev.api.events.EventUpdateCrosshairTarget;
+import dev.lyzev.api.events.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.GameRenderer;

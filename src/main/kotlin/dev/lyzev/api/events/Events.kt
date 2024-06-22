@@ -19,13 +19,11 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttribute
-import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.packet.Packet
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
-import org.joml.Vector3d
 
 /**
  * This event is triggered during the startup phase of the application.
@@ -189,6 +187,8 @@ class EventRotationGoal : Event {
 }
 
 class EventUpdateCrosshairTarget(val camera: Entity) : Event
+
+object EventUpdateCrosshairTargetTick : Event
 
 class EventLerpPosAndRotation(
     val step: Int, val x: Double, val y: Double, val z: Double, val yaw: Double, val pitch: Double

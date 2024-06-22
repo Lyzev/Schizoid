@@ -22,7 +22,7 @@ import kotlin.math.sqrt
 
 object FeatureRotation : IFeature, EventListener {
 
-    private val current = Vector2f()
+    val current = Vector2f()
     private val last = Vector2f()
 
     val silent by switch("Silent", "Silent rotation", true)

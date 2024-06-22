@@ -13,11 +13,7 @@ import org.lwjgl.opengl.GL13.*
 object Render {
 
     val tickDelta: Float
-        get() = if (mc.world == null || mc.player == null) 1f else mc.renderTickCounter.getTickDelta(
-            !mc.world!!.tickManager.shouldSkipTick(
-                mc.player
-            )
-        )
+        get() = if (mc.world == null || mc.player == null) 1f else mc.renderTickCounter.getTickDelta(true)
 
     var active = -1
     var texture = -1
