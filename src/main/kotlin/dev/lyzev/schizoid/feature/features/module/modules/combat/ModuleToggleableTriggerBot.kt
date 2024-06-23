@@ -72,7 +72,6 @@ object ModuleToggleableTriggerBot : ModuleToggleable(
                         mc.world?.entities?.filter { it is LivingEntity && mc.player!!.squaredDistanceTo(it) <= maxDistance * maxDistance && mc.player!!.canSee(it) }?.map { it.boundingBox.getNearest(mc.cameraEntity!!.eyePos).getRotation(mc.cameraEntity!!.eyePos) }?.minByOrNull {
                             it.distanceSquared(rotation)
                         }?.let {
-                            println(abs(rotation.distance(it)) / 2.0)
                             if (abs(MathHelper.wrapDegrees(it.distance(rotation)) / 2.0) <= fov) {
                                 KeyBinding.onKeyPressed(mc.options.attackKey.boundKey)
                             }

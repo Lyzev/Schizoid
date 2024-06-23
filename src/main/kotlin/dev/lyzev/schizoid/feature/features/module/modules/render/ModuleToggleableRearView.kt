@@ -26,7 +26,7 @@ object ModuleToggleableRearView :
 
     val size by slider("Size", "The size of the rear view.", 15, 5, 100, "%%")
 
-    private val rearView = WrappedFramebuffer(useDepth = true)
+    val rearView = WrappedFramebuffer(useDepth = true)
 
     // net/minecraft/client/MinecraftClient takePanorama (Ljava/io/File;II)Lnet/minecraft/text/Text;
     private fun renderRearView(width: Int, height: Int) {
@@ -41,8 +41,8 @@ object ModuleToggleableRearView :
         mc.gameRenderer.setBlockOutlineEnabled(false)
         runCatching {
             mc.gameRenderer.isRenderingPanorama = true
-            mc.window.framebufferWidth = width
-            mc.window.framebufferHeight = height
+//            mc.window.framebufferWidth = width
+//            mc.window.framebufferHeight = height
             mc.worldRenderer.reloadTransparencyPostProcessor()
 
             mc.player!!.yaw = yaw - 180
@@ -50,8 +50,8 @@ object ModuleToggleableRearView :
             mc.player!!.prevYaw = prevYaw - 180
             mc.player!!.prevPitch = prevPitch * -1
 
-            if (rearView.viewportWidth != width || rearView.viewportHeight != height)
-                rearView.resize(width, height, MinecraftClient.IS_SYSTEM_MAC)
+//            if (rearView.viewportWidth != width || rearView.viewportHeight != height)
+//                rearView.resize(width, height, MinecraftClient.IS_SYSTEM_MAC)
 
             rearView.clear()
             rearView.beginWrite(true)
