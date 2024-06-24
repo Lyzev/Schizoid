@@ -105,6 +105,8 @@ class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event
  */
 class EventRenderWorld(val tickCounter: RenderTickCounter, val modelViewMat: Matrix4f, val projMat: Matrix4f) : Event
 
+class EventRenderWorldEntityPre(val tickCounter: RenderTickCounter, val modelViewMat: Matrix4f, val projMat: Matrix4f) : Event
+
 /**
  * This event is triggered when [net.minecraft.client.render.LightmapTextureManager] updates.
  */
