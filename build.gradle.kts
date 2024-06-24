@@ -49,6 +49,11 @@ repositories {
     maven("https://jitpack.io")
 }
 
+configurations {
+    create("shadowDependencies")
+    create("minecraftDependencies")
+}
+
 dependencies {
     minecraft(libs.minecraft)
     mappings(
@@ -56,24 +61,30 @@ dependencies {
             classifier("v2")
         }
     )
+    add("minecraftDependencies", libs.yarn.mappings)
 
     modImplementation(libs.bundles.fabric)
+    add("minecraftDependencies", libs.bundles.fabric)
 
     // Libraries (required)
-    implementation(libs.lyzev.events)
-    implementation(libs.lyzev.settings)
-    implementation(libs.lyzev.network)
+    add("shadowDependencies", libs.lyzev.events)
+    add("shadowDependencies", libs.lyzev.settings)
+    add("shadowDependencies", libs.lyzev.network)
 
-    implementation(libs.reflections)
-    implementation(libs.bundles.imgui)
-    implementation(libs.fuzzywuzzy)
-    implementation(libs.mpi)
-    implementation(libs.discordipc)
-    implementation(libs.waybackauthlib)
-    implementation(libs.minecraftauth)
+    add("shadowDependencies", libs.reflections)
+    add("shadowDependencies", libs.bundles.imgui)
+    add("shadowDependencies", libs.fuzzywuzzy)
+    add("shadowDependencies", libs.mpi)
+    add("shadowDependencies", libs.discordipc)
+    add("shadowDependencies", libs.waybackauthlib)
+    add("shadowDependencies", libs.minecraftauth)
 
     // Mods (optional)
     modRuntimeOnly(libs.bundles.modrinth)
+
+    configurations.getByName("shadowDependencies").dependencies.forEach { dependency ->
+        implementation(dependency)
+    }
 }
 
 loom {
@@ -260,29 +271,26 @@ tasks {
     shadowJar {
         archiveClassifier.set("shadow")
 
-        // META-INF/versions/20
-        exclude("META-INF/versions/20/**")
+        configurations = listOf(project.configurations.getByName("shadowDependencies"))
 
         dependencies {
-            include(dependency(libs.lyzev.events.get()))
-            include(dependency(libs.lyzev.settings.get()))
-            include(dependency(libs.lyzev.network.get()))
-            include(dependency(libs.reflections.get()))
-            include(dependency(libs.fuzzywuzzy.get()))
-            include(dependency(libs.mpi.get()))
-            include(dependency("com.github.hypfvieh:dbus-java-core")) // dependency of mpi
-            include(dependency("com.github.hypfvieh:dbus-java-transport-jnr-unixsocket")) // dependency of mpi
-            include(dependency("com.github.jnr:jnr-unixsocket")) // dependency of mpi
-            include(dependency("com.github.jnr:jnr-enxio")) // dependency of mpi
-            include(dependency("com.github.jnr:jnr-ffi")) // dependency of mpi
-            include(dependency("com.github.jnr:ffi")) // dependency of mpi
-            include(dependency(libs.dbus.core.get()))
-            include(dependency(libs.dbus.transport.jnr.unixsocket.get()))
-            include(dependency(libs.discordipc.get()))
-            include(dependency(libs.waybackauthlib.get()))
-            include(dependency(libs.minecraftauth.get()))
-            include(dependency("org.javassist:javassist")) // dependency of reflections
-            libs.bundles.imgui.get().forEach { include(dependency(it)) }
+            val versionUrl = HttpClient.request(HttpMethod.GET, "https://piston-meta.mojang.com/mc/game/version_manifest_v2.json").let { data ->
+                JsonParser.parseString(data.toString()).asJsonObject["versions"].asJsonArray
+                    .first { version -> version.asJsonObject["id"].asString == libs.versions.minecraft.get() }!!.asJsonObject["url"].asString
+            }
+            val minecraftDependencies = HttpClient.request(HttpMethod.GET, versionUrl).let { data ->
+                JsonParser.parseString(data.toString()).asJsonObject["libraries"].asJsonArray
+                    .filter { dep -> "rules" !in dep.asJsonObject.keySet() }
+                    .map { dep -> dep.asJsonObject["name"].asString.split(":").dropLast(1).joinToString(":") }
+            }
+            val runtimeArtifacts = project.configurations.getByName("minecraftDependencies").resolvedConfiguration.resolvedArtifacts
+                .map { "${it.moduleVersion.id.group}:${it.moduleVersion.id.name}" } + minecraftDependencies
+            project.configurations.getByName("shadowDependencies").resolvedConfiguration.resolvedArtifacts
+                .filter { "${it.moduleVersion.id.group}:${it.moduleVersion.id.name}" !in runtimeArtifacts }
+                .filter { !"${it.moduleVersion.id.group}:${it.moduleVersion.id.name}".startsWith("org.ow2.asm:") } // mixin
+                .forEach {
+                    include(dependency("${it.moduleVersion.id.group}:${it.moduleVersion.id.name}:${it.moduleVersion.id.version}"))
+                }
         }
     }
 
