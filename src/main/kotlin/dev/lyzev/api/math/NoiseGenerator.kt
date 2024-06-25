@@ -169,3 +169,16 @@ class NoiseGenerator(private var seed: Double = SecureRandom.getInstanceStrong()
         private const val DEFAULT_SIZE = 35
     }
 }
+
+fun main() {
+    val noiseGenerator = NoiseGenerator()
+    for (i in 0..10) {
+        print(noiseGenerator.noise(System.currentTimeMillis().toDouble()).toString() + " ")
+        Thread.sleep(1000 / 20)
+    }
+    println()
+    for (i in 0..10) {
+        print(noiseGenerator.noise(System.currentTimeMillis() / 20.0).toString() + " ")
+        Thread.sleep(1000 / 20)
+    }
+}
