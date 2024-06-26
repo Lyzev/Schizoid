@@ -38,10 +38,11 @@ class Clicker(val container: IFeature) {
                 return 1
             }
             Type.Dynamic -> {
-                val cpt = MathHelper.clamp(cps - clicks.values.sum(), 0, cps / 10)
+                val sum = clicks.values.sum()
+                val cpt = MathHelper.clamp(cps - sum, 0, cps / 10)
                 val noise = abs(noiseGenerator.noise(System.currentTimeMillis()  / 20.0))
                 var clicksThisTick = ((noise + Math.random()) * cpt).roundToInt()
-                if (clicksThisTick == 0 && force) {
+                if (clicksThisTick == 0 && force && sum <= cps + 2) {
                     clicksThisTick = 1
                 }
                 clicks[System.currentTimeMillis()] = clicksThisTick
