@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.discordipc)
     implementation(libs.waybackauthlib)
     implementation(libs.minecraftauth)
+    implementation(libs.kotlin.csv)
 
     // Mods (optional)
     modRuntimeOnly(libs.bundles.modrinth)

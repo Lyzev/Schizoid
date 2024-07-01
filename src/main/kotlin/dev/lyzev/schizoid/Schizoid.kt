@@ -29,6 +29,7 @@ import net.minecraft.client.MinecraftClient
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import java.io.File
+import java.security.SecureRandom
 import java.util.*
 import kotlin.concurrent.thread
 
@@ -102,6 +103,7 @@ object Schizoid : EventListener {
      */
     val logger: Logger = LogManager.getLogger(MOD_ID)
 
+    val random = SecureRandom.getInstanceStrong()
 
     /**
      * Initialize the Schizoid mod.

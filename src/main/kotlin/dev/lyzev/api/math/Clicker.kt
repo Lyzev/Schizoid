@@ -13,6 +13,8 @@ import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.modules.combat.ModuleToggleableTriggerBot.mc
 import net.minecraft.util.math.MathHelper
 import dev.lyzev.api.settings.Setting.Companion.eq
+import dev.lyzev.schizoid.Schizoid
+import java.security.SecureRandom
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -41,12 +43,12 @@ class Clicker(val container: IFeature) {
                 val sum = clicks.values.sum()
                 val cpt = MathHelper.clamp(cps - sum, 0, cps / 10)
                 val noise = abs(noiseGenerator.noise(System.currentTimeMillis()  / 20.0))
-                var clicksThisTick = ((noise + Math.random()) * cpt).roundToInt()
-                if (clicksThisTick == 0 && force && sum <= cps + 2) {
-                    clicksThisTick = 1
+                var clicks = ((noise + Schizoid.random.nextDouble()) * cpt).roundToInt()
+                if (clicks == 0 && force && sum <= cps + 2) {
+                    clicks = 1
                 }
-                clicks[System.currentTimeMillis()] = clicksThisTick
-                return clicksThisTick
+                this.clicks[System.currentTimeMillis()] = clicks
+                return clicks
             }
             Type.Cooldown -> {
                 if ((mc.attackCooldown <= 0 && mc.player!!.getAttackCooldownProgress(1f) == 1f)) {

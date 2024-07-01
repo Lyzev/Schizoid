@@ -236,11 +236,8 @@ object ModuleToggleableBlur :
                 ShaderTint["Alpha"] = false
                 ShaderTint["Multiplier"] = 1f
                 ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
-                val tickDelta = Render.tickDelta
-                val yaw = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
-                ShaderTint["Yaw"] = yaw
-                val pitch = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
-                ShaderTint["Pitch"] = pitch
+                ShaderTint["Yaw"] = mc.player?.yaw ?: 0f
+                ShaderTint["Pitch"] = mc.player?.pitch ?: 0f
                 Shader.drawFullScreen()
                 ShaderTint.unbind()
             }

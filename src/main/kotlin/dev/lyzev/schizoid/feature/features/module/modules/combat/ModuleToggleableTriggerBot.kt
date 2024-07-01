@@ -50,9 +50,7 @@ object ModuleToggleableTriggerBot : ModuleToggleable(
     )
 
     private fun click(amount: Int) {
-        for (i in 0 until amount) {
-            KeyBinding.onKeyPressed(mc.options.attackKey.boundKey)
-        }
+        mc.options.attackKey.timesPressed += amount
     }
 
     override val shouldHandleEvents

@@ -54,7 +54,6 @@ object ModuleToggleableAutoText :
         on<EventPacket> { event ->
             if (event.packet is GameMessageS2CPacket) {
                 val message = event.packet.content.string
-                Schizoid.logger.info("Received message: $message")
                 if (message != null) {
                     for (i in triggers.indices) {
                         if (message.contains(triggers.elementAt(i))) {

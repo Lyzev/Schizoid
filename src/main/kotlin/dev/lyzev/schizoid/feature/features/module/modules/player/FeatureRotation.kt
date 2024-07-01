@@ -5,30 +5,39 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.player
 
+import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.events.*
 import dev.lyzev.api.glfw.GLFWKey
+import dev.lyzev.api.math.NoiseGenerator
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
+import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import net.minecraft.client.Mouse
 import net.minecraft.entity.Entity
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
 import org.joml.Vector2f
-import kotlin.math.pow
-import kotlin.math.roundToInt
-import kotlin.math.sqrt
+import kotlin.math.*
 
 object FeatureRotation : IFeature, EventListener {
 
     val current = Vector2f()
     private val last = Vector2f()
+    private var time = System.currentTimeMillis()
+    private val noiseGenerator = NoiseGenerator()
 
     val silent by switch("Silent", "Silent rotation", true)
     val clientSide by switch("Client Side", "Visualize rotation client side.", true)
+
     val revert by switch("Revert", "Revert smooth to the actual yaw and pitch", true)
+    val revertDelay by slider("Revert Delay", "The delay before reverting to the actual yaw and pitch", 500, 0, 3000, "ms")
     val revertWeight by slider("Revert Weight", "Revert smooth to the actual yaw and pitch", 80, 1, 100, "%%", hide = ::revert neq true)
+
+    val jitter by switch("Jitter", "Jitter the rotation", true)
+    val jitterStrength by slider("Jitter Strength", "The strength of the jitter effect.", 18, 0, 100, "%%", hide = ::jitter neq true)
+    val jitterBasedOnClicks by switch("Jitter Based On Clicks", "Jitter based on click speed.", true, hide = ::jitter neq true)
 
     val movementCorrection by switch("Movement Correction", "Corrects movement.", true)
     val silentMovementCorrection by switch("Silent Movement Correction", "Corrects movement silently.", true, hide = ::movementCorrection neq true)
@@ -90,27 +99,56 @@ object FeatureRotation : IFeature, EventListener {
             if (!isIngame || mc.player == null) {
                 return@on
             }
-            val event = EventRotationGoal()
-            event.fire()
-            if (event.goal == null && requireRevert && revert) {
-                event.weight = revertWeight / 100f
-                event.goal = mc.player!!.rotationVecClient
-            }
-            if (event.goal != null) {
-                requireRevert = true
-                val goal = mc.cameraEntity!!.eyePos.getRotation(event.goal!!)
-                // Calculate the delta yaw and pitch
-                val deltaYaw = MathHelper.wrapDegrees(goal.x - current.x)
-                val deltaPitch = MathHelper.wrapDegrees(goal.y - current.y)
-                // Calculate the new yaw and pitch
-                val new = Vector2f(current.x + deltaYaw, MathHelper.clamp(current.y + deltaPitch, -90f, 90f))
-                correctMouseSensitivity(current, new)
-                current.set(new)
-                if (MathHelper.wrapDegrees(current.distance(mc.player!!.yaw, mc.player!!.pitch)) > 5f) {
-                    requireRevert = false
+            if (mc.currentScreen == null) {
+                val event = EventRotationGoal()
+                event.fire()
+                if (event.goal == null && requireRevert && revert) {
+                    if (System.currentTimeMillis() - time > revertDelay || !silent) {
+                        event.weight = revertWeight / 100f + Schizoid.random.nextFloat() * .2f + 2f
+                        event.goal = mc.player!!.rotationVecClient.multiply(3.0).add(mc.player!!.eyePos)
+                    }
+                } else if (event.goal != null) {
+                    time = System.currentTimeMillis()
                 }
-            } else {
-                current.set(mc.player!!.yaw, mc.player!!.pitch)
+                if (event.goal != null) {
+                    requireRevert = true
+                    val goal = mc.cameraEntity!!.eyePos.getRotation(event.goal!!)
+                    // Calculate the delta yaw and pitch
+                    val deltaYaw = MathHelper.wrapDegrees(goal.x - current.x)
+                    val deltaPitch = goal.y - current.y
+
+                    val weightPitch  = EasingFunction.IN_OUT_CIRC(event.weight.toDouble()).toFloat()
+                    val weightYaw = EasingFunction.LINEAR(event.weight.toDouble()).toFloat()
+
+                    val squaredDistance = MathHelper.square(deltaYaw) + MathHelper.square(deltaPitch)
+                    val lastFrameDuration = mc.renderTickCounter.lastDuration
+
+                    val minYaw = (MathHelper.PI / 2f) * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + MathHelper.PI / 2f
+                    val minPitch = (MathHelper.PI / 2f) * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + MathHelper.PI / 2f
+
+                    val maxYaw = max(MathHelper.square(deltaYaw) / squaredDistance * weightYaw * 20, minYaw * lastFrameDuration)
+                    val maxPitch = max(MathHelper.square(deltaPitch) / squaredDistance * weightPitch * 20, minPitch * lastFrameDuration)
+
+                    // Calculate the new yaw and pitch
+                    var yawJitter = if (jitter) Schizoid.random.nextFloat() * jitterStrength / 100f - jitterStrength / 200f else 0f
+                    var pitchJitter = if (jitter) Schizoid.random.nextFloat() * jitterStrength / 100f - jitterStrength / 200f else 0f
+                    if (jitterBasedOnClicks) {
+                        val cpt = max(mc.options.attackKey.timesPressed / 4f + 0.1f, 1f)
+                        yawJitter *= cpt
+                        pitchJitter *= cpt
+                    }
+                    val new = Vector2f(current.x + deltaYaw.coerceIn(-maxYaw, maxYaw) * lastFrameDuration + yawJitter, MathHelper.clamp(current.y + deltaPitch.coerceIn(-maxPitch, maxPitch) * lastFrameDuration + pitchJitter, -90f, 90f))
+                    correctMouseSensitivity(current, new)
+                    current.set(new)
+                    val pitch = mc.player!!.pitch - current.y
+                    val yaw = MathHelper.wrapDegrees(mc.player!!.yaw - current.x)
+                    if (MathHelper.square(yaw) + MathHelper.square(pitch) <= 4f) {
+                        requireRevert = false
+                    }
+                } else if (System.currentTimeMillis() - time > revertDelay) {
+                    noiseGenerator.setSeed()
+                    current.set(mc.player!!.yaw, mc.player!!.pitch)
+                }
             }
             if (!silent) {
                 mc.player!!.yaw = current.x

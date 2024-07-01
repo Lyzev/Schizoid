@@ -5,6 +5,7 @@
 
 package dev.lyzev.api.math
 
+import dev.lyzev.schizoid.Schizoid
 import java.security.SecureRandom
 import kotlin.math.floor
 
@@ -15,7 +16,7 @@ import kotlin.math.floor
  *
  * @param seed The seed value for the noise generator.
  */
-class NoiseGenerator(private var seed: Double = SecureRandom.getInstanceStrong().nextGaussian() * 255) {
+class NoiseGenerator(private var seed: Double = Schizoid.random.nextGaussian() * 255) {
 
     // Initialize the permutation array.
     private val permutation = intArrayOf(
@@ -161,24 +162,11 @@ class NoiseGenerator(private var seed: Double = SecureRandom.getInstanceStrong()
         return (if ((h and 1) == 0) u else -u) + (if ((h and 2) == 0) v else -v)
     }
 
-    fun setSeed(seed: Double = SecureRandom.getInstanceStrong().nextGaussian() * 255) {
+    fun setSeed(seed: Double = Schizoid.random.nextGaussian() * 255) {
         this.seed = seed
     }
 
     companion object {
         private const val DEFAULT_SIZE = 35
-    }
-}
-
-fun main() {
-    val noiseGenerator = NoiseGenerator()
-    for (i in 0..10) {
-        print(noiseGenerator.noise(System.currentTimeMillis().toDouble()).toString() + " ")
-        Thread.sleep(1000 / 20)
-    }
-    println()
-    for (i in 0..10) {
-        print(noiseGenerator.noise(System.currentTimeMillis() / 20.0).toString() + " ")
-        Thread.sleep(1000 / 20)
     }
 }

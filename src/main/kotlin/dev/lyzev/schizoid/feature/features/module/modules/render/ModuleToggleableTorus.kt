@@ -81,13 +81,13 @@ object ModuleToggleableTorus :
             @Suppress("NAME_SHADOWING") val modelViewMat = Matrix4f(modelViewMat)
             modelViewMat.translate((pos.x - cam.x).toFloat(), (pos.y - cam.y).toFloat(), (pos.z - cam.z).toFloat())
             modelViewMat.rotateY(Math.toRadians((-rotation.y).toDouble()).toFloat()) // yaw
-            modelViewMat.rotateX(Math.toRadians((rotation.x).toDouble()).toFloat()) // pitch
+            modelViewMat.rotateX(Math.toRadians((-rotation.x).toDouble()).toFloat()) // pitch
             ShaderReflection.bind()
             ShaderReflection["ModelViewMat", false] = modelViewMat
             ShaderReflection["ProjMat", false] = projMat
             GL13.glActiveTexture(GL13.GL_TEXTURE0)
-            ModuleToggleableRearView.rearView.beginRead()
-//            mc.framebuffer.beginRead()
+//            ModuleToggleableRearView.rearView.beginRead()
+            mc.framebuffer.beginRead()
             ShaderReflection["Tex0"] = 0
             ShaderReflection["Freq"] = frequency / 100f
             ShaderReflection["CamPos"] = cam.toVector3f()
