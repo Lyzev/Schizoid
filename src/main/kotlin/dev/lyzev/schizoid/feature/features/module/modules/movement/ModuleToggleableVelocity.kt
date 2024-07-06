@@ -21,7 +21,7 @@ object ModuleToggleableVelocity :
     ModuleToggleable("Velocity", "Keeps sprinting while attacking.", category = IFeature.Category.COMBAT),
     EventListener {
 
-    val packets by multiOption("Packets", "The packets to use.", setOf("Velocity", "Explosion"))
+    val packets by multiOption("Packets", "The packets to use.", setOf("Velocity" to true, "Explosion" to true))
     val chance by slider("Chance", "The chance to execute on the packet.", 60, 0, 100, "%%")
     val velocityThreshold by slider("Velocity Threshold", "Doesn't execute if the horizontal velocity is below this threshold.", 0.1f, 0f, 1f, 1, "blocks")
     val mode by option("Mode", "The mode to use.", Mode.Jump, Mode.entries)

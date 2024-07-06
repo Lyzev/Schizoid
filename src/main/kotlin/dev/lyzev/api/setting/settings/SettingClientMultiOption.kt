@@ -142,14 +142,6 @@ fun IFeature.multiOption(
     change: (Set<Pair<String, Boolean>>) -> Unit = {}
 ) = SettingClientMultiOptionString(this::class, name, desc, value, hide, change)
 
-fun IFeature.multiOption(
-    name: String,
-    desc: String? = null,
-    value: Set<String>,
-    hide: () -> Boolean = { false },
-    change: (Set<Pair<String, Boolean>>) -> Unit = {}
-) = multiOption(name, desc, value.map { it to false }.toSet(), hide, change)
-
 /**
  * A specific implementation of the [SettingClient] class for multi-option settings.
  *
