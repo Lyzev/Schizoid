@@ -18,7 +18,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.util.math.MathHelper
 
 object ModuleToggleableVelocity :
-    ModuleToggleable("Velocity", "Keeps sprinting while attacking.", category = IFeature.Category.COMBAT),
+    ModuleToggleable("Velocity", "Modify/Reduce the receiving velocity.", category = IFeature.Category.MOVEMENT),
     EventListener {
 
     val packets by multiOption("Packets", "The packets to use.", setOf("Velocity" to true, "Explosion" to true))
