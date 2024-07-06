@@ -6,6 +6,7 @@
 package dev.lyzev.schizoid.feature.features.module
 
 import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.EventPacket
 import dev.lyzev.api.events.EventRenderImGuiContent
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
@@ -120,6 +121,8 @@ abstract class ModuleToggleable(
         else onDisable()
     }
 
+    val disableOn by multiOption("Disable On", "Packets to manipulate.", DisableOn.entries)
+
     // Indicates whether the module should be shown in the array list.
     var showInArrayList by switch(
         "Show In ArrayList",
@@ -153,6 +156,28 @@ abstract class ModuleToggleable(
 
     override fun keybindReleased() {
         if (mc.currentScreen == null) toggle()
+    }
+
+    enum class DisableOn : OptionEnum {
+        Screen {
+            override fun handle(toggleable: ModuleToggleable) {
+                if (Schizoid.mc.currentScreen != null) toggleable.toggle()
+            }
+        },
+        Death {
+            override fun handle(toggleable: ModuleToggleable) {
+                if (!Schizoid.mc.player!!.isAlive) toggleable.toggle()
+            }
+        },
+        Disconnect {
+            override fun handle(toggleable: ModuleToggleable) {
+                if (Schizoid.mc.player == null) toggleable.toggle()
+            }
+        };
+
+        abstract fun handle(toggleable: ModuleToggleable)
+
+        override val key = name
     }
 }
 
