@@ -145,14 +145,14 @@ object FeatureRotation : IFeature, EventListener {
                     val weightPitch = EasingFunction.IN_OUT_CIRC(event.weight.toDouble()).toFloat()
                     val weightYaw = EasingFunction.LINEAR(event.weight.toDouble()).toFloat()
 
-                    if (!event.force) {
-                        val missOffsetYaw =
-                            Schizoid.random.nextFloat() * (deltaYaw * weightYaw) - deltaYaw * weightYaw / 2f
-                        val missOffsetPitch =
-                            Schizoid.random.nextFloat() * (deltaPitch * weightYaw) - deltaPitch * weightYaw / 2f
-                        deltaYaw += missOffsetYaw
-                        deltaPitch += missOffsetPitch
-                    }
+//                    if (!event.force) {
+//                        val missOffsetYaw =
+//                            Schizoid.random.nextFloat() * (deltaYaw * weightYaw) - deltaYaw * weightYaw / 2f
+//                        val missOffsetPitch =
+//                            Schizoid.random.nextFloat() * (deltaPitch * weightYaw) - deltaPitch * weightYaw / 2f
+//                        deltaYaw += missOffsetYaw
+//                        deltaPitch += missOffsetPitch
+//                    }
 
                     val squaredDistance = MathHelper.square(deltaYaw) + MathHelper.square(deltaPitch)
                     val lastFrameDuration = mc.renderTickCounter.lastDuration
