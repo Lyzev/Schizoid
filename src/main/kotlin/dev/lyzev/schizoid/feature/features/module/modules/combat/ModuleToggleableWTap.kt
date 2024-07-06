@@ -5,7 +5,10 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.combat
 
-import dev.lyzev.api.events.*
+import dev.lyzev.api.events.EventAttackEntity
+import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
@@ -13,7 +16,6 @@ import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
 
 object ModuleToggleableWTap :
     ModuleToggleable("W-Tap", "Automatically W-Taps in combat.", category = IFeature.Category.COMBAT), EventListener {
@@ -56,7 +58,6 @@ object ModuleToggleableWTap :
         var start = 0
         var stopTick = stopDelay
         var startTick = startDelay
-        var jump = false
 
         on<EventAttackEntity> {
             if (mc.player!!.isSprinting && Schizoid.random.nextDouble() <= wTapChance / 100.0) {
@@ -66,27 +67,7 @@ object ModuleToggleableWTap :
             }
         }
 
-        on<EventPacket> { event ->
-            if (event.type == EventPacket.Type.S2C) {
-                if (event.packet is EntityVelocityUpdateS2CPacket && mc.world!!.getEntityById(event.packet.id) == mc.player) {
-                    if (Schizoid.random.nextDouble() <= wTapChance / 100.0) {
-                        jump = true
-                    }
-                }
-            }
-        }
-
         on<EventClientPlayerEntityTick> {
-            if (jump) {
-                if (mc.options.jumpKey.isPressed) {
-                    mc.options.jumpKey.isPressed = false
-                    jump = false
-                    println("Jumped!")
-                } else {
-                    println("Jumping!")
-                    mc.options.jumpKey.isPressed = true
-                }
-            }
             if (shouldStop) {
                 if (stop >= stopTick) {
                     if (mode != Mode.Packet) {
