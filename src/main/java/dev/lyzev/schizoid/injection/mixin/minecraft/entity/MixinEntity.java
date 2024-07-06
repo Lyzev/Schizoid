@@ -10,6 +10,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.lyzev.api.events.EventIsInvisibleTo;
 import dev.lyzev.api.events.EventLerpPosAndRotation;
 import dev.lyzev.api.events.EventUpdateVelocity;
+import dev.lyzev.api.events.EventVelocity;
 import dev.lyzev.schizoid.Schizoid;
 import dev.lyzev.schizoid.feature.features.module.modules.player.FeatureRotation;
 import net.minecraft.entity.Entity;
@@ -64,5 +65,16 @@ public abstract class MixinEntity {
             return;
         }
         new EventLerpPosAndRotation(step, x, y, z, yaw, pitch).fire();
+    }
+
+    @Inject(method = "setVelocityClient", at = @At("HEAD"), cancellable = true)
+    private void onSetVelocityClient(double x, double y, double z, CallbackInfo ci) {
+        if (!this.equals(Schizoid.INSTANCE.getMc().player)) {
+            return;
+        }
+        ci.cancel();
+        EventVelocity event = new EventVelocity(x, y, z);
+        event.fire();
+        ((Entity) (Object) this).setVelocity(event.getX(), event.getY(), event.getZ());
     }
 }

@@ -205,3 +205,5 @@ class EventGetAttributeValue(val attribute: EntityAttribute, var value: Double) 
 class EventDistanceToBlockHitResult(var distance: Double) : Event
 
 class EventDistanceToEntityHitResult(var distance: Double) : Event
+
+class EventVelocity(var x: Double, var y: Double, var z: Double) : Event
