@@ -29,8 +29,8 @@ object ModuleToggleableVelocity :
     val jumpInHandledScreen by switch("Jump In Handled Screen", "Jumps in the screen.", true, hide = {
         mode != Mode.Jump || !jumpInScreen
     })
-    val horizontal by slider("Horizontal", "The horizontal multiplier.", 100, -200, 200, "%%")
-    val vertical by slider("Vertical", "The vertical multiplier.", 100, -200, 200, "%%")
+    val horizontal by slider("Horizontal", "The horizontal multiplier.", 100, -200, 200, "%%", hide = ::mode neq Mode.Modify)
+    val vertical by slider("Vertical", "The vertical multiplier.", 100, -200, 200, "%%", hide = ::mode neq Mode.Modify)
 
     private var wasJumping = false
     private var shouldJump = false
