@@ -86,6 +86,15 @@ object ModuleToggleableAimBot : ModuleToggleable(
     )
     val aimVector by option("Aim Vector", "The aim vector.", "Artificial Intelligence", arrayOf("Artificial Intelligence", "Nearest"))
     val forceHit by switch("Force Hit", "Aims on the nearest vector if the artificial intelligence vector is not in reach.", true, hide = ::aimVector eq "Nearest")
+    val aimSpeedForceHitWeight by slider(
+        "Aim Force Hit Weight",
+        "The weight of the force hit in the aim speed.",
+        30,
+        0,
+        100,
+        "%%",
+        hide = ::aimInstant eq true
+    )
     val visualizeAimVector by switch("Visualize Aim Vector", "Visualize the aim vector.", true)
     val reflection by switch(
         "Reflection", "Reflection effect on aim vector.", false, hide = ::visualizeAimVector neq true
@@ -305,7 +314,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
                 event.weight += aimSpeedRandomWeight - Schizoid.random.nextFloat() * aimSpeedRandomWeight / 2f
 
                 if (forceHit && target!!.hurtTime <= 3 && mc.player!!.eyePos.squaredDistanceTo(aimVec) < reach * reach) {
-                    event.weight += Schizoid.random.nextFloat() * 0.2f + 0.4f
+                    event.weight += aimSpeedForceHitWeight / 100f + Schizoid.random.nextFloat() * 0.1f
                 }
             }
         }
