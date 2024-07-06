@@ -5,7 +5,8 @@
 
 package dev.lyzev.schizoid.injection.mixin.minecraft.client.network;
 
-import dev.lyzev.api.events.EventAttackEntity;
+import dev.lyzev.api.events.EventAttackEntityPost;
+import dev.lyzev.api.events.EventAttackEntityPre;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,8 +31,14 @@ public class MixinClientPlayerInteractionManager {
      * @param ci     The callback information.
      */
     @Inject(method = "attackEntity", at = @At("HEAD"))
-    private void onAttackEntity(PlayerEntity player, Entity target, CallbackInfo ci) {
-        EventAttackEntity event = new EventAttackEntity(player, target);
+    private void onAttackEntityPre(PlayerEntity player, Entity target, CallbackInfo ci) {
+        EventAttackEntityPre event = new EventAttackEntityPre(player, target);
+        event.fire();
+    }
+
+    @Inject(method = "attackEntity", at = @At("RETURN"))
+    private void onAttackEntityPost(PlayerEntity player, Entity target, CallbackInfo ci) {
+        EventAttackEntityPost event = new EventAttackEntityPost(player, target);
         event.fire();
     }
 }

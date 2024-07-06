@@ -110,8 +110,8 @@ object ModuleToggleableAimBot : ModuleToggleable(
     init {
         val layers = mutableListOf<Pair<Array<DoubleArray>, DoubleArray>>()
         for (i in 1..4) {
-            val weights = AI.loadWeights("hidden_layer_${i}_weights.csv")
-            val biases = AI.loadBiases("hidden_layer_${i}_biases.csv")
+            val weights = AI.loadWeights("layer_${i}_weights.csv")
+            val biases = AI.loadBiases("layer_${i}_biases.csv")
             layers.add(Pair(weights, biases))
         }
 

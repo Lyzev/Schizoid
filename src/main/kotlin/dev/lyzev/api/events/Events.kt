@@ -160,7 +160,9 @@ class EventIsCursorLocked(var isCursorLocked: Boolean) : Event
 
 object EventUpdateMouse : Event
 
-class EventAttackEntity(val player: PlayerEntity, val entity: Entity) : Event
+class EventAttackEntityPre(val player: PlayerEntity, val entity: Entity) : Event
+
+class EventAttackEntityPost(val player: PlayerEntity, val entity: Entity) : Event
 
 class EventOSThemeUpdate(val theme: OSTheme.Theme) : Event
 

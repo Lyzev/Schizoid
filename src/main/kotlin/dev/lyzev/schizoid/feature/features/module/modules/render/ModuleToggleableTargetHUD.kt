@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import dev.lyzev.api.events.EventAttackEntity
+import dev.lyzev.api.events.EventAttackEntityPre
 import dev.lyzev.api.events.on
 import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.setting.settings.slider
@@ -84,7 +84,7 @@ object ModuleToggleableTargetHUD : ModuleToggleableRenderImGuiContent(
         get() = shouldHandleEvents && mc.currentScreen !is HandledScreen<*> && (target != null || mc.currentScreen != null) && mc.player != null
 
     init {
-        on<EventAttackEntity> {
+        on<EventAttackEntityPre> {
             if (it.entity !is PlayerEntity) return@on
             target = it.entity
             val skinTextures = PlayerListEntry.texturesSupplier(target!!.gameProfile).get()

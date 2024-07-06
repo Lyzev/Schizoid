@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.combat
 
-import dev.lyzev.api.events.EventAttackEntity
+import dev.lyzev.api.events.EventAttackEntityPre
 import dev.lyzev.api.events.EventClientPlayerEntityTick
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
@@ -59,7 +59,7 @@ object ModuleToggleableWTap :
         var stopTick = stopDelay
         var startTick = startDelay
 
-        on<EventAttackEntity> {
+        on<EventAttackEntityPre> {
             if (mc.player!!.isSprinting && Schizoid.random.nextDouble() <= wTapChance / 100.0) {
                 stop = 0
                 stopTick = stopDelay + Schizoid.random.nextInt(randomTickOffset + 1)
