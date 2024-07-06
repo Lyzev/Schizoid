@@ -25,8 +25,8 @@ object ModuleToggleableVelocity :
     val chance by slider("Chance", "The chance to execute on the packet.", 60, 0, 100, "%%")
     val velocityThreshold by slider("Velocity Threshold", "Doesn't execute if the horizontal velocity is below this threshold.", 0.1f, 0f, 1f, 1, "blocks")
     val mode by option("Mode", "The mode to use.", Mode.Jump, Mode.entries)
-    val jumpInScreen by switch("Jump In Screen", "Jumps in the screen.", true, hide = ::mode neq Mode.Jump)
-    val jumpInHandledScreen by switch("Jump In Handled Screen", "Jumps in the screen.", true, hide = {
+    val jumpInScreen by switch("Jump In Screen", "Jumps in the screen.", false, hide = ::mode neq Mode.Jump)
+    val jumpInHandledScreen by switch("Jump In Handled Screen", "Jumps in the screen.", false, hide = {
         mode != Mode.Jump || !jumpInScreen
     })
     val horizontal by slider("Horizontal", "The horizontal multiplier.", 100, -200, 200, "%%", hide = ::mode neq Mode.Modify)
@@ -34,6 +34,7 @@ object ModuleToggleableVelocity :
 
     private var wasJumping = false
     private var shouldJump = false
+    private var shouldRestore = false
 
     override fun onDisable() {
         shouldJump = false
@@ -72,11 +73,12 @@ object ModuleToggleableVelocity :
                 if ((jumpInScreen && (jumpInHandledScreen || mc.currentScreen !is HandledScreen<*>)) || mc.currentScreen == null) {
                     wasJumping = mc.options.jumpKey.isPressed
                     mc.options.jumpKey.isPressed = true
+                    shouldRestore = true
                 }
                 shouldJump = false
-            } else if (wasJumping) {
-                mc.options.jumpKey.isPressed = false
-                wasJumping = false
+            } else if (shouldRestore) {
+                mc.options.jumpKey.isPressed = wasJumping
+                shouldRestore = false
             }
         }
         on<EventVelocity> { event ->
