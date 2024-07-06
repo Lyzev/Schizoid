@@ -166,7 +166,7 @@ abstract class ModuleToggleable(
         },
         Death {
             override fun handle(toggleable: ModuleToggleable) {
-                if (!Schizoid.mc.player!!.isAlive) toggleable.toggle()
+                if (Schizoid.mc.player != null && !Schizoid.mc.player!!.isAlive) toggleable.toggle()
             }
         },
         Disconnect {

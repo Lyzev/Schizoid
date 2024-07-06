@@ -93,7 +93,7 @@ object ModuleToggleableTriggerBot : ModuleToggleable(
                         { entity: Entity -> !entity.isSpectator && entity.canHit() },
                         MathHelper.square(reach)
                     )
-                    if (entityHitResult != null) {
+                    if (entityHitResult != null && targets.any { it.second && it.first == entityHitResult.entity.type.name.string }) {
                         val click =
                             clicker.tick(false)
                         if (click > 0) {
