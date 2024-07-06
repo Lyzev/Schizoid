@@ -20,14 +20,14 @@ import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket
 object ModuleToggleableWTap :
     ModuleToggleable("W-Tap", "Automatically W-Taps in combat.", category = IFeature.Category.COMBAT), EventListener {
 
-    val mode by option("Mode", "The mode used to W-Tap.", Mode.STap, Mode.entries) {
+    val mode by option("Mode", "The mode used to W-Tap.", Mode.WTap, Mode.entries) {
         if (isEnabled) {
             onDisable()
         }
     }
-    val wTapChance by slider("W Tap Chance", "The chance to w tap.", 70, 0, 100, "%%")
-    val stopDelay by slider("Stop Delay", "The delay between hitting and stopping.", 1, 0, 20, "ticks")
-    val startDelay by slider("Start Delay", "The delay between hitting and starting.", 2, 0, 20, "ticks")
+    val wTapChance by slider("W Tap Chance", "The chance to w tap.", 60, 0, 100, "%%")
+    val stopDelay by slider("Stop Delay", "The delay between hitting and stopping.", 3, 0, 20, "ticks")
+    val startDelay by slider("Start Delay", "The delay between hitting and starting.", 3, 0, 20, "ticks")
     val randomTickOffset by slider(
         "Random Tick Offset", "Applies a random tick offset to the start/stop delay.", 2, 0, 10, "ticks"
     )

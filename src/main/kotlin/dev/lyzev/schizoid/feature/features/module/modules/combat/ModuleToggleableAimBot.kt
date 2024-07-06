@@ -44,14 +44,14 @@ object ModuleToggleableAimBot : ModuleToggleable(
     private var lastAimVec: Vec3d? = null
     private var time = System.currentTimeMillis()
 
-    val aimExtensionReach by slider("Aim Extension Reach", "The reach of the aim extension.", 2f, 0f, 5f, 1, "blocks")
+    val aimExtensionReach by slider("Aim Extension Reach", "The reach of the aim extension.", 1.8f, 0f, 5f, 1, "blocks")
     val aimThroughWalls by switch("Aim Through Walls", "Aims through walls.", false)
     val aimInstant by switch("Aim Instant", "Instantly aim at the target.", false)
-    val aimSpeed by slider("Aim Speed", "The speed of the aim.", 60, 1, 100, "%%", hide = ::aimInstant eq true)
+    val aimSpeed by slider("Aim Speed", "The speed of the aim.", 80, 1, 100, "%%", hide = ::aimInstant eq true)
     val aimSpeedDistanceWeight by slider(
         "Aim Speed Distance Weight",
         "The weight of the distance to the target in the aim speed.",
-        30,
+        25,
         0,
         100,
         "%%",
@@ -60,7 +60,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedCrosshairWeight by slider(
         "Aim Speed Crosshair Weight",
         "The weight of the target in the crosshair in the aim speed.",
-        10,
+        8,
         0,
         100,
         "%%",
@@ -78,19 +78,19 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedRandomWeight by slider(
         "Aim Speed Random Weight",
         "The weight of the random factor in the aim speed.",
-        5,
+        10,
         0,
         100,
         "%%",
         hide = ::aimInstant eq true
     )
     val aimVector by option("Aim Vector", "The aim vector.", "Artificial Intelligence", arrayOf("Artificial Intelligence", "Nearest"))
-    val forceHit by switch("Force Hit", "Aims on the nearest vector if the artificial intelligence vector is not in reach.", false, hide = ::aimVector eq "Nearest")
+    val forceHit by switch("Force Hit", "Aims on the nearest vector if the artificial intelligence vector is not in reach.", true, hide = ::aimVector eq "Nearest")
     val visualizeAimVector by switch("Visualize Aim Vector", "Visualize the aim vector.", true)
     val reflection by switch(
         "Reflection", "Reflection effect on aim vector.", false, hide = ::visualizeAimVector neq true
     )
-    val color by color("Color", "The color of the aim vector.", Color(0f, 1f, 0f, 0.8f), true, hide = {
+    val color by color("Color", "The color of the aim vector.", Color(1f, 0f, 0f, 0.8f), true, hide = {
         !visualizeAimVector || reflection
     })
     val fov by slider("Field of View", "The field of view.", 140, 1, 255, "°")
@@ -98,7 +98,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
         "Field of View Rotation", "Which rotation to use for the field of view.", "Server", arrayOf("Server", "Client")
     )
     private val priority by option("Priority", "The priority of the target.", Priority.FOV, Priority.entries)
-    private val switchDelay by slider("Switch Delay", "The delay before switching targets.", 1000, 0, 3000, "ms")
+    private val switchDelay by slider("Switch Delay", "The delay before switching targets.", 300, 0, 3000, "ms")
 
     override fun onDisable() {
         aimVec = null

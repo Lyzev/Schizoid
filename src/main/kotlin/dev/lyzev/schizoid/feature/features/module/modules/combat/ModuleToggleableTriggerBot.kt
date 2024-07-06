@@ -27,11 +27,11 @@ object ModuleToggleableTriggerBot : ModuleToggleable(
     private var lastHit = 0L
 
     val clicker = Clicker(this)
-    val miss by switch("Miss", "Hits in the air to simulate a miss.", false)
+    val miss by switch("Miss", "Hits in the air to simulate a miss.", true)
     val reachExtension by slider(
         "Reach Extension",
         "The distance the bot hits the air before the entity.",
-        1.8f,
+        1.4f,
         0f,
         5f,
         1,
@@ -41,7 +41,7 @@ object ModuleToggleableTriggerBot : ModuleToggleable(
     val reactionTime by slider(
         "Reaction Time",
         "The time the bot hits the air after the entity is in the crosshair.",
-        200,
+        300,
         0,
         1000,
         "ms",

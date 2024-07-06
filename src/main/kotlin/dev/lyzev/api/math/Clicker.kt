@@ -24,7 +24,7 @@ class Clicker(val container: IFeature) {
     val clicks = mutableMapOf<Long, Int>()
 
     val type by container.option("Type", "The type of the clicker.", Type.Cooldown, Type.entries)
-    val cps by container.slider("CPS", "The clicks per second of the clicker.", 12, 1, 20, "cps", hide = ::type eq Type.Cooldown)
+    val cps by container.slider("CPS", "The clicks per second of the clicker.", 16, 1, 20, "cps", hide = ::type eq Type.Cooldown)
     val force by container.switch("Force", "Forces the clicker to click if needed.", true)
 
     fun tick(force: Boolean): Int {
