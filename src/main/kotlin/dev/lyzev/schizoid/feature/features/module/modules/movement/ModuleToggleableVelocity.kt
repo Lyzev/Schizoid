@@ -71,7 +71,9 @@ object ModuleToggleableVelocity :
         on<EventClientPlayerEntityTick> {
             if (shouldJump) {
                 if ((jumpInScreen && (jumpInHandledScreen || mc.currentScreen !is HandledScreen<*>)) || mc.currentScreen == null) {
-                    wasJumping = mc.options.jumpKey.isPressed
+                    if (!shouldRestore) {
+                        wasJumping = mc.options.jumpKey.isPressed
+                    }
                     mc.options.jumpKey.isPressed = true
                     shouldRestore = true
                 }
