@@ -40,7 +40,10 @@ class SettingClientMultiOptionString(
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
             if (this.value.size > 5) {
-                inputText("##search@${name}", searchString)
+                inputTextWithHint(
+                    "##search@${name}",
+                    "Searching...",
+                    searchString)
             }
             val filteredValues = if (searchString.isEmpty || searchString.get()
                     .isBlank()
@@ -108,7 +111,10 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
             if (this.value.size > 5) {
-                inputText("##search@${name}", searchString)
+                inputTextWithHint(
+                    "##search@${name}",
+                    "Searching...",
+                    searchString)
             }
             val filteredValues = if (searchString.isEmpty || searchString.get()
                     .isBlank()

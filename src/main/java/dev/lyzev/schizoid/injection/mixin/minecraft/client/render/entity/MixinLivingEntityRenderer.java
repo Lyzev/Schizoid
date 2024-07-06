@@ -38,10 +38,7 @@ public class MixinLivingEntityRenderer {
      * @param vertexConsumer The vertex consumer used for rendering.
      * @param light          The light level for the render.
      * @param overlay        The overlay level for the render.
-     * @param red            The red color component for the render.
-     * @param green          The green color component for the render.
-     * @param blue           The blue color component for the render.
-     * @param alpha          The alpha component for the render.
+     * @param argb           The color of the render.
      * @return
      */
     @WrapWithCondition(method = "render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/model/EntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V"))
