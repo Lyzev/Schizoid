@@ -19,7 +19,6 @@ import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
-import dev.lyzev.schizoid.feature.features.module.modules.player.FeatureRotation
 import dev.lyzev.schizoid.feature.features.module.modules.player.FeatureRotation.current
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.Tessellator
@@ -27,6 +26,7 @@ import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.registry.Registries
 import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
@@ -44,6 +44,11 @@ object ModuleToggleableAimBot : ModuleToggleable(
     private var lastAimVec: Vec3d? = null
     private var time = System.currentTimeMillis()
 
+    val targets by multiOption(
+        "Targets",
+        "The targets to aim at.",
+        Registries.ENTITY_TYPE.map { it.name.string to (it.name.string == "Player") }.sortedBy { it.first }.toSet()
+    )
     val aimExtensionReach by slider("Aim Extension Reach", "The reach of the aim extension.", 1.8f, 0f, 5f, 1, "blocks")
     val aimThroughWalls by switch("Aim Through Walls", "Aims through walls.", false)
     val aimInstant by switch("Aim Instant", "Instantly aim at the target.", false)
@@ -106,8 +111,8 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val fovRotation by option(
         "Field of View Rotation", "Which rotation to use for the field of view.", "Server", arrayOf("Server", "Client")
     )
-    private val priority by option("Priority", "The priority of the target.", Priority.FOV, Priority.entries)
-    private val switchDelay by slider("Switch Delay", "The delay before switching targets.", 300, 0, 3000, "ms")
+    val priority by option("Priority", "The priority of the target.", Priority.FOV, Priority.entries)
+    val switchDelay by slider("Switch Delay", "The delay before switching targets.", 300, 0, 3000, "ms")
 
     override fun onDisable() {
         aimVec = null
@@ -125,13 +130,13 @@ object ModuleToggleableAimBot : ModuleToggleable(
         }
 
         var lastHitVec: Vec3d? = null
-        var target: LivingEntity? = null
+        var target: Entity? = null
 
         on<EventUpdateCrosshairTargetTick> {
             val reach = mc.player!!.entityInteractionRange
             val maxReach = reach + aimExtensionReach
-            val possibleTarget = mc.world!!.entities.filterIsInstance<LivingEntity>().filter { entity ->
-                entity != mc.player && entity.isAlive && entity.boundingBox[mc.player!!.eyePos].let { nearest ->
+            val possibleTarget = mc.world!!.entities.filter { entity ->
+                entity != mc.player && entity.isAlive && targets.any { it.second && it.first == entity.type.name.string } && entity.boundingBox[mc.player!!.eyePos].let { nearest ->
                     mc.player!!.squaredDistanceTo(nearest) <= MathHelper.square(maxReach) && mc.player!!.eyePos[nearest].let { rotation ->
                         val deltaPitch = (if (fovRotation == "Server") current.y else mc.player!!.pitch) - rotation.x
                         val deltaYaw =
@@ -248,7 +253,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
                         output[1] * (box.maxY - box.minY) + box.minY,
                         output[2] * (box.maxZ - box.minZ) + box.minZ
                     )
-                    if (forceHit && target!!.hurtTime <= 3) {
+                    if (forceHit && (target !is LivingEntity || (target as LivingEntity).hurtTime <= 3)) {
                         val nearest = box[mc.player!!.eyePos]
                         if (mc.player!!.eyePos.squaredDistanceTo(aimVec) > reach * reach && mc.player!!.eyePos.squaredDistanceTo(nearest) <= reach * reach) {
                             aimVec = nearest
@@ -291,7 +296,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
                 val reach = mc.player!!.entityInteractionRange
                 val maxReach = reach + aimExtensionReach
                 val distance = mc.player!!.eyePos.distanceTo(target!!.boundingBox[mc.player!!.eyePos])
-                if (distance <= reach && target!!.hurtTime <= 3) {
+                if (distance <= reach && (target !is LivingEntity || (target as LivingEntity).hurtTime <= 3)) {
                     event.force = true
                 }
                 event.weight += (distance / maxReach).toFloat() * aimSpeedDistanceWeight
@@ -313,7 +318,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
                 val aimSpeedRandomWeight = aimSpeedRandomWeight / 100f
                 event.weight += aimSpeedRandomWeight - Schizoid.random.nextFloat() * aimSpeedRandomWeight / 2f
 
-                if (forceHit && target!!.hurtTime <= 3 && mc.player!!.eyePos.squaredDistanceTo(aimVec) < reach * reach) {
+                if (forceHit && (target !is LivingEntity || (target as LivingEntity).hurtTime <= 3) && mc.player!!.eyePos.squaredDistanceTo(aimVec) < reach * reach) {
                     event.weight += aimSpeedForceHitWeight / 100f + Schizoid.random.nextFloat() * 0.1f
                 }
             }

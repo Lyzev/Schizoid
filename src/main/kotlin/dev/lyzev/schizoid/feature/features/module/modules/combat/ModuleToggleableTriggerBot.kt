@@ -9,6 +9,7 @@ import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventUpdateCrosshairTargetTick
 import dev.lyzev.api.events.on
 import dev.lyzev.api.math.Clicker
+import dev.lyzev.api.setting.settings.multiOption
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.Setting.Companion.neq
@@ -18,6 +19,7 @@ import net.minecraft.client.option.KeyBinding
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.ProjectileUtil
+import net.minecraft.registry.Registries
 import net.minecraft.util.math.MathHelper
 
 object ModuleToggleableTriggerBot : ModuleToggleable(
@@ -26,6 +28,11 @@ object ModuleToggleableTriggerBot : ModuleToggleable(
 
     private var lastHit = 0L
 
+    val targets by multiOption(
+        "Targets",
+        "The targets to aim at.",
+        Registries.ENTITY_TYPE.map { it.name.string to (it.name.string == "Player") }.sortedBy { it.first }.toSet()
+    )
     val clicker = Clicker(this)
     val miss by switch("Miss", "Hits in the air to simulate a miss.", true)
     val reachExtension by slider(
@@ -58,10 +65,8 @@ object ModuleToggleableTriggerBot : ModuleToggleable(
     init {
         // Attack the entity in the player's crosshair.
         on<EventUpdateCrosshairTargetTick> {
-            if (mc.targetedEntity is LivingEntity) {
+            if (mc.targetedEntity != null && targets.any { it.second && it.first == mc.targetedEntity!!.type.name.string }) {
                 lastHit = System.currentTimeMillis()
-            }
-            if (mc.targetedEntity != null) {
                 val click =
                     clicker.tick(mc.targetedEntity is LivingEntity && (mc.targetedEntity as LivingEntity).hurtTime == 0)
                 if (click > 0) {

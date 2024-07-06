@@ -9,6 +9,7 @@ import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
 import imgui.flag.ImGuiStyleVar
+import imgui.type.ImString
 import kotlinx.serialization.json.*
 import kotlin.math.max
 import kotlin.reflect.KClass
@@ -32,26 +33,38 @@ class SettingClientMultiOptionString(
     change: (Set<Pair<String, Boolean>>) -> Unit
 ) : SettingClient<Set<Pair<String, Boolean>>>(container, name, desc, value, hide, change) {
 
+    private var searchString = ImString(32)
+
     override fun render() {
         val treeNode = treeNode(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
-            if (beginListBox("", -1f, calcHeight(value.size))) {
-                for (value in this.value) {
-                    text(value.first)
-                    sameLine(
-                        max(
-                            getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX,
-                            calcTextSize(value.first).x + getStyle().framePaddingX + 2
+            if (this.value.size > 5) {
+                inputText("##search@${name}", searchString)
+            }
+            val filteredValues = if (searchString.isEmpty || searchString.get()
+                    .isBlank()
+            ) this.value else this.value.filter { it.first.contains(searchString.get(), ignoreCase = true) }
+            if (beginListBox("", -1f, calcHeight(filteredValues.size))) {
+                if (filteredValues.isEmpty()) {
+                    textDisabled("Looks like there's nothing here.")
+                } else {
+                    for (value in filteredValues) {
+                        text(value.first)
+                        sameLine(
+                            max(
+                                getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX,
+                                calcTextSize(value.first).x + getStyle().framePaddingX + 2
+                            )
                         )
-                    )
-                    pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
-                    if (checkbox("##${value.first}", value.second)) {
-                        this.value =
-                            this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
-                        onChange(this.value)
+                        pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
+                        if (checkbox("##${value.first}", value.second)) {
+                            this.value =
+                                this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
+                            onChange(this.value)
+                        }
+                        popStyleVar()
                     }
-                    popStyleVar()
                 }
                 endListBox()
             }
@@ -88,26 +101,38 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
     change: (Set<Pair<T, Boolean>>) -> Unit
 ) : SettingClient<Set<Pair<T, Boolean>>>(container, name, desc, value, hide, change) {
 
+    private var searchString = ImString(32)
+
     override fun render() {
         val treeNode = treeNode(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
-            if (beginListBox("", -1f, calcHeight(value.size))) {
-                for (value in this.value) {
-                    text(value.first.key)
-                    sameLine(
-                        max(
-                            getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX,
-                            calcTextSize(value.first.key).x + getStyle().framePaddingX + 2
+            if (this.value.size > 5) {
+                inputText("##search@${name}", searchString)
+            }
+            val filteredValues = if (searchString.isEmpty || searchString.get()
+                    .isBlank()
+            ) this.value else this.value.filter { it.first.key.contains(searchString.get(), ignoreCase = true) }
+            if (beginListBox("", -1f, calcHeight(filteredValues.size))) {
+                if (filteredValues.isEmpty()) {
+                    textDisabled("Looks like there's nothing here.")
+                } else {
+                    for (value in filteredValues) {
+                        text(value.first.key)
+                        sameLine(
+                            max(
+                                getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX,
+                                calcTextSize(value.first.key).x + getStyle().framePaddingX + 2
+                            )
                         )
-                    )
-                    pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
-                    if (checkbox("##${value.first.key}", value.second)) {
-                        this.value =
-                            this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
-                        onChange(this.value)
+                        pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
+                        if (checkbox("##${value.first.key}", value.second)) {
+                            this.value =
+                                this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
+                            onChange(this.value)
+                        }
+                        popStyleVar()
                     }
-                    popStyleVar()
                 }
                 endListBox()
             }
