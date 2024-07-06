@@ -185,6 +185,8 @@ class EventUpdateVelocity(var yaw: Float) : Event
 class EventRotationGoal : Event {
 
     var goal: Vec3d? = null
+    var force = false
+    var instant = false
     var weight = 1f
 }
 

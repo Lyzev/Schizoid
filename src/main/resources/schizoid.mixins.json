@@ -25,12 +25,12 @@
     "mixin.minecraft.client.world.MixinClientWorld",
     "mixin.minecraft.entity.MixinEntity",
     "mixin.minecraft.entity.MixinLivingEntity",
-    "mixin.minecraft.network.MixinClientConnection"
+    "mixin.minecraft.network.MixinClientConnection",
+    "accessor.YggdrasilMinecraftSessionServiceAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "accessor.YggdrasilMinecraftSessionServiceAccessor"
   ]
 }

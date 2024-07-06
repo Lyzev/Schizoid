@@ -20,7 +20,6 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.projectile.ProjectileUtil
 import net.minecraft.util.math.MathHelper
 
-// TODO: Add waiting for crits and other features.
 object ModuleToggleableTriggerBot : ModuleToggleable(
     "Trigger Bot", "Automatically attacks entities in the player's crosshair.", category = IFeature.Category.COMBAT
 ), EventListener {

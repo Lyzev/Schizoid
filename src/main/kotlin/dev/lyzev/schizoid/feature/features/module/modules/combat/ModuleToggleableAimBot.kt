@@ -8,6 +8,7 @@ package dev.lyzev.schizoid.feature.features.module.modules.combat
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.*
 import dev.lyzev.api.math.AI
+import dev.lyzev.api.math.canSee
 import dev.lyzev.api.math.get
 import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.shader.ShaderPosCol
@@ -26,13 +27,15 @@ import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.util.hit.HitResult
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
+import net.minecraft.world.RaycastContext
 import org.joml.Matrix4f
 import org.lwjgl.opengl.GL13
 import java.awt.Color
+import kotlin.math.min
 
-// TODO: Aim Speed & Force Hit & Walls
 object ModuleToggleableAimBot : ModuleToggleable(
     "Aim Bot", "Collect data for Aim Bot.", category = IFeature.Category.COMBAT
 ), EventListener {
@@ -42,6 +45,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     private var time = System.currentTimeMillis()
 
     val aimExtensionReach by slider("Aim Extension Reach", "The reach of the aim extension.", 2f, 0f, 5f, 1, "blocks")
+    val aimThroughWalls by switch("Aim Through Walls", "Aims through walls.", false)
     val aimInstant by switch("Aim Instant", "Instantly aim at the target.", false)
     val aimSpeed by slider("Aim Speed", "The speed of the aim.", 60, 1, 100, "%%", hide = ::aimInstant eq true)
     val aimSpeedDistanceWeight by slider(
@@ -81,6 +85,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
         hide = ::aimInstant eq true
     )
     val aimVector by option("Aim Vector", "The aim vector.", "Artificial Intelligence", arrayOf("Artificial Intelligence", "Nearest"))
+    val forceHit by switch("Force Hit", "Aims on the nearest vector if the artificial intelligence vector is not in reach.", false, hide = ::aimVector eq "Nearest")
     val visualizeAimVector by switch("Visualize Aim Vector", "Visualize the aim vector.", true)
     val reflection by switch(
         "Reflection", "Reflection effect on aim vector.", false, hide = ::visualizeAimVector neq true
@@ -105,8 +110,8 @@ object ModuleToggleableAimBot : ModuleToggleable(
     init {
         val layers = mutableListOf<Pair<Array<DoubleArray>, DoubleArray>>()
         for (i in 1..4) {
-            val weights = AI.loadWeights("layer_${i}_weights.csv")
-            val biases = AI.loadBiases("layer_${i}_biases.csv")
+            val weights = AI.loadWeights("hidden_layer_${i}_weights.csv")
+            val biases = AI.loadBiases("hidden_layer_${i}_biases.csv")
             layers.add(Pair(weights, biases))
         }
 
@@ -114,7 +119,8 @@ object ModuleToggleableAimBot : ModuleToggleable(
         var target: LivingEntity? = null
 
         on<EventUpdateCrosshairTargetTick> {
-            val maxReach = mc.player!!.entityInteractionRange + aimExtensionReach
+            val reach = mc.player!!.entityInteractionRange
+            val maxReach = reach + aimExtensionReach
             val possibleTarget = mc.world!!.entities.filterIsInstance<LivingEntity>().filter { entity ->
                 entity != mc.player && entity.isAlive && entity.boundingBox[mc.player!!.eyePos].let { nearest ->
                     mc.player!!.squaredDistanceTo(nearest) <= MathHelper.square(maxReach) && mc.player!!.eyePos[nearest].let { rotation ->
@@ -170,6 +176,29 @@ object ModuleToggleableAimBot : ModuleToggleable(
                     val velocityPlayer = Vec3d(mc.player!!.x - mc.player!!.prevX, mc.player!!.y - mc.player!!.prevY, mc.player!!.z - mc.player!!.prevZ).normalize().add(1.0, 1.0, 1.0).normalize()
                     val lookVec = Vec3d.fromPolar(current.y, current.x).normalize().add(1.0, 1.0, 1.0).normalize()
 
+                    val speedTarget = min(Vec3d(target!!.x - target!!.prevX, target!!.y - target!!.prevY, target!!.z - target!!.prevZ).lengthSquared() / 100.0, 1.0)
+                    val speedPlayer = min(Vec3d(mc.player!!.x - mc.player!!.prevX, mc.player!!.y - mc.player!!.prevY, mc.player!!.z - mc.player!!.prevZ).lengthSquared() / 100.0, 1.0)
+                    val clicks = min(mc.options.attackKey.timesPressed / 4.0, 1.0)
+                    val raycast = DoubleArray(8)
+                    val from = mc.player!!.eyePos
+                    for (x in 0..1) {
+                        for (y in 0..1) {
+                            for (z in 0..1) {
+                                val to = Vec3d(
+                                    box.minX + x * (box.maxX - box.minX) * 0.5 + 0.25 * (box.maxX - box.minX),
+                                    box.minY + y * (box.maxY - box.minY) * 0.5 + 0.25 * (box.maxY - box.minY),
+                                    box.minZ + z * (box.maxZ - box.minZ) * 0.5 + 0.25 * (box.maxZ - box.minZ)
+                                )
+                                val hitResult = mc.world!!.raycast(RaycastContext(from, to, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player))
+                                if (hitResult == null || hitResult.type == HitResult.Type.MISS) {
+                                    raycast[x * 4 + y * 2 + z] = 1.0
+                                } else {
+                                    raycast[x * 4 + y * 2 + z] = 0.0
+                                }
+                            }
+                        }
+                    }
+
                     val input = doubleArrayOf(
                         reach,
                         hitVec.x,
@@ -179,15 +208,19 @@ object ModuleToggleableAimBot : ModuleToggleable(
                         lookVecEntity.y,
                         lookVecEntity.z,
                         wasAiming.toDouble(),
+                        speedTarget,
+                        speedPlayer,
+                        lookVec.x,
+                        lookVec.y,
+                        lookVec.z,
+                        clicks,
+                        *raycast,
                         velocityTarget.x,
                         velocityTarget.y,
                         velocityTarget.z,
                         velocityPlayer.x,
                         velocityPlayer.y,
-                        velocityPlayer.z,
-                        lookVec.x,
-                        lookVec.y,
-                        lookVec.z
+                        velocityPlayer.z
                     )
 
                     // Initial hidden layer
@@ -206,6 +239,12 @@ object ModuleToggleableAimBot : ModuleToggleable(
                         output[1] * (box.maxY - box.minY) + box.minY,
                         output[2] * (box.maxZ - box.minZ) + box.minZ
                     )
+                    if (forceHit && target!!.hurtTime <= 3) {
+                        val nearest = box[mc.player!!.eyePos]
+                        if (mc.player!!.eyePos.squaredDistanceTo(aimVec) > reach * reach && mc.player!!.eyePos.squaredDistanceTo(nearest) <= reach * reach) {
+                            aimVec = nearest
+                        }
+                    }
                 }
 
                 lastHitVec = Vec3d(
@@ -220,7 +259,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
         }
 
         on<EventRotationGoal> { event ->
-            if (aimVec == null) return@on
+            if (aimVec == null || (!aimThroughWalls && !mc.player!!.canSee(aimVec!!))) return@on
             if (mc.player!!.boundingBox.contains(aimVec) || target!!.boundingBox.contains(mc.player!!.eyePos)) {
                 aimVec = Vec3d(
                     target!!.boundingBox.minX + (target!!.boundingBox.maxX - target!!.boundingBox.minX) * 0.5,
@@ -230,16 +269,23 @@ object ModuleToggleableAimBot : ModuleToggleable(
             }
             event.goal = aimVec
             if (aimInstant) {
+                event.instant = true
+                return@on
+            }
+            if (aimInstant) {
                 event.weight = 1f
             } else {
                 event.weight = aimSpeed / 100f
 
                 // Distance
                 val aimSpeedDistanceWeight = aimSpeedDistanceWeight / 100f
-                val maxReach = mc.player!!.entityInteractionRange + aimExtensionReach
-                val reach =
-                    mc.cameraEntity!!.eyePos.distanceTo(target!!.boundingBox[mc.cameraEntity!!.eyePos]) / maxReach
-                event.weight += reach.toFloat() * aimSpeedDistanceWeight
+                val reach = mc.player!!.entityInteractionRange
+                val maxReach = reach + aimExtensionReach
+                val distance = mc.player!!.eyePos.distanceTo(target!!.boundingBox[mc.player!!.eyePos])
+                if (distance <= reach && target!!.hurtTime <= 3) {
+                    event.force = true
+                }
+                event.weight += (distance / maxReach).toFloat() * aimSpeedDistanceWeight
 
                 // Crosshair
                 if (mc.targetedEntity == target) {
@@ -258,7 +304,9 @@ object ModuleToggleableAimBot : ModuleToggleable(
                 val aimSpeedRandomWeight = aimSpeedRandomWeight / 100f
                 event.weight += aimSpeedRandomWeight - Schizoid.random.nextFloat() * aimSpeedRandomWeight / 2f
 
-//                event.weight = MathHelper.clamp(event.weight, 0.01f, 1f)
+                if (forceHit && target!!.hurtTime <= 3 && mc.player!!.eyePos.squaredDistanceTo(aimVec) < reach * reach) {
+                    event.weight += Schizoid.random.nextFloat() * 0.2f + 0.4f
+                }
             }
         }
 
@@ -451,6 +499,9 @@ object ModuleToggleableAimBot : ModuleToggleable(
         },
         Health {
             override fun getEntityValue(entity: Entity) = (entity as LivingEntity).health
+        },
+        HurtTime {
+            override fun getEntityValue(entity: Entity) = (entity as LivingEntity).hurtTime.toFloat()
         },
         Random {
             override fun getEntityValue(entity: Entity) = Schizoid.random.nextFloat()

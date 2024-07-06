@@ -11,6 +11,7 @@ import dev.lyzev.api.events.EventIsInvisibleTo;
 import dev.lyzev.api.events.EventLerpPosAndRotation;
 import dev.lyzev.api.events.EventUpdateVelocity;
 import dev.lyzev.schizoid.Schizoid;
+import dev.lyzev.schizoid.feature.features.module.modules.player.FeatureRotation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
