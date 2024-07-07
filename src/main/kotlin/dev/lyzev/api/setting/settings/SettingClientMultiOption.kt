@@ -40,6 +40,7 @@ class SettingClientMultiOptionString(
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
             if (this.value.size > 5) {
+                setNextItemWidth(-1f)
                 inputTextWithHint(
                     "##search@${name}",
                     "Searching...",
@@ -111,6 +112,7 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
         if (desc != null && isItemHovered()) setTooltip(desc)
         if (treeNode) {
             if (this.value.size > 5) {
+                setNextItemWidth(-1f)
                 inputTextWithHint(
                     "##search@${name}",
                     "Searching...",
