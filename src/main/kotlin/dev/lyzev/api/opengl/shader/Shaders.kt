@@ -109,6 +109,7 @@ object ShaderTint : ShaderVertexFragment("Tint") {
 object ShaderMask : ShaderVertexFragment("Mask")
 object ShaderAdd : ShaderVertexFragment("Add")
 object ShaderPassThrough : ShaderVertexFragment("PassThrough")
+object ShaderNoAlpha : ShaderVertexFragment("NoAlpha")
 
 object ShaderDepth : ShaderVertexFragment("Depth")
 object ShaderLinearizeDepth : ShaderVertexFragment("LinearizeDepth")
