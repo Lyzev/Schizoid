@@ -70,7 +70,7 @@ object FeatureRotation : IFeature, EventListener {
      * @param correct The correct vector.
      * @param incorrect The incorrect vector.
      */
-    fun correctMouseSensitivity(correct: Vector2f, incorrect: Vector2f) {
+    fun correctMouseSensitivity(correct: Vector2f, incorrect: Vector2f, client: Boolean) {
         incorrect.set(MathHelper.wrapDegrees(incorrect.x), MathHelper.clamp(incorrect.y, -90f, 90f))
         val mouseSensitivity = (mc.options.mouseSensitivity.value * 0.6f.toDouble() + 0.2f.toDouble()).pow(3.0) * 8.0
         var cursorDeltaX =
@@ -80,6 +80,8 @@ object FeatureRotation : IFeature, EventListener {
         cursorDeltaY *= mouseSensitivity
         incorrect.set(correct.x + cursorDeltaX * 0.15f, MathHelper.clamp(correct.y + cursorDeltaY * 0.15, -90.0, 90.0))
         // Fixes the actual yaw and pitch
+        if (!client)
+            return
         cursorDeltaX =
             (MathHelper.wrapDegrees(mc.player!!.yaw - correct.x) / 0.15f / mouseSensitivity).roundToInt().toDouble()
         cursorDeltaY = ((mc.player!!.pitch - correct.y) / 0.15f / mouseSensitivity).roundToInt().toDouble()
@@ -116,10 +118,12 @@ object FeatureRotation : IFeature, EventListener {
             if (mc.currentScreen == null) {
                 val event = EventRotationGoal()
                 event.fire()
+                var isReverting = false
                 if (event.goal == null && requireRevert && revert) {
                     if (System.currentTimeMillis() - time > revertDelay || !silent) {
                         event.weight = revertWeight / 100f + 0.5f + Schizoid.random.nextFloat() * .2f + 2f
                         event.goal = mc.player!!.rotationVecClient.multiply(3.0).add(mc.player!!.eyePos)
+                        isReverting = true
                     }
                 } else if (event.goal != null) {
                     time = System.currentTimeMillis()
@@ -132,7 +136,7 @@ object FeatureRotation : IFeature, EventListener {
                     var deltaPitch = goal.y - current.y
 
                     if (event.instant) {
-                        correctMouseSensitivity(current, goal)
+                        correctMouseSensitivity(current, goal, isReverting)
                         current.set(goal)
                         val pitch = mc.player!!.pitch - current.y
                         val yaw = MathHelper.wrapDegrees(mc.player!!.yaw - current.x)
@@ -187,7 +191,7 @@ object FeatureRotation : IFeature, EventListener {
                             ) * lastFrameDuration + pitchJitter, -90f, 90f
                         )
                     )
-                    correctMouseSensitivity(current, new)
+                    correctMouseSensitivity(current, new, isReverting)
                     current.set(new)
                     val pitch = mc.player!!.pitch - current.y
                     val yaw = MathHelper.wrapDegrees(mc.player!!.yaw - current.x)
@@ -290,7 +294,7 @@ object FeatureRotation : IFeature, EventListener {
             val newPitch = MathHelper.lerp(delta, current.y.toDouble(), event.pitch).toFloat()
             current.set(newYaw % 360.0f, newPitch % 360.0f);
         }
-        // Visualize rotation client side (TODO: Fix first person hand)
+        // Visualize rotation client side
         on<EventClientPlayerEntityRender> {
             if (clientSide) {
                 it.headYaw = current.x

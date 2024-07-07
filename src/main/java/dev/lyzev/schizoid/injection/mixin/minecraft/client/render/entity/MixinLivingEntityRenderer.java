@@ -9,12 +9,15 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import dev.lyzev.api.events.EventClientPlayerEntityRender;
 import dev.lyzev.api.events.EventRenderModel;
 import dev.lyzev.schizoid.Schizoid;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -54,9 +57,17 @@ public class MixinLivingEntityRenderer {
     @Unique
     private float prevPitch;
 
+    @SuppressWarnings("DanglingJavadoc")
     @Inject(method = "render(Lnet/minecraft/entity/LivingEntity;FFLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V", at = @At("HEAD"))
-    private void onRenderPre(LivingEntity livingEntity, float f, float g, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, CallbackInfo ci) {
+    private void onRenderPre(LivingEntity livingEntity, float yaw, float tickDelta, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, CallbackInfo ci) {
         if (!livingEntity.equals(Schizoid.INSTANCE.getMc().player)) {
+            return;
+        }
+        /**
+         * Check if the player is rendering in the inventory screen.
+         * See [{@link net.minecraft.client.gui.screen.ingame.InventoryScreen#drawEntity(DrawContext, float, float, float, Vector3f, Quaternionf, Quaternionf, LivingEntity)}
+         */
+        if (tickDelta == 1.0F && light == 15728880) {
             return;
         }
         pitch = livingEntity.getPitch();
