@@ -98,7 +98,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
         "%%",
         hide = ::aimInstant eq true
     )
-    val aimVector by option("Aim Vector", "The aim vector.", "Artificial Intelligence", arrayOf("Artificial Intelligence", "Nearest"))
+    val aimVector by option("Aim Vector", "The aim vector.", AimVector.Intelligent, AimVector.entries)
     val forceHit by switch("Force Hit", "Aims on the nearest vector if the artificial intelligence vector is not in reach.", true, hide = ::aimVector eq "Nearest")
     val aimSpeedForceHitWeight by slider(
         "Aim Force Hit Weight",
@@ -131,12 +131,6 @@ object ModuleToggleableAimBot : ModuleToggleable(
         get() = isEnabled && isIngame
 
     init {
-        val layers = mutableListOf<Pair<Array<DoubleArray>, DoubleArray>>()
-        for (i in 1..4) {
-            val weights = AI.loadWeights("layer_${i}_weights.csv")
-            val biases = AI.loadBiases("layer_${i}_biases.csv")
-            layers.add(Pair(weights, biases))
-        }
 
         var lastHitVec: Vec3d? = null
         var target: Entity? = null
@@ -173,103 +167,11 @@ object ModuleToggleableAimBot : ModuleToggleable(
                 target = possibleTarget
             }
             if (target != null) {
+                lastAimVec = aimVec
+                aimVec = aimVector.getAimVec(target!!, reach, lastHitVec)
+
                 val box = target!!.boundingBox
                 val crosshairAim = box[mc.crosshairTarget!!.pos]
-                if (aimVector == "Nearest") {
-                    lastAimVec = aimVec
-                    aimVec = box[mc.player!!.eyePos]
-                } else {
-                    var wasAiming = 0
-                    val hitVec = lastHitVec ?: run {
-                        wasAiming = 1
-                        val nearest = box[mc.player!!.eyePos]
-                        Vec3d(
-                            (nearest.x - box.minX) / (box.maxX - box.minX),
-                            (nearest.y - box.minY) / (box.maxY - box.minY),
-                            (nearest.z - box.minZ) / (box.maxZ - box.minZ)
-                        )
-                    }
-                    val lookVecEntity =
-                        Vec3d.fromPolar(mc.cameraEntity!!.eyePos[target!!.eyePos]).normalize().add(1.0, 1.0, 1.0)
-                            .normalize()
-                    val reach = mc.cameraEntity!!.eyePos.distanceTo(box[mc.cameraEntity!!.eyePos]) / maxReach
-                    val velocityTarget = Vec3d(
-                        target!!.x - target!!.prevX, target!!.y - target!!.prevY, target!!.z - target!!.prevZ
-                    ).normalize().add(1.0, 1.0, 1.0).normalize()
-                    val velocityPlayer = Vec3d(mc.player!!.x - mc.player!!.prevX, mc.player!!.y - mc.player!!.prevY, mc.player!!.z - mc.player!!.prevZ).normalize().add(1.0, 1.0, 1.0).normalize()
-                    val lookVec = Vec3d.fromPolar(current.y, current.x).normalize().add(1.0, 1.0, 1.0).normalize()
-
-                    val speedTarget = min(Vec3d(target!!.x - target!!.prevX, target!!.y - target!!.prevY, target!!.z - target!!.prevZ).lengthSquared() / 100.0, 1.0)
-                    val speedPlayer = min(Vec3d(mc.player!!.x - mc.player!!.prevX, mc.player!!.y - mc.player!!.prevY, mc.player!!.z - mc.player!!.prevZ).lengthSquared() / 100.0, 1.0)
-                    val clicks = min(mc.options.attackKey.timesPressed / 4.0, 1.0)
-                    val raycast = DoubleArray(8)
-                    val from = mc.player!!.eyePos
-                    for (x in 0..1) {
-                        for (y in 0..1) {
-                            for (z in 0..1) {
-                                val to = Vec3d(
-                                    box.minX + x * (box.maxX - box.minX) * 0.5 + 0.25 * (box.maxX - box.minX),
-                                    box.minY + y * (box.maxY - box.minY) * 0.5 + 0.25 * (box.maxY - box.minY),
-                                    box.minZ + z * (box.maxZ - box.minZ) * 0.5 + 0.25 * (box.maxZ - box.minZ)
-                                )
-                                val hitResult = mc.world!!.raycast(RaycastContext(from, to, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player))
-                                if (hitResult == null || hitResult.type == HitResult.Type.MISS) {
-                                    raycast[x * 4 + y * 2 + z] = 1.0
-                                } else {
-                                    raycast[x * 4 + y * 2 + z] = 0.0
-                                }
-                            }
-                        }
-                    }
-
-                    val input = doubleArrayOf(
-                        reach,
-                        hitVec.x,
-                        hitVec.y,
-                        hitVec.z,
-                        lookVecEntity.x,
-                        lookVecEntity.y,
-                        lookVecEntity.z,
-                        wasAiming.toDouble(),
-                        speedTarget,
-                        speedPlayer,
-                        lookVec.x,
-                        lookVec.y,
-                        lookVec.z,
-                        clicks,
-                        *raycast,
-                        velocityTarget.x,
-                        velocityTarget.y,
-                        velocityTarget.z,
-                        velocityPlayer.x,
-                        velocityPlayer.y,
-                        velocityPlayer.z
-                    )
-
-                    // Initial hidden layer
-                    var hiddenLayerOutput = AI.applyLayer(input, layers[0].first, layers[0].second)
-                    // Subsequent hidden layers
-                    for (i in 1..2) {
-                        val hiddenLayerWeights = layers[i].first
-                        val hiddenLayerBiases = layers[i].second
-                        hiddenLayerOutput = AI.applyLayer(hiddenLayerOutput, hiddenLayerWeights, hiddenLayerBiases)
-                    }
-                    // Final output layer
-                    val output = AI.applyLayer(hiddenLayerOutput, layers[3].first, layers[3].second, useSigmoid = true)
-                    lastAimVec = aimVec
-                    aimVec = Vec3d(
-                        output[0] * (box.maxX - box.minX) + box.minX,
-                        output[1] * (box.maxY - box.minY) + box.minY,
-                        output[2] * (box.maxZ - box.minZ) + box.minZ
-                    )
-                    if (forceHit && (target !is LivingEntity || (target as LivingEntity).hurtTime <= 3)) {
-                        val nearest = box[mc.player!!.eyePos]
-                        if (mc.player!!.eyePos.squaredDistanceTo(aimVec) > reach * reach && mc.player!!.eyePos.squaredDistanceTo(nearest) <= reach * reach) {
-                            aimVec = nearest
-                        }
-                    }
-                }
-
                 lastHitVec = Vec3d(
                     (crosshairAim.x - box.minX) / (box.maxX - box.minX),
                     (crosshairAim.y - box.minY) / (box.maxY - box.minY),
@@ -510,6 +412,147 @@ object ModuleToggleableAimBot : ModuleToggleable(
             }
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
         }
+    }
+
+    enum class AimVector : OptionEnum {
+        Intelligent {
+
+            private val layers = mutableListOf<Pair<Array<DoubleArray>, DoubleArray>>()
+
+            init {
+                for (i in 1..4) {
+                    val weights = AI.loadWeights("layer_${i}_weights.csv")
+                    val biases = AI.loadBiases("layer_${i}_biases.csv")
+                    layers.add(Pair(weights, biases))
+                }
+            }
+
+            override fun getAimVec(target: Entity, reach: Double, lastHitVec: Vec3d?): Vec3d {
+                val maxReach = reach + aimExtensionReach
+                val box = target.boundingBox
+                var wasAiming = 0
+                val hitVec = lastHitVec ?: run {
+                    wasAiming = 1
+                    val nearest = box[mc.player!!.eyePos]
+                    Vec3d(
+                        (nearest.x - box.minX) / (box.maxX - box.minX),
+                        (nearest.y - box.minY) / (box.maxY - box.minY),
+                        (nearest.z - box.minZ) / (box.maxZ - box.minZ)
+                    )
+                }
+                val lookVecEntity =
+                    Vec3d.fromPolar(mc.cameraEntity!!.eyePos[target.eyePos]).normalize().add(1.0, 1.0, 1.0)
+                        .normalize()
+                val reachPercentage = mc.cameraEntity!!.eyePos.distanceTo(box[mc.cameraEntity!!.eyePos]) / maxReach
+                val velocityTarget = Vec3d(
+                    target.x - target.prevX, target.y - target.prevY, target.z - target.prevZ
+                ).normalize().add(1.0, 1.0, 1.0).normalize()
+                val velocityPlayer = Vec3d(mc.player!!.x - mc.player!!.prevX, mc.player!!.y - mc.player!!.prevY, mc.player!!.z - mc.player!!.prevZ).normalize().add(1.0, 1.0, 1.0).normalize()
+                val lookVec = Vec3d.fromPolar(current.y, current.x).normalize().add(1.0, 1.0, 1.0).normalize()
+
+                val speedTarget = min(Vec3d(target.x - target.prevX, target.y - target.prevY, target.z - target.prevZ).lengthSquared() / 100.0, 1.0)
+                val speedPlayer = min(Vec3d(mc.player!!.x - mc.player!!.prevX, mc.player!!.y - mc.player!!.prevY, mc.player!!.z - mc.player!!.prevZ).lengthSquared() / 100.0, 1.0)
+                val clicks = min(mc.options.attackKey.timesPressed / 4.0, 1.0)
+                val raycast = DoubleArray(8)
+                val from = mc.player!!.eyePos
+                for (x in 0..1) {
+                    for (y in 0..1) {
+                        for (z in 0..1) {
+                            val to = Vec3d(
+                                box.minX + x * (box.maxX - box.minX) * 0.5 + 0.25 * (box.maxX - box.minX),
+                                box.minY + y * (box.maxY - box.minY) * 0.5 + 0.25 * (box.maxY - box.minY),
+                                box.minZ + z * (box.maxZ - box.minZ) * 0.5 + 0.25 * (box.maxZ - box.minZ)
+                            )
+                            val hitResult = mc.world!!.raycast(RaycastContext(from, to, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player))
+                            if (hitResult == null || hitResult.type == HitResult.Type.MISS) {
+                                raycast[x * 4 + y * 2 + z] = 1.0
+                            } else {
+                                raycast[x * 4 + y * 2 + z] = 0.0
+                            }
+                        }
+                    }
+                }
+
+                val input = doubleArrayOf(
+                    reachPercentage,
+                    hitVec.x,
+                    hitVec.y,
+                    hitVec.z,
+                    lookVecEntity.x,
+                    lookVecEntity.y,
+                    lookVecEntity.z,
+                    wasAiming.toDouble(),
+                    speedTarget,
+                    speedPlayer,
+                    lookVec.x,
+                    lookVec.y,
+                    lookVec.z,
+                    clicks,
+                    *raycast,
+                    velocityTarget.x,
+                    velocityTarget.y,
+                    velocityTarget.z,
+                    velocityPlayer.x,
+                    velocityPlayer.y,
+                    velocityPlayer.z
+                )
+
+                // Initial hidden layer
+                var hiddenLayerOutput = AI.applyLayer(input, layers[0].first, layers[0].second)
+                // Subsequent hidden layers
+                for (i in 1..2) {
+                    val hiddenLayerWeights = layers[i].first
+                    val hiddenLayerBiases = layers[i].second
+                    hiddenLayerOutput = AI.applyLayer(hiddenLayerOutput, hiddenLayerWeights, hiddenLayerBiases)
+                }
+                // Final output layer
+                val output = AI.applyLayer(hiddenLayerOutput, layers[3].first, layers[3].second, useSigmoid = true)
+                val aimVec = Vec3d(
+                    output[0] * (box.maxX - box.minX) + box.minX,
+                    output[1] * (box.maxY - box.minY) + box.minY,
+                    output[2] * (box.maxZ - box.minZ) + box.minZ
+                )
+                return if (shouldForceHit(target, reach, aimVec)) {
+                    target.boundingBox[mc.player!!.eyePos]
+                } else {
+                    aimVec
+                }
+            }
+        },
+        Nearest {
+            override fun getAimVec(target: Entity, reach: Double, lastHitVec: Vec3d?): Vec3d {
+                return target.boundingBox[mc.player!!.eyePos]
+            }
+        },
+        Head {
+            override fun getAimVec(target: Entity, reach: Double, lastHitVec: Vec3d?): Vec3d {
+                return Vec3d(target.x, target.eyeY, target.z)
+            }
+        },
+        Center {
+            override fun getAimVec(target: Entity, reach: Double, lastHitVec: Vec3d?): Vec3d {
+                val box = target.boundingBox
+                return Vec3d(
+                    box.minX + (box.maxX - box.minX) * 0.5,
+                    box.minY + (box.maxY - box.minY) * 0.5,
+                    box.minZ + (box.maxZ - box.minZ) * 0.5
+                )
+            }
+        };
+
+        abstract fun getAimVec(target: Entity, reach: Double, lastHitVec: Vec3d?): Vec3d
+
+        protected fun shouldForceHit(target: Entity, reach: Double, aimVec: Vec3d): Boolean {
+            if (forceHit && (target !is LivingEntity || target.hurtTime <= 3)) {
+                val nearest = target.boundingBox[mc.player!!.eyePos]
+                if (mc.player!!.eyePos.squaredDistanceTo(aimVec) > reach * reach && mc.player!!.eyePos.squaredDistanceTo(nearest) <= reach * reach) {
+                    return true
+                }
+            }
+            return false
+        }
+
+        override val key = name
     }
 
     enum class Priority : OptionEnum {
