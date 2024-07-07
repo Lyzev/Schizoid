@@ -9,6 +9,7 @@ import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.theme.OSTheme
 import dev.lyzev.schizoid.Schizoid
 import net.minecraft.block.Block
+import net.minecraft.client.input.KeyboardInput
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.render.RenderTickCounter
@@ -17,9 +18,11 @@ import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.entity.attribute.EntityAttribute
 import net.minecraft.entity.effect.StatusEffect
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.network.packet.Packet
+import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
 
 /**
@@ -63,8 +66,7 @@ class EventPacket(val packet: Packet<*>, val type: Type) : CancellableEvent() {
     }
 
     enum class Type(override val key: String) : OptionEnum {
-        S2C("S2C"),
-        C2S("C2S")
+        S2C("S2C"), C2S("C2S")
     }
 }
 
@@ -101,8 +103,7 @@ class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event
 /**
  * This event is triggered when the world is rendered.
  */
-class EventRenderWorld(val tickCounter: RenderTickCounter, val modelViewMat: Matrix4f, val projMat: Matrix4f) :
-    Event
+class EventRenderWorld(val tickCounter: RenderTickCounter, val modelViewMat: Matrix4f, val projMat: Matrix4f) : Event
 
 /**
  * This event is triggered when [net.minecraft.client.render.LightmapTextureManager] updates.
@@ -157,7 +158,9 @@ class EventIsCursorLocked(var isCursorLocked: Boolean) : Event
 
 object EventUpdateMouse : Event
 
-class EventAttackEntity(val player: PlayerEntity, val entity: Entity) : Event
+class EventAttackEntityPre(val player: PlayerEntity, val entity: Entity) : Event
+
+class EventAttackEntityPost(val player: PlayerEntity, val entity: Entity) : Event
 
 class EventOSThemeUpdate(val theme: OSTheme.Theme) : Event
 
@@ -170,3 +173,35 @@ object EventScheduleTask : Event
 class EventMouseScroll(val horizontal: Double, val vertical: Double) : CancellableEvent()
 
 object EventSettingChange : Event
+
+class EventClientPlayerEntityRender(
+    var headYaw: Float, var prevHeadYaw: Float, var pitch: Float, var prevPitch: Float
+) : Event
+
+class EventKeyboardInputTick(val input: KeyboardInput) : Event
+
+class EventUpdateVelocity(var yaw: Float) : Event
+
+class EventRotationGoal : Event {
+
+    var goal: Vec3d? = null
+    var force = false
+    var instant = false
+    var weight = 1f
+}
+
+class EventUpdateCrosshairTarget(val camera: Entity) : Event
+
+object EventUpdateCrosshairTargetTick : Event
+
+class EventLerpPosAndRotation(
+    val step: Int, val x: Double, val y: Double, val z: Double, val yaw: Double, val pitch: Double
+) : Event
+
+class EventGetAttributeValue(val attribute: EntityAttribute, var value: Double) : Event
+
+class EventDistanceToBlockHitResult(var distance: Double) : Event
+
+class EventDistanceToEntityHitResult(var distance: Double) : Event
+
+class EventVelocity(var x: Double, var y: Double, var z: Double) : Event

@@ -81,11 +81,12 @@ object ModuleToggleableTorus :
             @Suppress("NAME_SHADOWING") val modelViewMat = Matrix4f(modelViewMat)
             modelViewMat.translate((pos.x - cam.x).toFloat(), (pos.y - cam.y).toFloat(), (pos.z - cam.z).toFloat())
             modelViewMat.rotateY(Math.toRadians((-rotation.y).toDouble()).toFloat()) // yaw
-            modelViewMat.rotateX(Math.toRadians((rotation.x).toDouble()).toFloat()) // pitch
+            modelViewMat.rotateX(Math.toRadians((-rotation.x).toDouble()).toFloat()) // pitch
             ShaderReflection.bind()
             ShaderReflection["ModelViewMat", false] = modelViewMat
             ShaderReflection["ProjMat", false] = projMat
             GL13.glActiveTexture(GL13.GL_TEXTURE0)
+//            ModuleToggleableRearView.rearView.beginRead()
             mc.framebuffer.beginRead()
             ShaderReflection["Tex0"] = 0
             ShaderReflection["Freq"] = frequency / 100f
@@ -122,28 +123,28 @@ object ModuleToggleableTorus :
                     val y4 = (outerRad + innerRad * cos(theta)) * sin(nextPhi)
                     val z4 = innerRad * sin(theta)
 
-                    val t1 = Vector3f(
-                        (-(outerRad + innerRad * cos(theta)) * sin(phi)).toFloat(),
-                        ((outerRad + innerRad * cos(theta)) * cos(phi)).toFloat(),
-                        0f
-                    )
-                    val t2 = Vector3f(
-                        (-innerRad * sin(theta) * cos(phi)).toFloat(),
-                        (-innerRad * sin(theta) * sin(phi)).toFloat(),
-                        (innerRad * cos(theta)).toFloat()
-                    )
+                    normal1.set(cos(theta) * cos(phi), cos(theta) * sin(phi), sin(theta)).normalize()
+                    normal2.set(cos(nextTheta) * cos(phi), cos(nextTheta) * sin(phi), sin(nextTheta)).normalize()
+                    normal3.set(cos(nextTheta) * cos(nextPhi), cos(nextTheta) * sin(nextPhi), sin(nextTheta)).normalize()
+                    normal4.set(cos(theta) * cos(nextPhi), cos(theta) * sin(nextPhi), sin(theta)).normalize()
 
-                    val normal = t1.cross(t2).normalize()
-
-                    bufferBuilder.vertex(x1, y1, z1).normal(normal.x, normal.y, normal.z)
-                    bufferBuilder.vertex(x2, y2, z2).normal(normal.x, normal.y, normal.z)
-                    bufferBuilder.vertex(x3, y3, z3).normal(normal.x, normal.y, normal.z)
-                    bufferBuilder.vertex(x4, y4, z4).normal(normal.x, normal.y, normal.z)
+                    bufferBuilder.vertex(x1, y1, z1).normal(normal1.x, normal1.y, normal1.z)
+                    bufferBuilder.vertex(x2, y2, z2).normal(normal2.x, normal2.y, normal2.z)
+                    bufferBuilder.vertex(x3, y3, z3).normal(normal3.x, normal3.y, normal3.z)
+                    bufferBuilder.vertex(x4, y4, z4).normal(normal4.x, normal4.y, normal4.z)
                 }
             }
             BufferRenderer.draw(bufferBuilder.end())
             ShaderReflection.unbind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+        }
+
+        companion object {
+
+            val normal1 = Vector3f()
+            val normal2 = Vector3f()
+            val normal3 = Vector3f()
+            val normal4 = Vector3f()
         }
     }
 }

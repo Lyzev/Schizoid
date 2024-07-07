@@ -77,6 +77,9 @@ object ModuleToggleableMotionGraph :
         }
     }
 
+    override val shouldHandleEvents: Boolean
+        get() = super.shouldHandleEvents && mc.player != null
+
     init {
         on<EventClientPlayerEntityTick> { event ->
             unit.addY(y, event.player.velocity.horizontalLength())

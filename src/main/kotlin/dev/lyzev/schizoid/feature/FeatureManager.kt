@@ -9,6 +9,7 @@ import dev.lyzev.api.events.*
 import dev.lyzev.api.glfw.GLFWKey
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.Schizoid.mc
+import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.text.Text
 import org.reflections.Reflections
 import java.lang.reflect.Modifier
@@ -81,6 +82,18 @@ object FeatureManager : EventListener {
         on<EventMouseClick> { event ->
             if (mc.currentScreen == null && event.action == 1) features.filter { it.keybinds.contains(GLFWKey[event.button]) }
                 .forEach { it.keybindReleased() }
+        }
+
+        on<EventUpdateCrosshairTargetTick> {
+            features.filterIsInstance<ModuleToggleable>().forEach {
+                if (it.isEnabled) {
+                    it.disableOn.forEach { disableOn ->
+                        if (disableOn.second) {
+                            disableOn.first.handle(it)
+                        }
+                    }
+                }
+            }
         }
     }
 }

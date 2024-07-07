@@ -6,6 +6,7 @@
 package dev.lyzev.schizoid.feature.features.module
 
 import dev.lyzev.api.events.EventListener
+import dev.lyzev.api.events.EventPacket
 import dev.lyzev.api.events.EventRenderImGuiContent
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
@@ -15,6 +16,7 @@ import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.multiOption
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.api.settings.SettingManager
+import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.Feature
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
@@ -111,14 +113,15 @@ abstract class ModuleToggleable(
     desc: String,
     keys: MutableSet<GLFWKey> = mutableSetOf(),
     category: IFeature.Category
-) :
-    Module(name, desc, keys, category) {
+) : Module(name, desc, keys, category) {
 
     // Indicates whether the module is enabled.
     var isEnabled by switch("Enabled", "Whether the module is enabled.", value = false) {
         if (it) onEnable()
         else onDisable()
     }
+
+    val disableOn by multiOption("Disable On", "Packets to manipulate.", DisableOn.entries)
 
     // Indicates whether the module should be shown in the array list.
     var showInArrayList by switch(
@@ -139,7 +142,12 @@ abstract class ModuleToggleable(
     /**
      * Called when the module is enabled.
      */
-    protected open fun onEnable() {}
+    protected open fun onEnable() {
+        if (hide) {
+            Schizoid.logger.warn("Module $name is hidden and cannot be enabled.")
+            toggle()
+        }
+    }
 
     /**
      * Called when the module is disabled.
@@ -148,6 +156,28 @@ abstract class ModuleToggleable(
 
     override fun keybindReleased() {
         if (mc.currentScreen == null) toggle()
+    }
+
+    enum class DisableOn : OptionEnum {
+        Screen {
+            override fun handle(toggleable: ModuleToggleable) {
+                if (Schizoid.mc.currentScreen != null) toggleable.toggle()
+            }
+        },
+        Death {
+            override fun handle(toggleable: ModuleToggleable) {
+                if (Schizoid.mc.player != null && !Schizoid.mc.player!!.isAlive) toggleable.toggle()
+            }
+        },
+        Disconnect {
+            override fun handle(toggleable: ModuleToggleable) {
+                if (Schizoid.mc.player == null) toggleable.toggle()
+            }
+        };
+
+        abstract fun handle(toggleable: ModuleToggleable)
+
+        override val key = name
     }
 }
 

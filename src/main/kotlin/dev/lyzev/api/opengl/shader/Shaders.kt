@@ -109,6 +109,7 @@ object ShaderTint : ShaderVertexFragment("Tint") {
 object ShaderMask : ShaderVertexFragment("Mask")
 object ShaderAdd : ShaderVertexFragment("Add")
 object ShaderPassThrough : ShaderVertexFragment("PassThrough")
+object ShaderNoAlpha : ShaderVertexFragment("NoAlpha")
 
 object ShaderDepth : ShaderVertexFragment("Depth")
 object ShaderLinearizeDepth : ShaderVertexFragment("LinearizeDepth")
@@ -302,11 +303,8 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         ShaderTint["Alpha"] = true
         ShaderTint["Multiplier"] = 1f
         ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
-        val tickDelta = Render.tickDelta
-        val yaw = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
-        ShaderTint["Yaw"] = yaw
-        val pitch = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
-        ShaderTint["Pitch"] = pitch
+        ShaderTint["Yaw"] = mc.player?.yaw ?: 0f
+        ShaderTint["Pitch"] = mc.player?.pitch ?: 0f
         drawFullScreen()
         ShaderTint.unbind()
     }
@@ -345,3 +343,5 @@ object ShaderGameOfLife : ShaderCompute("GameOfLife", 32, 1, 1) {
         init()
     }
 }
+
+object ShaderPosCol : ShaderVertexFragment("PosCol")

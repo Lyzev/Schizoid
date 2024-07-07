@@ -123,7 +123,6 @@ interface IFeature : ImGuiRenderable {
     enum class Category : ImGuiRenderable {
         COMBAT,
         MOVEMENT,
-        GHOST,
         PLAYER,
         RENDER,
         UTIL,

@@ -9,6 +9,7 @@
     "accessor.PlayerSkinProviderAccessor",
     "accessor.RealmsAvailabilityAccessor",
     "accessor.SplashTextResourceSupplierAccessor",
+    "accessor.YggdrasilMinecraftSessionServiceAccessor",
     "mixin.imgui.MixinImGuiImplGlfw",
     "mixin.minecraft.client.MixinKeyboard",
     "mixin.minecraft.client.MixinMinecraftClient",
@@ -25,12 +26,12 @@
     "mixin.minecraft.client.world.MixinClientWorld",
     "mixin.minecraft.entity.MixinEntity",
     "mixin.minecraft.entity.MixinLivingEntity",
-    "mixin.minecraft.network.MixinClientConnection"
+    "mixin.minecraft.network.MixinClientConnection",
+    "accessor.ExplosionS2CPacketAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "mixins": [
-    "accessor.YggdrasilMinecraftSessionServiceAccessor"
   ]
 }

@@ -5,10 +5,7 @@
 
 package dev.lyzev.schizoid.injection.mixin.minecraft.client;
 
-import dev.lyzev.api.events.EventItemUse;
-import dev.lyzev.api.events.EventReloadShader;
-import dev.lyzev.api.events.EventStartup;
-import dev.lyzev.api.events.EventWindowResize;
+import dev.lyzev.api.events.*;
 import dev.lyzev.schizoid.Schizoid;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.Mixin;
@@ -58,7 +55,7 @@ public class MixinMinecraftClient {
      *
      * @param ci The callback information.
      */
-    @Inject(method = "onResolutionChanged", at = @At("TAIL"))
+    @Inject(method = "onResolutionChanged", at = @At("RETURN"))
     private void onResolutionChanged(CallbackInfo ci) {
         EventWindowResize.INSTANCE.fire();
     }
@@ -82,4 +79,8 @@ public class MixinMinecraftClient {
         EventReloadShader.INSTANCE.fire();
     }
 
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;updateCrosshairTarget(F)V", shift = At.Shift.AFTER, ordinal = 0))
+    private void onTick(CallbackInfo ci) {
+        EventUpdateCrosshairTargetTick.INSTANCE.fire();
+    }
 }

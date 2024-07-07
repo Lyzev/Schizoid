@@ -44,7 +44,8 @@ class SettingClientColor(
         val red = value.jsonObject["red"]?.jsonPrimitive?.int ?: this.value.red
         val green = value.jsonObject["green"]?.jsonPrimitive?.int ?: this.value.green
         val blue = value.jsonObject["blue"]?.jsonPrimitive?.int ?: this.value.blue
-        this.value = Color(red, green, blue)
+        val alpha = value.jsonObject["alpha"]?.jsonPrimitive?.int ?: this.value.alpha
+        this.value = Color(red, green, blue, alpha)
     }
 
     override fun save(): JsonElement {
@@ -52,7 +53,8 @@ class SettingClientColor(
             mapOf(
                 "red" to JsonPrimitive(value.red),
                 "green" to JsonPrimitive(value.green),
-                "blue" to JsonPrimitive(value.blue)
+                "blue" to JsonPrimitive(value.blue),
+                "alpha" to JsonPrimitive(value.alpha)
             )
         )
     }

@@ -5,9 +5,15 @@
 
 package dev.lyzev.schizoid.injection.mixin.minecraft.entity;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.lyzev.api.events.EventGetAttributeValue;
 import dev.lyzev.api.events.EventHasStatusEffect;
+import dev.lyzev.schizoid.Schizoid;
 import dev.lyzev.schizoid.feature.features.module.modules.movement.ModuleToggleableAirJump;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.registry.entry.RegistryEntry;
 import org.spongepowered.asm.mixin.Mixin;
@@ -61,5 +67,15 @@ public abstract class MixinLivingEntity {
         EventHasStatusEffect event = new EventHasStatusEffect((LivingEntity) (Object) this, effect.value(), cir.getReturnValue());
         event.fire();
         cir.setReturnValue(event.getHasStatusEffect());
+    }
+
+    @WrapOperation(method = "getAttributeValue", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/attribute/AttributeContainer;getValue(Lnet/minecraft/registry/entry/RegistryEntry;)D", ordinal = 0))
+    private double onGetAttributeValue(AttributeContainer instance, RegistryEntry<EntityAttribute> attribute, Operation<Double> original) {
+        if (!this.equals(Schizoid.INSTANCE.getMc().player)) {
+            return original.call(instance, attribute);
+        }
+        EventGetAttributeValue event = new EventGetAttributeValue(attribute.value(), original.call(instance, attribute));
+        event.fire();
+        return event.getValue();
     }
 }

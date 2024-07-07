@@ -211,7 +211,9 @@ object ImGuiScreenAccountManager : ImGuiScreen("Account Manager", "A screen for 
             }
         }
         on<EventScheduleTask> {
-            skin = mc.textureManager.getTexture(mc.skinProvider.getSkinTextures(mc.gameProfile).texture)
+            if (mc.isRunning) {
+                skin = mc.textureManager.getTexture(mc.skinProvider.getSkinTextures(mc.gameProfile).texture)
+            }
         }
         on<EventRenderImGuiContent> {
             if (mc.currentScreen is MultiplayerScreen && !isIngame) {

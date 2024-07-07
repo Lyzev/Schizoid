@@ -78,6 +78,7 @@ dependencies {
     add("shadowDependencies", libs.discordipc)
     add("shadowDependencies", libs.waybackauthlib)
     add("shadowDependencies", libs.minecraftauth)
+    add("shadowDependencies", libs.kotlin.csv)
 
     // Mods (optional)
     modRuntimeOnly(libs.bundles.modrinth)

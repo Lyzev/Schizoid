@@ -13,10 +13,7 @@ import dev.lyzev.api.events.on
 import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
-import dev.lyzev.api.opengl.shader.Shader
-import dev.lyzev.api.opengl.shader.ShaderAcrylic
-import dev.lyzev.api.opengl.shader.ShaderDepth
-import dev.lyzev.api.opengl.shader.ShaderTint
+import dev.lyzev.api.opengl.shader.*
 import dev.lyzev.api.opengl.shader.blur.Blurs
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
@@ -225,7 +222,7 @@ object ModuleToggleableBlur :
         on<EventRenderWorld> {
             if (fogRGBPuke) {
                 fbo.clear()
-                fbo.beginWrite(true)
+                fbo.beginWrite(false)
                 ShaderTint.bind()
                 RenderSystem.activeTexture(GL13.GL_TEXTURE0)
                 MinecraftClient.getInstance().framebuffer.beginRead()
@@ -236,11 +233,8 @@ object ModuleToggleableBlur :
                 ShaderTint["Alpha"] = false
                 ShaderTint["Multiplier"] = 1f
                 ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
-                val tickDelta = Render.tickDelta
-                val yaw = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.yaw ?: 0f, mc.player?.prevYaw ?: 0f)
-                ShaderTint["Yaw"] = yaw
-                val pitch = MathHelper.lerpAngleDegrees(tickDelta, mc.player?.pitch ?: 0f, mc.player?.prevPitch ?: 0f)
-                ShaderTint["Pitch"] = pitch
+                ShaderTint["Yaw"] = mc.player?.yaw ?: 0f
+                ShaderTint["Pitch"] = mc.player?.pitch ?: 0f
                 Shader.drawFullScreen()
                 ShaderTint.unbind()
             }
@@ -248,7 +242,8 @@ object ModuleToggleableBlur :
             method.value.switchStrength(fogStrength)
             method.value.render(if (fogRGBPuke) fbo else mc.framebuffer, false)
 
-            mc.framebuffer.beginWrite(true)
+            fbo.clear()
+            fbo.beginWrite(false)
             ShaderDepth.bind()
             RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             method.value.output.beginRead()
@@ -262,6 +257,16 @@ object ModuleToggleableBlur :
             ShaderDepth["MaxThreshold"] = .28f * fogDistance / 100f
             Shader.drawFullScreen()
             ShaderDepth.unbind()
+
+            mc.framebuffer.beginWrite(false)
+            ShaderPassThrough.bind()
+            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+            fbo.beginRead()
+            ShaderPassThrough["Tex0"] = 0
+            ShaderPassThrough["Scale"] = 1f
+            ShaderPassThrough["Alpha"] = true
+            Shader.drawFullScreen()
+            ShaderPassThrough.unbind()
         }
     }
 }

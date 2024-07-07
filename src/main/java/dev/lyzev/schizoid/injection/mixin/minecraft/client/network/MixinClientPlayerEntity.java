@@ -12,6 +12,7 @@ import dev.lyzev.api.events.EventIsMovementKeyPressed;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -23,6 +24,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ClientPlayerEntity.class)
 public class MixinClientPlayerEntity {
 
+    @Unique
+    private float cachedYaw;
+    @Unique
+    private float cachedPitch;
+
     /**
      * This method is a mixin for the tick method of the ClientPlayerEntity class.
      * It creates and fires an EventClientPlayerEntityTick event before the tick method of the AbstractClientPlayerEntity class is invoked.
@@ -30,9 +36,19 @@ public class MixinClientPlayerEntity {
      *
      * @param ci The callback information.
      */
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tick()V", shift = At.Shift.BEFORE))
-    private void onTick(CallbackInfo ci) {
-        new EventClientPlayerEntityTick((ClientPlayerEntity) (Object) this).fire();
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tick()V", shift = At.Shift.BEFORE, ordinal = 0))
+    private void onTickPre(CallbackInfo ci) {
+        ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
+        cachedYaw = player.getYaw();
+        cachedPitch = player.getPitch();
+        new EventClientPlayerEntityTick(player).fire();
+    }
+
+    @Inject(method = "tick", at = @At("RETURN"))
+    private void onTickPost(CallbackInfo ci) {
+        ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
+        player.setYaw(cachedYaw);
+        player.setPitch(cachedPitch);
     }
 
     /**

@@ -26,9 +26,7 @@ import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
 
 object ImGuiScreenFeature : ImGuiScreen(
-    "Feature Screen",
-    "Displays all features and their respective settings.",
-    setOf(GLFWKey.INSERT, GLFWKey.RIGHT_SHIFT)
+    "Feature Screen", "Displays all features and their respective settings.", setOf(GLFWKey.INSERT, GLFWKey.RIGHT_SHIFT)
 ), EventListener {
 
     private val texturesMario = Array(3) {
@@ -38,19 +36,10 @@ object ImGuiScreenFeature : ImGuiScreen(
     private val timeAnimatorMario = TimeAnimator(8000)
 
     val animationMario by option(
-        "Mario Animation",
-        "The animation type.",
-        EasingFunction.IN_OUT_ELASTIC,
-        EasingFunction.entries
+        "Mario Animation", "The animation type.", EasingFunction.IN_OUT_ELASTIC, EasingFunction.entries
     )
     val speedMario by slider(
-        "Mario Speed",
-        "The speed of the animation.",
-        5000,
-        1000,
-        10000,
-        "ms",
-        true
+        "Mario Speed", "The speed of the animation.", 5000, 1000, 10000, "ms", true
     ) {
         timeAnimatorMario.animationLength = it.toLong()
     }
@@ -124,8 +113,7 @@ object ImGuiScreenFeature : ImGuiScreen(
     }
 
     override fun renderImGui() {
-        if (Schizoid.DEVELOPER_MODE)
-            devTools.render()
+        if (Schizoid.DEVELOPER_MODE) devTools.render()
         search.render()
         configManager.render()
         IFeature.Category.entries.forEach(IFeature.Category::render)
