@@ -52,11 +52,11 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimExtensionReach by slider("Aim Extension Reach", "The reach of the aim extension.", 1.8f, 0f, 5f, 1, "blocks")
     val aimThroughWalls by switch("Aim Through Walls", "Aims through walls.", false)
     val aimInstant by switch("Aim Instant", "Instantly aim at the target.", false)
-    val aimSpeed by slider("Aim Speed", "The speed of the aim.", 60, 1, 100, "%%", hide = ::aimInstant eq true)
+    val aimSpeed by slider("Aim Speed", "The speed of the aim.", 55, 1, 100, "%%", hide = ::aimInstant eq true)
     val aimSpeedDistanceWeight by slider(
         "Aim Speed Distance Weight",
         "The weight of the distance to the target in the aim speed.",
-        12,
+        4,
         0,
         100,
         "%%",
@@ -65,7 +65,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedCrosshairWeight by slider(
         "Aim Speed Crosshair Weight",
         "The weight of the target in the crosshair in the aim speed.",
-        8,
+        12,
         0,
         100,
         "%%",
@@ -74,7 +74,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedHurtTimeWeight by slider(
         "Aim Speed Hurt Time Weight",
         "The weight of the hurt time in the aim speed.",
-        8,
+        6,
         0,
         100,
         "%%",
@@ -83,7 +83,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedVelocityWeight by slider(
         "Aim Speed Velocity Weight",
         "The weight of the target velocity in the aim speed.",
-        8,
+        4,
         0,
         100,
         "%%",
@@ -92,7 +92,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedRandomWeight by slider(
         "Aim Speed Random Weight",
         "The weight of the random factor in the aim speed.",
-        7,
+        2,
         0,
         100,
         "%%",
@@ -228,7 +228,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
                 val aimSpeedVelocityWeight = aimSpeedVelocityWeight / 100f
                 val velocity = Vec3d(
                     target!!.x - target!!.prevX, target!!.y - target!!.prevY, target!!.z - target!!.prevZ
-                ).lengthSquared() / 9.0
+                ).lengthSquared() / 12.0
                 event.weight += velocity.toFloat() * aimSpeedVelocityWeight
 
                 // Random
