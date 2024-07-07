@@ -31,7 +31,7 @@ object FeatureRotation : IFeature, EventListener {
     private val noiseGenerator = NoiseGenerator()
 
     val silent by switch("Silent", "Silent rotation", true)
-    val clientSide by switch("Client Side", "Visualize rotation client side.", true)
+    val clientSide by switch("Client Side", "Visualize rotation client side.", false, hide = ::silent neq true)
 
     val revert by switch("Revert", "Revert smooth to the actual yaw and pitch", true)
     val revertDelay by slider(
@@ -145,6 +145,7 @@ object FeatureRotation : IFeature, EventListener {
                     val weightPitch = EasingFunction.IN_OUT_CIRC(event.weight.toDouble()).toFloat()
                     val weightYaw = EasingFunction.LINEAR(event.weight.toDouble()).toFloat()
 
+                    // TODO: add miss aim
 //                    if (!event.force) {
 //                        val missOffsetYaw =
 //                            Schizoid.random.nextFloat() * (deltaYaw * weightYaw) - deltaYaw * weightYaw / 2f
