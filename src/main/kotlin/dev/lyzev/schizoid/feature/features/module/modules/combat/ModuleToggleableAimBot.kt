@@ -52,7 +52,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimExtensionReach by slider("Aim Extension Reach", "The reach of the aim extension.", 1.8f, 0f, 5f, 1, "blocks")
     val aimThroughWalls by switch("Aim Through Walls", "Aims through walls.", false)
     val aimInstant by switch("Aim Instant", "Instantly aim at the target.", false)
-    val aimSpeed by slider("Aim Speed", "The speed of the aim.", 80, 1, 100, "%%", hide = ::aimInstant eq true)
+    val aimSpeed by slider("Aim Speed", "The speed of the aim.", 75, 1, 100, "%%", hide = ::aimInstant eq true)
     val aimSpeedDistanceWeight by slider(
         "Aim Speed Distance Weight",
         "The weight of the distance to the target in the aim speed.",
@@ -66,6 +66,15 @@ object ModuleToggleableAimBot : ModuleToggleable(
         "Aim Speed Crosshair Weight",
         "The weight of the target in the crosshair in the aim speed.",
         8,
+        0,
+        100,
+        "%%",
+        hide = ::aimInstant eq true
+    )
+    val aimSpeedHurtTimeWeight by slider(
+        "Aim Speed Hurt Time Weight",
+        "The weight of the hurt time in the aim speed.",
+        10,
         0,
         100,
         "%%",
@@ -305,6 +314,12 @@ object ModuleToggleableAimBot : ModuleToggleable(
                 if (mc.targetedEntity == target) {
                     val aimSpeedCrosshairWeight = aimSpeedCrosshairWeight / 100f
                     event.weight -= Schizoid.random.nextFloat() * (aimSpeedCrosshairWeight * 0.2f) + aimSpeedCrosshairWeight * 0.8f
+                }
+
+                // Hurt time
+                val aimSpeedHurtTimeWeight = aimSpeedHurtTimeWeight / 100f
+                if (target is LivingEntity) {
+                    event.weight += (1 - (target as LivingEntity).hurtTime / (target as LivingEntity).maxHurtTime.toFloat()) * aimSpeedHurtTimeWeight
                 }
 
                 // Velocity

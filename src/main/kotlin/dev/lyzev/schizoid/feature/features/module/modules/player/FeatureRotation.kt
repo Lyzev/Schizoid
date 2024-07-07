@@ -33,6 +33,9 @@ object FeatureRotation : IFeature, EventListener {
     val silent by switch("Silent", "Silent rotation", true)
     val clientSide by switch("Client Side", "Visualize rotation client side.", false, hide = ::silent neq true)
 
+    val minYaw by slider("Min Yaw", "The minimum yaw to rotate.", 1.5f, 0f, 180f, 1, "°")
+    val minPitch by slider("Min Pitch", "The minimum pitch to rotate.", 1f, 0f, 180f, 1, "°")
+
     val revert by switch("Revert", "Revert smooth to the actual yaw and pitch", true)
     val revertDelay by slider(
         "Revert Delay", "The delay before reverting to the actual yaw and pitch", 500, 0, 3000, "ms"
@@ -162,16 +165,11 @@ object FeatureRotation : IFeature, EventListener {
                     val squaredDistance = MathHelper.square(deltaYaw) + MathHelper.square(deltaPitch)
                     val lastFrameDuration = mc.renderTickCounter.lastDuration
 
-                    val minYaw = (MathHelper.PI / 2f) * (noiseGenerator.noise(System.currentTimeMillis() / 20.0)
-                        .toFloat() + 1f) / 2f + MathHelper.PI / 2f
-                    val minPitch = (MathHelper.PI / 2f) * (noiseGenerator.noise(System.currentTimeMillis() / 20.0)
-                        .toFloat() + 1f) / 2f + MathHelper.PI / 2f
+                    val minYaw = this.minYaw * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + this.minYaw
+                    val minPitch = this.minPitch * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + this.minPitch
 
-                    val maxYaw =
-                        max(MathHelper.square(deltaYaw) / squaredDistance * weightYaw * 30, minYaw * lastFrameDuration)
-                    val maxPitch = max(
-                        MathHelper.square(deltaPitch) / squaredDistance * weightPitch * 30, minPitch * lastFrameDuration
-                    )
+                    val maxYaw = max(MathHelper.square(deltaYaw) / squaredDistance * weightYaw * 30, minYaw * lastFrameDuration)
+                    val maxPitch = max(MathHelper.square(deltaPitch) / squaredDistance * weightPitch * 30, minPitch * lastFrameDuration)
 
                     // Calculate the new yaw and pitch
                     var yawJitter =
