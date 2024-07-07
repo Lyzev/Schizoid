@@ -11,6 +11,8 @@
     <br><br>
     <img alt="GitHub milestone details" src="https://img.shields.io/github/milestones/progress-percent/Lyzev/Schizoid/1">
     <img src="https://img.shields.io/github/downloads/Lyzev/Schizoid/total" alt="GitHub downloads"/>
+    <br>
+    <img alt="GitHub Tag" src="https://img.shields.io/github/v/tag/Lyzev/Schizoid?include_prereleases&sort=date&color=orange">
     <br><br>
     <img src="https://img.shields.io/github/last-commit/Lyzev/Schizoid" alt="GitHub last commit"/>
     <img src="https://img.shields.io/github/commit-activity/w/Lyzev/Schizoid" alt="GitHub commit activity"/>
@@ -34,12 +36,12 @@
 
 ### Instructions
 
-1. Download ` schizoid-${version}+${build}.jar` of the latest release from the [releases page](https://github.com/Lyzev/Schizoid/releases/latest).
+1. Download `schizoid-${version_core}-${pre_release}+${build}.jar` of the latest release from the [releases page](https://github.com/Lyzev/Schizoid/releases/latest).
 2. Move the downloaded JAR file to the `mods` folder in your Minecraft installation directory.
 3. Launch the game and enjoy the features of Schizoid.
 
 **WARNING:** Nightly builds are not recommended for general use. They are intended for testing purposes only. Use them
-at your own risk, as there will be no support for it.
+at your own risk, as there will be no support for it. They are named as follows: `schizoid-${version_core}-${pre_release}+${build}.jar`
 
 ## Contributing
 
