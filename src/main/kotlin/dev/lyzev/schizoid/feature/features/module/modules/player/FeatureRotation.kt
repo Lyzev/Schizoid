@@ -46,7 +46,7 @@ object FeatureRotation : IFeature, EventListener {
 
     val jitter by switch("Jitter", "Jitter the rotation", true)
     val jitterStrength by slider(
-        "Jitter Strength", "The strength of the jitter effect.", 18, 0, 100, "%%", hide = ::jitter neq true
+        "Jitter Strength", "The strength of the jitter effect.", 5, 0, 100, "%%", hide = ::jitter neq true
     )
     val jitterBasedOnClicks by switch(
         "Jitter Based On Clicks", "Jitter based on click speed.", true, hide = ::jitter neq true
