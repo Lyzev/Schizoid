@@ -52,11 +52,11 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimExtensionReach by slider("Aim Extension Reach", "The reach of the aim extension.", 1.8f, 0f, 5f, 1, "blocks")
     val aimThroughWalls by switch("Aim Through Walls", "Aims through walls.", false)
     val aimInstant by switch("Aim Instant", "Instantly aim at the target.", false)
-    val aimSpeed by slider("Aim Speed", "The speed of the aim.", 75, 1, 100, "%%", hide = ::aimInstant eq true)
+    val aimSpeed by slider("Aim Speed", "The speed of the aim.", 60, 1, 100, "%%", hide = ::aimInstant eq true)
     val aimSpeedDistanceWeight by slider(
         "Aim Speed Distance Weight",
         "The weight of the distance to the target in the aim speed.",
-        25,
+        12,
         0,
         100,
         "%%",
@@ -74,7 +74,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedHurtTimeWeight by slider(
         "Aim Speed Hurt Time Weight",
         "The weight of the hurt time in the aim speed.",
-        10,
+        8,
         0,
         100,
         "%%",
@@ -83,7 +83,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedVelocityWeight by slider(
         "Aim Speed Velocity Weight",
         "The weight of the target velocity in the aim speed.",
-        10,
+        8,
         0,
         100,
         "%%",
@@ -92,7 +92,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedRandomWeight by slider(
         "Aim Speed Random Weight",
         "The weight of the random factor in the aim speed.",
-        10,
+        7,
         0,
         100,
         "%%",
@@ -103,7 +103,7 @@ object ModuleToggleableAimBot : ModuleToggleable(
     val aimSpeedForceHitWeight by slider(
         "Aim Force Hit Weight",
         "The weight of the force hit in the aim speed.",
-        30,
+        20,
         0,
         100,
         "%%",
