@@ -9,31 +9,26 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.animation.TimeAnimator
 import dev.lyzev.api.events.*
-import dev.lyzev.api.imgui.font.ImGuiFonts
 import dev.lyzev.api.opengl.Render
+import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
+import dev.lyzev.api.opengl.shader.Shader
+import dev.lyzev.api.opengl.shader.ShaderPassThrough
 import dev.lyzev.api.opengl.shader.ShaderReflection
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
-import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
-import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableTorus.Torus.Companion.normal1
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableTorus.Torus.Companion.normal2
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableTorus.Torus.Companion.normal3
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableTorus.Torus.Companion.normal4
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableTorus.frequency
-import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableTorus.lifetime
-import imgui.ImGui.*
-import imgui.flag.ImGuiCol
-import imgui.flag.ImGuiWindowFlags
-import net.minecraft.client.gui.screen.ingame.HandledScreen
 import net.minecraft.client.network.PlayerListEntry
 import net.minecraft.client.render.BufferRenderer
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
-import net.minecraft.client.render.entity.LivingEntityRenderer
 import net.minecraft.client.texture.AbstractTexture
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.util.math.MathHelper
@@ -46,6 +41,7 @@ object ModuleToggleableTargetESP : ModuleToggleable(
     "Target ESP", "Renders a target ESP around the target player.", category = IFeature.Category.RENDER
 ), EventListener {
 
+    private val fbo = WrappedFramebuffer(useDepth = true)
     private val timeAnimator = TimeAnimator(1000)
 
     val duration by slider("Duration", "The duration of the target hud to show after hit.", 2000, 500, 10000, "ms")
@@ -77,6 +73,9 @@ object ModuleToggleableTargetESP : ModuleToggleable(
                 target = null
             }
             if (target == null) return@on
+            fbo.clear()
+            fbo.copyDepthFrom(mc.framebuffer)
+            fbo.beginWrite(false)
             RenderSystem.enableDepthTest()
             val cam = mc.gameRenderer.camera.pos
             @Suppress("NAME_SHADOWING") val modelViewMat = Matrix4f(event.modelViewMat)
@@ -93,8 +92,7 @@ object ModuleToggleableTargetESP : ModuleToggleable(
             ShaderReflection.bind()
             ShaderReflection["ModelViewMat", false] = modelViewMat
             ShaderReflection["ProjMat", false] = event.projMat
-            GL13.glActiveTexture(GL13.GL_TEXTURE0)
-//            ModuleToggleableRearView.rearView.beginRead()
+            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             mc.framebuffer.beginRead()
             ShaderReflection["Tex0"] = 0
             ShaderReflection["Freq"] = frequency / 100f
@@ -143,8 +141,16 @@ object ModuleToggleableTargetESP : ModuleToggleable(
             }
             BufferRenderer.draw(bufferBuilder.end())
             ShaderReflection.unbind()
-            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
             RenderSystem.disableDepthTest()
+            mc.framebuffer.beginWrite(false)
+            ShaderPassThrough.bind()
+            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+            fbo.beginRead()
+            ShaderPassThrough["Tex0"] = 0
+            ShaderPassThrough["Scale"] = 1f
+            ShaderPassThrough["Alpha"] = false
+            Shader.drawFullScreen()
+            ShaderPassThrough.unbind()
         }
     }
 }

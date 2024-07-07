@@ -9,7 +9,10 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.animation.EasingFunction
 import dev.lyzev.api.events.*
 import dev.lyzev.api.math.get
-import dev.lyzev.api.opengl.Render
+import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
+import dev.lyzev.api.opengl.shader.Shader
+import dev.lyzev.api.opengl.shader.ShaderPassThrough
 import dev.lyzev.api.opengl.shader.ShaderReflection
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
@@ -23,8 +26,8 @@ import net.minecraft.entity.Entity
 import net.minecraft.network.packet.s2c.play.DamageTiltS2CPacket
 import net.minecraft.network.packet.s2c.play.EntityDamageS2CPacket
 import net.minecraft.util.hit.EntityHitResult
-import net.minecraft.util.math.MathHelper.sin
 import net.minecraft.util.math.MathHelper.cos
+import net.minecraft.util.math.MathHelper.sin
 import net.minecraft.util.math.Vec2f
 import net.minecraft.util.math.Vec3d
 import org.joml.Matrix4f
@@ -35,6 +38,8 @@ import java.util.concurrent.CopyOnWriteArrayList
 object ModuleToggleableTorus :
     ModuleToggleable("Torus", "Renders a Torus with reflection effect.", category = IFeature.Category.RENDER),
     EventListener {
+
+    private val fbo = WrappedFramebuffer(useDepth = true)
 
     val depth by switch("Depth", "Whether to render the torus in depth.", false)
     val frequency by slider("Noise frequency", "The strength of the noise effect.", 50, 0, 100, "%%")
@@ -64,11 +69,26 @@ object ModuleToggleableTorus :
         on<EventRenderWorld>(Event.Priority.LOW) { event ->
             toruses.removeIf { System.currentTimeMillis() - it.spawn > lifetime }
             if (toruses.isEmpty()) return@on
-            if (depth) RenderSystem.enableDepthTest()
-            else RenderSystem.disableDepthTest()
+            fbo.clear()
+            if (depth) {
+                fbo.copyDepthFrom(mc.framebuffer)
+                RenderSystem.enableDepthTest()
+            }
+            fbo.beginWrite(false)
             toruses.forEach { torus ->
                 torus.render(event.modelViewMat, event.projMat)
             }
+            if (depth)
+                RenderSystem.disableDepthTest()
+            mc.framebuffer.beginWrite(false)
+            ShaderPassThrough.bind()
+            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
+            fbo.beginRead()
+            ShaderPassThrough["Tex0"] = 0
+            ShaderPassThrough["Scale"] = 1f
+            ShaderPassThrough["Alpha"] = false
+            Shader.drawFullScreen()
+            ShaderPassThrough.unbind()
         }
     }
 
@@ -85,7 +105,7 @@ object ModuleToggleableTorus :
             ShaderReflection.bind()
             ShaderReflection["ModelViewMat", false] = modelViewMat
             ShaderReflection["ProjMat", false] = projMat
-            GL13.glActiveTexture(GL13.GL_TEXTURE0)
+            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
 //            ModuleToggleableRearView.rearView.beginRead()
             mc.framebuffer.beginRead()
             ShaderReflection["Tex0"] = 0
@@ -125,7 +145,8 @@ object ModuleToggleableTorus :
 
                     normal1.set(cos(theta) * cos(phi), cos(theta) * sin(phi), sin(theta)).normalize()
                     normal2.set(cos(nextTheta) * cos(phi), cos(nextTheta) * sin(phi), sin(nextTheta)).normalize()
-                    normal3.set(cos(nextTheta) * cos(nextPhi), cos(nextTheta) * sin(nextPhi), sin(nextTheta)).normalize()
+                    normal3.set(cos(nextTheta) * cos(nextPhi), cos(nextTheta) * sin(nextPhi), sin(nextTheta))
+                        .normalize()
                     normal4.set(cos(theta) * cos(nextPhi), cos(theta) * sin(nextPhi), sin(theta)).normalize()
 
                     bufferBuilder.vertex(x1, y1, z1).normal(normal1.x, normal1.y, normal1.z)
@@ -136,7 +157,6 @@ object ModuleToggleableTorus :
             }
             BufferRenderer.draw(bufferBuilder.end())
             ShaderReflection.unbind()
-            RenderSystem.activeTexture(GL13.GL_TEXTURE0)
         }
 
         companion object {
