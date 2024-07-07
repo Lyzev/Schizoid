@@ -75,7 +75,6 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
         private val emailRegex = Regex("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")
         private val password = ImString("", 64)
         private var isHidden = true
-        private var canUseDeviceCode = true
         private var msg: String? = null
         private val timeAnimator = TimeAnimator(4000)
 
@@ -147,20 +146,16 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
                 }
                 sameLine()
                 if (ImGuiScreenAccountManager.button(FontAwesomeIcons.Globe, "Add the account using a device code.")) {
-                    if (canUseDeviceCode) {
-                        thread {
-                            canUseDeviceCode = false
-                            val httpClient = MinecraftAuth.createHttpClient()
-                            val javaSession = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.getFromInput(
-                                httpClient,
-                                MsaDeviceCodeCallback { msaDeviceCode: MsaDeviceCode ->
-                                    Schizoid.logger.info("Go to " + msaDeviceCode.verificationUri)
-                                    Schizoid.logger.info("Enter code " + msaDeviceCode.userCode)
-                                    Desktop.getDesktop().browse(URI(msaDeviceCode.directVerificationUri))
-                                })
-                            ImGuiScreenAccountManager.accounts += AccountMicrosoft(session = javaSession)
-                            canUseDeviceCode = true
-                        }
+                    thread {
+                        val httpClient = MinecraftAuth.createHttpClient()
+                        val javaSession = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.getFromInput(
+                            httpClient,
+                            MsaDeviceCodeCallback { msaDeviceCode: MsaDeviceCode ->
+                                Schizoid.logger.info("Go to " + msaDeviceCode.verificationUri)
+                                Schizoid.logger.info("Enter code " + msaDeviceCode.userCode)
+                                Desktop.getDesktop().browse(URI(msaDeviceCode.directVerificationUri))
+                            })
+                        ImGuiScreenAccountManager.accounts += AccountMicrosoft(session = javaSession)
                     }
                 }
                 sameLine()
