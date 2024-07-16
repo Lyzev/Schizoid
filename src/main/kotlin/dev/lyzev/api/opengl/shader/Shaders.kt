@@ -111,6 +111,9 @@ object ShaderAdd : ShaderVertexFragment("Add")
 object ShaderPassThrough : ShaderVertexFragment("PassThrough")
 object ShaderNoAlpha : ShaderVertexFragment("NoAlpha")
 
+object ShaderAlphaOcclusion : ShaderVertexFragment("AlphaOcclusion")
+object ShaderJumpFlood : ShaderVertexFragment("JumpFlood")
+
 object ShaderDepth : ShaderVertexFragment("Depth")
 object ShaderLinearizeDepth : ShaderVertexFragment("LinearizeDepth")
 

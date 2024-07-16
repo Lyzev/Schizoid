@@ -14,6 +14,7 @@ import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.render.RenderTickCounter
 import net.minecraft.client.render.VertexConsumer
+import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.render.entity.model.EntityModel
 import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.Entity
@@ -205,3 +206,17 @@ class EventDistanceToBlockHitResult(var distance: Double) : Event
 class EventDistanceToEntityHitResult(var distance: Double) : Event
 
 class EventVelocity(var x: Double, var y: Double, var z: Double) : Event
+
+class EventRenderEntity(
+    val entity: Entity,
+    val cameraX: Double,
+    val cameraY: Double,
+    val cameraZ: Double,
+    val tickDelta: Double,
+    val matrices: MatrixStack,
+    val vertexConsumers: VertexConsumerProvider
+) : CancellableEvent()
+
+class EventShouldRenderEntity(val entity: Entity, var shouldRender: Boolean) : Event
+
+class EventEntityHasLabel(val entity: Entity, var hasLabel: Boolean) : Event

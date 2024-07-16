@@ -22,6 +22,7 @@ import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.MinecraftClient
+import net.minecraft.client.render.GameRenderer
 import net.minecraft.util.math.MathHelper
 import org.lwjgl.opengl.GL13
 
@@ -251,7 +252,7 @@ object ModuleToggleableBlur :
             RenderSystem.activeTexture(GL13.GL_TEXTURE1)
             GlStateManager._bindTexture(mc.framebuffer.depthAttachment)
             ShaderDepth["Tex1"] = 1
-            ShaderDepth["Near"] = .05f
+            ShaderDepth["Near"] = GameRenderer.CAMERA_DEPTH
             ShaderDepth["Far"] = mc.gameRenderer.farPlaneDistance
             ShaderDepth["MinThreshold"] = .10f * fogDistance / 100f
             ShaderDepth["MaxThreshold"] = .28f * fogDistance / 100f

@@ -4,11 +4,13 @@
   "compatibilityLevel": "JAVA_${java}",
   "client": [
     "accessor.AbuseReportContextAccessor",
+    "accessor.ExplosionS2CPacketAccessor",
     "accessor.FileCacheAccessor",
     "accessor.MinecraftClientAccessor",
     "accessor.PlayerSkinProviderAccessor",
     "accessor.RealmsAvailabilityAccessor",
     "accessor.SplashTextResourceSupplierAccessor",
+    "accessor.WorldRendererAccessor",
     "accessor.YggdrasilMinecraftSessionServiceAccessor",
     "mixin.imgui.MixinImGuiImplGlfw",
     "mixin.minecraft.client.MixinKeyboard",
@@ -21,13 +23,13 @@
     "mixin.minecraft.client.render.MixinGameRenderer",
     "mixin.minecraft.client.render.MixinLightmapTextureManager",
     "mixin.minecraft.client.render.MixinWorldRenderer",
+    "mixin.minecraft.client.render.entity.MixinEntityRenderer",
     "mixin.minecraft.client.render.entity.MixinLivingEntityRenderer",
     "mixin.minecraft.client.util.MixinWindow",
     "mixin.minecraft.client.world.MixinClientWorld",
     "mixin.minecraft.entity.MixinEntity",
     "mixin.minecraft.entity.MixinLivingEntity",
-    "mixin.minecraft.network.MixinClientConnection",
-    "accessor.ExplosionS2CPacketAccessor"
+    "mixin.minecraft.network.MixinClientConnection"
   ],
   "injectors": {
     "defaultRequire": 1

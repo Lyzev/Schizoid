@@ -35,6 +35,8 @@ abstract class Feature(
 
     // The keybind of the feature.
     override var keybinds by keybinds("Keybinds", "All keys used to control the feature.", keys)
+
+    override fun toString(): String = name
 }
 
 /**
