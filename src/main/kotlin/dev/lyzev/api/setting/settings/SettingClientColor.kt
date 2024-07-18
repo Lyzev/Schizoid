@@ -19,9 +19,14 @@ class SettingClientColor(
     desc: String?,
     value: Color,
     private val useAlpha: Boolean,
+    private val useRGBPuke: Boolean = false,
     hide: () -> Boolean,
     change: (Color) -> Unit
 ) : SettingClient<Color>(container, name, desc, value, hide, change) {
+
+    var isRGBPuke = false
+    var saturation = 70
+    var brightness = 100
 
     override fun render() {
         text(name)
@@ -38,6 +43,28 @@ class SettingClientColor(
             if (colorPicker4("##$name", v, DEFAULT_FLAGS or ImGuiColorEditFlags.AlphaBar))
                 value = Color(v[0], v[1], v[2], v[3])
         }
+        if (useRGBPuke) {
+            if (checkbox("$name RGB Puke", isRGBPuke)) {
+                isRGBPuke = !isRGBPuke
+            }
+            if (isRGBPuke) {
+                val treeNode = treeNode("$name RGB Puke Settings")
+                if (desc != null && isItemHovered()) setTooltip("Settings for the RGB Puke Effect.")
+                if (treeNode) {
+                    i[0] = saturation
+                    text("$name Saturation")
+                    setNextItemWidth(getColumnWidth())
+                    if (sliderInt("###Saturation$name", i, 0, 100))
+                        saturation = i[0]
+                    i[0] = brightness
+                    text("$name Brightness")
+                    setNextItemWidth(getColumnWidth())
+                    if (sliderInt("###Brightness$name", i, 0, 100))
+                        brightness = i[0]
+                    treePop()
+                }
+            }
+        }
     }
 
     override fun load(value: JsonElement) {
@@ -46,6 +73,9 @@ class SettingClientColor(
         val blue = value.jsonObject["blue"]?.jsonPrimitive?.int ?: this.value.blue
         val alpha = value.jsonObject["alpha"]?.jsonPrimitive?.int ?: this.value.alpha
         this.value = Color(red, green, blue, alpha)
+        isRGBPuke = value.jsonObject["isRGBPuke"]?.jsonPrimitive?.boolean ?: isRGBPuke
+        saturation = value.jsonObject["saturation"]?.jsonPrimitive?.int ?: saturation
+        brightness = value.jsonObject["brightness"]?.jsonPrimitive?.int ?: brightness
     }
 
     override fun save(): JsonElement {
@@ -54,13 +84,17 @@ class SettingClientColor(
                 "red" to JsonPrimitive(value.red),
                 "green" to JsonPrimitive(value.green),
                 "blue" to JsonPrimitive(value.blue),
-                "alpha" to JsonPrimitive(value.alpha)
+                "alpha" to JsonPrimitive(value.alpha),
+                "isRGBPuke" to JsonPrimitive(isRGBPuke),
+                "saturation" to JsonPrimitive(saturation),
+                "brightness" to JsonPrimitive(brightness)
             )
         )
     }
 
     companion object {
         private val v = FloatArray(4) { 0f }
+        private val i = IntArray(1) { 0 }
         private const val DEFAULT_FLAGS =
             ImGuiColorEditFlags.DisplayHex or ImGuiColorEditFlags.NoSidePreview or ImGuiColorEditFlags.PickerHueWheel
     }
@@ -71,6 +105,7 @@ fun IFeature.color(
     desc: String? = null,
     value: Color,
     useAlpha: Boolean = false,
+    useRGBPuke: Boolean = false,
     hide: () -> Boolean = { false },
     change: (Color) -> Unit = {}
-) = SettingClientColor(this::class, name, desc, value, useAlpha, hide, change)
+) = SettingClientColor(this::class, name, desc, value, useAlpha, useRGBPuke, hide, change)

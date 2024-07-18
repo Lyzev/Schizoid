@@ -7,10 +7,12 @@ package dev.lyzev.api.opengl
 
 import com.google.common.math.IntMath
 import com.mojang.blaze3d.platform.GlConst
+import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.platform.TextureUtil
+import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventWindowResize
 import dev.lyzev.api.events.on
-import dev.lyzev.schizoid.Schizoid
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.Framebuffer
 import net.minecraft.client.gl.SimpleFramebuffer
@@ -33,7 +35,8 @@ class WrappedFramebuffer(
     height: Int = MinecraftClient.getInstance().window.framebufferHeight,
     useDepth: Boolean = false,
     fixedSize: Boolean = false,
-    linear: Boolean = true
+    linear: Boolean = true,
+    internalFormat: Int = GlConst.GL_RGBA8
 ) : SimpleFramebuffer(
     width / IntMath.pow(2, lod),
     height / IntMath.pow(2, lod),
@@ -51,6 +54,15 @@ class WrappedFramebuffer(
         setClearColor(0f, 0f, 0f, 0f)
         clear()
         if (linear) setTexFilter(GlConst.GL_LINEAR)
+        if (internalFormat != GlConst.GL_RGBA8) {
+            RenderSystem.bindTexture(this.colorAttachment)
+            GlStateManager._texImage2D(
+                GlConst.GL_TEXTURE_2D, 0, internalFormat,
+                this.textureWidth,
+                this.textureHeight, 0, GlConst.GL_RGBA, GlConst.GL_UNSIGNED_BYTE, null
+            )
+            RenderSystem.bindTexture(0)
+        }
         /**
          * Listens for window resize events and resizes the framebuffer accordingly.
          */
@@ -61,6 +73,15 @@ class WrappedFramebuffer(
                 MinecraftClient.IS_SYSTEM_MAC
             )
             if (linear) setTexFilter(GlConst.GL_LINEAR)
+            if (internalFormat != GlConst.GL_RGBA8) {
+                RenderSystem.bindTexture(this.colorAttachment)
+                GlStateManager._texImage2D(
+                    GlConst.GL_TEXTURE_2D, 0, internalFormat,
+                    this.textureWidth,
+                    this.textureHeight, 0, GlConst.GL_RGBA, GlConst.GL_UNSIGNED_BYTE, null
+                )
+                RenderSystem.bindTexture(0)
+            }
         }
     }
 

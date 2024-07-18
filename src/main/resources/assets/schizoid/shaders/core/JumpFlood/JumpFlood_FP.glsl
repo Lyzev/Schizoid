@@ -5,29 +5,33 @@
 
 #version 330
 
+precision highp float;
+
 in vec2 uv;
 out vec4 color;
 
 uniform sampler2D Tex0;
-uniform vec4 Color;
 uniform int Length;
 uniform vec2 TexelSize;
 
+float distSquared(vec2 A, vec2 B) {
+    vec2 C = A - B;
+    return dot(C, C);
+}
+
 void main() {
-    color = texture(Tex0, uv);
-    if (color.a > 0.0) {
-        return;
-    }
-    for (int x = -Length; x <= Length; x += Length) {
-        for (int y = -Length; y <= Length; y += Length) {
-            if (x == 0 && y == 0) {
-                continue;
-            }
-            vec2 offset = vec2(x, y) * TexelSize;
+    color = vec4(0.0);
+    float minDistance = -1.0;
+    for (int x = -1; x <= 1; x += 1) {
+        for (int y = -1; y <= 1; y += 1) {
+            vec2 offset = vec2(x, y) * Length * TexelSize;
             vec4 col = texture(Tex0, uv + offset);
             if (col.a > 0.0) {
-                color = Color;
-                return;
+                float distance = distSquared(uv, col.xy);
+                if (distance <= minDistance || minDistance < 0) {
+                    minDistance = distance;
+                    color = vec4(col.xy, 0.0, 1.0);
+                }
             }
         }
     }

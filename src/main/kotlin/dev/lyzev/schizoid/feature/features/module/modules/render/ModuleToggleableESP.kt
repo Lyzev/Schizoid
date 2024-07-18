@@ -12,83 +12,291 @@ import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.*
 import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.blur.BlurHelper
-import dev.lyzev.api.setting.settings.color
-import dev.lyzev.api.setting.settings.multiOption
-import dev.lyzev.api.setting.settings.slider
-import dev.lyzev.api.setting.settings.switch
+import dev.lyzev.api.setting.settings.*
 import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.feature.IFeature
-import dev.lyzev.schizoid.feature.features.gui.FeatureImGui
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
-import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.fogRGBPukeBrightness
-import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.fogRGBPukeOpacity
-import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.fogRGBPukeSaturation
 import dev.lyzev.schizoid.injection.accessor.WorldRendererAccessor
 import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.BufferAllocator
+import net.minecraft.entity.LivingEntity
 import net.minecraft.registry.Registries
 import net.minecraft.util.math.MathHelper
 import org.joml.Vector2f
 import org.lwjgl.opengl.GL13.GL_TEXTURE0
 import org.lwjgl.opengl.GL13.GL_TEXTURE1
+import org.lwjgl.opengl.GL43
 import java.awt.Color
-import kotlin.math.ceil
-import kotlin.math.floor
-import kotlin.math.log2
-import kotlin.math.pow
+import kotlin.math.*
 
 object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception.", category = IFeature.Category.RENDER),
     EventListener {
 
-    private val entitiesFbo = WrappedFramebuffer("[ESP] Entities", useDepth = true)
-    private val outlines = WrappedFramebuffer("[ESP] Outlines")
-    private val fbos = arrayOf(WrappedFramebuffer("[ESP] FBO 0"), WrappedFramebuffer("[ESP] FBO 1"))
+    private val entitiesFbo = WrappedFramebuffer("[ESP] Entities", useDepth = true, linear = false)
+    private val entitiesVertexConsumer = VertexConsumerProvider.immediate(BufferAllocator(1536))
+
+    private val entitiesHurtTimeFbo = WrappedFramebuffer("[ESP] Entities Hurttime", useDepth = true, linear = false)
+
+    private val outlines = WrappedFramebuffer("[ESP] Outlines", internalFormat = GL43.GL_RGBA16)
+    private val fbos = arrayOf(
+        WrappedFramebuffer("[ESP] FBO 0", internalFormat = GL43.GL_RGBA16),
+        WrappedFramebuffer("[ESP] FBO 1", internalFormat = GL43.GL_RGBA16)
+    )
     private val texelSize = Vector2f()
-    private val vertexConsumer = VertexConsumerProvider.immediate(BufferAllocator(1536));
+    private val screenSize = Vector2f()
 
     private val jumpFloodSteps = mutableListOf(4, 2, 1)
 
-    val entities by multiOption("Entities", "The entities to render the esp on.", Registries.ENTITY_TYPE.map { it.name.string to (it.name.string == "Player") }.sortedBy { it.first }.toSet())
+    val entities by multiOption("Entities",
+        "The entities to render the esp on.",
+        Registries.ENTITY_TYPE.map { it.name.string to (it.name.string == "Player") }.sortedBy { it.first }.toSet()
+    )
+    val hurtTime by switch("Hurt Time Color", "Make the outline color based on hurt time.", false)
     val throughWall by switch("Through Wall", "Render entities through walls.", false)
     val alphaOcclusion by switch("Alpha Occlusion", "Enable alpha occlusion.", false)
     val visibleColor by color(
-        "Visible Color",
-        "Color of visible entities.",
-        Color(0, 255, 0, 120),
-        true,
-        hide = ::alphaOcclusion neq true
+        "Visible Color", "Color of visible entities.", Color(0, 255, 0, 120), true, hide = ::alphaOcclusion neq true
     )
     val invisibleColor by color(
-        "Invisible Color",
-        "Color of invisible entities.",
-        Color(255, 0, 0, 120),
-        true,
-        hide = ::alphaOcclusion neq true
+        "Invisible Color", "Color of invisible entities.", Color(255, 0, 0, 120), true, hide = ::alphaOcclusion neq true
     )
     val outline by switch("Outline", "Render an outline around entities.", true)
-    val outlineColor by color("Outline Color", "Color of the outline.", Color(0, 0, 0, 255), true, hide = ::outline neq true)
-    val outlineLength by slider("Outline Length", "Length of the outline.", 7, 1, 100, "px", hide = ::outline neq true) {
+
+    val solid by switch("Solid", "Render a solid outline.", true, hide = ::outline neq true)
+    val solidColor = color("Solid Outline Color",
+        "Color of the solid outline.",
+        Color.GREEN,
+        useAlpha = true,
+        useRGBPuke = true,
+        hide = {
+            !outline || !solid
+        })
+    val solidHurtTimeColor = color(
+        "Solid Hurt Time Color",
+        "Color of the hurt time.",
+        Color.RED,
+        useAlpha = true,
+        useRGBPuke = true,
+        hide = {
+            !outline || !solid || !hurtTime
+        }
+    )
+    val solidLength by slider("Solid Outline Length", "Length of the solid outline.", 7, 1, 256, "px", hide = {
+        !outline || !solid
+    }) {
+        updateJumpFloodSteps()
+    }
+    val solidBlur by switch("Solid Outline Blur", "Blur the outline.", false, hide = {
+        !outline || !solid
+    })
+    val solidBlurStrength by slider("Solid Outline Blur Strength", "Strength of the outline blur.", 6, 1, 20, hide = {
+        !outline || !solid || !solidBlur
+    })
+    val solidBlurCutout by switch("Solid Outline Blur Cutout", "Cutout the blur.", false, hide = {
+        !outline || !solid || !solidBlur
+    })
+    val solidBlurAlphaMultiplier by slider("Solid Outline Blur Alpha Multiplier",
+        "Multiplier for the alpha of the outline blur.",
+        170,
+        0,
+        200,
+        hide = {
+            !outline || !solid || !solidBlur
+        })
+
+    val smooth by switch("Smooth", "Render a smooth outline.", true, hide = ::outline neq true)
+    val smoothColor = color("Smooth Outline Color",
+        "Color of the smooth outline.",
+        Color.GREEN,
+        useAlpha = true,
+        useRGBPuke = true,
+        hide = {
+            !outline || !smooth
+        })
+    val smoothHurtTimeColor = color(
+        "Smooth Hurt Time Color",
+        "Color of the hurt time.",
+        Color.RED,
+        useAlpha = true,
+        useRGBPuke = true,
+        hide = {
+            !outline || !smooth || !hurtTime
+        }
+    )
+    val smoothLength by slider("Smooth Outline Length", "Length of the smooth outline.", 7, 1, 256, "px", hide = {
+        !outline || !smooth
+    }) {
+        updateJumpFloodSteps()
+    }
+    val smoothBlur by switch("Smooth Outline Blur", "Blur the outline.", false, hide = {
+        !outline || !smooth
+    })
+    val smoothBlurStrength by slider("Smooth Outline Blur Strength", "Strength of the outline blur.", 6, 1, 20, hide = {
+        !outline || !smooth || !smoothBlur
+    })
+    val smoothBlurCutout by switch("Smooth Outline Blur Cutout", "Cutout the blur.", false, hide = {
+        !outline || !smooth || !smoothBlur
+    })
+    val smoothBlurAlphaMultiplier by slider("Smooth Outline Blur Alpha Multiplier",
+        "Multiplier for the alpha of the outline blur.",
+        170,
+        0,
+        200,
+        hide = {
+            !outline || !smooth || !smoothBlur
+        })
+
+    private fun updateJumpFloodSteps() {
         jumpFloodSteps.clear()
+
+        val length = max(solidLength, smoothLength)
 
         // Calculate the amount of steps needed for the jump flood algorithm
         // See: https://en.wikipedia.org/wiki/Jump_flooding_algorithm#Implementation
-        val outlineLength = it.toDouble()
-        val maxSteps = ceil(log2(outlineLength)).toInt()
+        var steps = 2.0.pow(ceil(log2(length.toDouble())))
 
-        var jumpDistance = floor(outlineLength / 2).toInt()
-
-        for (i in 0 until maxSteps) {
-            jumpFloodSteps += jumpDistance
-            if (jumpDistance > 1) {
-                jumpDistance /= 2
-            }
+        while (steps >= 1) {
+            jumpFloodSteps.add(steps.toInt())
+            steps = floor(steps / 2)
         }
+
+        jumpFloodSteps.add(1)
     }
 
     override val shouldHandleEvents: Boolean
         get() = isEnabled
 
     init {
+        fun renderOutline(source: WrappedFramebuffer, solidColor: SettingClientColor, smoothColor: SettingClientColor) {
+            if (solid) {
+                fbos[jumpFloodSteps.size % 2].clear()
+                fbos[jumpFloodSteps.size % 2].beginWrite(false)
+                ShaderOutlineSolid.bind()
+                RenderSystem.activeTexture(GL_TEXTURE0)
+                outlines.beginRead()
+                ShaderOutlineSolid["Tex0"] = 0
+                ShaderOutlineSolid["Length"] = sqrt(solidLength * solidLength + solidLength * solidLength.toFloat())
+                ShaderOutlineSolid["ScreenSize"] =
+                    screenSize.set(mc.framebuffer.textureWidth.toFloat(), mc.framebuffer.textureHeight.toFloat())
+                drawFullScreen()
+                ShaderOutlineSolid.unbind()
+
+                if (solidBlur && solidBlurCutout) {
+                    BlurHelper.mode.switchStrength(solidBlurStrength)
+                    BlurHelper.mode.render(fbos[jumpFloodSteps.size % 2].colorAttachment, true)
+                }
+
+                fbos[(jumpFloodSteps.size - 1) % 2].clear()
+                fbos[(jumpFloodSteps.size - 1) % 2].beginWrite(false)
+                ShaderMask.bind()
+                RenderSystem.activeTexture(GL_TEXTURE1)
+                source.beginRead()
+                RenderSystem.activeTexture(GL_TEXTURE0)
+                if (solidBlur && solidBlurCutout) {
+                    BlurHelper.mode.output.beginRead()
+                } else {
+                    fbos[jumpFloodSteps.size % 2].beginRead()
+                }
+                ShaderMask["Tex0"] = 0
+                ShaderMask["Tex1"] = 1
+                ShaderMask["Invert"] = true
+                drawFullScreen()
+                ShaderMask.unbind()
+
+                if (solidBlur && !solidBlurCutout) {
+                    BlurHelper.mode.switchStrength(solidBlurStrength)
+                    BlurHelper.mode.render(fbos[(jumpFloodSteps.size - 1) % 2].colorAttachment, true)
+                }
+
+                mc.framebuffer.beginWrite(false)
+                ShaderTint.bind()
+                RenderSystem.activeTexture(GL_TEXTURE0)
+                if (solidBlur && !solidBlurCutout) {
+                    BlurHelper.mode.output.beginRead()
+                } else {
+                    fbos[(jumpFloodSteps.size - 1) % 2].beginRead()
+                }
+                ShaderTint["Tex0"] = 0
+                ShaderTint["Color"] = solidColor.value
+                ShaderTint["RGBPuke"] = solidColor.isRGBPuke
+                ShaderTint["Opacity"] = 1f
+                ShaderTint.set("SV", solidColor.saturation / 100f, solidColor.brightness / 100f)
+                ShaderTint["Opacity"] = 1f
+                ShaderTint["Alpha"] = true
+                ShaderTint["Multiplier"] =
+                    if (solidBlur) solidBlurAlphaMultiplier / 100f else solidColor.value.alpha / 255f
+                ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
+                ShaderTint["Yaw"] = mc.player?.yaw ?: 0f
+                ShaderTint["Pitch"] = mc.player?.pitch ?: 0f
+                drawFullScreen()
+                ShaderTint.unbind()
+            }
+
+            if (smooth) {
+                fbos[jumpFloodSteps.size % 2].clear()
+                fbos[jumpFloodSteps.size % 2].beginWrite(false)
+                ShaderOutlineLinear.bind()
+                RenderSystem.activeTexture(GL_TEXTURE0)
+                outlines.beginRead()
+                ShaderOutlineLinear["Tex0"] = 0
+                ShaderOutlineLinear["Length"] = sqrt(smoothLength * smoothLength + smoothLength * smoothLength.toFloat())
+                ShaderOutlineLinear["ScreenSize"] =
+                    screenSize.set(mc.framebuffer.textureWidth.toFloat(), mc.framebuffer.textureHeight.toFloat())
+                drawFullScreen()
+                ShaderOutlineLinear.unbind()
+
+                if (smoothBlur && smoothBlurCutout) {
+                    BlurHelper.mode.switchStrength(smoothBlurStrength)
+                    BlurHelper.mode.render(fbos[jumpFloodSteps.size % 2].colorAttachment, true)
+                }
+
+                fbos[(jumpFloodSteps.size - 1) % 2].clear()
+                fbos[(jumpFloodSteps.size - 1) % 2].beginWrite(false)
+                ShaderMask.bind()
+                RenderSystem.activeTexture(GL_TEXTURE1)
+                source.beginRead()
+                RenderSystem.activeTexture(GL_TEXTURE0)
+                if (smoothBlur && smoothBlurCutout) {
+                    BlurHelper.mode.output.beginRead()
+                } else {
+                    fbos[jumpFloodSteps.size % 2].beginRead()
+                }
+                ShaderMask["Tex0"] = 0
+                ShaderMask["Tex1"] = 1
+                ShaderMask["Invert"] = true
+                drawFullScreen()
+                ShaderMask.unbind()
+
+                if (smoothBlur && !smoothBlurCutout) {
+                    BlurHelper.mode.switchStrength(smoothBlurStrength)
+                    BlurHelper.mode.render(fbos[(jumpFloodSteps.size - 1) % 2].colorAttachment, true)
+                }
+
+                mc.framebuffer.beginWrite(false)
+                ShaderTint.bind()
+                RenderSystem.activeTexture(GL_TEXTURE0)
+                if (smoothBlur && !smoothBlurCutout) {
+                    BlurHelper.mode.output.beginRead()
+                } else {
+                    fbos[(jumpFloodSteps.size - 1) % 2].beginRead()
+                }
+                ShaderTint["Tex0"] = 0
+                ShaderTint["Color"] = smoothColor.value
+                ShaderTint["RGBPuke"] = smoothColor.isRGBPuke
+                ShaderTint["Opacity"] = 1f
+                ShaderTint.set("SV", smoothColor.saturation / 100f, smoothColor.brightness / 100f)
+                ShaderTint["Opacity"] = 1f
+                ShaderTint["Alpha"] = true
+                ShaderTint["Multiplier"] =
+                    if (smoothBlur) smoothBlurAlphaMultiplier / 100f else smoothColor.value.alpha / 255f
+                ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
+                ShaderTint["Yaw"] = mc.player?.yaw ?: 0f
+                ShaderTint["Pitch"] = mc.player?.pitch ?: 0f
+                drawFullScreen()
+                ShaderTint.unbind()
+            }
+        }
+
         on<EventRenderWorld>(Event.Priority.LOWEST) {
             RenderSystem.disableDepthTest()
 
@@ -130,6 +338,18 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                 ShaderPassThrough["Alpha"] = true
                 drawFullScreen()
                 ShaderPassThrough.unbind()
+
+                if (hurtTime) {
+                    mc.framebuffer.beginWrite(false)
+                    ShaderPassThrough.bind()
+                    RenderSystem.activeTexture(GL_TEXTURE0)
+                    entitiesHurtTimeFbo.beginRead()
+                    ShaderPassThrough["Tex0"] = 0
+                    ShaderPassThrough["Scale"] = 1f
+                    ShaderPassThrough["Alpha"] = true
+                    drawFullScreen()
+                    ShaderPassThrough.unbind()
+                }
             }
 
             if (alphaOcclusion) {
@@ -147,91 +367,74 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
             }
 
             if (outline) {
+                fbos[1].clear()
+                fbos[1].beginWrite(false)
+                ShaderJumpFloodInit.bind()
+                RenderSystem.activeTexture(GL_TEXTURE0)
+                entitiesFbo.beginRead()
+                ShaderJumpFloodInit["Tex0"] = 0
+                drawFullScreen()
+                ShaderJumpFloodInit.unbind()
+
                 for (i in 0 until jumpFloodSteps.size) {
-                    fbos[i % 2].clear()
-                    fbos[i % 2].beginWrite(false)
+                    val targetFbo = if (i == jumpFloodSteps.size - 1) outlines else fbos[i % 2]
+                    targetFbo.clear()
+                    targetFbo.beginWrite(false)
                     ShaderJumpFlood.bind()
                     RenderSystem.activeTexture(GL_TEXTURE0)
-                    if (i == 0) {
-                        entitiesFbo.beginRead()
-                    } else {
-                        fbos[(i - 1) % 2].beginRead()
-                    }
+                    fbos[(i + 1) % 2].beginRead()
                     ShaderJumpFlood["Tex0"] = 0
-                    ShaderJumpFlood.set("Color", outlineColor.red / 255f, outlineColor.green / 255f, outlineColor.blue / 255f, outlineColor.alpha / 255f)
                     ShaderJumpFlood["Length"] = jumpFloodSteps[i]
-                    ShaderJumpFlood["TexelSize"] = texelSize.set(1f / mc.framebuffer.textureWidth, 1f / mc.framebuffer.textureHeight)
+                    ShaderJumpFlood["TexelSize"] =
+                        texelSize.set(1f / mc.framebuffer.textureWidth, 1f / mc.framebuffer.textureHeight)
                     drawFullScreen()
                     ShaderJumpFlood.unbind()
                 }
 
-                fbos[0].clear()
-                fbos[0].beginWrite(false)
-                ShaderMask.bind()
-                RenderSystem.activeTexture(GL_TEXTURE1)
-                entitiesFbo.beginRead()
-                RenderSystem.activeTexture(GL_TEXTURE0)
-                fbos[1].beginRead()
-                ShaderMask["Tex0"] = 0
-                ShaderMask["Tex1"] = 1
-                ShaderMask["Invert"] = true
-                drawFullScreen()
-                ShaderMask.unbind()
+                renderOutline(entitiesFbo, solidColor, smoothColor)
 
-                BlurHelper.mode.switchStrength(7)
-                BlurHelper.mode.render(fbos[0].colorAttachment, true)
+                if (hurtTime) {
+                    fbos[1].clear()
+                    fbos[1].beginWrite(false)
+                    ShaderJumpFloodInit.bind()
+                    RenderSystem.activeTexture(GL_TEXTURE0)
+                    entitiesHurtTimeFbo.beginRead()
+                    ShaderJumpFloodInit["Tex0"] = 0
+                    drawFullScreen()
+                    ShaderJumpFloodInit.unbind()
 
-                mc.framebuffer.beginWrite(false)
-                ShaderTint.bind()
-                RenderSystem.activeTexture(GL_TEXTURE0)
-                BlurHelper.mode.output.beginRead()
-                ShaderTint["Tex0"] = 0
-                ShaderTint["RGBPuke"] = true
-                ShaderTint["Opacity"] = 1f
-                ShaderTint.set("SV", 70f / 100f, 100f / 100f)
-                ShaderTint["Opacity"] = 100f / 100f
-                ShaderTint["Alpha"] = true
-                ShaderTint["Multiplier"] = 1.7f
-                ShaderTint["Time"] = (System.nanoTime() - ShaderTint.initTime) / 1000000000f
-                ShaderTint["Yaw"] = mc.player?.yaw ?: 0f
-                ShaderTint["Pitch"] = mc.player?.pitch ?: 0f
-                drawFullScreen()
-                ShaderTint.unbind()
-
-//                mc.framebuffer.beginWrite(false)
-//                ShaderMask.bind()
-//                RenderSystem.activeTexture(GL_TEXTURE1)
-//                entitiesFbo.beginRead()
-//                RenderSystem.activeTexture(GL_TEXTURE0)
-//                fbos[0].beginRead()
-//                ShaderMask["Tex0"] = 0
-//                ShaderMask["Tex1"] = 1
-//                ShaderMask["Invert"] = true
-//                drawFullScreen()
-//                ShaderMask.unbind()
+                    for (i in 0 until jumpFloodSteps.size) {
+                        val targetFbo = if (i == jumpFloodSteps.size - 1) outlines else fbos[i % 2]
+                        targetFbo.clear()
+                        targetFbo.beginWrite(false)
+                        ShaderJumpFlood.bind()
+                        RenderSystem.activeTexture(GL_TEXTURE0)
+                        fbos[(i + 1) % 2].beginRead()
+                        ShaderJumpFlood["Tex0"] = 0
+                        ShaderJumpFlood["Length"] = jumpFloodSteps[i]
+                        ShaderJumpFlood["TexelSize"] =
+                            texelSize.set(1f / mc.framebuffer.textureWidth, 1f / mc.framebuffer.textureHeight)
+                        drawFullScreen()
+                        ShaderJumpFlood.unbind()
+                    }
+                    renderOutline(entitiesHurtTimeFbo, solidHurtTimeColor, smoothHurtTimeColor)
+                }
             }
 
             entitiesFbo.clear()
-            mc.framebuffer.beginWrite(false)
-        }
-
-        var shouldRender = false
-
-        on<EventShouldRenderEntity> { event ->
-            if (!event.shouldRender && entities.any { it.second && it.first == event.entity.type.name.string }) {
-                shouldRender = true
-                event.shouldRender = true
-            } else {
-                shouldRender = false
+            if (hurtTime) {
+                entitiesHurtTimeFbo.clear()
             }
+            mc.framebuffer.beginWrite(false)
         }
 
         var shouldHideLabel = false
 
         on<EventRenderEntity> { event ->
-            if (!entities.any { it.second && it.first == event.entity.type.name.string })
-                return@on
-            entitiesFbo.beginWrite(false);
+            if (!entities.any { it.second && it.first == event.entity.type.name.string }) return@on
+            val isHurtTime = hurtTime && event.entity is LivingEntity && event.entity.hurtTime > 1
+            if (isHurtTime) entitiesHurtTimeFbo.beginWrite(false)
+            else entitiesFbo.beginWrite(false)
             val d = MathHelper.lerp(event.tickDelta, event.entity.lastRenderX, event.entity.x)
             val e = MathHelper.lerp(event.tickDelta, event.entity.lastRenderY, event.entity.y)
             val f = MathHelper.lerp(event.tickDelta, event.entity.lastRenderZ, event.entity.z)
@@ -247,15 +450,13 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                 g,
                 event.tickDelta.toFloat(),
                 event.matrices,
-                vertexConsumer,
-                worldRenderer.entityRenderDispatcher.getLight(event.entity, event.tickDelta.toFloat())
+                entitiesVertexConsumer,
+                -1 // render with full brightness
             )
+            entitiesVertexConsumer.drawCurrentLayer()
             shouldHideLabel = false
             worldRenderer.entityRenderDispatcher.setRenderShadows(true)
             mc.framebuffer.beginWrite(false)
-            if (shouldRender) {
-                event.isCancelled = true
-            }
         }
 
         on<EventEntityHasLabel> { event ->
