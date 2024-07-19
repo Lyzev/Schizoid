@@ -22,10 +22,10 @@ void main() {
     color = vec4(0.0);
     vec4 col = texture(Tex0, uv);
     if (col.a > 0.0) {
-        float distance = distance(uv * ScreenSize, col.xy * ScreenSize);
-        if (distance <= Length) {
+        float dist = distance(uv, col.xy) * length(ScreenSize);
+        if (dist <= Length) {
             float sigma = Length / 3.0;
-            color = vec4(gaussian(distance, sigma) / gaussian(0, sigma));
+            color = vec4(gaussian(dist, sigma) / gaussian(0, sigma));
         }
     }
 }

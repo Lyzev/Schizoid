@@ -6,7 +6,6 @@
 package dev.lyzev.api.opengl.shader
 
 import com.mojang.blaze3d.systems.RenderSystem
-import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.setting.settings.OptionEnum
@@ -14,7 +13,6 @@ import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.gui.FeatureImGui
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
 import net.minecraft.client.gl.Framebuffer
-import net.minecraft.util.math.MathHelper
 import org.joml.Matrix2f
 import org.joml.Vector2f
 import org.joml.Vector3f
@@ -117,7 +115,7 @@ object ShaderJumpFloodInit : ShaderVertexFragment("JumpFloodInit")
 object ShaderJumpFlood : ShaderVertexFragment("JumpFlood")
 
 object ShaderOutlineSolid : ShaderVertexFragment("OutlineSolid")
-object ShaderOutlineLinear : ShaderVertexFragment("OutlineLinear")
+object ShaderOutlineSmooth : ShaderVertexFragment("OutlineSmooth")
 
 object ShaderDepth : ShaderVertexFragment("Depth")
 object ShaderLinearizeDepth : ShaderVertexFragment("LinearizeDepth")

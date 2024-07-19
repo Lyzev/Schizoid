@@ -62,7 +62,9 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
     )
     val outline by switch("Outline", "Render an outline around entities.", true)
 
-    val solid by switch("Solid", "Render a solid outline.", true, hide = ::outline neq true)
+    val solid by switch("Solid", "Render a solid outline.", true, hide = ::outline neq true) {
+        updateJumpFloodSteps()
+    }
     val solidColor = color("Solid Outline Color",
         "Color of the solid outline.",
         Color.GREEN,
@@ -104,7 +106,9 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
             !outline || !solid || !solidBlur
         })
 
-    val smooth by switch("Smooth", "Render a smooth outline.", true, hide = ::outline neq true)
+    val smooth by switch("Smooth", "Render a smooth outline.", true, hide = ::outline neq true) {
+        updateJumpFloodSteps()
+    }
     val smoothColor = color("Smooth Outline Color",
         "Color of the smooth outline.",
         Color.GREEN,
@@ -149,7 +153,7 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
     private fun updateJumpFloodSteps() {
         jumpFloodSteps.clear()
 
-        val length = max(solidLength, smoothLength)
+        val length = max(if (solid) solidLength else 2, if (smooth) smoothLength else 2)
 
         // Calculate the amount of steps needed for the jump flood algorithm
         // See: https://en.wikipedia.org/wiki/Jump_flooding_algorithm#Implementation
@@ -159,8 +163,6 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
             jumpFloodSteps.add(steps.toInt())
             steps = floor(steps / 2)
         }
-
-        jumpFloodSteps.add(1)
     }
 
     override val shouldHandleEvents: Boolean
@@ -235,15 +237,15 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
             if (smooth) {
                 fbos[jumpFloodSteps.size % 2].clear()
                 fbos[jumpFloodSteps.size % 2].beginWrite(false)
-                ShaderOutlineLinear.bind()
+                ShaderOutlineSmooth.bind()
                 RenderSystem.activeTexture(GL_TEXTURE0)
                 outlines.beginRead()
-                ShaderOutlineLinear["Tex0"] = 0
-                ShaderOutlineLinear["Length"] = sqrt(smoothLength * smoothLength + smoothLength * smoothLength.toFloat())
-                ShaderOutlineLinear["ScreenSize"] =
+                ShaderOutlineSmooth["Tex0"] = 0
+                ShaderOutlineSmooth["Length"] = sqrt(smoothLength * smoothLength + smoothLength * smoothLength.toFloat())
+                ShaderOutlineSmooth["ScreenSize"] =
                     screenSize.set(mc.framebuffer.textureWidth.toFloat(), mc.framebuffer.textureHeight.toFloat())
                 drawFullScreen()
-                ShaderOutlineLinear.unbind()
+                ShaderOutlineSmooth.unbind()
 
                 if (smoothBlur && smoothBlurCutout) {
                     BlurHelper.mode.switchStrength(smoothBlurStrength)
