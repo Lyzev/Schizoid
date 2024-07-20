@@ -34,6 +34,7 @@ class SettingClientMultiOptionString(
 ) : SettingClient<Set<Pair<String, Boolean>>>(container, name, desc, value, hide, change) {
 
     private var searchString = ImString(32)
+    val enabled = value.filter { it.second }.map { it.first }.toMutableList()
 
     override fun render() {
         val treeNode = treeNode(name)
@@ -65,6 +66,8 @@ class SettingClientMultiOptionString(
                         if (checkbox("##${value.first}", value.second)) {
                             this.value =
                                 this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
+                            this.enabled.clear()
+                            this.enabled.addAll(this.value.filter { it.second }.map { it.first })
                             onChange(this.value)
                         }
                         popStyleVar()
@@ -79,6 +82,8 @@ class SettingClientMultiOptionString(
     override fun load(value: JsonElement) {
         val values = value.jsonArray.map { it.jsonPrimitive.content }.toSet()
         this.value = this.value.map { it.first to (it.first in values) }.toSet()
+        this.enabled.clear()
+        this.enabled.addAll(this.value.filter { it.second }.map { it.first })
     }
 
     override fun save(): JsonElement {
@@ -106,6 +111,7 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
 ) : SettingClient<Set<Pair<T, Boolean>>>(container, name, desc, value, hide, change) {
 
     private var searchString = ImString(32)
+    val enabled = value.filter { it.second }.map { it.first }.toMutableList()
 
     override fun render() {
         val treeNode = treeNode(name)
@@ -137,6 +143,8 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
                         if (checkbox("##${value.first.key}", value.second)) {
                             this.value =
                                 this.value.map { if (it.first == value.first) it.first to !it.second else it }.toSet()
+                            this.enabled.clear()
+                            this.enabled.addAll(this.value.filter { it.second }.map { it.first })
                             onChange(this.value)
                         }
                         popStyleVar()
@@ -151,6 +159,8 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
     override fun load(value: JsonElement) {
         val values = value.jsonArray.map { it.jsonPrimitive.content }.toSet()
         this.value = this.value.map { it.first to (it.first.key in values) }.toSet()
+        this.enabled.clear()
+        this.enabled.addAll(this.value.filter { it.second }.map { it.first })
     }
 
     override fun save(): JsonElement {

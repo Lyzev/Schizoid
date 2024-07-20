@@ -37,17 +37,21 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
 
     private val entitiesHurtTimeFbo = WrappedFramebuffer("[ESP] Entities Hurttime", useDepth = true, linear = false)
 
-    private val outlines = WrappedFramebuffer("[ESP] Outlines", internalFormat = GL43.GL_RGBA16)
+    private val outlines = WrappedFramebuffer("[ESP] Outlines", internalFormat = GL43.GL_RGBA16, linear = false)
     private val fbos = arrayOf(
-        WrappedFramebuffer("[ESP] FBO 0", internalFormat = GL43.GL_RGBA16),
-        WrappedFramebuffer("[ESP] FBO 1", internalFormat = GL43.GL_RGBA16)
+        WrappedFramebuffer("[ESP] FBO 0"),
+        WrappedFramebuffer("[ESP] FBO 1")
+    )
+    private val jumpFloodFbos = arrayOf(
+        WrappedFramebuffer("[ESP] FBO 0", lod = 1, internalFormat = GL43.GL_RGBA16, linear = false),
+        WrappedFramebuffer("[ESP] FBO 1", lod = 1, internalFormat = GL43.GL_RGBA16, linear = false)
     )
     private val texelSize = Vector2f()
     private val screenSize = Vector2f()
 
     private val jumpFloodSteps = mutableListOf(4, 2, 1)
 
-    val entities by multiOption("Entities",
+    val entities = multiOption("Entities",
         "The entities to render the esp on.",
         Registries.ENTITY_TYPE.map { it.name.string to (it.name.string == "Player") }.sortedBy { it.first }.toSet()
     )
@@ -369,8 +373,8 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
             }
 
             if (outline) {
-                fbos[1].clear()
-                fbos[1].beginWrite(false)
+                jumpFloodFbos[1].clear()
+                jumpFloodFbos[1].beginWrite(true)
                 ShaderJumpFloodInit.bind()
                 RenderSystem.activeTexture(GL_TEXTURE0)
                 entitiesFbo.beginRead()
@@ -379,25 +383,35 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                 ShaderJumpFloodInit.unbind()
 
                 for (i in 0 until jumpFloodSteps.size) {
-                    val targetFbo = if (i == jumpFloodSteps.size - 1) outlines else fbos[i % 2]
+                    val targetFbo = jumpFloodFbos[i % 2]
                     targetFbo.clear()
-                    targetFbo.beginWrite(false)
+                    targetFbo.beginWrite(true)
                     ShaderJumpFlood.bind()
                     RenderSystem.activeTexture(GL_TEXTURE0)
-                    fbos[(i + 1) % 2].beginRead()
+                    jumpFloodFbos[(i + 1) % 2].beginRead()
                     ShaderJumpFlood["Tex0"] = 0
                     ShaderJumpFlood["Length"] = jumpFloodSteps[i]
-                    ShaderJumpFlood["TexelSize"] =
-                        texelSize.set(1f / mc.framebuffer.textureWidth, 1f / mc.framebuffer.textureHeight)
+                    ShaderJumpFlood["TexelSize"] = texelSize.set(1f / targetFbo.textureWidth, 1f / targetFbo.textureHeight)
                     drawFullScreen()
                     ShaderJumpFlood.unbind()
                 }
 
+                outlines.clear()
+                outlines.beginWrite(true)
+                ShaderJumpFlood.bind()
+                RenderSystem.activeTexture(GL_TEXTURE0)
+                jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].beginRead()
+                ShaderJumpFlood["Tex0"] = 0
+                ShaderJumpFlood["Length"] = 1
+                ShaderJumpFlood["TexelSize"] = texelSize.set(1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureWidth, 1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureHeight)
+                drawFullScreen()
+                ShaderJumpFlood.unbind()
+
                 renderOutline(entitiesFbo, solidColor, smoothColor)
 
                 if (hurtTime) {
-                    fbos[1].clear()
-                    fbos[1].beginWrite(false)
+                    jumpFloodFbos[1].clear()
+                    jumpFloodFbos[1].beginWrite(true)
                     ShaderJumpFloodInit.bind()
                     RenderSystem.activeTexture(GL_TEXTURE0)
                     entitiesHurtTimeFbo.beginRead()
@@ -406,19 +420,30 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                     ShaderJumpFloodInit.unbind()
 
                     for (i in 0 until jumpFloodSteps.size) {
-                        val targetFbo = if (i == jumpFloodSteps.size - 1) outlines else fbos[i % 2]
+                        val targetFbo = jumpFloodFbos[i % 2]
                         targetFbo.clear()
-                        targetFbo.beginWrite(false)
+                        targetFbo.beginWrite(true)
                         ShaderJumpFlood.bind()
                         RenderSystem.activeTexture(GL_TEXTURE0)
-                        fbos[(i + 1) % 2].beginRead()
+                        jumpFloodFbos[(i + 1) % 2].beginRead()
                         ShaderJumpFlood["Tex0"] = 0
                         ShaderJumpFlood["Length"] = jumpFloodSteps[i]
-                        ShaderJumpFlood["TexelSize"] =
-                            texelSize.set(1f / mc.framebuffer.textureWidth, 1f / mc.framebuffer.textureHeight)
+                        ShaderJumpFlood["TexelSize"] = texelSize.set(1f / targetFbo.textureWidth, 1f / targetFbo.textureHeight)
                         drawFullScreen()
                         ShaderJumpFlood.unbind()
                     }
+
+                    outlines.clear()
+                    outlines.beginWrite(true)
+                    ShaderJumpFlood.bind()
+                    RenderSystem.activeTexture(GL_TEXTURE0)
+                    jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].beginRead()
+                    ShaderJumpFlood["Tex0"] = 0
+                    ShaderJumpFlood["Length"] = 1
+                    ShaderJumpFlood["TexelSize"] = texelSize.set(1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureWidth, 1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureHeight)
+                    drawFullScreen()
+                    ShaderJumpFlood.unbind()
+
                     renderOutline(entitiesHurtTimeFbo, solidHurtTimeColor, smoothHurtTimeColor)
                 }
             }
@@ -433,7 +458,7 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
         var shouldHideLabel = false
 
         on<EventRenderEntity> { event ->
-            if (!entities.any { it.second && it.first == event.entity.type.name.string }) return@on
+            if (!entities.enabled.contains(event.entity.type.name.string)) return@on
             val isHurtTime = hurtTime && event.entity is LivingEntity && event.entity.hurtTime > 1
             if (isHurtTime) entitiesHurtTimeFbo.beginWrite(false)
             else entitiesFbo.beginWrite(false)

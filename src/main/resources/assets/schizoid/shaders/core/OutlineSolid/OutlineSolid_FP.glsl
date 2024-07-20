@@ -12,25 +12,21 @@ uniform sampler2D Tex0;
 uniform float Length;
 uniform vec2 ScreenSize;
 
-#define BASE_EDGE_THICKNESS 1.8 // Base edge thickness
+#include "Distance.glsl"
 
-// Function to compute squared distance between two points
-float distSquared(vec2 A, vec2 B) {
-    vec2 C = A - B;
-    return dot(C, C);
-}
+// Define the base edge thickness
+#define BASE_EDGE_THICKNESS 1.8
 
+/*
+ * This is the fragment shader for the solid outline effect using the Jump Flooding algorithm output.
+ */
 void main() {
-    // Initialize the output color to transparent black
     color = vec4(0.0);
-
-    // Sample the texture at the current UV coordinates
     vec4 col = texture(Tex0, uv);
-
     // Check if the sampled alpha value is greater than 0.0
     if (col.a > 0.0) {
         // Compute the squared distance between the current point and the texture coordinate stored in col.xy
-        float distance = distSquared(uv * ScreenSize, col.xy * ScreenSize);
+        float distance = distanceSquared(uv * ScreenSize, col.xy * ScreenSize);
 
         // Compute the squared length of the outline
         float lengthSquared = Length * Length;
