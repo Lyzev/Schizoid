@@ -7,6 +7,7 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.*
+import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.*
@@ -14,10 +15,11 @@ import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.blur.BlurHelper
 import dev.lyzev.api.setting.settings.*
 import dev.lyzev.api.settings.Setting.Companion.neq
+import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import dev.lyzev.schizoid.injection.accessor.WorldRendererAccessor
-import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.*
 import net.minecraft.client.util.BufferAllocator
 import net.minecraft.entity.LivingEntity
 import net.minecraft.registry.Registries
@@ -42,6 +44,8 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
         WrappedFramebuffer("[ESP] FBO 0"),
         WrappedFramebuffer("[ESP] FBO 1")
     )
+
+    // Use half resolution for the jump flood algorithm to improve performance (see: https://en.wikipedia.org/wiki/Jump_flooding_algorithm#Variants)
     private val jumpFloodFbos = arrayOf(
         WrappedFramebuffer("[ESP] FBO 0", lod = 1, internalFormat = GL43.GL_RGBA16, linear = false),
         WrappedFramebuffer("[ESP] FBO 1", lod = 1, internalFormat = GL43.GL_RGBA16, linear = false)
@@ -245,7 +249,8 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                 RenderSystem.activeTexture(GL_TEXTURE0)
                 outlines.beginRead()
                 ShaderOutlineSmooth["Tex0"] = 0
-                ShaderOutlineSmooth["Length"] = sqrt(smoothLength * smoothLength + smoothLength * smoothLength.toFloat())
+                ShaderOutlineSmooth["Length"] =
+                    sqrt(smoothLength * smoothLength + smoothLength * smoothLength.toFloat())
                 ShaderOutlineSmooth["ScreenSize"] =
                     screenSize.set(mc.framebuffer.textureWidth.toFloat(), mc.framebuffer.textureHeight.toFloat())
                 drawFullScreen()
@@ -391,7 +396,8 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                     jumpFloodFbos[(i + 1) % 2].beginRead()
                     ShaderJumpFlood["Tex0"] = 0
                     ShaderJumpFlood["Length"] = jumpFloodSteps[i]
-                    ShaderJumpFlood["TexelSize"] = texelSize.set(1f / targetFbo.textureWidth, 1f / targetFbo.textureHeight)
+                    ShaderJumpFlood["TexelSize"] =
+                        texelSize.set(1f / targetFbo.textureWidth, 1f / targetFbo.textureHeight)
                     drawFullScreen()
                     ShaderJumpFlood.unbind()
                 }
@@ -403,7 +409,10 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                 jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].beginRead()
                 ShaderJumpFlood["Tex0"] = 0
                 ShaderJumpFlood["Length"] = 1
-                ShaderJumpFlood["TexelSize"] = texelSize.set(1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureWidth, 1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureHeight)
+                ShaderJumpFlood["TexelSize"] = texelSize.set(
+                    1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureWidth,
+                    1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureHeight
+                )
                 drawFullScreen()
                 ShaderJumpFlood.unbind()
 
@@ -428,7 +437,8 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                         jumpFloodFbos[(i + 1) % 2].beginRead()
                         ShaderJumpFlood["Tex0"] = 0
                         ShaderJumpFlood["Length"] = jumpFloodSteps[i]
-                        ShaderJumpFlood["TexelSize"] = texelSize.set(1f / targetFbo.textureWidth, 1f / targetFbo.textureHeight)
+                        ShaderJumpFlood["TexelSize"] =
+                            texelSize.set(1f / targetFbo.textureWidth, 1f / targetFbo.textureHeight)
                         drawFullScreen()
                         ShaderJumpFlood.unbind()
                     }
@@ -440,7 +450,10 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                     jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].beginRead()
                     ShaderJumpFlood["Tex0"] = 0
                     ShaderJumpFlood["Length"] = 1
-                    ShaderJumpFlood["TexelSize"] = texelSize.set(1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureWidth, 1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureHeight)
+                    ShaderJumpFlood["TexelSize"] = texelSize.set(
+                        1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureWidth,
+                        1f / jumpFloodFbos[(jumpFloodSteps.size - 1) % 2].textureHeight
+                    )
                     drawFullScreen()
                     ShaderJumpFlood.unbind()
 
@@ -462,26 +475,35 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
             val isHurtTime = hurtTime && event.entity is LivingEntity && event.entity.hurtTime > 1
             if (isHurtTime) entitiesHurtTimeFbo.beginWrite(false)
             else entitiesFbo.beginWrite(false)
-            val d = MathHelper.lerp(event.tickDelta, event.entity.lastRenderX, event.entity.x)
-            val e = MathHelper.lerp(event.tickDelta, event.entity.lastRenderY, event.entity.y)
-            val f = MathHelper.lerp(event.tickDelta, event.entity.lastRenderZ, event.entity.z)
-            val g = MathHelper.lerp(event.tickDelta.toFloat(), event.entity.prevYaw, event.entity.yaw)
+            val x = MathHelper.lerp(event.tickDelta, event.entity.lastRenderX, event.entity.x)
+            val y = MathHelper.lerp(event.tickDelta, event.entity.lastRenderY, event.entity.y)
+            val z = MathHelper.lerp(event.tickDelta, event.entity.lastRenderZ, event.entity.z)
+            val tickDelta = MathHelper.lerp(event.tickDelta.toFloat(), event.entity.prevYaw, event.entity.yaw)
             val worldRenderer = mc.worldRenderer as WorldRendererAccessor
             worldRenderer.entityRenderDispatcher.setRenderShadows(false)
             shouldHideLabel = true
+//            event.entity.isGlowing = true
+//            val color = event.entity.getTeamColorValue()
+//            RenderSystem.setShaderColor(
+//                ColorHelper.Argb.getRed(color) / 255f,
+//                ColorHelper.Argb.getGreen(color) / 255f,
+//                ColorHelper.Argb.getBlue(color) / 255f,
+//                1f
+//            )
             worldRenderer.entityRenderDispatcher.render(
                 event.entity,
-                d - event.cameraX,
-                e - event.cameraY,
-                f - event.cameraZ,
-                g,
+                x - event.cameraX,
+                y - event.cameraY,
+                z - event.cameraZ,
+                tickDelta,
                 event.tickDelta.toFloat(),
                 event.matrices,
                 entitiesVertexConsumer,
                 -1 // render with full brightness
             )
             entitiesVertexConsumer.drawCurrentLayer()
-            shouldHideLabel = false
+//            event.entity.isGlowing = false
+
             worldRenderer.entityRenderDispatcher.setRenderShadows(true)
             mc.framebuffer.beginWrite(false)
         }

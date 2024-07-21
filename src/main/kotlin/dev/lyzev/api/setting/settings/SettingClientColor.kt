@@ -9,6 +9,7 @@ import dev.lyzev.api.setting.SettingClient
 import dev.lyzev.schizoid.feature.IFeature
 import imgui.ImGui.*
 import imgui.flag.ImGuiColorEditFlags
+import imgui.flag.ImGuiStyleVar
 import kotlinx.serialization.json.*
 import java.awt.Color
 import kotlin.reflect.KClass
@@ -44,9 +45,11 @@ class SettingClientColor(
                 value = Color(v[0], v[1], v[2], v[3])
         }
         if (useRGBPuke) {
+            pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
             if (checkbox("$name RGB Puke", isRGBPuke)) {
                 isRGBPuke = !isRGBPuke
             }
+            popStyleVar()
             if (isRGBPuke) {
                 val treeNode = treeNode("$name RGB Puke Settings")
                 if (desc != null && isItemHovered()) setTooltip("Settings for the RGB Puke Effect.")

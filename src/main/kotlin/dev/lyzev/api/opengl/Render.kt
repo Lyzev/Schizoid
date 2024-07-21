@@ -31,11 +31,11 @@ object Render {
 
     fun restore() {
         RenderSystem.activeTexture(GL_TEXTURE0)
-        GlStateManager._bindTexture(texture0)
+        RenderSystem.bindTexture(texture0)
         RenderSystem.activeTexture(GL_TEXTURE1)
-        GlStateManager._bindTexture(texture1)
+        RenderSystem.bindTexture(texture1)
         RenderSystem.activeTexture(active)
-        GlStateManager._bindTexture(texture)
+        RenderSystem.bindTexture(texture)
     }
 
     var cull = false
