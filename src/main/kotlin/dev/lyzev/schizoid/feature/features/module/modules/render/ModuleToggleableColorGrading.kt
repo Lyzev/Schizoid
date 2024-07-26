@@ -9,9 +9,11 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventRenderWorld
 import dev.lyzev.api.events.on
-import dev.lyzev.api.opengl.Render
+import dev.lyzev.api.opengl.WrappedFramebuffer
+import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderColorGrading
+import dev.lyzev.api.opengl.shader.ShaderPassThrough
 import dev.lyzev.api.setting.settings.color
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.schizoid.feature.IFeature
@@ -22,6 +24,8 @@ import java.awt.Color
 object ModuleToggleableColorGrading :
     ModuleToggleable("Color Grading", "Enables color grading for the world.", category = IFeature.Category.RENDER),
     EventListener {
+
+    private val fbo by lazy { WrappedFramebuffer() }
 
     val brightness by slider("Brightness", "The brightness of the color grading effect.", -50, -100, 100, "%%")
     val contrast by slider("Contrast", "The contrast of the color grading effect.", 55, 0, 200, "%%")
@@ -39,6 +43,8 @@ object ModuleToggleableColorGrading :
 
     init {
         on<EventRenderWorld> {
+            fbo.clear()
+            fbo.beginWrite(false)
             ShaderColorGrading.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
             mc.framebuffer.beginRead()
@@ -55,6 +61,16 @@ object ModuleToggleableColorGrading :
             ShaderColorGrading["Offset"] = offset
             Shader.drawFullScreen()
             ShaderColorGrading.unbind()
+
+            mc.framebuffer.beginWrite(false)
+            ShaderPassThrough.bind()
+            RenderSystem.activeTexture(GL_TEXTURE0)
+            mc.framebuffer.beginRead()
+            ShaderPassThrough["Tex0"] = 0
+            ShaderPassThrough["Scale"] = 1f
+            ShaderPassThrough["Alpha"] = true
+            Shader.drawFullScreen()
+            ShaderPassThrough.unbind()
         }
     }
 }
