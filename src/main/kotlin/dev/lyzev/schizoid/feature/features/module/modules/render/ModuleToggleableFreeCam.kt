@@ -69,6 +69,7 @@ object ModuleToggleableFreeCam :
             }
             event.player.abilities.flying = true
             event.player.abilities.allowFlying = true
+            event.player.isSpectator
         }
 
         var pos: Vec3d = Vec3d.ZERO
@@ -100,6 +101,10 @@ object ModuleToggleableFreeCam :
             event.player.pitch = pitch
             event.player.isSprinting = isSprinting
             event.player.isSneaking = isSneaking
+        }
+
+        on<EventClientPlayerEntityIsSpectator> { event ->
+            event.isSpectator = true
         }
 
         on<EventPacket> { event ->

@@ -17,6 +17,7 @@
     "mixin.minecraft.client.MixinMinecraftClient",
     "mixin.minecraft.client.MixinMouse",
     "mixin.minecraft.client.input.MixinKeyboardInput",
+    "mixin.minecraft.client.network.MixinAbstractClientPlayerEntity",
     "mixin.minecraft.client.network.MixinClientPlayerEntity",
     "mixin.minecraft.client.network.MixinClientPlayerInteractionManager",
     "mixin.minecraft.client.render.MixinCamera",
