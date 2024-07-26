@@ -14,9 +14,6 @@ uniform vec2 ScreenSize;
 
 #include "Distance.glsl"
 
-// Define the base edge thickness
-#define BASE_EDGE_THICKNESS 1.8
-
 /*
  * This is the fragment shader for the solid outline effect using the Jump Flooding algorithm output.
  */
@@ -31,13 +28,9 @@ void main() {
         // Compute the squared length of the outline
         float lengthSquared = Length * Length;
 
-        // Adjust the edge thickness based on Length
-        float edgeThickness = BASE_EDGE_THICKNESS * Length;
-
-        // Apply a smooth step function to create anti-aliasing effect
-        float alpha = smoothstep(lengthSquared - edgeThickness, lengthSquared + edgeThickness, distance);
-
-        // Set the output color with smooth alpha transition
-        color = vec4(1.0, 1.0, 1.0, 1.0 - alpha);
+        // If the squared distance is less than the squared length, set the color to white
+        if (distance <= lengthSquared) {
+            color = vec4(1.0);
+        }
     }
 }
