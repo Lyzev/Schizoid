@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.movement
 
-import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.switch
@@ -30,7 +30,7 @@ object ModuleToggleableToggleSneak :
     )
 
     init {
-        on<EventClientPlayerEntityTick> {
+        on<EventClientPlayerEntityTickPre> {
             mc.options.sneakKey.isPressed = true
         }
     }

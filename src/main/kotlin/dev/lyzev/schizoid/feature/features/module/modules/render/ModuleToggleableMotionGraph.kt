@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.*
 import dev.lyzev.schizoid.feature.IFeature
@@ -81,7 +81,7 @@ object ModuleToggleableMotionGraph :
         get() = super.shouldHandleEvents && mc.player != null
 
     init {
-        on<EventClientPlayerEntityTick> { event ->
+        on<EventClientPlayerEntityTickPre> { event ->
             unit.addY(y, event.player.velocity.horizontalLength())
             if (y.size > length) {
                 y.removeFirst()

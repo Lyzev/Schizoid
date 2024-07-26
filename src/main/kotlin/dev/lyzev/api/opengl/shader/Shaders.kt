@@ -115,7 +115,10 @@ object ShaderJumpFloodInit : ShaderVertexFragment("JumpFloodInit")
 object ShaderJumpFlood : ShaderVertexFragment("JumpFlood")
 
 object ShaderOutlineSolid : ShaderVertexFragment("OutlineSolid")
-object ShaderOutlineSmooth : ShaderVertexFragment("OutlineSmooth")
+object ShaderOutlineSmooth : ShaderVertexFragment("OutlineSmooth") {
+
+    val initTime = System.nanoTime()
+}
 
 object ShaderDepth : ShaderVertexFragment("Depth")
 object ShaderLinearizeDepth : ShaderVertexFragment("LinearizeDepth")

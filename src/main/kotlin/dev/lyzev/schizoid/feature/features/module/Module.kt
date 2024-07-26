@@ -27,6 +27,8 @@ import imgui.extension.implot.flag.ImPlotFlags
 import imgui.flag.ImGuiHoveredFlags
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.ImBoolean
+import net.minecraft.client.gui.screen.DownloadingTerrainScreen
+import net.minecraft.client.gui.screen.Screen
 
 /**
  * Represents a module.
@@ -162,6 +164,11 @@ abstract class ModuleToggleable(
         Screen {
             override fun handle(toggleable: ModuleToggleable) {
                 if (Schizoid.mc.currentScreen != null) toggleable.toggle()
+            }
+        },
+        DownloadingTerrain {
+            override fun handle(toggleable: ModuleToggleable) {
+                if (Schizoid.mc.currentScreen is DownloadingTerrainScreen) toggleable.toggle()
             }
         },
         Death {

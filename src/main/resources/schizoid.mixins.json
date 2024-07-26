@@ -25,6 +25,7 @@
     "mixin.minecraft.client.render.MixinWorldRenderer",
     "mixin.minecraft.client.render.entity.MixinEntityRenderer",
     "mixin.minecraft.client.render.entity.MixinLivingEntityRenderer",
+    "mixin.minecraft.client.render.entity.model.MixinPlayerEntityModel",
     "mixin.minecraft.client.util.MixinWindow",
     "mixin.minecraft.client.world.MixinClientWorld",
     "mixin.minecraft.entity.MixinEntity",

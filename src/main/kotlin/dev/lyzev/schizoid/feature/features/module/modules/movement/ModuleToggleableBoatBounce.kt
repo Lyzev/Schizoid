@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.movement
 
-import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.slider
@@ -21,7 +21,7 @@ object ModuleToggleableBoatBounce :
     val bounce by slider("Bounce", "Sets the bounce of the boat.", 10, 5, 15)
 
     init {
-        on<EventClientPlayerEntityTick> { event ->
+        on<EventClientPlayerEntityTickPre> { event ->
             val vehicle = event.player.vehicle
             if (vehicle is BoatEntity) {
                 val vel = Entity.movementInputToVelocity(

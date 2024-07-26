@@ -26,6 +26,7 @@ import net.minecraft.entity.Entity
 import net.minecraft.network.packet.s2c.play.DamageTiltS2CPacket
 import net.minecraft.network.packet.s2c.play.EntityDamageS2CPacket
 import net.minecraft.util.hit.EntityHitResult
+import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.MathHelper.cos
 import net.minecraft.util.math.MathHelper.sin
 import net.minecraft.util.math.Vec2f
@@ -100,8 +101,8 @@ object ModuleToggleableTorus :
             val cam = mc.gameRenderer.camera.pos
             @Suppress("NAME_SHADOWING") val modelViewMat = Matrix4f(modelViewMat)
             modelViewMat.translate((pos.x - cam.x).toFloat(), (pos.y - cam.y).toFloat(), (pos.z - cam.z).toFloat())
-            modelViewMat.rotateY(Math.toRadians((-rotation.y).toDouble()).toFloat()) // yaw
-            modelViewMat.rotateX(Math.toRadians((-rotation.x).toDouble()).toFloat()) // pitch
+            modelViewMat.rotateY(-rotation.y * MathHelper.RADIANS_PER_DEGREE) // yaw
+            modelViewMat.rotateX(-rotation.x * MathHelper.RADIANS_PER_DEGREE) // pitch
             ShaderReflection.bind()
             ShaderReflection["ModelViewMat", false] = modelViewMat
             ShaderReflection["ProjMat", false] = projMat

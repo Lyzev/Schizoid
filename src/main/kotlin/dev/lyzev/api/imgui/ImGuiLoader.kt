@@ -42,6 +42,9 @@ object ImGuiLoader : EventListener {
         io.addConfigFlags(NavEnableKeyboard)
         io.addConfigFlags(DockingEnable)
         io.addConfigFlags(NoMouseCursorChange)
+        getStyle().antiAliasedFill = true
+        getStyle().antiAliasedLines = true
+        getStyle().antiAliasedLinesUseTex = true
         initFonts()
         FeatureImGui.colorScheme.applyStyle(FeatureImGui.mode)
         FeatureImGui.colorScheme.applyColors(FeatureImGui.mode)

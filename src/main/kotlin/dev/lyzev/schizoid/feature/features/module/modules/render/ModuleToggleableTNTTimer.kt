@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.OptionEnum
@@ -41,7 +41,7 @@ object ModuleToggleableTNTTimer :
          * This block of code is executed when the module is initialized.
          * It sets up an event listener that updates the name of each TNT entity in the game world to display the time left until it explodes, every time the player entity ticks.
          */
-        on<EventClientPlayerEntityTick> {
+        on<EventClientPlayerEntityTickPre> {
             mc.world!!.entities.filterIsInstance<TntEntity>().forEach { tnt ->
                 val ticks = tnt.fuse
                 val percent = ticks * 100f / TntEntity.DEFAULT_FUSE

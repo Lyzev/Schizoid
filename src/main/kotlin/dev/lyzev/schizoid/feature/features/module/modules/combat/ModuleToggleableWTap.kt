@@ -6,7 +6,7 @@
 package dev.lyzev.schizoid.feature.features.module.modules.combat
 
 import dev.lyzev.api.events.EventAttackEntityPre
-import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.OptionEnum
@@ -67,7 +67,7 @@ object ModuleToggleableWTap :
             }
         }
 
-        on<EventClientPlayerEntityTick> {
+        on<EventClientPlayerEntityTickPre> {
             if (shouldStop) {
                 if (stop >= stopTick) {
                     if (mode != Mode.Packet) {

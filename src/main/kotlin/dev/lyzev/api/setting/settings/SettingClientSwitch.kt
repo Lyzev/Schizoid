@@ -48,13 +48,13 @@ class SettingClientSwitch(
         }
 
     override fun render() {
-        text(name)
-        if (desc != null && isItemHovered()) setTooltip(desc)
-        sameLine()
         v[0] = shadowValue
         switch.render(name, v)
         if (v[0] != shadowValue)
             shadowValue = v[0]
+        sameLine()
+        text(name)
+        if (desc != null && isItemHovered()) setTooltip(desc)
     }
 
     override fun load(value: JsonElement) {

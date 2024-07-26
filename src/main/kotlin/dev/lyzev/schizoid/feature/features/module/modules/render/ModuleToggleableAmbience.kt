@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventPacket
 import dev.lyzev.api.events.on
@@ -41,7 +41,7 @@ object ModuleToggleableAmbience :
          * This block of code is executed when the module is initialized.
          * It sets up an event listener that updates the world's time of day, rain gradient, and thunder gradient every time the player entity ticks.
          */
-        on<EventClientPlayerEntityTick> {
+        on<EventClientPlayerEntityTickPre> {
             mc.world?.timeOfDay = time.toLong()
             mc.world?.setRainGradient(rainGradient)
             mc.world?.setThunderGradient(thunderGradient)

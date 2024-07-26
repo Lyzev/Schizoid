@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.schizoid.feature.IFeature
@@ -72,7 +72,7 @@ object ModuleToggleableVirtualMousepad :
     }
 
     init {
-        on<EventClientPlayerEntityTick> { event ->
+        on<EventClientPlayerEntityTickPre> { event ->
             val rotation = lastRotation ?: (event.player.lastYaw to event.player.lastPitch)
             rotations += (event.player.lastYaw - rotation.first) to (event.player.lastPitch - rotation.second)
             lastRotation = event.player.lastYaw to event.player.lastPitch

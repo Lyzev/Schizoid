@@ -68,7 +68,7 @@ object ModuleToggleableVelocity :
                 }
             }
         }
-        on<EventClientPlayerEntityTick> {
+        on<EventClientPlayerEntityTickPre> {
             if (shouldJump) {
                 if ((jumpInScreen && (jumpInHandledScreen || mc.currentScreen !is HandledScreen<*>)) || mc.currentScreen == null) {
                     if (!shouldRestore) {

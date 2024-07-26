@@ -99,7 +99,11 @@ object EventWindowResize : Event
 /**
  * This event is triggered when the player ticks.
  */
-class EventClientPlayerEntityTick(val player: ClientPlayerEntity) : Event
+class EventClientPlayerEntityTickPre(val player: ClientPlayerEntity) : Event
+
+class EventClientPlayerEntitySendMovementPackets(val player: ClientPlayerEntity) : Event
+
+class EventClientPlayerEntityTickPost(val player: ClientPlayerEntity) : Event
 
 /**
  * This event is triggered when the world is rendered.
@@ -132,6 +136,8 @@ class EventRenderModel(
     var overlay: Int,
     var argb: Int
 ) : Event
+
+class EventModelSetAngles(val entity: Entity, val model: EntityModel<*>) : Event
 
 /**
  * This event is triggered when [net.minecraft.client.world.ClientWorld.getBlockParticle] is called.

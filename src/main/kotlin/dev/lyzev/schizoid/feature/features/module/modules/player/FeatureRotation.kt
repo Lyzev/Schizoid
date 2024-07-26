@@ -229,7 +229,7 @@ object FeatureRotation : IFeature, EventListener {
         }
         var cachedYaw = 0f // actual yaw for silent movement correction
         // Set server side Rotation
-        on<EventClientPlayerEntityTick> { event ->
+        on<EventClientPlayerEntityTickPre> { event ->
             cachedYaw = event.player.yaw
             event.player.yaw = current.x
             event.player.pitch = current.y

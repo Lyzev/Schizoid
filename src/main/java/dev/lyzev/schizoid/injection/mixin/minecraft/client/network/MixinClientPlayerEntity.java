@@ -7,7 +7,9 @@ package dev.lyzev.schizoid.injection.mixin.minecraft.client.network;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.lyzev.api.events.EventClientPlayerEntityTick;
+import dev.lyzev.api.events.EventClientPlayerEntitySendMovementPackets;
+import dev.lyzev.api.events.EventClientPlayerEntityTickPost;
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre;
 import dev.lyzev.api.events.EventIsMovementKeyPressed;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.option.KeyBinding;
@@ -41,14 +43,21 @@ public class MixinClientPlayerEntity {
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
         cachedYaw = player.getYaw();
         cachedPitch = player.getPitch();
-        new EventClientPlayerEntityTick(player).fire();
+        new EventClientPlayerEntityTickPre(player).fire();
     }
 
     @Inject(method = "tick", at = @At("RETURN"))
     private void onTickPost(CallbackInfo ci) {
         ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
+        new EventClientPlayerEntityTickPost(player).fire();
         player.setYaw(cachedYaw);
         player.setPitch(cachedPitch);
+    }
+
+    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/network/AbstractClientPlayerEntity;tick()V", shift = At.Shift.AFTER, ordinal = 0))
+    private void onTickMid(CallbackInfo ci) {
+        ClientPlayerEntity player = (ClientPlayerEntity) (Object) this;
+        new EventClientPlayerEntitySendMovementPackets(player).fire();
     }
 
     /**

@@ -5,7 +5,7 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import dev.lyzev.api.events.EventClientPlayerEntityTick
+import dev.lyzev.api.events.EventClientPlayerEntityTickPre
 import dev.lyzev.api.events.EventGamma
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.on
@@ -34,7 +34,7 @@ object ModuleToggleableFullBright :
         get() = isEnabled && isIngame
 
     init {
-        on<EventClientPlayerEntityTick> {
+        on<EventClientPlayerEntityTickPre> {
             if (mode == Mode.NIGHT_VISION)
                 mc.player?.addStatusEffect(StatusEffectInstance(StatusEffects.NIGHT_VISION, Int.MAX_VALUE))
         }

@@ -10,6 +10,7 @@ import dev.lyzev.api.events.*
 import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
+import dev.lyzev.api.opengl.save
 import dev.lyzev.api.opengl.shader.*
 import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.blur.BlurHelper
@@ -482,14 +483,6 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
             val worldRenderer = mc.worldRenderer as WorldRendererAccessor
             worldRenderer.entityRenderDispatcher.setRenderShadows(false)
             shouldHideLabel = true
-//            event.entity.isGlowing = true
-//            val color = event.entity.getTeamColorValue()
-//            RenderSystem.setShaderColor(
-//                ColorHelper.Argb.getRed(color) / 255f,
-//                ColorHelper.Argb.getGreen(color) / 255f,
-//                ColorHelper.Argb.getBlue(color) / 255f,
-//                1f
-//            )
             worldRenderer.entityRenderDispatcher.render(
                 event.entity,
                 x - event.cameraX,
@@ -502,7 +495,6 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                 -1 // render with full brightness
             )
             entitiesVertexConsumer.drawCurrentLayer()
-//            event.entity.isGlowing = false
 
             worldRenderer.entityRenderDispatcher.setRenderShadows(true)
             mc.framebuffer.beginWrite(false)
