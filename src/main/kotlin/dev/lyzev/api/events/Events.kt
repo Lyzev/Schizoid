@@ -10,6 +10,7 @@ import dev.lyzev.api.theme.OSTheme
 import dev.lyzev.schizoid.Schizoid
 import net.minecraft.block.Block
 import net.minecraft.client.input.KeyboardInput
+import net.minecraft.client.network.AbstractClientPlayerEntity
 import net.minecraft.client.network.ClientPlayerEntity
 import net.minecraft.client.option.KeyBinding
 import net.minecraft.client.render.RenderTickCounter
@@ -226,3 +227,5 @@ class EventRenderEntity(
 class EventShouldRenderEntity(val entity: Entity, var shouldRender: Boolean) : Event
 
 class EventEntityHasLabel(val entity: Entity, var hasLabel: Boolean) : Event
+
+class EventClientPlayerEntityIsSpectator(val entity: ClientPlayerEntity, var isSpectator: Boolean) : Event
