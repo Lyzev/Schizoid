@@ -26,7 +26,7 @@ void main() {
         float distance = distanceSquared(uv * ScreenSize, col.xy * ScreenSize);
 
         // Compute the squared length of the outline
-        float lengthSquared = Length * Length;
+        float lengthSquared = Length * Length + Length * Length;
 
         // If the squared distance is less than the squared length, set the color to white
         if (distance <= lengthSquared) {

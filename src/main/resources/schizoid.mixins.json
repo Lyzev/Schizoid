@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_${java}",
   "client": [
     "accessor.AbuseReportContextAccessor",
+    "accessor.ClientPlayerEntityAccessor",
     "accessor.ExplosionS2CPacketAccessor",
     "accessor.FileCacheAccessor",
     "accessor.MinecraftClientAccessor",

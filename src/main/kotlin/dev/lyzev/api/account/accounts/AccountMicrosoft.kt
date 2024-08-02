@@ -23,14 +23,15 @@ import imgui.flag.ImGuiInputTextFlags
 import imgui.flag.ImGuiStyleVar
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.ImString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.*
 import net.minecraft.client.session.Session
 import net.raphimc.minecraftauth.MinecraftAuth
+import net.raphimc.minecraftauth.step.AbstractStep
 import net.raphimc.minecraftauth.step.java.session.StepFullJavaSession
 import net.raphimc.minecraftauth.step.msa.StepCredentialsMsaCode.MsaCredentials
-import net.raphimc.minecraftauth.step.msa.StepMsaDeviceCode.MsaDeviceCode
+import net.raphimc.minecraftauth.step.msa.StepLocalWebServer.LocalWebServerCallback
 import net.raphimc.minecraftauth.step.msa.StepMsaDeviceCode.MsaDeviceCodeCallback
+import net.raphimc.minecraftauth.util.MicrosoftConstants
 import java.awt.Desktop
 import java.net.URI
 import java.util.*
@@ -39,7 +40,7 @@ import kotlin.concurrent.thread
 /**
  * Represents a Microsoft account.
  */
-class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Account {
+class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession, private val auth: AbstractStep<*, StepFullJavaSession.FullJavaSession>) : Account {
 
     override val type = Account.Types.MICROSOFT
 
@@ -49,7 +50,7 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
             YggdrasilAuthenticationService((Schizoid.mc as MinecraftClientAccessor).networkProxy)
         applyLoginEnvironment(authenticationService, authenticationService.createMinecraftSessionService())
         if (session.isExpired) {
-            session = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.refresh(MinecraftAuth.createHttpClient(), session)
+            session = auth.refresh(MinecraftAuth.createHttpClient(), session)
         }
         return Session(
             session.mcProfile.name,
@@ -61,8 +62,12 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
         )
     }
 
-    override fun save(): JsonElement =
-        MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.toJson(session).let { Json.parseToJsonElement(it.toString()) }
+    override fun save(): JsonElement = JsonObject(mapOf("session" to auth.toJson(session).let { Json.parseToJsonElement(it.toString()) }, "type" to JsonPrimitive(when (auth) {
+        MinecraftAuth.JAVA_DEVICE_CODE_LOGIN -> "JAVA_DEVICE_CODE_LOGIN"
+        webLoginAuthStep -> "JAVA_WEB_LOGIN"
+        MinecraftAuth.JAVA_CREDENTIALS_LOGIN -> "JAVA_CREDENTIALS_LOGIN"
+        else -> throw IllegalArgumentException("Unknown type.")
+    })))
 
     override fun render() {
         super.render()
@@ -77,11 +82,37 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
         private var isHidden = true
         private var msg: String? = null
         private val timeAnimator = TimeAnimator(4000)
+        private val webLoginAuthStep = MinecraftAuth.builder()
+            .withTimeout(300)
+            .withClientId("4673b348-3efa-4f6a-bbb6-34e141cdc638") // thanks to meteor client, please don't sue me :)
+            .withScope(MicrosoftConstants.SCOPE2)
+            .withRedirectUri("http://127.0.0.1")
+            .localWebServer()
+            .withDeviceToken("Win32")
+            .regularAuthentication(MicrosoftConstants.JAVA_XSTS_RELYING_PARTY)
+            .buildMinecraftJavaProfileStep(false)
 
         override val sessionType = Session.AccountType.MSA
 
-        override fun create(json: JsonElement) =
-            AccountMicrosoft(MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.fromJson(JsonParser.parseString(json.toString()).asJsonObject))
+        override fun create(json: JsonElement) = when (json.apply { println(this.toString()) }.jsonObject["type"]!!.jsonPrimitive.content) {
+            "JAVA_DEVICE_CODE_LOGIN" -> AccountMicrosoft(
+                MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.fromJson(JsonParser.parseString(json.jsonObject["session"]!!.jsonObject.toString()).asJsonObject),
+                MinecraftAuth.JAVA_DEVICE_CODE_LOGIN
+            )
+            "JAVA_WEB_LOGIN" -> AccountMicrosoft(
+                webLoginAuthStep.fromJson(
+                    JsonParser.parseString(
+                        json.jsonObject["session"]!!.jsonObject.toString()
+                    ).asJsonObject
+                ),
+                webLoginAuthStep
+            )
+            "JAVA_CREDENTIALS_LOGIN" -> AccountMicrosoft(
+                MinecraftAuth.JAVA_CREDENTIALS_LOGIN.fromJson(JsonParser.parseString(json.jsonObject["session"]!!.jsonObject.toString()).asJsonObject),
+                MinecraftAuth.JAVA_CREDENTIALS_LOGIN
+            )
+            else -> throw IllegalArgumentException("Unknown type.")
+        }
 
         private fun login(email: String, password: String): StepFullJavaSession.FullJavaSession =
             MinecraftAuth.JAVA_CREDENTIALS_LOGIN.getFromInput(
@@ -116,7 +147,7 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
                         thread {
                             runCatching {
                                 val session = login(email.get(), password.get())
-                                setSession(AccountMicrosoft(session).getSession())
+                                setSession(AccountMicrosoft(session, MinecraftAuth.JAVA_CREDENTIALS_LOGIN).getSession())
                             }.onFailure {
                                 msg = "Failed to login to Microsoft account."
                                 Schizoid.logger.error("Failed to login to Microsoft account.", it)
@@ -134,7 +165,7 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
                         thread {
                             runCatching {
                                 val session = login(email.get(), password.get())
-                                ImGuiScreenAccountManager.accounts += AccountMicrosoft(session)
+                                ImGuiScreenAccountManager.accounts += AccountMicrosoft(session, MinecraftAuth.JAVA_CREDENTIALS_LOGIN)
                             }.onFailure {
                                 msg = "Failed to add Microsoft account."
                                 Schizoid.logger.error("Failed to add Microsoft account.", it)
@@ -145,17 +176,29 @@ class AccountMicrosoft(var session: StepFullJavaSession.FullJavaSession) : Accou
                     }
                 }
                 sameLine()
-                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.Globe, "Add the account using a device code.")) {
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.Globe, "Add the account using a web login.")) {
+                    thread {
+                        val httpClient = MinecraftAuth.createHttpClient()
+                        val javaSession = webLoginAuthStep.getFromInput(
+                            httpClient,
+                            LocalWebServerCallback {
+                                Desktop.getDesktop().browse(URI(it.authenticationUrl))
+                            })
+                        ImGuiScreenAccountManager.accounts += AccountMicrosoft(javaSession, webLoginAuthStep)
+                    }
+                }
+                sameLine()
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.LaptopCode, "Add the account using a device code.")) {
                     thread {
                         val httpClient = MinecraftAuth.createHttpClient()
                         val javaSession = MinecraftAuth.JAVA_DEVICE_CODE_LOGIN.getFromInput(
                             httpClient,
-                            MsaDeviceCodeCallback { msaDeviceCode: MsaDeviceCode ->
+                            MsaDeviceCodeCallback { msaDeviceCode ->
                                 Schizoid.logger.info("Go to " + msaDeviceCode.verificationUri)
                                 Schizoid.logger.info("Enter code " + msaDeviceCode.userCode)
                                 Desktop.getDesktop().browse(URI(msaDeviceCode.directVerificationUri))
                             })
-                        ImGuiScreenAccountManager.accounts += AccountMicrosoft(session = javaSession)
+                        ImGuiScreenAccountManager.accounts += AccountMicrosoft(javaSession, MinecraftAuth.JAVA_DEVICE_CODE_LOGIN)
                     }
                 }
                 sameLine()

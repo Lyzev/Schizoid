@@ -58,6 +58,8 @@ class AccountCracked(val username: String, var uuid: String) : Account {
 
     companion object : Account.Type<AccountCracked> {
 
+        private val chars = ('a'..'z') + ('A'..'Z') + ('0'..'9')
+
         private val username = ImString("", 16)
         private val uuid = ImString("", 36)
         private var useOnlineUuid = true
@@ -109,6 +111,13 @@ class AccountCracked(val username: String, var uuid: String) : Account {
                     } else {
                         msg = "The username or UUID is empty."
                     }
+                }
+                sameLine()
+                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.UserPlus, "Add a account with a random username.")) {
+                    ImGuiScreenAccountManager.accounts += AccountCracked(
+                        (1..16).map { chars.random() }.joinToString(""),
+                        if (useOnlineUuid) "" else uuid.get()
+                    )
                 }
                 sameLine()
                 if (msg != null) {

@@ -5,7 +5,6 @@
 
 package dev.lyzev.schizoid.injection.mixin.minecraft.client.render;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.lyzev.api.events.EventRenderEntity;

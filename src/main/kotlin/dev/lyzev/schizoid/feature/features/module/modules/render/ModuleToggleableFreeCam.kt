@@ -6,12 +6,15 @@
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
 import dev.lyzev.api.events.*
+import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
+import dev.lyzev.schizoid.injection.accessor.ClientPlayerEntityAccessor
 import net.minecraft.client.network.OtherClientPlayerEntity
 import net.minecraft.entity.Entity
 import net.minecraft.network.packet.c2s.play.UpdatePlayerAbilitiesC2SPacket
 import net.minecraft.util.math.Vec3d
+import net.minecraft.entity.player.PlayerAbilities
 
 object ModuleToggleableFreeCam :
     ModuleToggleable(
@@ -21,6 +24,19 @@ object ModuleToggleableFreeCam :
     ), EventListener {
 
     private var fakePlayer: OtherClientPlayerEntity? = null
+
+    /**
+     * The last fly speed of the player.
+     *
+     * The default value is 0.05f.
+     * @see [PlayerAbilities.flySpeed]
+     */
+    private var lastFlySpeed = 0.05f
+
+    private var lastSneaking = false
+    private var lastOnGround = false
+
+    val flySpeed by slider("Fly Speed", "The speed at which the player can fly.", 0.05f, 0f, 0.2f, 2)
 
     override fun onEnable() {
         if (!isIngame) {
@@ -36,6 +52,10 @@ object ModuleToggleableFreeCam :
         fakePlayer!!.isSneaking = mc.player!!.isSneaking
         fakePlayer!!.tick()
         mc.world!!.addEntity(fakePlayer!!)
+        lastFlySpeed = mc.player!!.abilities.flySpeed
+        val accessor = mc.player as ClientPlayerEntityAccessor
+        lastSneaking = accessor.getLastSneaking()
+        lastOnGround = accessor.getLastOnGround()
     }
 
     override fun onDisable() {
@@ -47,13 +67,17 @@ object ModuleToggleableFreeCam :
                 mc.player!!.pitch = fakePlayer!!.pitch
                 mc.player!!.isOnGround = fakePlayer!!.isOnGround
                 mc.player!!.isSprinting = fakePlayer!!.isSprinting
-                mc.player!!.isSneaking = fakePlayer!!.isSneaking
+                mc.player!!.input.sneaking = fakePlayer!!.isSneaking
                 mc.player!!.velocity = Vec3d.ZERO
+                val accessor = mc.player as ClientPlayerEntityAccessor
+                accessor.setLastSneaking(lastSneaking)
+                accessor.setLastOnGround(fakePlayer!!.isOnGround)
             }
         }
         if (mc.player != null) {
             mc.player!!.abilities.flying = false
             mc.player!!.abilities.allowFlying = false
+            mc.player!!.abilities.flySpeed = lastFlySpeed
         }
         fakePlayer = null
     }
@@ -69,7 +93,7 @@ object ModuleToggleableFreeCam :
             }
             event.player.abilities.flying = true
             event.player.abilities.allowFlying = true
-            event.player.isSpectator
+            event.player.abilities.flySpeed = flySpeed
         }
 
         var pos: Vec3d = Vec3d.ZERO
@@ -91,7 +115,10 @@ object ModuleToggleableFreeCam :
             event.player.yaw = fakePlayer!!.yaw
             event.player.pitch = fakePlayer!!.pitch
             event.player.isSprinting = fakePlayer!!.isSprinting
-            event.player.isSneaking = fakePlayer!!.isSneaking
+            event.player.input.sneaking = fakePlayer!!.isSneaking
+            val accessor = event.player as ClientPlayerEntityAccessor
+            accessor.setLastSneaking(lastSneaking)
+            accessor.setLastOnGround(lastOnGround)
         }
 
         on<EventClientPlayerEntityTickPost> { event ->
@@ -99,8 +126,13 @@ object ModuleToggleableFreeCam :
             event.player.setPosition(pos)
             event.player.yaw = yaw
             event.player.pitch = pitch
+            lastSneaking = event.player.input.sneaking
+            lastOnGround = event.player.isOnGround
             event.player.isSprinting = isSprinting
-            event.player.isSneaking = isSneaking
+            event.player.input.sneaking = isSneaking
+            val accessor = event.player as ClientPlayerEntityAccessor
+            accessor.setLastSneaking(isSneaking)
+            accessor.setLastOnGround(isOnGround)
         }
 
         on<EventClientPlayerEntityIsSpectator> { event ->

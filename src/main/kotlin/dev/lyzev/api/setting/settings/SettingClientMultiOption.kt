@@ -39,6 +39,25 @@ class SettingClientMultiOptionString(
     override fun render() {
         val treeNode = treeNode(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
+        sameLine(getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX)
+        pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
+        val allEnabled = this.value.all { it.second }
+        if (checkbox("##all", allEnabled)) {
+            if (allEnabled) {
+                this.value = this.value.map { it.first to false }.toSet()
+                this.enabled.clear()
+            } else {
+                this.value = this.value.map { it.first to true }.toSet()
+                this.enabled.clear()
+                this.enabled.addAll(this.value.filter { it.second }.map { it.first })
+            }
+            onChange(this.value)
+        }
+        popStyleVar()
+        if (isItemHovered()) {
+            if (allEnabled) setTooltip("Disable all options.")
+            else setTooltip("Enable all options.")
+        }
         if (treeNode) {
             if (this.value.size > 5) {
                 setNextItemWidth(-1f)
@@ -116,6 +135,25 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
     override fun render() {
         val treeNode = treeNode(name)
         if (desc != null && isItemHovered()) setTooltip(desc)
+        sameLine(getWindowContentRegionMaxX() - 8.75f / 2f - getStyle().windowPaddingX)
+        pushStyleVar(ImGuiStyleVar.FramePadding, 0f, 0f)
+        val allEnabled = this.value.all { it.second }
+        if (checkbox("##all", allEnabled)) {
+            if (allEnabled) {
+                this.value = this.value.map { it.first to false }.toSet()
+                this.enabled.clear()
+            } else {
+                this.value = this.value.map { it.first to true }.toSet()
+                this.enabled.clear()
+                this.enabled.addAll(this.value.filter { it.second }.map { it.first })
+            }
+            onChange(this.value)
+        }
+        popStyleVar()
+        if (isItemHovered()) {
+            if (allEnabled) setTooltip("Disable all options.")
+            else setTooltip("Enable all options.")
+        }
         if (treeNode) {
             if (this.value.size > 5) {
                 setNextItemWidth(-1f)

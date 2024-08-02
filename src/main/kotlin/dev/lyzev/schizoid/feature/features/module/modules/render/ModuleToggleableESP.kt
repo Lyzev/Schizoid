@@ -7,20 +7,18 @@ package dev.lyzev.schizoid.feature.features.module.modules.render
 
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.*
-import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
-import dev.lyzev.api.opengl.save
 import dev.lyzev.api.opengl.shader.*
 import dev.lyzev.api.opengl.shader.Shader.Companion.drawFullScreen
 import dev.lyzev.api.opengl.shader.blur.BlurHelper
 import dev.lyzev.api.setting.settings.*
 import dev.lyzev.api.settings.Setting.Companion.neq
-import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import dev.lyzev.schizoid.injection.accessor.WorldRendererAccessor
-import net.minecraft.client.render.*
+import net.minecraft.client.render.LightmapTextureManager
+import net.minecraft.client.render.VertexConsumerProvider
 import net.minecraft.client.util.BufferAllocator
 import net.minecraft.entity.LivingEntity
 import net.minecraft.registry.Registries
@@ -35,6 +33,8 @@ import kotlin.math.*
 object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception.", category = IFeature.Category.RENDER),
     EventListener {
 
+    private val fullBright = LightmapTextureManager.pack(15, 15)
+
     private val entitiesFbo = WrappedFramebuffer("[ESP] Entities", useDepth = true, linear = false)
     private val entitiesVertexConsumer = VertexConsumerProvider.immediate(BufferAllocator(1536))
 
@@ -42,8 +42,7 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
 
     private val outlines = WrappedFramebuffer("[ESP] Outlines", internalFormat = GL43.GL_RGBA16, linear = false)
     private val fbos = arrayOf(
-        WrappedFramebuffer("[ESP] FBO 0"),
-        WrappedFramebuffer("[ESP] FBO 1")
+        WrappedFramebuffer("[ESP] FBO 0"), WrappedFramebuffer("[ESP] FBO 1")
     )
 
     // Use half resolution for the jump flood algorithm to improve performance (see: https://en.wikipedia.org/wiki/Jump_flooding_algorithm#Variants)
@@ -74,7 +73,8 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
     val solid by switch("Solid", "Render a solid outline.", true, hide = ::outline neq true) {
         updateJumpFloodSteps()
     }
-    val solidColor = color("Solid Outline Color",
+    val solidColor = color(
+        "Solid Outline Color",
         "Color of the solid outline.",
         Color.GREEN,
         useAlpha = true,
@@ -82,16 +82,14 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
         hide = {
             !outline || !solid
         })
-    val solidHurtTimeColor = color(
-        "Solid Hurt Time Color",
+    val solidHurtTimeColor = color("Solid Hurt Time Color",
         "Color of the hurt time.",
         Color.RED,
         useAlpha = true,
         useRGBPuke = true,
         hide = {
             !outline || !solid || !hurtTime
-        }
-    )
+        })
     val solidLength by slider("Solid Outline Length", "Length of the solid outline.", 7, 1, 256, "px", hide = {
         !outline || !solid
     }) {
@@ -106,7 +104,8 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
     val solidBlurCutout by switch("Solid Outline Blur Cutout", "Cutout the blur.", false, hide = {
         !outline || !solid || !solidBlur
     })
-    val solidBlurAlphaMultiplier by slider("Solid Outline Blur Alpha Multiplier",
+    val solidBlurAlphaMultiplier by slider(
+        "Solid Outline Blur Alpha Multiplier",
         "Multiplier for the alpha of the outline blur.",
         170,
         0,
@@ -126,16 +125,14 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
         hide = {
             !outline || !smooth
         })
-    val smoothHurtTimeColor = color(
-        "Smooth Hurt Time Color",
+    val smoothHurtTimeColor = color("Smooth Hurt Time Color",
         "Color of the hurt time.",
         Color.RED,
         useAlpha = true,
         useRGBPuke = true,
         hide = {
             !outline || !smooth || !hurtTime
-        }
-    )
+        })
     val smoothLength by slider("Smooth Outline Length", "Length of the smooth outline.", 7, 1, 256, "px", hide = {
         !outline || !smooth
     }) {
@@ -150,7 +147,8 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
     val smoothBlurCutout by switch("Smooth Outline Blur Cutout", "Cutout the blur.", false, hide = {
         !outline || !smooth || !smoothBlur
     })
-    val smoothBlurAlphaMultiplier by slider("Smooth Outline Blur Alpha Multiplier",
+    val smoothBlurAlphaMultiplier by slider(
+        "Smooth Outline Blur Alpha Multiplier",
         "Multiplier for the alpha of the outline blur.",
         170,
         0,
@@ -492,7 +490,7 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                 event.tickDelta.toFloat(),
                 event.matrices,
                 entitiesVertexConsumer,
-                -1 // render with full brightness
+                fullBright
             )
             entitiesVertexConsumer.drawCurrentLayer()
 
