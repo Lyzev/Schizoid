@@ -22,6 +22,7 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.text.Text
 import net.minecraft.util.math.MathHelper
 import org.joml.Matrix4f
+import org.lwjgl.opengl.GL11
 import java.awt.Color
 
 object ModuleToggleableSkeletons : ModuleToggleable(
@@ -33,6 +34,7 @@ object ModuleToggleableSkeletons : ModuleToggleable(
     private val entityModels = HashMap<Entity, Array<FloatArray>>()
 
     val color by color("Color", "The color of the skeletons", Color.WHITE, true)
+    val lineWidth by slider("Line Width", "The width of the lines", 1, 1, 5, "px")
 
     override fun onDisable() {
         entityModels.clear()
@@ -62,6 +64,7 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                 toggle()
                 return@on
             }
+            GL11.glLineWidth(lineWidth.toFloat())
             for (entity in mc.world!!.entities) {
                 if (entity is PlayerEntity && (mc.player != entity || !mc.options.perspective.isFirstPerson) && entity.isAlive && !entity.isInvisible && !entity.isSleeping) {
                     val model = entityModels[entity] ?: continue
@@ -186,6 +189,7 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                     ShaderPosCol.unbind()
                 }
             }
+            GL11.glLineWidth(1f)
         }
     }
 }

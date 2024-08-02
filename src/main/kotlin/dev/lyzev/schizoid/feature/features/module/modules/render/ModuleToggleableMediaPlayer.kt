@@ -57,7 +57,7 @@ object ModuleToggleableMediaPlayer : ModuleToggleableRenderImGuiContent(
     val playPause by keybinds("Play & Pause", "Play or pause the current track.")
 
     private val fallbackArtwork =
-        WrappedNativeImageBackedTexture(NativeImage.read(javaClass.getResourceAsStream("/assets/${Schizoid.MOD_ID}/textures/vinyl.png"))).apply { upload() }
+        WrappedNativeImageBackedTexture(NativeImage.read(javaClass.getResourceAsStream("/${Schizoid.MOD_ID}/textures/vinyl.png"))).apply { upload() }
     private val noArtwork = setOf(
         "29dbaf46e36d5f2b46e1d1c3ea46e65c4bfd17ec29e82a5fbfb6d6c47ec3089cf2a54b4ebc7fde3fb5c27c1caa1a24d333b413a98a15858b7622bc7be71e8ce2", // Spotify
         "51ee4a2b0b0a7020bd38ac604030a02c6f0c9c297c73afe80446c3f92ba69399d27e231ab08eeb7204df7cd81e163f57bd12b716083770dc5f745e1654af9329", // Chrome

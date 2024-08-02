@@ -29,7 +29,7 @@ void main() {
         float lengthSquared = Length * Length + Length * Length;
 
         // If the squared distance is less than the squared length, set the color to white
-        if (distance <= lengthSquared) {
+        if (distance <= lengthSquared + 1.0) {
             color = vec4(1.0);
         }
     }

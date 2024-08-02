@@ -230,7 +230,7 @@ abstract class Shader(val shader: String) : EventListener {
         /**
          * The path to the shaders.
          */
-        val PATH = "/assets/${Schizoid.MOD_ID}/shaders"
+        val PATH = "/${Schizoid.MOD_ID}/shaders"
 
         /**
          * Draws a full screen quad.

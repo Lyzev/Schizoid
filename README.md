@@ -36,16 +36,18 @@
 
 ### Instructions
 
-1. Download `schizoid-${version_core}-${pre_release}+${build}.jar` of the latest release from the [releases page](https://github.com/Lyzev/Schizoid/releases/latest).
+1. Download `schizoid-${version_core}-${pre_release}+${build}.jar` of the latest release from the [release page](https://github.com/Lyzev/Schizoid/releases/latest).
 2. Move the downloaded JAR file to the `mods` folder in your Minecraft installation directory.
 3. Launch the game and enjoy the features of Schizoid.
 
-**WARNING:** Nightly builds are not recommended for general use. They are intended for testing purposes only. Use them
-at your own risk, as there will be no support for it. They are named as follows: `schizoid-${version_core}-${pre_release}+${build}.jar`
+**WARNING:** Nightly builds aren't recommended for general use.
+They're intended for testing purposes only.
+Use them at your own risk, as there will be no support for it.
+They're named as follows: `schizoid-${version_core}-${pre_release}+${build}.jar`
 
 ## Contributing
 
-If you are interested in contributing to this project, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for
+If you're interested in contributing to this project, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for
 more information.
 
 ## Bugs and Suggestions
@@ -58,6 +60,6 @@ the [Discord server](https://lyzev.github.io/discord). Our friendly members and 
 ### GitHub
 
 To ensure a prompt and effective resolution of bugs or to share your suggestions, please submit them through
-the [issue tracker](https://github.com/Lyzev/Schizoid/issues) of this repository. Kindly utilize the provided templates
+the [issue tracker](https://github.com/Lyzev/Schizoid/issues) of this repository. Kindly use the provided templates
 and make sure to include all relevant details that would help us understand your issue better. Your cooperation is
 greatly appreciated.

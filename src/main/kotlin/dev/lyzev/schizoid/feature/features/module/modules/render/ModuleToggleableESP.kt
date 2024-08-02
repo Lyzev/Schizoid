@@ -45,7 +45,7 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
         WrappedFramebuffer("[ESP] FBO 0"), WrappedFramebuffer("[ESP] FBO 1")
     )
 
-    // Use half resolution for the jump flood algorithm to improve performance (see: https://en.wikipedia.org/wiki/Jump_flooding_algorithm#Variants)
+    // Use half-resolution for the jump flood algorithm to improve performance (see: https://en.wikipedia.org/wiki/Jump_flooding_algorithm#Variants)
     private val jumpFloodFbos = arrayOf(
         WrappedFramebuffer("[ESP] FBO 0", lod = 1, internalFormat = GL43.GL_RGBA16, linear = false),
         WrappedFramebuffer("[ESP] FBO 1", lod = 1, internalFormat = GL43.GL_RGBA16, linear = false)
@@ -61,13 +61,6 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
     )
     val hurtTime by switch("Hurt Time Color", "Make the outline color based on hurt time.", false)
     val throughWall by switch("Through Wall", "Render entities through walls.", false)
-    val alphaOcclusion by switch("Alpha Occlusion", "Enable alpha occlusion.", false)
-    val visibleColor by color(
-        "Visible Color", "Color of visible entities.", Color(0, 255, 0, 120), true, hide = ::alphaOcclusion neq true
-    )
-    val invisibleColor by color(
-        "Invisible Color", "Color of invisible entities.", Color(255, 0, 0, 120), true, hide = ::alphaOcclusion neq true
-    )
     val outline by switch("Outline", "Render an outline around entities.", true)
 
     val solid by switch("Solid", "Render a solid outline.", true, hide = ::outline neq true) {
@@ -310,34 +303,6 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
         on<EventRenderWorld>(Event.Priority.LOWEST) {
             RenderSystem.disableDepthTest()
 
-            if (alphaOcclusion) {
-                outlines.clear()
-                outlines.beginWrite(false)
-                ShaderAlphaOcclusion.bind()
-                RenderSystem.activeTexture(GL_TEXTURE1)
-                mc.framebuffer.beginRead()
-                ShaderAlphaOcclusion["Tex1"] = 1
-                RenderSystem.activeTexture(GL_TEXTURE0)
-                entitiesFbo.beginRead()
-                ShaderAlphaOcclusion["Tex0"] = 0
-                ShaderAlphaOcclusion.set(
-                    "Visible",
-                    visibleColor.red / 255f,
-                    visibleColor.green / 255f,
-                    visibleColor.blue / 255f,
-                    visibleColor.alpha / 255f
-                )
-                ShaderAlphaOcclusion.set(
-                    "Invisible",
-                    invisibleColor.red / 255f,
-                    invisibleColor.green / 255f,
-                    invisibleColor.blue / 255f,
-                    invisibleColor.alpha / 255f
-                )
-                drawFullScreen()
-                ShaderAlphaOcclusion.unbind()
-            }
-
             if (throughWall) {
                 mc.framebuffer.beginWrite(false)
                 ShaderPassThrough.bind()
@@ -360,20 +325,6 @@ object ModuleToggleableESP : ModuleToggleable("ESP", "Extra Sensory Perception."
                     drawFullScreen()
                     ShaderPassThrough.unbind()
                 }
-            }
-
-            if (alphaOcclusion) {
-                mc.framebuffer.beginWrite(false)
-                ShaderMask.bind()
-                RenderSystem.activeTexture(GL_TEXTURE1)
-                entitiesFbo.beginRead()
-                RenderSystem.activeTexture(GL_TEXTURE0)
-                outlines.beginRead()
-                ShaderMask["Tex0"] = 0
-                ShaderMask["Tex1"] = 1
-                ShaderMask["Invert"] = false
-                drawFullScreen()
-                ShaderMask.unbind()
             }
 
             if (outline) {

@@ -12,7 +12,7 @@ import java.io.File
 
 object AI {
 
-    val PATH = "/assets/${Schizoid.MOD_ID}/ai"
+    val PATH = "/${Schizoid.MOD_ID}/ai"
 
     fun loadWeights(filePath: String): Array<DoubleArray> {
         val weights = mutableListOf<DoubleArray>()

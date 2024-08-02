@@ -165,11 +165,11 @@ object FeatureRotation : IFeature, EventListener {
                     val squaredDistance = MathHelper.square(deltaYaw) + MathHelper.square(deltaPitch)
                     val lastFrameDuration = mc.renderTickCounter.lastDuration
 
-                    val minYaw = this.minYaw * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + this.minYaw
-                    val minPitch = this.minPitch * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + this.minPitch
+                    val minYaw = this.minYaw * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + this.minYaw / 2f
+                    val minPitch = this.minPitch * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + this.minPitch / 2f
 
-                    val maxYaw = max(MathHelper.square(deltaYaw) / squaredDistance * weightYaw * 30, minYaw * lastFrameDuration)
-                    val maxPitch = max(MathHelper.square(deltaPitch) / squaredDistance * weightPitch * 30, minPitch * lastFrameDuration)
+                    val maxYaw = max(MathHelper.square(deltaYaw) / squaredDistance * weightYaw * 30, minYaw) * lastFrameDuration
+                    val maxPitch = max(MathHelper.square(deltaPitch) / squaredDistance * weightPitch * 30, minPitch) * lastFrameDuration
 
                     // Calculate the new yaw and pitch
                     var yawJitter =
