@@ -10,7 +10,6 @@ import dev.lyzev.api.events.Event
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventRenderWorld
 import dev.lyzev.api.events.on
-import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.save
@@ -18,6 +17,7 @@ import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderLinearizeDepth
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableNotifications
 import net.minecraft.client.render.GameRenderer
 import org.lwjgl.opengl.GL13.GL_TEXTURE0
 
@@ -28,12 +28,12 @@ object ModuleRunnableDepthTextureScreenshot : ModuleRunnable(
     private val fbo = WrappedFramebuffer()
     private var isTakingScreenshot = false
 
-    override fun invoke(): String? {
+    override fun invoke() {
         if (isTakingScreenshot) {
-            return "Already taking a screenshot."
-        } else
+            ModuleToggleableNotifications.error("You are already taking a screenshot.")
+        } else {
             isTakingScreenshot = true
-        return null
+        }
     }
 
     override val shouldHandleEvents: Boolean
@@ -55,6 +55,8 @@ object ModuleRunnableDepthTextureScreenshot : ModuleRunnable(
             ShaderLinearizeDepth.unbind()
 
             fbo.save()
+
+            ModuleToggleableNotifications.info("The depth texture has been saved.")
         }
     }
 }

@@ -31,6 +31,7 @@ object ModuleToggleableAimBotDataCollector : ModuleToggleable(
         get() = isEnabled
 
     override fun onDisable() {
+        super.onDisable()
         File(Schizoid.root, "input.csv").writeText(input.toString())
         File(Schizoid.root, "output.csv").writeText(output.toString())
     }
@@ -58,13 +59,35 @@ object ModuleToggleableAimBotDataCollector : ModuleToggleable(
                         (nearest.z - box.minZ) / (box.maxZ - box.minZ)
                     )
                 }
-                val lookVecEntity = Vec3d.fromPolar(mc.player!!.eyePos[mc.targetedEntity!!.eyePos]).normalize().add(1.0, 1.0, 1.0).normalize()
+                val lookVecEntity =
+                    Vec3d.fromPolar(mc.player!!.eyePos[mc.targetedEntity!!.eyePos]).normalize().add(1.0, 1.0, 1.0)
+                        .normalize()
                 val lookVec = mc.player!!.rotationVecClient.normalize().add(1.0, 1.0, 1.0).normalize()
                 val reach = mc.player!!.eyePos.distanceTo(box[mc.player!!.eyePos]) / mc.player!!.entityInteractionRange
-                val speedTarget = min(Vec3d(mc.targetedEntity!!.x - mc.targetedEntity!!.prevX, mc.targetedEntity!!.y - mc.targetedEntity!!.prevY, mc.targetedEntity!!.z - mc.targetedEntity!!.prevZ).lengthSquared() / 100.0, 1.0)
-                val speedPlayer = min(Vec3d(mc.player!!.x - mc.player!!.prevX, mc.player!!.y - mc.player!!.prevY, mc.player!!.z - mc.player!!.prevZ).lengthSquared() / 100.0, 1.0)
-                val velocityTarget = Vec3d(mc.targetedEntity!!.x - mc.targetedEntity!!.prevX, mc.targetedEntity!!.y - mc.targetedEntity!!.prevY, mc.targetedEntity!!.z - mc.targetedEntity!!.prevZ).normalize().add(1.0, 1.0, 1.0).normalize()
-                val velocityPlayer = Vec3d(mc.player!!.x - mc.player!!.prevX, mc.player!!.y - mc.player!!.prevY, mc.player!!.z - mc.player!!.prevZ).normalize().add(1.0, 1.0, 1.0).normalize()
+                val speedTarget = min(
+                    Vec3d(
+                        mc.targetedEntity!!.x - mc.targetedEntity!!.prevX,
+                        mc.targetedEntity!!.y - mc.targetedEntity!!.prevY,
+                        mc.targetedEntity!!.z - mc.targetedEntity!!.prevZ
+                    ).lengthSquared() / 100.0, 1.0
+                )
+                val speedPlayer = min(
+                    Vec3d(
+                        mc.player!!.x - mc.player!!.prevX,
+                        mc.player!!.y - mc.player!!.prevY,
+                        mc.player!!.z - mc.player!!.prevZ
+                    ).lengthSquared() / 100.0, 1.0
+                )
+                val velocityTarget = Vec3d(
+                    mc.targetedEntity!!.x - mc.targetedEntity!!.prevX,
+                    mc.targetedEntity!!.y - mc.targetedEntity!!.prevY,
+                    mc.targetedEntity!!.z - mc.targetedEntity!!.prevZ
+                ).normalize().add(1.0, 1.0, 1.0).normalize()
+                val velocityPlayer = Vec3d(
+                    mc.player!!.x - mc.player!!.prevX,
+                    mc.player!!.y - mc.player!!.prevY,
+                    mc.player!!.z - mc.player!!.prevZ
+                ).normalize().add(1.0, 1.0, 1.0).normalize()
                 val clicks = min(mc.options.attackKey.timesPressed / 4.0, 1.0)
                 val raycast = DoubleArray(8)
                 val from = mc.player!!.eyePos
@@ -76,7 +99,15 @@ object ModuleToggleableAimBotDataCollector : ModuleToggleable(
                                 box.minY + y * (box.maxY - box.minY) * 0.5 + 0.25 * (box.maxY - box.minY),
                                 box.minZ + z * (box.maxZ - box.minZ) * 0.5 + 0.25 * (box.maxZ - box.minZ)
                             )
-                            val hitResult = mc.world!!.raycast(RaycastContext(from, to, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, mc.player))
+                            val hitResult = mc.world!!.raycast(
+                                RaycastContext(
+                                    from,
+                                    to,
+                                    RaycastContext.ShapeType.OUTLINE,
+                                    RaycastContext.FluidHandling.NONE,
+                                    mc.player
+                                )
+                            )
                             if (hitResult == null || hitResult.type == HitResult.Type.MISS) {
                                 raycast[x * 4 + y * 2 + z] = 1.0
                             } else {
@@ -85,8 +116,18 @@ object ModuleToggleableAimBotDataCollector : ModuleToggleable(
                         }
                     }
                 }
-                input.appendLine("$reach;${hitVec.x};${hitVec.y};${hitVec.z};${lookVecEntity.x};${lookVecEntity.y};${lookVecEntity.z};$wasAiming;${speedTarget};${speedPlayer};${lookVec.x};${lookVec.y};${lookVec.z}${clicks};${raycast.joinToString(";")};${velocityTarget.x};${velocityTarget.y};${velocityTarget.z};${velocityPlayer.x};${velocityPlayer.y};${velocityPlayer.z}")
-                lastHitVec = Vec3d((crosshairAim.x - box.minX) / (box.maxX - box.minX), (crosshairAim.y - box.minY) / (box.maxY - box.minY), (crosshairAim.z - box.minZ) / (box.maxZ - box.minZ))
+                input.appendLine(
+                    "$reach;${hitVec.x};${hitVec.y};${hitVec.z};${lookVecEntity.x};${lookVecEntity.y};${lookVecEntity.z};$wasAiming;${speedTarget};${speedPlayer};${lookVec.x};${lookVec.y};${lookVec.z}${clicks};${
+                        raycast.joinToString(
+                            ";"
+                        )
+                    };${velocityTarget.x};${velocityTarget.y};${velocityTarget.z};${velocityPlayer.x};${velocityPlayer.y};${velocityPlayer.z}"
+                )
+                lastHitVec = Vec3d(
+                    (crosshairAim.x - box.minX) / (box.maxX - box.minX),
+                    (crosshairAim.y - box.minY) / (box.maxY - box.minY),
+                    (crosshairAim.z - box.minZ) / (box.maxZ - box.minZ)
+                )
                 output.appendLine("${lastHitVec!!.x};${lastHitVec!!.y};${lastHitVec!!.z}")
                 data++
             } else {

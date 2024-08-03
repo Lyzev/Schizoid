@@ -36,7 +36,8 @@ object ModuleToggleableTrueSight : ModuleToggleable(
         on<EventRenderModel> { event ->
             val alpha = event.argb shr 24 and 0xFF
             if (entities && alpha < 0xFF) {
-                val newAlpha = ((11f + this.alpha) / 111f * 0xFF).toInt() // 12% is the minimum alpha of an entity otherwise it's invisible
+                val newAlpha =
+                    ((11f + this.alpha) / 111f * 0xFF).toInt() // 12% is the minimum alpha of an entity otherwise it's invisible
                 event.argb = (event.argb and 0x00FFFFFF) or (newAlpha shl 24)
             }
         }

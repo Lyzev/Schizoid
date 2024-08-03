@@ -9,7 +9,6 @@ import dev.lyzev.api.imgui.font.ImGuiFonts.OPEN_SANS_REGULAR
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
-import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleableRenderImGuiContent
 import imgui.ImGui.button
 import imgui.ImGui.getStyle

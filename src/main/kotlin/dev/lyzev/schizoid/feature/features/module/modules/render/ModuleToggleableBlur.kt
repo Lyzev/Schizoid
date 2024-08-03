@@ -10,10 +10,12 @@ import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventRenderWorld
 import dev.lyzev.api.events.on
-import dev.lyzev.api.opengl.Render
 import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
-import dev.lyzev.api.opengl.shader.*
+import dev.lyzev.api.opengl.shader.Shader
+import dev.lyzev.api.opengl.shader.ShaderDepth
+import dev.lyzev.api.opengl.shader.ShaderPassThrough
+import dev.lyzev.api.opengl.shader.ShaderTint
 import dev.lyzev.api.opengl.shader.blur.Blurs
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.api.setting.settings.slider
@@ -23,7 +25,6 @@ import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.render.GameRenderer
-import net.minecraft.util.math.MathHelper
 import org.lwjgl.opengl.GL13
 
 object ModuleToggleableBlur :

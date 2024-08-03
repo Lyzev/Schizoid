@@ -65,7 +65,7 @@ object ModuleToggleableColorGrading :
             mc.framebuffer.beginWrite(false)
             ShaderPassThrough.bind()
             RenderSystem.activeTexture(GL_TEXTURE0)
-            mc.framebuffer.beginRead()
+            fbo.beginRead()
             ShaderPassThrough["Tex0"] = 0
             ShaderPassThrough["Scale"] = 1f
             ShaderPassThrough["Alpha"] = true

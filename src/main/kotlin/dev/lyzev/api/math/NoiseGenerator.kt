@@ -6,7 +6,6 @@
 package dev.lyzev.api.math
 
 import dev.lyzev.schizoid.Schizoid
-import java.security.SecureRandom
 import kotlin.math.floor
 
 /**

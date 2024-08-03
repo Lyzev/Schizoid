@@ -20,7 +20,6 @@ import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur
 import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableBlur.mc
 import net.minecraft.client.MinecraftClient
-import net.minecraft.util.math.MathHelper
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL13.GL_TEXTURE0
 import org.lwjgl.opengl.GL13.GL_TEXTURE1
@@ -153,7 +152,11 @@ object BlurHelper {
             else fbos[i - 1].beginRead()
             ShaderTint["Tex0"] = 0
             ShaderTint["RGBPuke"] = ModuleToggleableBlur.RGBPuke
-            ShaderTint.set("SV", ModuleToggleableBlur.RGBPukeSaturation / 100f, ModuleToggleableBlur.RGBPukeBrightness / 100f)
+            ShaderTint.set(
+                "SV",
+                ModuleToggleableBlur.RGBPukeSaturation / 100f,
+                ModuleToggleableBlur.RGBPukeBrightness / 100f
+            )
             ShaderTint["Opacity"] = ModuleToggleableBlur.RGBPukeOpacity / 100f
             ShaderTint["Alpha"] = false
             ShaderTint["Multiplier"] = 1f
@@ -192,7 +195,11 @@ object BlurHelper {
             ShaderTint["Tex0"] = 0
             ShaderTint["Color"] = dropShadowColor
             ShaderTint["RGBPuke"] = ModuleToggleableBlur.dropShadowRGBPuke
-            ShaderTint.set("SV", ModuleToggleableBlur.dropShadowRGBPukeSaturation / 100f, ModuleToggleableBlur.dropShadowRGBPukeBrightness / 100f)
+            ShaderTint.set(
+                "SV",
+                ModuleToggleableBlur.dropShadowRGBPukeSaturation / 100f,
+                ModuleToggleableBlur.dropShadowRGBPukeBrightness / 100f
+            )
             ShaderTint["Opacity"] = 1f
             ShaderTint["Alpha"] = true
             ShaderTint["Multiplier"] = ModuleToggleableBlur.dropShadowMultiplier / 100f

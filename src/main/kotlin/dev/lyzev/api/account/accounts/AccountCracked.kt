@@ -113,7 +113,11 @@ class AccountCracked(val username: String, var uuid: String) : Account {
                     }
                 }
                 sameLine()
-                if (ImGuiScreenAccountManager.button(FontAwesomeIcons.UserPlus, "Add a account with a random username.")) {
+                if (ImGuiScreenAccountManager.button(
+                        FontAwesomeIcons.UserPlus,
+                        "Add a account with a random username."
+                    )
+                ) {
                     ImGuiScreenAccountManager.accounts += AccountCracked(
                         (1..16).map { chars.random() }.joinToString(""),
                         if (useOnlineUuid) "" else uuid.get()

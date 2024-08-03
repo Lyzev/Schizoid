@@ -6,7 +6,6 @@
 package dev.lyzev.schizoid.feature.features.module
 
 import dev.lyzev.api.events.EventListener
-import dev.lyzev.api.events.EventPacket
 import dev.lyzev.api.events.EventRenderImGuiContent
 import dev.lyzev.api.events.on
 import dev.lyzev.api.glfw.GLFWKey
@@ -21,6 +20,7 @@ import dev.lyzev.schizoid.feature.Feature
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.gui.ImGuiScreen
 import dev.lyzev.schizoid.feature.features.gui.guis.ImGuiScreenFeature
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableNotifications
 import imgui.ImGui.*
 import imgui.extension.implot.flag.ImPlotAxisFlags
 import imgui.extension.implot.flag.ImPlotFlags
@@ -28,7 +28,6 @@ import imgui.flag.ImGuiHoveredFlags
 import imgui.flag.ImGuiWindowFlags
 import imgui.type.ImBoolean
 import net.minecraft.client.gui.screen.DownloadingTerrainScreen
-import net.minecraft.client.gui.screen.Screen
 
 /**
  * Represents a module.
@@ -60,9 +59,7 @@ abstract class ModuleRunnable(
     keys: MutableSet<GLFWKey> = mutableSetOf(),
     category: IFeature.Category
 ) :
-    Module(name, desc, keys, category), () -> String? {
-
-    var response: String? = null
+    Module(name, desc, keys, category), () -> Unit {
 
     override fun render() {
         if (ImGuiScreenFeature.search.result == this) {
@@ -81,12 +78,9 @@ abstract class ModuleRunnable(
                 }
             }
             if (isItemHovered()) setTooltip("Reset all settings to their default values.")
-            if (button("Invoke", getColumnWidth(), OPEN_SANS_REGULAR.size + getStyle().framePaddingY * 2)) response =
+            if (button("Invoke", getColumnWidth(), OPEN_SANS_REGULAR.size + getStyle().framePaddingY * 2))
                 invoke()
             if (isItemHovered()) setTooltip("Invoke the module.")
-            if (response != null) {
-                textColored(255, 69, 58, 255, response!!)
-            }
             @Suppress("UNCHECKED_CAST")
             for (setting in SettingManager[this::class] as List<SettingClient<*>>) {
                 pushID("$name/${setting.name}")
@@ -98,7 +92,8 @@ abstract class ModuleRunnable(
     }
 
     override fun keybindReleased() {
-        if (mc.currentScreen == null) response = invoke()
+        if (mc.currentScreen == null)
+            invoke()
     }
 }
 
@@ -148,13 +143,17 @@ abstract class ModuleToggleable(
         if (hide) {
             Schizoid.logger.warn("Module $name is hidden and cannot be enabled.")
             toggle()
+        } else {
+            ModuleToggleableNotifications.info("$name has been enabled.")
         }
     }
 
     /**
      * Called when the module is disabled.
      */
-    protected open fun onDisable() {}
+    protected open fun onDisable() {
+        ModuleToggleableNotifications.info("$name has been disabled.")
+    }
 
     override fun keybindReleased() {
         if (mc.currentScreen == null) toggle()

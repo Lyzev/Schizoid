@@ -26,6 +26,7 @@ object ModuleToggleableFullBright :
     }
 
     override fun onDisable() {
+        super.onDisable()
         if (mode == Mode.NIGHT_VISION)
             mc.player?.removeStatusEffect(StatusEffects.NIGHT_VISION)
     }

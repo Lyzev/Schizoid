@@ -64,7 +64,8 @@ class SettingClientMultiOptionString(
                 inputTextWithHint(
                     "##search@${name}",
                     "Searching...",
-                    searchString)
+                    searchString
+                )
             }
             val filteredValues = if (searchString.isEmpty || searchString.get()
                     .isBlank()
@@ -160,7 +161,8 @@ class SettingClientMultiOptionEnum<T : OptionEnum>(
                 inputTextWithHint(
                     "##search@${name}",
                     "Searching...",
-                    searchString)
+                    searchString
+                )
             }
             val filteredValues = if (searchString.isEmpty || searchString.get()
                     .isBlank()

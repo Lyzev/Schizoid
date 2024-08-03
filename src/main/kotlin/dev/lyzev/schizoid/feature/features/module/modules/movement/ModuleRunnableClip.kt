@@ -9,6 +9,7 @@ import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.api.setting.settings.switch
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableNotifications
 
 object ModuleRunnableClip :
     ModuleRunnable("Clip", "Allows you to clip through blocks.", category = IFeature.Category.MOVEMENT) {
@@ -17,8 +18,10 @@ object ModuleRunnableClip :
     val vertical by slider("Vertical", "The vertical speed.", 5f, -10f, 10f, 1, "blocks", true)
     val horizontal by slider("Horizontal", "The horizontal speed.", 0f, -10f, 10f, 1, "blocks", true)
 
-    override fun invoke(): String? {
-        if (mc.player == null || !isIngame) return "You are not in a game."
+    override fun invoke() {
+        if (mc.player == null || !isIngame) {
+            ModuleToggleableNotifications.error("You are not in a world.")
+        }
         val player = mc.player!!
         val lookVec = player.rotationVecClient
         if (player.hasVehicle()) player.vehicle!!.setPosition(
@@ -31,6 +34,6 @@ object ModuleRunnableClip :
             player.y + (if (verticalLook) vertical * lookVec.y else vertical.toDouble()),
             player.z + lookVec.z * horizontal
         )
-        return null
+        ModuleToggleableNotifications.info("You have clipped through blocks.")
     }
 }

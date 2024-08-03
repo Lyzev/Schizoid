@@ -48,7 +48,12 @@ object ModuleToggleableTargetESP : ModuleToggleable(
     val animationSpeed by slider("Animation Speed", "The speed of the animation.", 1000, 1, 5000, "ms") {
         timeAnimator.animationLength = it.toLong()
     }
-    val easingFunction by option("Easing Function", "The easing function of the animation.", EasingFunction.LINEAR, EasingFunction.entries)
+    val easingFunction by option(
+        "Easing Function",
+        "The easing function of the animation.",
+        EasingFunction.LINEAR,
+        EasingFunction.entries
+    )
 
     var target: PlayerEntity? = null
     private var abstractTexture: AbstractTexture? = null

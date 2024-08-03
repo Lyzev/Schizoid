@@ -8,7 +8,6 @@ package dev.lyzev.api.opengl
 import com.google.common.math.IntMath
 import com.mojang.blaze3d.platform.GlConst
 import com.mojang.blaze3d.platform.GlStateManager
-import com.mojang.blaze3d.platform.TextureUtil
 import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.EventListener
 import dev.lyzev.api.events.EventWindowResize

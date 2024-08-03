@@ -17,7 +17,8 @@ import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
 
-abstract class ImGuiScreen(title: String, override val desc: String, keybinds: Set<GLFWKey> = setOf()) : Screen(Text.of(title)), IFeature {
+abstract class ImGuiScreen(title: String, override val desc: String, keybinds: Set<GLFWKey> = setOf()) :
+    Screen(Text.of(title)), IFeature {
 
     override fun onDisplayed() {
         ShaderGameOfLife.queueGenPixels = true

@@ -12,9 +12,9 @@ import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import dev.lyzev.schizoid.injection.accessor.ClientPlayerEntityAccessor
 import net.minecraft.client.network.OtherClientPlayerEntity
 import net.minecraft.entity.Entity
+import net.minecraft.entity.player.PlayerAbilities
 import net.minecraft.network.packet.c2s.play.UpdatePlayerAbilitiesC2SPacket
 import net.minecraft.util.math.Vec3d
-import net.minecraft.entity.player.PlayerAbilities
 
 object ModuleToggleableFreeCam :
     ModuleToggleable(
@@ -39,6 +39,7 @@ object ModuleToggleableFreeCam :
     val flySpeed by slider("Fly Speed", "The speed at which the player can fly.", 0.05f, 0f, 0.2f, 2)
 
     override fun onEnable() {
+        super.onEnable()
         if (!isIngame) {
             toggle()
             return
@@ -59,6 +60,7 @@ object ModuleToggleableFreeCam :
     }
 
     override fun onDisable() {
+        super.onDisable()
         if (fakePlayer != null) {
             mc.world!!.removeEntity(fakePlayer!!.id, Entity.RemovalReason.DISCARDED)
             if (mc.player != null) {

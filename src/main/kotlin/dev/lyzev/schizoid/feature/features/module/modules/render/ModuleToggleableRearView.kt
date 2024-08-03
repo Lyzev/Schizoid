@@ -11,7 +11,6 @@ import dev.lyzev.api.opengl.WrappedFramebuffer
 import dev.lyzev.api.opengl.clear
 import dev.lyzev.api.opengl.shader.Shader
 import dev.lyzev.api.opengl.shader.ShaderNoAlpha
-import dev.lyzev.api.opengl.shader.ShaderPassThrough
 import dev.lyzev.api.setting.settings.slider
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature

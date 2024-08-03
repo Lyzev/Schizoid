@@ -8,7 +8,6 @@ package dev.lyzev.api.math
 import com.github.doyaaaaaken.kotlincsv.client.CsvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import dev.lyzev.schizoid.Schizoid
-import java.io.File
 
 object AI {
 

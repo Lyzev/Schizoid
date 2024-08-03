@@ -42,6 +42,7 @@ object ModuleToggleableSuperKnockback : ModuleToggleable(
     private var lastTarget: Entity? = null
 
     override fun onDisable() {
+        super.onDisable()
         hasAttacked = false
         lastTarget = null
     }
@@ -71,9 +72,11 @@ object ModuleToggleableSuperKnockback : ModuleToggleable(
         on<EventClientPlayerEntityTickPre> { event ->
             if (hasAttacked && lastTarget != null) {
                 if (waitingForKnockback <= waitForKnockback) {
-                    if (event.player.velocity.length() < lastTarget!!.velocity.length() && event.player.velocity.dotProduct(
-                            lastTarget!!.velocity
-                        ) < 0 && lastTarget!!.velocity.dotProduct(event.player.velocity) < 0
+                    if (
+                        (event.player.velocity.length() < lastTarget!!.velocity.length() &&
+                            event.player.velocity.dotProduct(lastTarget!!.velocity) < 0 &&
+                            lastTarget!!.velocity.dotProduct(event.player.velocity) < 0
+                            ) || mode == Mode.Packet
                     ) {
                         if (mode != Mode.Packet) {
                             if (!storeState) {

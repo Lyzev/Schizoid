@@ -5,7 +5,6 @@
 
 package dev.lyzev.schizoid.feature.features.module.modules.render
 
-import com.mojang.blaze3d.systems.RenderSystem
 import dev.lyzev.api.events.*
 import dev.lyzev.api.opengl.shader.ShaderPosCol
 import dev.lyzev.api.setting.settings.color
@@ -37,6 +36,7 @@ object ModuleToggleableSkeletons : ModuleToggleable(
     val lineWidth by slider("Line Width", "The width of the lines", 1, 1, 5, "px")
 
     override fun onDisable() {
+        super.onDisable()
         entityModels.clear()
         if (color.alpha == 0) {
             sendChatMessage(Text.of("Disabling Skeletons, as the alpha is 0!"))
@@ -89,9 +89,9 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                     var bufferBuilder = Tessellator.getInstance()
                         .begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR)
                     bufferBuilder.vertex(0f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     bufferBuilder.vertex(0f, -yOff, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     BufferRenderer.draw(bufferBuilder.end())
                     val boneLeftLeg = Matrix4f(modelViewMat)
                     boneLeftLeg.translate(0.125f, yOff, 0f)
@@ -101,9 +101,9 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                     bufferBuilder = Tessellator.getInstance()
                         .begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR)
                     bufferBuilder.vertex(0f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     bufferBuilder.vertex(0f, -yOff, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     BufferRenderer.draw(bufferBuilder.end())
                     modelViewMat.translate(0f, 0f, if (entity.isSneaking) 0.25f else 0f)
                     val boneNeck = Matrix4f(modelViewMat)
@@ -118,9 +118,9 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                     bufferBuilder = Tessellator.getInstance()
                         .begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR)
                     bufferBuilder.vertex(0f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     bufferBuilder.vertex(0f, -0.5f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     BufferRenderer.draw(bufferBuilder.end())
                     val leftArm = Matrix4f(boneNeck)
                     leftArm.translate(0.375f, yOff + 0.55f, 0f)
@@ -130,9 +130,9 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                     bufferBuilder = Tessellator.getInstance()
                         .begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR)
                     bufferBuilder.vertex(0f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     bufferBuilder.vertex(0f, -0.5f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     BufferRenderer.draw(bufferBuilder.end())
                     boneNeck.rotateY((lerpedBodyYaw - lerpedHeadYaw) * MathHelper.RADIANS_PER_DEGREE)
                     val head = Matrix4f(boneNeck)
@@ -143,9 +143,9 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                     bufferBuilder = Tessellator.getInstance()
                         .begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR)
                     bufferBuilder.vertex(0f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     bufferBuilder.vertex(0f, 0.3f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     BufferRenderer.draw(bufferBuilder.end())
 
                     modelViewMat.rotateX(if (entity.isSneaking) 25f * MathHelper.RADIANS_PER_DEGREE else 0f)
@@ -160,18 +160,18 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                     bufferBuilder = Tessellator.getInstance()
                         .begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR)
                     bufferBuilder.vertex(-0.125f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     bufferBuilder.vertex(0.125f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     BufferRenderer.draw(bufferBuilder.end())
 
                     // spine
                     bufferBuilder = Tessellator.getInstance()
                         .begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR)
                     bufferBuilder.vertex(0f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     bufferBuilder.vertex(0f, 0.55f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     BufferRenderer.draw(bufferBuilder.end())
 
                     // clavicle
@@ -181,9 +181,9 @@ object ModuleToggleableSkeletons : ModuleToggleable(
                     bufferBuilder = Tessellator.getInstance()
                         .begin(VertexFormat.DrawMode.DEBUG_LINE_STRIP, VertexFormats.POSITION_COLOR)
                     bufferBuilder.vertex(-0.375f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     bufferBuilder.vertex(0.375f, 0f, 0f)
-                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f);
+                        .color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f)
                     BufferRenderer.draw(bufferBuilder.end())
 
                     ShaderPosCol.unbind()

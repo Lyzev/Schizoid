@@ -165,11 +165,17 @@ object FeatureRotation : IFeature, EventListener {
                     val squaredDistance = MathHelper.square(deltaYaw) + MathHelper.square(deltaPitch)
                     val lastFrameDuration = mc.renderTickCounter.lastDuration
 
-                    val minYaw = this.minYaw * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + this.minYaw / 2f
-                    val minPitch = this.minPitch * (noiseGenerator.noise(System.currentTimeMillis() / 20.0).toFloat() + 1f) / 2f + this.minPitch / 2f
+                    val minYaw = this.minYaw * (noiseGenerator.noise(System.currentTimeMillis() / 20.0)
+                        .toFloat() + 1f) / 2f + this.minYaw / 2f
+                    val minPitch = this.minPitch * (noiseGenerator.noise(System.currentTimeMillis() / 20.0)
+                        .toFloat() + 1f) / 2f + this.minPitch / 2f
 
-                    val maxYaw = max(MathHelper.square(deltaYaw) / squaredDistance * weightYaw * 30, minYaw) * lastFrameDuration
-                    val maxPitch = max(MathHelper.square(deltaPitch) / squaredDistance * weightPitch * 30, minPitch) * lastFrameDuration
+                    val maxYaw =
+                        max(MathHelper.square(deltaYaw) / squaredDistance * weightYaw * 30, minYaw) * lastFrameDuration
+                    val maxPitch = max(
+                        MathHelper.square(deltaPitch) / squaredDistance * weightPitch * 30,
+                        minPitch
+                    ) * lastFrameDuration
 
                     // Calculate the new yaw and pitch
                     var yawJitter =
@@ -213,13 +219,13 @@ object FeatureRotation : IFeature, EventListener {
                 if (packet is PlayerPositionLookS2CPacket) {
                     current.set(packet.yaw, packet.pitch)
                 } else if (packet is LookAtS2CPacket) {
-                    val target = packet.getTargetPosition(mc.world)!!;
+                    val target = packet.getTargetPosition(mc.world)!!
                     val anchor = packet.selfAnchor
-                    val at = anchor.positionAt(mc.player);
-                    val deltaX = target.x - at.x;
-                    val deltaY = target.y - at.y;
-                    val deltaZ = target.z - at.z;
-                    val distXZ = sqrt(deltaX * deltaX + deltaZ * deltaZ);
+                    val at = anchor.positionAt(mc.player)
+                    val deltaX = target.x - at.x
+                    val deltaY = target.y - at.y
+                    val deltaZ = target.z - at.z
+                    val distXZ = sqrt(deltaX * deltaX + deltaZ * deltaZ)
                     current.set(
                         MathHelper.wrapDegrees(MathHelper.atan2(deltaZ, deltaX) * 180f / Math.PI - 90f),
                         MathHelper.wrapDegrees(-MathHelper.atan2(deltaY, distXZ) * 180f / Math.PI)
@@ -290,7 +296,7 @@ object FeatureRotation : IFeature, EventListener {
             val delta = 1.0 / event.step.toDouble()
             val newYaw = MathHelper.lerpAngleDegrees(delta, current.x.toDouble(), event.yaw).toFloat()
             val newPitch = MathHelper.lerp(delta, current.y.toDouble(), event.pitch).toFloat()
-            current.set(newYaw % 360.0f, newPitch % 360.0f);
+            current.set(newYaw % 360.0f, newPitch % 360.0f)
         }
         // Visualize rotation client side
         on<EventClientPlayerEntityRender> {

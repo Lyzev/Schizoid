@@ -26,6 +26,7 @@ object ModuleToggleableKeepSprint :
     private var isSprinting = false
 
     override fun onDisable() {
+        super.onDisable()
         velocity = null
         isSprinting = false
     }

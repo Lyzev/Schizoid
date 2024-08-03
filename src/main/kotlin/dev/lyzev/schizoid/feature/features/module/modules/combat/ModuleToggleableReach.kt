@@ -19,14 +19,45 @@ object ModuleToggleableReach :
     ModuleToggleable("Reach", "Manipulates the player's reach.", category = IFeature.Category.COMBAT), EventListener {
 
     val entity by switch("Entity", "Manipulate the entity raycast.", true)
-    val entityReach by slider("Entity Reach", "The reach of the entity raycast.", EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE.value().defaultValue.toFloat(), 0f, 6f, 1, "blocks", hide = ::entity neq true)
-    val entityThroughWalls by switch("Entity Through Walls", "Reach the entity through walls.", false, hide = ::entity neq true)
-    val entityThroughWallsReach by slider("Entity Through Walls Reach", "The reach of the entity raycast through walls.", EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE.value().defaultValue.toFloat(), 0f, 6f, 1, "blocks", hide = {
-        !entity || !entityThroughWalls
-    })
+    val entityReach by slider(
+        "Entity Reach",
+        "The reach of the entity raycast.",
+        EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE.value().defaultValue.toFloat(),
+        0f,
+        6f,
+        1,
+        "blocks",
+        hide = ::entity neq true
+    )
+    val entityThroughWalls by switch(
+        "Entity Through Walls",
+        "Reach the entity through walls.",
+        false,
+        hide = ::entity neq true
+    )
+    val entityThroughWallsReach by slider(
+        "Entity Through Walls Reach",
+        "The reach of the entity raycast through walls.",
+        EntityAttributes.PLAYER_ENTITY_INTERACTION_RANGE.value().defaultValue.toFloat(),
+        0f,
+        6f,
+        1,
+        "blocks",
+        hide = {
+            !entity || !entityThroughWalls
+        })
 
     val block by switch("Block", "Manipulate the block raycast.", true)
-    val blockReach by slider("Block Reach", "The reach of the block raycast.", EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE.value().defaultValue.toFloat(), 0f, 6f, 1, "blocks", hide = ::block neq true)
+    val blockReach by slider(
+        "Block Reach",
+        "The reach of the block raycast.",
+        EntityAttributes.PLAYER_BLOCK_INTERACTION_RANGE.value().defaultValue.toFloat(),
+        0f,
+        6f,
+        1,
+        "blocks",
+        hide = ::block neq true
+    )
 
     override val shouldHandleEvents
         get() = isEnabled

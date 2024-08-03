@@ -7,14 +7,14 @@ package dev.lyzev.schizoid.feature.features.module.modules.movement
 
 import dev.lyzev.api.events.*
 import dev.lyzev.api.setting.settings.*
+import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
-import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket
-import dev.lyzev.api.settings.Setting.Companion.neq
 import dev.lyzev.schizoid.injection.accessor.ExplosionS2CPacketAccessor
 import net.minecraft.client.gui.screen.ingame.HandledScreen
+import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket
+import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket
 import net.minecraft.util.math.MathHelper
 
 object ModuleToggleableVelocity :
@@ -23,13 +23,29 @@ object ModuleToggleableVelocity :
 
     val packets by multiOption("Packets", "The packets to use.", setOf("Velocity" to true, "Explosion" to true))
     val chance by slider("Chance", "The chance to execute on the packet.", 60, 0, 100, "%%")
-    val velocityThreshold by slider("Velocity Threshold", "Doesn't execute if the horizontal velocity is below this threshold.", 0.1f, 0f, 1f, 1, "blocks")
+    val velocityThreshold by slider(
+        "Velocity Threshold",
+        "Doesn't execute if the horizontal velocity is below this threshold.",
+        0.1f,
+        0f,
+        1f,
+        1,
+        "blocks"
+    )
     val mode by option("Mode", "The mode to use.", Mode.Jump, Mode.entries)
     val jumpInScreen by switch("Jump In Screen", "Jumps in the screen.", false, hide = ::mode neq Mode.Jump)
     val jumpInHandledScreen by switch("Jump In Handled Screen", "Jumps in the screen.", false, hide = {
         mode != Mode.Jump || !jumpInScreen
     })
-    val horizontal by slider("Horizontal", "The horizontal multiplier.", 100, -200, 200, "%%", hide = ::mode neq Mode.Modify)
+    val horizontal by slider(
+        "Horizontal",
+        "The horizontal multiplier.",
+        100,
+        -200,
+        200,
+        "%%",
+        hide = ::mode neq Mode.Modify
+    )
     val vertical by slider("Vertical", "The vertical multiplier.", 100, -200, 200, "%%", hide = ::mode neq Mode.Modify)
 
     private var wasJumping = false
@@ -37,6 +53,7 @@ object ModuleToggleableVelocity :
     private var shouldRestore = false
 
     override fun onDisable() {
+        super.onDisable()
         shouldJump = false
         wasJumping = false
     }
@@ -52,14 +69,16 @@ object ModuleToggleableVelocity :
                     packets.forEach {
                         if (it.second) {
                             if (it.first == "Velocity" && event.packet is EntityVelocityUpdateS2CPacket) {
-                                val squaredDist = MathHelper.square(event.packet.velocityX) + MathHelper.square(event.packet.velocityZ)
+                                val squaredDist =
+                                    MathHelper.square(event.packet.velocityX) + MathHelper.square(event.packet.velocityZ)
                                 if (squaredDist < MathHelper.square(velocityThreshold)) return@forEach
                                 val entity = mc.world!!.getEntityById(event.packet.id)
                                 if (entity == mc.player) {
                                     mode.handle(event)
                                 }
                             } else if (it.first == "Explosion" && event.packet is ExplosionS2CPacket) {
-                                val squaredDist = MathHelper.square(event.packet.playerVelocityX) + MathHelper.square(event.packet.playerVelocityZ)
+                                val squaredDist =
+                                    MathHelper.square(event.packet.playerVelocityX) + MathHelper.square(event.packet.playerVelocityZ)
                                 if (squaredDist < MathHelper.square(velocityThreshold)) return@forEach
                                 mode.handle(event)
                             }

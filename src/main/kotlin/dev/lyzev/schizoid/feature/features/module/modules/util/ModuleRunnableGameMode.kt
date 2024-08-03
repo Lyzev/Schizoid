@@ -9,16 +9,20 @@ import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableNotifications
 
 object ModuleRunnableGameMode :
     ModuleRunnable("Game Mode", "Allows you to change your game mode.", category = IFeature.Category.UTIL) {
 
     val mode by option("Mode", "The game mode to set.", GameMode.CREATIVE, GameMode.entries)
 
-    override fun invoke(): String? {
-        if (!isIngame) return "You are not in a game."
+    override fun invoke() {
+        if (!isIngame) {
+            ModuleToggleableNotifications.error("You are not in a world.")
+            return
+        }
         mc.interactionManager?.setGameMode(mode.type)
-        return null
+        ModuleToggleableNotifications.info("Your game mode has been set to ${mode.key}.")
     }
 
     enum class GameMode(val type: net.minecraft.world.GameMode) : OptionEnum {

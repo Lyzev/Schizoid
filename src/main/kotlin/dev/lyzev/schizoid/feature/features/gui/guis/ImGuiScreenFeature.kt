@@ -97,7 +97,8 @@ object ImGuiScreenFeature : ImGuiScreen(
         }
         isMarioRunning = true
 
-        val x = -64f + ((mc.framebuffer.textureWidth + 64f) * animationMario.ease(timeAnimatorMario.getProgress())).toInt()
+        val x =
+            -64f + ((mc.framebuffer.textureWidth + 64f) * animationMario.ease(timeAnimatorMario.getProgress())).toInt()
 
         ImGui.getForegroundDrawList().addImage(
             mario[(System.currentTimeMillis() / 100.0 % mario.size).toInt()].glId,

@@ -10,7 +10,6 @@ import dev.lyzev.api.events.EventPacket
 import dev.lyzev.api.events.on
 import dev.lyzev.api.setting.settings.multiText
 import dev.lyzev.api.setting.settings.slider
-import dev.lyzev.schizoid.Schizoid
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleToggleable
 import net.minecraft.network.packet.s2c.play.GameMessageS2CPacket

@@ -33,10 +33,12 @@ object ModuleToggleableToggleWalk :
     private var wasAutoJump = false
 
     override fun onEnable() {
+        super.onEnable()
         wasAutoJump = mc.options.autoJump.value
     }
 
     override fun onDisable() {
+        super.onDisable()
         mc.options.autoJump.value = wasAutoJump
     }
 

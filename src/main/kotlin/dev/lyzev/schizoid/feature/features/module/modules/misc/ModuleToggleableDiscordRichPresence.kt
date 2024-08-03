@@ -26,6 +26,7 @@ object ModuleToggleableDiscordRichPresence : ModuleToggleable(
     private val timeStamp = System.currentTimeMillis()
 
     override fun onEnable() {
+        super.onEnable()
         runCatching {
             client = IPCClient(1243687298126843954L)
             client!!.setListener(object : IPCListener {
@@ -54,7 +55,8 @@ object ModuleToggleableDiscordRichPresence : ModuleToggleable(
                     val builder = RichPresence.Builder()
                     builder.setState("Elevating my Minecraft gameplay with ${Schizoid.MOD_NAME}.")
                         .setDetails("${Schizoid.MOD_NAME} v${Schizoid.MOD_VERSION}")
-                        .setStartTimestamp(timeStamp).setLargeImage("client",
+                        .setStartTimestamp(timeStamp).setLargeImage(
+                            "client",
                             "${Schizoid.MOD_NAME} v${Schizoid.MOD_VERSION} by ${Schizoid.MOD_AUTHORS.joinToString(" & ") { it.name }}"
                         )
                         .setButtons(JsonArray().apply {
@@ -88,6 +90,7 @@ object ModuleToggleableDiscordRichPresence : ModuleToggleable(
     }
 
     override fun onDisable() {
+        super.onDisable()
         if (client == null || client!!.status != PipeStatus.CONNECTED) {
             return
         }

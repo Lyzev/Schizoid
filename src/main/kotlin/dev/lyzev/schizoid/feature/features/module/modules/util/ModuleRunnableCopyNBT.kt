@@ -9,6 +9,7 @@ import dev.lyzev.api.setting.settings.OptionEnum
 import dev.lyzev.api.setting.settings.option
 import dev.lyzev.schizoid.feature.IFeature
 import dev.lyzev.schizoid.feature.features.module.ModuleRunnable
+import dev.lyzev.schizoid.feature.features.module.modules.render.ModuleToggleableNotifications
 
 object ModuleRunnableCopyNBT :
     ModuleRunnable(
@@ -19,13 +20,18 @@ object ModuleRunnableCopyNBT :
 
     private val hand by option("Hand", "The hand to copy the NBT from.", Hand.MAIN_HAND, Hand.entries)
 
-    override fun invoke(): String? {
-        if (!isIngame) return "You are not in a game."
+    override fun invoke() {
+        if (!isIngame) {
+            ModuleToggleableNotifications.error("You are not in a world.")
+            return
+        }
         val itemInHand = mc.player?.getStackInHand(hand.type)
-        if (itemInHand == null || itemInHand.components == null || itemInHand.components!!.isEmpty)
-            return "There is no NBT data to copy."
+        if (itemInHand == null || itemInHand.components == null || itemInHand.components!!.isEmpty) {
+            ModuleToggleableNotifications.error("You are not holding an item with NBT data.")
+            return
+        }
         copy(itemInHand.encode(mc.world?.registryManager).asString())
-        return null
+        ModuleToggleableNotifications.info("The NBT data has been copied to the clipboard.")
     }
 
     enum class Hand(val type: net.minecraft.util.Hand) : OptionEnum {

@@ -19,7 +19,10 @@ import kotlin.math.sqrt
 operator fun Vec3d.get(end: Vec3d): Vec2f {
     val delta = end.subtract(this)
     val yaw = MathHelper.atan2(delta.z, delta.x) * MathHelper.DEGREES_PER_RADIAN + 90f
-    val pitch = -MathHelper.atan2(delta.y, sqrt(MathHelper.square(delta.x) + MathHelper.square(delta.z))) * MathHelper.DEGREES_PER_RADIAN
+    val pitch = -MathHelper.atan2(
+        delta.y,
+        sqrt(MathHelper.square(delta.x) + MathHelper.square(delta.z))
+    ) * MathHelper.DEGREES_PER_RADIAN
     return Vec2f(pitch.toFloat(), yaw.toFloat())
 }
 
@@ -39,7 +42,15 @@ fun Entity.canSee(vec: Vec3d): Boolean {
         return false
     }
     val eye = eyePos
-    return eye.squaredDistanceTo(vec) < 16384 && world.raycast(RaycastContext(eye, vec, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this)).type == HitResult.Type.MISS
+    return eye.squaredDistanceTo(vec) < 16384 && world.raycast(
+        RaycastContext(
+            eye,
+            vec,
+            RaycastContext.ShapeType.COLLIDER,
+            RaycastContext.FluidHandling.NONE,
+            this
+        )
+    ).type == HitResult.Type.MISS
 }
 
 fun relu(x: Double) = if (x > 0) x else 0.0

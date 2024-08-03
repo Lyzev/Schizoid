@@ -92,7 +92,8 @@ object ShaderTint : ShaderVertexFragment("Tint") {
         }
 
     @Suppress("USELESS_ELVIS")
-    override fun preprocess(source: String) = super.preprocess(source.replace("\${RGBPukeMode}", "RGBPuke${rgbPukeMode ?: "Noise"}"))
+    override fun preprocess(source: String) =
+        super.preprocess(source.replace("\${RGBPukeMode}", "RGBPuke${rgbPukeMode ?: "Noise"}"))
 
     val initTime = System.nanoTime()
 
