@@ -17,7 +17,7 @@ import org.joml.Vector2f
 import kotlin.properties.Delegates
 
 /**
- * Object that represents a Gaussian blur.
+ * Object that represents a Kawase blur.
  * This blur uses multiple passes to achieve a blur effect.
  */
 object BlurKawase : Blur {
